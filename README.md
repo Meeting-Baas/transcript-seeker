@@ -40,9 +40,14 @@ Running directly in your browser using [IndexedDB](https://developer.mozilla.org
    npm install
    ```
 
-3. Build and run dev mode:
+3. Build dependencies:
    ```
-   npm run dev
+   npm run build
+   ```
+
+4. Run using just the front-end:
+   ```
+   cd client && npm run dev
    ```
 
 ## Contributing
