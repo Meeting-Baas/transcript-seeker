@@ -1,0 +1,41 @@
+{
+  "name": "node-js-to-react-llm-brief",
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "api",
+    "client",
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "npm run backend",
+    "build": "npm run shared:build && npm run backend:build && npm run frontend:build",
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "backend": "cd api && npm start",
+    "backend:build": "cd api && npm run build",
+    "backend:dev": "cd api && cross-env NODE_ENV=development npm run dev",
+    "frontend:build": "cd client && npm run build",
+    "frontend:dev": "cd client && cross-env NODE_ENV=development npm run dev",
+    "shared:build": "cd packages/shared && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@meeting-baas/shared": "workspace:*",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "concurrently": "^6.2.0",
+    "cross-env": "^7.0.3",
+    "typescript": "^4.9.5"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "client/"
+    ]
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "react-router-dom": "^6.24.1"
+  }
+}
