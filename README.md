@@ -5,7 +5,11 @@
 ## Overview
 
 Open-source transcription playground. <br/> 
-Upload and store recordings, transcribe them. Chat with transcripts using LLMs, annotate recordings, and record Zoom, Google Meet and Microsoft Teams using meeting bots.
+Upload and store recordings, or record Google Meet, Microsoft Teams and Zoom using meeting bots to: <br/>
+- transcribe recordings. 
+- Chat with transcripts using LLMs,
+- annotate recordings
+- and more. 
 
 Running directly in your browser using [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API). 
 
