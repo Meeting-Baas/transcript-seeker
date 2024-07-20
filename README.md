@@ -1,6 +1,6 @@
 # Transcript Seeker
 
-![Header](./../../GithubPreview.png)
+![Header](./transcriptSeeker.png)
 
 ## Overview
 
