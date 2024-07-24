@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "dependencies": {
-    "@meeting-baas/shared": "file:../shared",
+    "@meeting-baas/shared": "file:../packages/shared",
     "@notionhq/client": "^2.2.15",
     "@tryfabric/martian": "^1.2.4",
     "axios": "^1.6.8",
@@ -36,8 +36,8 @@
     "@types/pg": "^8.11.6",
     "drizzle-kit": "^0.22.8",
     "nodemon": "^3.1.0",
-    "ts-node": "^10.9.2",
     "rimraf": "^5.0.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
 }

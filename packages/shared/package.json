@@ -16,7 +16,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && rollup -c --silent --bundleConfigAsCjs",
+    "build": "yarn clean && rollup -c --silent --bundleConfigAsCjs",
     "build:watch": "rollup -c -w"
   },
   "devDependencies": {

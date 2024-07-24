@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
-function NotFound() {
+function NotFoundPage() {
   return (
     <div className="flex h-full min-h-[calc(100dvh-94px)] flex-col items-center justify-center">
       <h1 className="text-4xl font-bold">404 Not Found</h1>
@@ -15,4 +15,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default NotFoundPage;

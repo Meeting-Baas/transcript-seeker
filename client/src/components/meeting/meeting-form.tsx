@@ -23,11 +23,11 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { useAtom } from 'jotai';
-import { Meeting } from '@/lib/utils';
-import ServerAlert from './server-alert';
+import { Meeting } from '@/types';
+import ServerAlert from '@/components/server-alert';
 
 const formSchema = z.object({
-  meetingURL: z.string().url().nonempty('Meeting URL is required'),
+  meetingURL: z.string().url().min(1, 'Meeting URL is required'),
   meetingBotName: z.string().optional(),
   meetingBotImage: z.string().url().optional(),
   meetingBotEntryMessage: z.string().optional(),
@@ -50,7 +50,7 @@ export function MeetingForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const { meetingURL, meetingBotName, meetingBotEntryMessage } = values;
+      const { meetingURL, meetingBotName, meetingBotImage, meetingBotEntryMessage } = values;
       const result = await joinMeeting({
         baasApiKey,
         serverAvailability,
@@ -58,6 +58,7 @@ export function MeetingForm() {
           meetingURL,
           meetingBotName,
           meetingBotEntryMessage,
+          meetingBotImage,
           apiKey: baasApiKey,
         },
       });
@@ -71,7 +72,7 @@ export function MeetingForm() {
       const newMeeting: Meeting = {
         id: String(result.data.bot_id),
         bot_id: String(result.data.bot_id),
-        name: 'New Meeting',
+        name: 'Spoke Recorded Meeting',
         attendees: ['-'],
         createdAt: new Date(),
         status: 'loading',
@@ -88,8 +89,6 @@ export function MeetingForm() {
       toast.error('Failed to create meeting bot');
     }
   }
-
-  console.log('bassApiKey', baasApiKey);
 
   return (
     <>

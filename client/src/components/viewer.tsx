@@ -1,16 +1,17 @@
-import Transcript from '@/components/transcript';
+import Transcript from '@/components/viewer/transcript';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { Player as VideoPlayer } from '@/components/video-player';
+import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { BLANK_MEETING_INFO, cn, MeetingInfo } from '@/lib/utils';
+import { BLANK_MEETING_INFO, cn } from '@/lib/utils';
+import { Editor as EditorT, MeetingInfo, Message } from '@/types';
 import { MediaPlayerInstance } from '@vidstack/react';
 import axios from 'axios';
 import * as React from 'react';
 
-import Chat, { Message } from '@/components/chat';
-import { formSchema as chatSchema } from '@/components/chat/chat-input';
-import Editor from '@/components/editor';
-import { openAIApiKeyAtom, serverAvailabilityAtom } from '@/store';
+import Chat from '@/components/viewer/chat';
+import { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
+import Editor from '@/components/viewer/editor';
+import { chatsAtom, editorsAtom, openAIApiKeyAtom, serverAvailabilityAtom } from '@/store';
 
 import { z } from 'zod';
 
@@ -21,17 +22,20 @@ import { useAtom } from 'jotai';
 
 import OpenAI from 'openai';
 import { toast } from 'sonner';
+import { JSONContent } from 'novel';
+import { getById, updateById } from '@/lib/db';
 
 type ViewerProps = {
+  botId: string;
   isLoading: boolean;
   meetingData: MeetingInfo;
 };
 
-export function Viewer({ isLoading, meetingData }: ViewerProps) {
+export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
   const [serverAvailability] = useAtom(serverAvailabilityAtom);
 
   React.useEffect(() => {
-    if (!baasApiKey) return;
+    // if (!baasApiKey) return;
     setData(meetingData);
   }, [meetingData]);
 
@@ -49,19 +53,45 @@ export function Viewer({ isLoading, meetingData }: ViewerProps) {
     },
   ]);
 
+  const [editor, setEditor] = React.useState<JSONContent | undefined>(undefined);
+
   const [player, setPlayer] = React.useState<MediaPlayerInstance>();
   const [currentTime, setCurrentTime] = React.useState(0);
-
-  const [messages, setMessages] = React.useState<Message[]>([]);
 
   const [meetingURL, setMeetingURL] = React.useState<string | Blob>();
 
   const [baasApiKey] = useAtom(baasApiKeyAtom);
   const [openAIApiKey] = useAtom(openAIApiKeyAtom);
 
+  const [editors, setEditors] = useAtom(editorsAtom);
+  const [chats, setChats] = useAtom(chatsAtom);
+  const [messages, setMessages] = React.useState<Message[]>([]);
+
   // const [serverAvailability] = useAtom(serverAvailabilityAtom);
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
+
+  const handleEditorChange = (content: JSONContent) => {
+    if (!botId) return;
+  
+    const newEditors = updateById({
+      id: data.id,
+      originalData: editors,
+      updateData: { content }, // Assuming `content` should be part of the updated data
+    });
+    setEditors(newEditors);
+  };
+
+  const handleMessageChange = (messages: Message[]) => {
+    if (!botId) return;
+  
+    const newChats = updateById({
+      id: data.id,
+      originalData: chats,
+      updateData: { messages }, // Assuming `content` should be part of the updated data
+    });
+    setChats(newChats);
+  };
 
   const handleChatSubmit = async (values: z.infer<typeof chatSchema>) => {
     const message = values.message;
@@ -150,7 +180,7 @@ export function Viewer({ isLoading, meetingData }: ViewerProps) {
 
   // this should come along the loaded data or props and doesn't make sense.
   React.useEffect(() => {
-    if (!baasApiKey) return;
+    // if (!baasApiKey) return;
     if (data?.assets?.length > 0) {
       let url = data?.assets[0]?.mp4_s3_path;
       if (!url) return;
@@ -176,6 +206,35 @@ export function Viewer({ isLoading, meetingData }: ViewerProps) {
       setTranscripts(transcripts);
     }
   }, [data]);
+
+  React.useEffect(() => {
+    if (editors.length > 0) {
+      const editorData: EditorT | undefined = getById({
+        data: editors,
+        id: botId
+      })
+      if (!editorData) {
+        editor?.commands.setContent(undefined);
+        return;
+      }
+      editor?.commands.setContent(editorData.content);
+    }
+  }, [editors, data]);
+
+  React.useEffect(() => {
+    if (messages.length > 0) {
+      handleMessageChange(messages);
+    } else if (messages.length === 0 && chats.length > 0) {
+      const chat = getById({
+        id: botId,
+        data: chats
+      })
+
+      if (!chat) return;
+      if (!chat.messages) return;
+      setMessages(chat.messages);
+    }
+  }, [messages, data]);
 
   return (
     <>
@@ -228,10 +287,22 @@ export function Viewer({ isLoading, meetingData }: ViewerProps) {
           <ResizablePanelGroup direction="vertical" className={cn('flex h-full w-full')}>
             <ResizablePanel defaultSize={67} minSize={25}>
               <Editor
-                initialValue={undefined}
-                onChange={(v) => {
-                  console.log('editor changed', v);
+                initialValue={{
+                  type: 'doc',
+                  content: [
+                    {
+                      type: 'paragraph',
+                      content: [
+                        {
+                          type: 'text',
+                          text: 'Loading...',
+                        },
+                      ],
+                    },
+                  ],
                 }}
+                onCreate={({ editor }) => setEditor(editor)}
+                onChange={handleEditorChange}
               />
             </ResizablePanel>
             <ResizableHandle withHandle />

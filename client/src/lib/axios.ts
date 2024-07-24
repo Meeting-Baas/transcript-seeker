@@ -1,6 +1,6 @@
 import { fetchBotDetails, joinMeeting, JoinMeetingParams } from '@meeting-baas/shared';
 import axios from 'axios';
-import { MeetingInfo } from './utils';
+import { MeetingInfo } from '@/types';
 
 interface JoinMeetingWrapperProps {
   baasApiKey: string;
@@ -56,7 +56,7 @@ export const fetchBotDetailsWrapper = async ({
   return {
     data: {
       id: data.id,
-      name: 'New Meeting',
+      name: 'Spoke Recorded Meeting',
       attendees: data['attendees'].map((attendee: { name: string }) => {
         return attendee.name;
       }),

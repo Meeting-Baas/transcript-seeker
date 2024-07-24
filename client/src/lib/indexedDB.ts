@@ -1,4 +1,5 @@
 import { DBSchema, openDB } from 'idb';
+import { atom } from 'jotai';
 
 const dbName = 'meeting-baas-db';
 const storeName = 'meeting-baas-store';
@@ -35,3 +36,27 @@ export async function clear(): Promise<void> {
 export async function keys(): Promise<string[]> {
   return (await dbPromise).getAllKeys(storeName) as Promise<string[]>;
 }
+
+export const atomWithAsyncStorage = <T>(key: string, initialValue: T) => {
+  const baseAtom = atom(initialValue);
+
+  baseAtom.onMount = (setAtom) => {
+    getItem<T>(key).then((value) => {
+      if (value !== undefined) {
+        setAtom(value);
+      }
+    });
+  };
+
+  const derivedAtom = atom(
+    (get) => get(baseAtom),
+    (get, set, update: T | ((prev: T) => T)) => {
+      const nextValue =
+        typeof update === 'function' ? (update as (prev: T) => T)(get(baseAtom)) : update;
+      set(baseAtom, nextValue);
+      setItem(key, nextValue);
+    },
+  );
+
+  return derivedAtom;
+};

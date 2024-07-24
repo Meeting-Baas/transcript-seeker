@@ -44,11 +44,11 @@ import { useAtom } from 'jotai';
 import { CopyIcon, EyeIcon, LoaderCircleIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Badge } from './ui/badge';
+import { Badge } from '@/components/ui/badge';
 // import { ImportMeeting } from "./import-meeting";
 
 import { isEqual, uniqBy } from 'lodash';
-import { Meeting } from '@/lib/utils';
+import { Meeting } from '@/types';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
 
 export const columns: (deleteMeeting: (id: string) => void) => ColumnDef<Meeting>[] = (
@@ -165,9 +165,16 @@ export const columns: (deleteMeeting: (id: string) => void) => ColumnDef<Meeting
 ];
 
 function MeetingTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([
+    {
+      id: 'createdAt',
+      desc: true, // sort by name in descending order by default
+    },
+  ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
+    bot_id: false
+  });
   const [rowSelection, setRowSelection] = React.useState({});
 
   const [isLoading, setIsLoading] = React.useState(true);
@@ -202,7 +209,7 @@ function MeetingTable() {
 
     try {
       const meetingDetails = await Promise.all(
-        meetings.reverse().map(async (meeting) => {
+        meetings.map(async (meeting) => {
           if (!meeting.bot_id) return null;
           if (meeting.status === 'loaded') return meeting;
 
@@ -218,7 +225,7 @@ function MeetingTable() {
 
               return {
                 id: meeting.bot_id,
-                name: 'Unnamed Meeting',
+                name: meeting.name || 'Unnamed Meeting',
                 bot_id: meeting.bot_id,
                 attendees: meeting.attendees || [],
                 createdAt: new Date(meeting.createdAt),
@@ -280,7 +287,13 @@ function MeetingTable() {
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
 
-      setMeetings((prevMeetings) => prevMeetings.filter((meeting) => meeting.bot_id !== botId));
+      // const meeting = getById({ 
+      //   data: meetings,
+      //   id: botId
+      // });
+      const updatedMeetings = meetings.filter((meeting) => meeting.bot_id !== botId);
+      setMeetings(updatedMeetings)
+
       storageAPI.del(`${botId}.mp4`);
       console.log(
         'updating meetings',
@@ -299,7 +312,7 @@ function MeetingTable() {
   }, [meetings, baasApiKey, serverAvailability]);
 
   return (
-    <div className="w-full sm:max-h-[50dvh] sm:min-h-[50dvh]">
+    <div className="w-full sm:max-h-[70dvh] sm:overflow-auto sm:min-h-[50dvh]">
       {data.length > 0 ? (
         <>
           <div className="flex items-center gap-2 pb-4">
@@ -334,7 +347,7 @@ function MeetingTable() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="flex-grow overflow-auto rounded-md sm:max-h-[calc(60dvh)]">
+          <div className="flex-grow overflow-auto rounded-md sm:max-h-[calc(70dvh-186px)]">
             <div className="flex-grow overflow-auto rounded-md border">
               <Table>
                 <TableHeader>

@@ -1,6 +1,7 @@
 import { Viewer } from '@/components/viewer';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
-import { BLANK_MEETING_INFO, Meeting as MeetingT, MeetingInfo } from '@/lib/utils';
+import { BLANK_MEETING_INFO } from '@/lib/utils';
+import {  Meeting as MeetingT, MeetingInfo } from "@/types";
 import { meetingsAtom } from '@/store';
 import { baasApiKeyAtom, serverAvailabilityAtom } from '@/store/index';
 import { useAtom } from 'jotai';
@@ -9,7 +10,7 @@ import { useParams } from 'react-router-dom';
 
 import { toast } from 'sonner';
 
-export function Meeting() {
+function MeetingPage() {
   const { botId } = useParams();
 
   const [meetings] = useAtom(meetingsAtom);
@@ -38,7 +39,7 @@ export function Meeting() {
   };
 
   useEffect(() => {
-    if (!baasApiKey) return;
+    // if (!baasApiKey) return;
     if (meetings.length <= 0) return;
 
     const loadData = async () => {
@@ -58,7 +59,7 @@ export function Meeting() {
     loadData();
   }, [meetings, baasApiKey, serverAvailability]);
 
-  return <Viewer isLoading={isLoading} meetingData={meetingData} />;
+  return <Viewer botId={botId!} isLoading={isLoading} meetingData={meetingData} />;
 }
 
-export default Meeting;
+export default MeetingPage;

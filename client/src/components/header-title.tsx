@@ -23,7 +23,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, title, subtitle }) => {
               <p>Back</p>
             </Link>
           </div>
-          <div className="flex flex-grow flex-col items-center">
+          <div className="flex flex-grow flex-col items-end md:items-center">
             <h1 className="text-2xl font-bold">{title}</h1>
           </div>
         </div>
@@ -34,7 +34,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, title, subtitle }) => {
 
         {subtitle && (
           <>
-            <p className="text-center text-muted-foreground">
+            <p className="hidden md:block text-left md:text-sm md:text-center text-muted-foreground">
               {typeof subtitle === 'string'
                 ? subtitle
                 : React.Children.map(subtitle, (child) =>

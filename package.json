@@ -1,28 +1,29 @@
 {
-  "name": "node-js-to-react-llm-brief",
+  "name": "transcript-seeker",
   "version": "1.0.0",
-  "description": "",
+  "description": "An open-source, browser-based transcript viewer and manager. Upload, transcribe, and chat with meeting recordings using AI. Features meeting bot integration, note-taking, and standalone mode.",
+  "private": true,
   "workspaces": [
     "api",
     "client",
     "packages/*"
   ],
   "scripts": {
-    "start": "npm run backend",
-    "build": "npm run shared:build && npm run backend:build && npm run frontend:build",
-    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "start": "yarn backend",
+    "build": "yarn shared:build && yarn backend:build && yarn frontend:build",
+    "dev": "concurrently \"yarn backend:dev\" \"yarn frontend:dev\"",
     "backend": "cd api && npm start",
-    "backend:build": "cd api && npm run build",
-    "backend:dev": "cd api && cross-env NODE_ENV=development npm run dev",
-    "frontend:build": "cd client && npm run build",
-    "frontend:dev": "cd client && cross-env NODE_ENV=development npm run dev",
-    "shared:build": "cd packages/shared && npm run build"
+    "backend:build": "cd api && yarn build",
+    "backend:dev": "cd api && cross-env NODE_ENV=development yarn dev",
+    "frontend:build": "cd client && yarn build",
+    "frontend:dev": "cd client && cross-env NODE_ENV=development yarn dev",
+    "shared:build": "cd packages/shared && yarn build"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@meeting-baas/shared": "workspace:*",
+    "@meeting-baas/shared": "*",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "concurrently": "^6.2.0",
@@ -37,5 +38,6 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "react-router-dom": "^6.24.1"
-  }
+  },
+  "packageManager": "yarn@4.3.1"
 }

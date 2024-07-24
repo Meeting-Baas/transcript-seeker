@@ -42,7 +42,7 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({ name, label, description, con
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="space-y-0">
+        <FormItem>
           <FormLabel className="text-lg">{label}</FormLabel>
           <FormDescription className="text-primary">{description}</FormDescription>
           <FormControl>
@@ -102,7 +102,7 @@ export function SettingsForm() {
   }, [baasApiKey, openAIApiKey, gladiaApiKey]);
 
   const renderLink = (text: string, href: string) => (
-    <Button variant="link" asChild className="p-0">
+    <Button variant="link" asChild className="p-0 w-min h-min">
       <a href={href} target="_blank" rel="noopener noreferrer">
         {text}
       </a>
@@ -137,11 +137,12 @@ export function SettingsForm() {
           />
           <ApiKeyField
             name="gladiaApiKey"
-            label="Gladia"
+            label="Transcription" // for now this will be transcription api key
             description={
               <>
-                Optional. Used to transcribe file uploads. Get your key by visiting{' '}
-                {renderLink('Gladia', 'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas')}.
+                Optional. Used to transcribe file uploads. {' '}
+                This can either be a Gladia or Assembly AI Api Key.
+                {/* {renderLink('Gladia', 'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas')}. */}
               </>
             }
             control={form.control}

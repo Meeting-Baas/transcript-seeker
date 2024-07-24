@@ -1,7 +1,7 @@
 import { HeaderTitle } from '@/components/header-title';
-import { MeetingForm } from '../components/meeting-form';
+import { MeetingForm } from '../components/meeting/meeting-form';
 
-function Join() {
+function JoinPage() {
   return (
     <div className="h-full p-8">
       <div className="pb-4">
@@ -12,4 +12,4 @@ function Join() {
   );
 }
 
-export default Join;
+export default JoinPage;

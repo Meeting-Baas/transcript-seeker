@@ -3,12 +3,12 @@ import { SettingsForm } from '../components/settings-form';
 import { HeaderTitle } from '@/components/header-title';
 import { Button } from '@/components/ui/button';
 
-function Settings() {
+function SettingsPage() {
   return (
     <div className="h-full min-h-[calc(100dvh-81px)] space-y-2 p-10 pb-16">
       <HeaderTitle
         path="/"
-        title="API Keys"
+        title="Settings"
         subtitle={
           <>
             Store API keys in your browser to test immediately, or host yourself by using our{' '}
@@ -28,4 +28,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default SettingsPage;

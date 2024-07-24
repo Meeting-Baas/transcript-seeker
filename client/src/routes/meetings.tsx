@@ -1,11 +1,11 @@
 import { HeaderTitle } from '@/components/header-title';
 import { ImportMeeting } from '@/components/import-meeting';
-import MeetingTable from '@/components/meeting-table';
+import MeetingTable from '@/components/meeting/meeting-table';
 import ServerAlert from '@/components/server-alert';
 import { serverAvailabilityAtom } from '@/store';
 import { useAtom } from 'jotai';
 
-function Meetings() {
+function MeetingsPage() {
   const [serverAvailability] = useAtom(serverAvailabilityAtom);
 
   return (
@@ -25,4 +25,4 @@ function Meetings() {
   );
 }
 
-export default Meetings;
+export default MeetingsPage;

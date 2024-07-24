@@ -25,7 +25,7 @@ export function ImportMeeting() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      botId: undefined,
+      botId: "",
     },
   });
 

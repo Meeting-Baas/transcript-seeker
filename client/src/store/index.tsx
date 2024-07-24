@@ -1,38 +1,20 @@
-import * as idbStorage from '@/lib/indexedDB';
-import { Meeting, ServerAvailability } from '@/lib/utils';
+import { atomWithAsyncStorage } from '@/lib/indexedDB';
+import { Chat, Editor, Meeting, ServerAvailability } from '@/types';
 import { atom } from 'jotai';
 
-const createIndexedDBAtom = <T,>(key: string, initialValue: T) => {
-  const baseAtom = atom(initialValue);
-
-  baseAtom.onMount = (setAtom) => {
-    idbStorage.getItem<T>(key).then((value) => {
-      if (value !== undefined) {
-        setAtom(value);
-      }
-    });
-  };
-
-  const derivedAtom = atom(
-    (get) => get(baseAtom),
-    (get, set, update: T | ((prev: T) => T)) => {
-      const nextValue =
-        typeof update === 'function' ? (update as (prev: T) => T)(get(baseAtom)) : update;
-      set(baseAtom, nextValue);
-      idbStorage.setItem(key, nextValue);
-    },
-  );
-
-  return derivedAtom;
-};
-
 // Define the API key atoms
-export const baasApiKeyAtom = createIndexedDBAtom('baasApiKey', '');
-export const openAIApiKeyAtom = createIndexedDBAtom('openAIApiKey', '');
-export const gladiaApiKeyAtom = createIndexedDBAtom('gladiaApiKey', '');
+export const baasApiKeyAtom = atomWithAsyncStorage('baasApiKey', '');
+export const openAIApiKeyAtom = atomWithAsyncStorage('openAIApiKey', '');
+export const gladiaApiKeyAtom = atomWithAsyncStorage('gladiaApiKey', '');
 
 // Define the atom for storing RecordingInfo, that is, meta-data for storage
-export const meetingsAtom = createIndexedDBAtom<Meeting[]>('meetings', []);
+export const meetingsAtom = atomWithAsyncStorage<Meeting[]>('meetings', []);
+export const providerOptionsAtom = atomWithAsyncStorage<{
+    [key: string]: unknown
+}>('providerOptions', {});
+
+export const editorsAtom = atomWithAsyncStorage<Editor[]>('editors', []);
+export const chatsAtom = atomWithAsyncStorage<Chat[]>('chats', []);
 
 // Define the server availability atom, useful not to call the API
 // too many times, for instance table storage view

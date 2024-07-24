@@ -37,17 +37,17 @@ Running directly in your browser using [IndexedDB](https://developer.mozilla.org
 
 2. Install dependencies:
    ```
-   npm install
+   yarn install
    ```
 
 3. Build dependencies:
    ```
-   npm run build
+   yarn run build
    ```
 
 4. Run using just the front-end:
    ```
-   cd client && npm run dev
+   cd client && yarn run dev
    ```
 
 ## Contributing

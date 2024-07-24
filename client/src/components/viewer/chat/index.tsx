@@ -1,16 +1,12 @@
-import ChatInput, { formSchema } from '@/components/chat/chat-input';
-import Message from '@/components/chat/message';
+import ChatInput, { formSchema } from '@/components/viewer/chat/chat-input';
+import Message from '@/components/viewer/chat/message';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Message as MessageT } from '@/types';
 
 import { z } from 'zod';
 
-export interface Message {
-  content: string;
-  role: 'assistant' | 'user' | 'system';
-}
-
 interface ChatProps {
-  messages?: Message[];
+  messages?: MessageT[];
   handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }
 

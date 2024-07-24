@@ -39,12 +39,11 @@ export async function joinMeeting({
       url,
       {
         meeting_url: meetingURL,
-        bot_name: meetingBotName || "NodeJS Meeting Bot",
+        bot_name: meetingBotName || DEFAULT_BOT_NAME,
         entry_message:
-          meetingBotEntryMessage || "Hello - recording this meeting",
+          meetingBotEntryMessage || DEFAULT_ENTRY_MESSAGE,
         bot_image:
-          meetingBotImage ||
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1180px-Node.js_logo.svg.png",
+          meetingBotImage || DEFAULT_BOT_IMAGE,
         speech_to_text: "Gladia",
         reserved: false,
       },

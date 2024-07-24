@@ -1,20 +1,9 @@
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { gladiaApiKeyAtom, meetingsAtom } from '@/store/index';
+import { editorsAtom, gladiaApiKeyAtom, meetingsAtom } from '@/store/index';
 
 import {
   Form,
@@ -28,13 +17,14 @@ import { Input } from '@/components/ui/input';
 
 import { UploadCloudIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import { startTranscription, uploadFile } from './gladia';
 
+import * as gladia from '../../lib/transcription/gladia';
+
+import { Button } from '@/components/ui/button';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
-import { Meeting, Transcript } from '@/lib/utils';
+import { Meeting } from '@/types';
 import { useNavigate } from 'react-router-dom';
-import convertToWav from './audioBufferToWav';
-import { convertToBuffer, extractAudio } from './utils';
+import { updateById } from '@/lib/db';
 
 const MAX_FILE_SIZE = 3000 * 1024 * 1024; // 1000 MB (100 * 1024 KB * 1024 bytes)
 const ACCEPTED_FILE_TYPES = [
@@ -64,18 +54,19 @@ const formSchema = z.object({
     ),
 });
 
-interface GladiaUtterance {
-  speaker: number;
-  words: {
-    start: number;
-    end: number;
-    word: string;
-  }[];
+interface UploadProps {
+  provider: string;
+  language: string;
+  options: {
+    [key: string]: any;
+  };
 }
 
-export function Upload({ children }: { children: React.ReactNode }) {
+export function Upload({ options }: UploadProps) {
   const [gladiaApiKey] = useAtom(gladiaApiKeyAtom);
-  const [, setMeetings] = useAtom(meetingsAtom);
+
+  const [editors, setEditors] = useAtom(editorsAtom);
+  const [meetings, setMeetings] = useAtom(meetingsAtom);
 
   const navigate = useNavigate();
 
@@ -90,25 +81,21 @@ export function Upload({ children }: { children: React.ReactNode }) {
     const { file } = values;
     const loading = toast.loading('Processing file...');
 
+    console.log('options', options);
+
     try {
-      const buffer = await convertToBuffer(file);
-      const audio = await extractAudio(buffer);
-      const wav = convertToWav(audio);
-      const blob = new Blob([wav], { type: 'audio/wav' });
-
-      const uploadURL = await uploadFile(blob, gladiaApiKey);
-      const transcript = await startTranscription(uploadURL.audio_url, gladiaApiKey);
-
+      // const blob = new Blob([file], { type: 'video/mp4' });
+      const { transcript, data } = await gladia.transcribe(file, gladiaApiKey, options);
       console.log('transcript', transcript);
 
       // Generate a unique bot_id
-      const bot_id = `local_file_${Date.now()}`;
+      const date = Date.now();
+      const bot_id = `local_file_${date}`;
 
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
       await storageAPI.set(`${bot_id}.mp4`, file);
 
-      // Create a new MeetingInfo object
       const newMeeting: Meeting = {
         id: bot_id,
         bot_id: bot_id,
@@ -122,7 +109,7 @@ export function Upload({ children }: { children: React.ReactNode }) {
           editors: [
             {
               video: {
-                transcripts: groupUtterancesBySpeaker(transcript.utterances),
+                transcripts: transcript,
               },
             },
           ],
@@ -139,12 +126,38 @@ export function Upload({ children }: { children: React.ReactNode }) {
         },
       };
 
-      // Update the meetingData atom
-      setMeetings((prevData: Meeting[]) => [...prevData, newMeeting]);
+      if (data.summarization) {
+        const content = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text:
+                    data.summarization?.results ||
+                    'Oops! Something went wrong while trying to load summarization data!',
+                },
+              ],
+            },
+          ],
+        };
 
+        const newEditors = updateById({
+          id: bot_id,
+          originalData: editors,
+          updateData: { content }, // Assuming `content` should be part of the updated data
+        });
+        setEditors(newEditors);
+      }
+
+      setMeetings([...meetings, newMeeting]);
+      console.log([...meetings, newMeeting], meetings);
       toast.success('File processed and meeting stored successfully!', {
         id: loading,
       });
+      
       navigate(`/meeting/${bot_id}`);
     } catch (error) {
       console.error('Error generating transcript:', error);
@@ -155,95 +168,33 @@ export function Upload({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Upload a file from your device</DialogTitle>
-          <DialogDescription>
-            {
-              'Supported formats: .mp4, .avi, .mkv, .mov, .wmv, .webm, .mpeg, .mp3, .wav, .ogg, .aac, and .flac.'
-            }
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="file"
-              render={({ field: { value, onChange, ...fieldProps } }) => (
-                <FormItem>
-                  <FormLabel>File</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...fieldProps}
-                      type="file"
-                      accept="audio/*,video/*"
-                      onChange={(event) => onChange(event.target.files && event.target.files[0])}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="file"
+          render={({ field: { value, onChange, ...fieldProps } }) => (
+            <FormItem>
+              <FormLabel>File</FormLabel>
+              <FormControl>
+                <Input
+                  {...fieldProps}
+                  type="file"
+                  accept="audio/*,video/*"
+                  onChange={(event) => onChange(event.target.files && event.target.files[0])}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <DialogFooter>
-              <Button type="submit">
-                <UploadCloudIcon className="mr-2 h-4 w-4" /> Upload
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+        <div>
+          <Button type="submit">
+            <UploadCloudIcon className="mr-2 h-4 w-4" /> Upload
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
-}
-
-function groupUtterancesBySpeaker(utterances: GladiaUtterance[]): Transcript[] {
-  let groupedTranscripts: Transcript[] = [];
-  let currentSpeaker: number | null = null;
-  let currentWords: Transcript['words'] = [];
-  let currentWordCount = 0;
-
-  utterances.forEach((utterance) => {
-    if (currentSpeaker === null || currentSpeaker !== utterance.speaker || currentWordCount >= 75) {
-      if (currentWords.length > 0) {
-        groupedTranscripts.push({
-          speaker: `Speaker ${currentSpeaker! + 1}`,
-          words: currentWords,
-        });
-      }
-      currentSpeaker = utterance.speaker;
-      currentWords = [];
-      currentWordCount = 0;
-    }
-
-    utterance.words.forEach((word) => {
-      currentWords.push({
-        start_time: word.start,
-        end_time: word.end,
-        text: word.word.trim(),
-      });
-      currentWordCount++;
-
-      if (currentWordCount >= 75) {
-        groupedTranscripts.push({
-          speaker: `Speaker ${currentSpeaker! + 1}`,
-          words: currentWords,
-        });
-        currentWords = [];
-        currentWordCount = 0;
-      }
-    });
-  });
-
-  // Add any remaining words
-  if (currentWords.length > 0) {
-    groupedTranscripts.push({
-      speaker: `Speaker ${currentSpeaker! + 1}`,
-      words: currentWords,
-    });
-  }
-
-  return groupedTranscripts;
 }
