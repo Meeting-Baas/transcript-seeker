@@ -31,8 +31,7 @@ Running directly in your browser using [IndexedDB](https://developer.mozilla.org
 
 1. Clone the repo:
    ```
-   git clone https://github.com/Meeting-Baas/transcript-seeker
-   cd transcript-seeker
+   git clone https://github.com/Meeting-Baas/transcript-seeker && cd transcript-seeker
    ```
 
 2. Install dependencies:
