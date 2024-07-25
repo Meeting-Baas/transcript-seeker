@@ -1,11 +1,11 @@
-import { fetchBotDetails, joinMeeting, JoinMeetingParams } from '@meeting-baas/shared';
-import axios from 'axios';
 import { MeetingInfo } from '@/types';
+import * as MeetingBaas from '@meeting-baas/shared';
+import axios from 'axios';
 
 interface JoinMeetingWrapperProps {
   baasApiKey: string;
   serverAvailability: 'server' | 'local' | 'error';
-  params: JoinMeetingParams;
+  params: MeetingBaas.JoinMeetingParams;
 }
 
 interface FetchBotDetailsWrapperProps {
@@ -23,7 +23,7 @@ export const joinMeetingWrapper = async ({
   if (serverAvailability === 'server') {
     return await axios.post('/api/join', params);
   } else {
-    return await joinMeeting({
+    return await MeetingBaas.joinMeeting({
       ...params,
       apiKey: baasApiKey,
       proxyUrl: '/meetingbaas-api',
@@ -36,7 +36,7 @@ export const fetchBotDetailsWrapper = async ({
   serverAvailability,
   botId,
 }: FetchBotDetailsWrapperProps) => {
-  const response = await fetchBotDetails({
+  const response = await MeetingBaas.fetchBotDetails({
     botId,
     apiKey: baasApiKey,
     proxyUrl:

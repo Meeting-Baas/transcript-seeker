@@ -1,4 +1,4 @@
-import { joinMeeting } from "@meeting-baas/shared";
+import * as MeetingBaas from "@meeting-baas/shared";
 import { Request, Response } from "express";
 
 export const form = async (req: Request, res: Response) => {
@@ -10,7 +10,7 @@ export const form = async (req: Request, res: Response) => {
     apiKey,
   } = req.body;
 
-  const response = await joinMeeting({
+  const response = await MeetingBaas.joinMeeting({
     meetingBotName,
     meetingURL,
     meetingBotImage,

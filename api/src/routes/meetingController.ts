@@ -1,4 +1,4 @@
-import { fetchBotDetails } from "@meeting-baas/shared";
+import * as MeetingBaas from "@meeting-baas/shared";
 import { Request, Response } from "express";
 
 import { deleteMeeting } from "../db/queries";
@@ -6,7 +6,7 @@ import { deleteMeeting } from "../db/queries";
 export const meeting = async (req: Request, res: Response) => {
   const botId = req.params.botId;
   // todo: cleanup fetchBotDetails and joinMeeting later
-  const details = await fetchBotDetails({
+  const details = await MeetingBaas.fetchBotDetails({
     botId,
     apiKey: process.env.BASS_API_KEY || "",
   });

@@ -4,7 +4,8 @@ import { joinMeetingWrapper as joinMeeting } from '@/lib/axios';
 import { baasApiKeyAtom, meetingsAtom, serverAvailabilityAtom } from '@/store';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DEFAULT_BOT_IMAGE, DEFAULT_BOT_NAME, DEFAULT_ENTRY_MESSAGE } from '@meeting-baas/shared';
+import * as MeetingBaas from '@meeting-baas/shared';
+
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -22,9 +23,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { useAtom } from 'jotai';
-import { Meeting } from '@/types';
 import ServerAlert from '@/components/server-alert';
+import { Meeting } from '@/types';
+import { useAtom } from 'jotai';
 
 const formSchema = z.object({
   meetingURL: z.string().url().min(1, 'Meeting URL is required'),
@@ -42,9 +43,9 @@ export function MeetingForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       meetingURL: '',
-      meetingBotName: DEFAULT_BOT_NAME,
-      meetingBotEntryMessage: DEFAULT_ENTRY_MESSAGE,
-      meetingBotImage: DEFAULT_BOT_IMAGE,
+      meetingBotName: MeetingBaas.DEFAULT_BOT_NAME,
+      meetingBotEntryMessage: MeetingBaas.DEFAULT_ENTRY_MESSAGE,
+      meetingBotImage: MeetingBaas.DEFAULT_BOT_IMAGE,
     },
   });
 
@@ -119,7 +120,7 @@ export function MeetingForm() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder={DEFAULT_BOT_NAME}
+                    placeholder={MeetingBaas.DEFAULT_BOT_NAME}
                     className={!field.value ? 'text-gray-400' : ''}
                     {...field}
                   />
@@ -136,7 +137,7 @@ export function MeetingForm() {
                 <FormLabel>Meeting Bot Image (optional)</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={DEFAULT_BOT_IMAGE}
+                    placeholder={MeetingBaas.DEFAULT_BOT_IMAGE}
                     className={!field.value ? 'text-gray-400' : ''}
                     {...field}
                   />
@@ -154,7 +155,7 @@ export function MeetingForm() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder={DEFAULT_ENTRY_MESSAGE}
+                    placeholder={MeetingBaas.DEFAULT_ENTRY_MESSAGE}
                     className={!field.value ? 'text-gray-400' : ''}
                     {...field}
                   />
