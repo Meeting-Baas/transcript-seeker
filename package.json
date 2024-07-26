@@ -11,6 +11,7 @@
   "scripts": {
     "start": "yarn backend",
     "build": "yarn shared:build && yarn backend:build && yarn frontend:build",
+    "buildClient": "yarn shared:build && yarn frontend:build",
     "dev": "concurrently \"yarn backend:dev\" \"yarn frontend:dev\"",
     "backend": "cd api && npm start",
     "backend:build": "cd api && yarn build",
