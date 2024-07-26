@@ -16,7 +16,7 @@
     "@editorjs/list": "^1.9.0",
     "@editorjs/paragraph": "^2.11.5",
     "@hookform/resolvers": "^3.6.0",
-    "@meeting-baas/shared": "1.0.0",
+    "@meeting-baas/shared": "file:../packages/shared",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
