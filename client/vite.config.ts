@@ -11,7 +11,9 @@ export default defineConfig(({ mode }) => {
   const MEETINGBASS_S3_URL =
     env.VITE_MEETINGBASS_S3_URL || 'https://s3.eu-west-3.amazonaws.com/bots-videos';
 
+  // https://vitejs.dev/config/
   return {
+    base: './', // use relative paths
     plugins: [
       react(),
       checker({
