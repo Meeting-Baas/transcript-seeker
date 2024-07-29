@@ -21,21 +21,31 @@ function RootPage() {
       <div className="flex w-full max-w-md flex-col items-center justify-center">
         <h1 className="mb-2 text-center text-4xl font-bold">Transcript Seeker</h1>
         <p className="mb-6 text-center text-lg">
-          Open-source interface by{' '}
           <a
-            href="https://github.com/meeting-baas/meeting-bot-as-a-service/apps/"
+            href="https://github.com/meeting-baas/transcript-seeker"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"
           >
-            Meeting Baas 🐟
-          </a>
+            Open-source
+          </a>{' '}
+          interface by{' '}
+          <a
+            href="https://meetingbaas.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
+            Meeting Baas
+          </a>{' '}
+          🐟
         </p>
         <div className="flex w-full items-center gap-4 pb-2">
-          <Link to="/settings" className={cn(buttonVariants({ variant: 'secondary' }), "flex-1")}>
+          <Link to="/settings" className={cn(buttonVariants({ variant: 'secondary' }), 'flex-1')}>
             <SettingsIcon className="mr-2 h-4 w-4" /> API Keys
           </Link>
-          <Link to="/meetings" className={cn(buttonVariants({ variant: 'outline' }), "flex-1")}>
+          {/* <Link to="/meetings" className={cn(buttonVariants({ variant: 'outline' }), "flex-1")}> */}
+          <Link to="/meetings" className={cn(buttonVariants({ variant: 'outline' }), 'flex-1')}>
             Recordings
           </Link>
         </div>
