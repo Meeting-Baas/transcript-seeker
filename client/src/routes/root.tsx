@@ -48,7 +48,7 @@ function RootPage() {
             Recordings
           </Link>
         </div>
-        <div className="flex w-full gap-4">
+        <div className="flex w-full flex-col gap-2 sm:flex-row sm:gap-4">
           <Link
             to="/settings"
             className={cn(
