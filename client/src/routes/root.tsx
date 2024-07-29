@@ -28,6 +28,7 @@ function RootPage() {
             href="https://github.com/meeting-baas/transcript-seeker"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
           >
             Open-source
           </a>{' '}
