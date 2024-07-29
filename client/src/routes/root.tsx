@@ -1,7 +1,7 @@
 import ServerAlert from '@/components/server-alert';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { baasApiKeyAtom, serverAvailabilityAtom } from '@/store';
+import { baasApiKeyAtom, gladiaApiKeyAtom, serverAvailabilityAtom } from '@/store';
 import { useAtom } from 'jotai';
 import { SettingsIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom';
 function RootPage() {
   const [serverAvailability] = useAtom(serverAvailabilityAtom);
   const [baasApiKey] = useAtom(baasApiKeyAtom);
+  const [gladiaApiKey] = useAtom(gladiaApiKeyAtom);
+
+  const apiKeysExist = baasApiKey || gladiaApiKey;
 
   return (
     <div className="relative flex h-full min-h-[calc(100dvh-94px)] flex-col items-center justify-center space-y-2 px-4">
@@ -25,7 +28,6 @@ function RootPage() {
             href="https://github.com/meeting-baas/transcript-seeker"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:underline"
           >
             Open-source
           </a>{' '}
@@ -41,18 +43,25 @@ function RootPage() {
           🐟
         </p>
         <div className="flex w-full items-center gap-4 pb-2">
-          <Link to="/settings" className={cn(buttonVariants({ variant: 'secondary' }), 'flex-1')}>
-            <SettingsIcon className="mr-2 h-4 w-4" /> API Keys
-          </Link>
-          {/* <Link to="/meetings" className={cn(buttonVariants({ variant: 'outline' }), "flex-1")}> */}
           <Link to="/meetings" className={cn(buttonVariants({ variant: 'outline' }), 'flex-1')}>
             Recordings
           </Link>
         </div>
         <div className="flex w-full gap-4">
           <Link
+            to="/settings"
+            className={cn(
+              buttonVariants({ variant: apiKeysExist ? 'secondary' : 'default' }),
+              'h-16 flex-1 text-lg',
+            )}
+          >
+            <SettingsIcon className="mr-2 h-4 w-4" /> API Keys
+          </Link>
+          <Link
             to="/upload"
-            className={cn(buttonVariants({ variant: 'default' }), 'h-16 flex-1 text-lg')}
+            className={cn(buttonVariants({ variant: 'default' }), 'h-16 flex-1 text-lg', {
+              'pointer-events-none opacity-50': !gladiaApiKey,
+            })}
           >
             Upload File
           </Link>
