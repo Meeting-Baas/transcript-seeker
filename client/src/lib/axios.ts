@@ -43,7 +43,7 @@ export const fetchBotDetailsWrapper = async ({
     proxyUrl:
       serverAvailability === 'server'
         ? VITE_SERVER_API_URL.concat(`/meeting/${botId}`)
-        : PROXY_URL.concat('bots/meeting_data'),
+        : PROXY_URL.concat('/bots/meeting_data'),
   });
   const data: MeetingInfo = serverAvailability === 'server' ? response.data['data'] : response.data;
 
