@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 
+import { VITE_SERVER_API_URL } from '@/App';
 import { cn } from '@/lib/utils';
 import { useApiKeysStore, useServerAvailabilityStore } from '@/store';
 
@@ -12,7 +13,8 @@ function ServerAvailablity() {
 
   const checkServerAvailability = async () => {
     try {
-      const response = await axios.get('/api/health');
+      console.log('hitting', VITE_SERVER_API_URL.concat('/health'));
+      const response = await axios.get(VITE_SERVER_API_URL.concat('/health'));
       if (response.status === 200) {
         setServerAvailability('server');
       } else {

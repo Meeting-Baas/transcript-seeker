@@ -40,20 +40,20 @@ import { fetchBotDetailsWrapper as fetchBotDetails } from '@/lib/axios';
 import { useApiKeysStore, useMeetingsStore, useServerAvailabilityStore } from '@/store';
 
 // import axios from "axios";
+import { Badge } from '@/components/ui/badge';
 import { CopyIcon, EyeIcon, LoaderCircleIcon, PencilIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Badge } from '@/components/ui/badge';
 // import { ImportMeeting } from "./import-meeting";
 
-import { isEqual, uniqBy } from 'lodash';
-import { Meeting } from '@/types';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
-import RenameModal from './components/rename-modal';
 import { updateById } from '@/lib/db';
+import { Meeting } from '@/types';
+import { isEqual, uniqBy } from 'lodash';
+import RenameModal from './components/rename-modal';
 
-import { formSchema as renameSchema } from './components/rename-modal';
 import { z } from 'zod';
+import { formSchema as renameSchema } from './components/rename-modal';
 
 export const columns: (
   showRename: boolean,
@@ -312,7 +312,6 @@ function MeetingTable() {
 
   async function deleteMeeting(botId: string) {
     try {
-      // await axios.delete(`/api/meeting/${botId}`);
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
 
@@ -345,9 +344,6 @@ function MeetingTable() {
       setMeetings(updatedMeetings);
 
       console.log('Updated meetings:', updatedMeetings);
-
-      // Optionally, make an API call to update the meeting on the server
-      // await axios.put(`/api/meeting/${botId}`, updatedMeeting);
 
       toast.success('Successfully renamed meeting.');
     } catch (error) {

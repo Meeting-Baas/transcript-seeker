@@ -1,5 +1,5 @@
-import Transcript from '@/components/viewer/transcript';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { BLANK_MEETING_INFO, cn } from '@/lib/utils';
@@ -22,11 +22,12 @@ import { z } from 'zod';
 
 import { HeaderTitle } from '@/components/header-title';
 
-import OpenAI from 'openai';
-import { toast } from 'sonner';
-import { JSONContent } from 'novel';
+import { PROXY_URL, S3_PROXY_URL } from '@/App';
 import { getById, updateById } from '@/lib/db';
 import { Separator } from '@radix-ui/react-separator';
+import { JSONContent } from 'novel';
+import OpenAI from 'openai';
+import { toast } from 'sonner';
 
 type ViewerProps = {
   botId: string;
@@ -126,7 +127,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
         };
       };
       if (serverAvailability === 'server') {
-        res = await axios.post('/api/chat', {
+        res = await axios.post(PROXY_URL.concat('/chat'), {
           messages: messagesList,
         });
       } else {
@@ -194,7 +195,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
 
       if (typeof url === 'string') {
         url = url.split('/bots-videos/')[1];
-        setMeetingURL('/s3/' + url);
+        setMeetingURL(S3_PROXY_URL + '/' + url);
       } else {
         setMeetingURL(url);
       }
