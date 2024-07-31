@@ -1,10 +1,13 @@
 import react from '@vitejs/plugin-react-swc';
-import path from 'path';
+import dotenv from 'dotenv';
+import path, { resolve } from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import checker from 'vite-plugin-checker';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, path.resolve(__dirname, '../'));
+  // Load the .env file from the parent directory
+  dotenv.config({ path: resolve(__dirname, '../.env') });
 
   const MEETINGBASS_API_URL = env.VITE_MEETINGBASS_API_URL;
   const MEETINGBASS_S3_URL = env.VITE_MEETINGBASS_S3_URL;
