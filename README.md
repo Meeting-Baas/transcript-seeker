@@ -44,7 +44,12 @@ Running directly in your browser using [IndexedDB](https://developer.mozilla.org
    yarn run build
    ```
 
-4. Run using just the front-end:
+4. Copy the .env.example to .env
+   ```
+   cp .env.example .env
+   ```
+
+5. Run using just the front-end, without adding variables in .env necessary for now:
    ```
    cd client && yarn run dev
    ```
