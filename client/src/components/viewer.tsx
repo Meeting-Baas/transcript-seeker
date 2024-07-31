@@ -1,5 +1,5 @@
-import Transcript from '@/components/viewer/transcript';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { BLANK_MEETING_INFO, cn } from '@/lib/utils';
@@ -20,10 +20,11 @@ import { HeaderTitle } from '@/components/header-title';
 import { baasApiKeyAtom } from '@/store';
 import { useAtom } from 'jotai';
 
+import { VITE_SERVER_API_URL } from '@/App';
+import { getById, updateById } from '@/lib/db';
+import { JSONContent } from 'novel';
 import OpenAI from 'openai';
 import { toast } from 'sonner';
-import { JSONContent } from 'novel';
-import { getById, updateById } from '@/lib/db';
 
 type ViewerProps = {
   botId: string;
@@ -73,7 +74,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
 
   const handleEditorChange = (content: JSONContent) => {
     if (!botId) return;
-  
+
     const newEditors = updateById({
       id: data.id,
       originalData: editors,
@@ -84,7 +85,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
 
   const handleMessageChange = (messages: Message[]) => {
     if (!botId) return;
-  
+
     const newChats = updateById({
       id: data.id,
       originalData: chats,
@@ -119,7 +120,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
         };
       };
       if (serverAvailability === 'server') {
-        res = await axios.post('/api/chat', {
+        res = await axios.post(VITE_SERVER_API_URL.concat('/chat'), {
           messages: messagesList,
         });
       } else {
@@ -211,8 +212,8 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
     if (editors.length > 0) {
       const editorData: EditorT | undefined = getById({
         data: editors,
-        id: botId
-      })
+        id: botId,
+      });
       if (!editorData) {
         editor?.commands.setContent(undefined);
         return;
@@ -227,8 +228,8 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
     } else if (messages.length === 0 && chats.length > 0) {
       const chat = getById({
         id: botId,
-        data: chats
-      })
+        data: chats,
+      });
 
       if (!chat) return;
       if (!chat.messages) return;

@@ -1,8 +1,9 @@
+import { VITE_SERVER_API_URL } from '@/App';
 import { createImageUpload } from 'novel/plugins';
 import { toast } from 'sonner';
 
 const onUpload = (file: File) => {
-  const promise = fetch('/api/upload', {
+  const promise = fetch(VITE_SERVER_API_URL.concat('/upload'), {
     method: 'POST',
     headers: {
       'content-type': file?.type || 'application/octet-stream',

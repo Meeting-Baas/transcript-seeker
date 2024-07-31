@@ -40,16 +40,16 @@ import { fetchBotDetailsWrapper as fetchBotDetails } from '@/lib/axios';
 import { baasApiKeyAtom, meetingsAtom, serverAvailabilityAtom } from '@/store';
 
 // import axios from "axios";
+import { Badge } from '@/components/ui/badge';
 import { useAtom } from 'jotai';
 import { CopyIcon, EyeIcon, LoaderCircleIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Badge } from '@/components/ui/badge';
 // import { ImportMeeting } from "./import-meeting";
 
-import { isEqual, uniqBy } from 'lodash';
-import { Meeting } from '@/types';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
+import { Meeting } from '@/types';
+import { isEqual, uniqBy } from 'lodash';
 
 export const columns: (deleteMeeting: (id: string) => void) => ColumnDef<Meeting>[] = (
   deleteMeeting,
@@ -173,7 +173,7 @@ function MeetingTable() {
   ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
-    bot_id: false
+    bot_id: false,
   });
   const [rowSelection, setRowSelection] = React.useState({});
 
@@ -283,16 +283,15 @@ function MeetingTable() {
 
   async function deleteMeeting(botId: string) {
     try {
-      // await axios.delete(`/api/meeting/${botId}`);
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
 
-      // const meeting = getById({ 
+      // const meeting = getById({
       //   data: meetings,
       //   id: botId
       // });
       const updatedMeetings = meetings.filter((meeting) => meeting.bot_id !== botId);
-      setMeetings(updatedMeetings)
+      setMeetings(updatedMeetings);
 
       storageAPI.del(`${botId}.mp4`);
       console.log(
@@ -312,7 +311,7 @@ function MeetingTable() {
   }, [meetings, baasApiKey, serverAvailability]);
 
   return (
-    <div className="w-full sm:max-h-[70dvh] sm:overflow-auto sm:min-h-[50dvh]">
+    <div className="w-full sm:max-h-[70dvh] sm:min-h-[50dvh] sm:overflow-auto">
       {data.length > 0 ? (
         <>
           <div className="flex items-center gap-2 pb-4">

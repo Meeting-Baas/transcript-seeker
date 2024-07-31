@@ -1,16 +1,18 @@
 import Join from '@/routes/join';
-import Upload from '@/routes/upload';
 import Layout from '@/routes/layout';
 import Meeting from '@/routes/meeting';
 import Meetings from '@/routes/meetings';
 import NotFound from '@/routes/not-found';
 import Root from '@/routes/root';
 import Settings from '@/routes/settings';
+import Upload from '@/routes/upload';
 
 import { Route, Routes } from 'react-router-dom';
 
 import { Toaster } from '@/components/ui/sonner';
 import { Provider } from 'jotai';
+
+export const VITE_SERVER_API_URL = import.meta.env.VITE_SERVER_API_URL || '/api';
 
 export default function App() {
   return (

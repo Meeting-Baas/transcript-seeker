@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
   const MEETINGBASS_API_URL = env.VITE_MEETINGBASS_API_URL || 'https://api.meetingbaas.com';
   const MEETINGBASS_S3_URL =
     env.VITE_MEETINGBASS_S3_URL || 'https://s3.eu-west-3.amazonaws.com/bots-videos';
+  const VITE_SERVER_API_URL = env.VITE_SERVER_API_URL || '/api'
 
   // https://vitejs.dev/config/
   return {
