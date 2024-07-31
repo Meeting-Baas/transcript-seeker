@@ -20,7 +20,7 @@ import { HeaderTitle } from '@/components/header-title';
 import { baasApiKeyAtom } from '@/store';
 import { useAtom } from 'jotai';
 
-import { VITE_SERVER_API_URL } from '@/App';
+import { S3_PROXY_URL, VITE_SERVER_API_URL } from '@/App';
 import { getById, updateById } from '@/lib/db';
 import { JSONContent } from 'novel';
 import OpenAI from 'openai';
@@ -188,7 +188,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
 
       if (typeof url === 'string') {
         url = url.split('/bots-videos/')[1];
-        setMeetingURL('/s3/' + url);
+        setMeetingURL(S3_PROXY_URL + '/' + url);
       } else {
         setMeetingURL(url);
       }

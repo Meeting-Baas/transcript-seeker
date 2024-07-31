@@ -1,20 +1,21 @@
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
-
 import checker from 'vite-plugin-checker';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, path.resolve(__dirname, '../'));
 
-  const MEETINGBASS_API_URL = env.VITE_MEETINGBASS_API_URL || 'https://api.meetingbaas.com';
-  const MEETINGBASS_S3_URL =
-    env.VITE_MEETINGBASS_S3_URL || 'https://s3.eu-west-3.amazonaws.com/bots-videos';
-  const VITE_SERVER_API_URL = env.VITE_SERVER_API_URL || '/api'
+  const MEETINGBASS_API_URL = env.VITE_MEETINGBASS_API_URL;
+  const MEETINGBASS_S3_URL = env.VITE_MEETINGBASS_S3_URL;
+  const VITE_SERVER_API_URL = env.VITE_SERVER_API_URL;
+  const VITE_BAAS_PROXY_URL = env.VITE_BAAS_PROXY_URL;
+  const VITE_S3_PROXY_URL = env.VITE_S3_PROXY_URL;
+  const HOST = env.HOST;
+  const PORT = env.PORT;
 
-  // https://vitejs.dev/config/
   return {
-    base: './', // use relative paths
+    base: './',
     plugins: [
       react(),
       checker({
@@ -23,8 +24,8 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       proxy: {
-        '/api': {
-          target: 'http://localhost:3080',
+        [`${VITE_SERVER_API_URL}`]: {
+          target: `http://${HOST}:${PORT}`,
           changeOrigin: true,
           secure: false,
           ws: true,
@@ -40,16 +41,16 @@ export default defineConfig(({ mode }) => {
             });
           },
         },
-        '/meetingbaas-api': {
+        [`${VITE_BAAS_PROXY_URL}`]: {
           target: MEETINGBASS_API_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/meetingbaas-api/, ''),
+          rewrite: (path) => path.replace(new RegExp(`^${VITE_BAAS_PROXY_URL}`), ''),
           secure: true,
         },
-        '/s3': {
+        [`${VITE_S3_PROXY_URL}`]: {
           target: MEETINGBASS_S3_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/s3/, ''),
+          rewrite: (path) => path.replace(new RegExp(`^${VITE_S3_PROXY_URL}`), ''),
           secure: true,
         },
       },

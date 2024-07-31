@@ -1,4 +1,4 @@
-import { VITE_SERVER_API_URL } from '@/App';
+import { PROXY_URL, VITE_SERVER_API_URL } from '@/App';
 import { MeetingInfo } from '@/types';
 import * as MeetingBaas from '@meeting-baas/shared';
 import axios from 'axios';
@@ -27,7 +27,7 @@ export const joinMeetingWrapper = async ({
     return await MeetingBaas.joinMeeting({
       ...params,
       apiKey: baasApiKey,
-      proxyUrl: '/meetingbaas-api',
+      proxyUrl: PROXY_URL,
     });
   }
 };
@@ -43,7 +43,7 @@ export const fetchBotDetailsWrapper = async ({
     proxyUrl:
       serverAvailability === 'server'
         ? VITE_SERVER_API_URL.concat(`/meeting/${botId}`)
-        : '/meetingbaas-api/bots/meeting_data',
+        : PROXY_URL.concat('bots/meeting_data'),
   });
   const data: MeetingInfo = serverAvailability === 'server' ? response.data['data'] : response.data;
 

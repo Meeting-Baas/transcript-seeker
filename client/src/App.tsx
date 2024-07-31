@@ -12,9 +12,12 @@ import { Route, Routes } from 'react-router-dom';
 import { Toaster } from '@/components/ui/sonner';
 import { Provider } from 'jotai';
 
-export const VITE_SERVER_API_URL = import.meta.env.VITE_SERVER_API_URL || '/api';
+export const VITE_SERVER_API_URL = import.meta.env.VITE_SERVER_API_URL;
+export const PROXY_URL = import.meta.env.VITE_BAAS_PROXY_URL;
+export const S3_PROXY_URL = import.meta.env.VITE_S3_PROXY_URL;
 
 export default function App() {
+  console.log('global api var', VITE_SERVER_API_URL);
   return (
     <Provider>
       <Toaster />

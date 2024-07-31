@@ -12,7 +12,7 @@ function ServerAvailablity() {
 
   const checkServerAvailability = async () => {
     try {
-      // console.log('hitting', VITE_SERVER_API_URL.concat('/health'));
+      console.log('hitting', VITE_SERVER_API_URL.concat('/health'));
       const response = await axios.get(VITE_SERVER_API_URL.concat('/health'));
       if (response.status === 200) {
         setServerAvailablity('server');
