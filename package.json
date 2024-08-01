@@ -18,7 +18,8 @@
     "backend:dev": "cd api && cross-env NODE_ENV=development yarn dev",
     "frontend:build": "cd client && yarn build",
     "frontend:dev": "cd client && cross-env NODE_ENV=development yarn dev",
-    "shared:build": "cd packages/shared && yarn build"
+    "shared:build": "cd packages/shared && yarn build",
+    "install:all": "cd packages/shared && yarn install && cd ../.. && cd client && yarn install && cd .. && cd api && yarn install"
   },
   "keywords": [],
   "author": "",
