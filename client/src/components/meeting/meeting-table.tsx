@@ -179,11 +179,21 @@ export const columns: (
         return <div className="font-medium">Invalid Date</div>;
       }
       const formatted = new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'short',
-        timeStyle: 'short',
-      }).format(date);
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+  hour12: true
+}).format(date);
 
       return <div className="font-medium">{formatted}</div>;
+    },
+    sortingFn: (rowA, rowB, columnId) => {
+      const dateA = new Date(rowA.getValue(columnId)) ;
+      const dateB = new Date(rowB.getValue(columnId)); 
+      console.log("dates", dateA, dateB, typeof(dateA), typeof(dateB))
+      return dateA.getTime() - dateB.getTime();
     },
   },
 ];

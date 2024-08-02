@@ -156,7 +156,7 @@ export function SettingsForm() {
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline">
-                Transcription
+                Transcription API keys
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
                 <ApiKeyField
@@ -164,9 +164,8 @@ export function SettingsForm() {
                   label="Gladia" // for now this will be transcription api key
                   description={
                     <>
-                      Optional. Used to transcribe file uploads. This can either be a Gladia or
-                      Assembly AI Api Key.
-                      {/* {renderLink('Gladia', 'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas')}. */}
+                      Optional. Used to transcribe file uploads. Get your key by visiting{' '}
+                      {renderLink('Gladia', 'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas')}.
                     </>
                   }
                   control={form.control}
@@ -177,9 +176,8 @@ export function SettingsForm() {
                   label="AssemblyAI" // for now this will be transcription api key
                   description={
                     <>
-                      Optional. Used to transcribe file uploads. This can either be a Gladia or
-                      Assembly AI Api Key.
-                      {/* {renderLink('Gladia', 'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas')}. */}
+                      Optional. Used to transcribe file uploads. Get your key by visiting{' '}
+                      {renderLink('AssemblyAI', 'https://www.assemblyai.com/?utm_source=MeetingBaas')}.
                     </>
                   }
                   control={form.control}

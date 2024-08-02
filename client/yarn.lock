@@ -820,7 +820,7 @@ __metadata:
 
 "@meeting-baas/shared@file:../packages/shared::locator=client%40workspace%3A.":
   version: 1.0.0
-  resolution: "@meeting-baas/shared@file:../packages/shared#../packages/shared::hash=103068&locator=client%40workspace%3A."
+  resolution: "@meeting-baas/shared@file:../packages/shared#../packages/shared::hash=414fda&locator=client%40workspace%3A."
   dependencies:
     "@editorjs/editorjs": "npm:^2.29.1"
     "@editorjs/header": "npm:^2.8.3"
@@ -878,7 +878,7 @@ __metadata:
     zod: "npm:^3.23.8"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10c0/50f88c595b59e9255c4e5befb55306796a09867a882871977e55a3607518e49cf08c020771b71b59f07e29df488f9a196b4ca2193c52acb5da13c8f9bdcb2192
+  checksum: 10c0/00f76b932587344a15757815a8d95ffc46514ecff8cc4e3cc41968edd36f373df9580d615aed5ca654dd0d5234d3c005ba4ae777b9667d35d97babc034727a27
   languageName: node
   linkType: hard
 

@@ -13,7 +13,11 @@ function SettingsPage() {
           <>
             Store API keys in your browser to test immediately, or host yourself by using our{' '}
             <Button variant="link" asChild className="p-0">
-              <a href="https://meetingbaas.com/baas/" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://github.com/Meeting-Baas/transcript-seeker"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 open-source backend
               </a>
             </Button>
