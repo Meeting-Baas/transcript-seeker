@@ -2,7 +2,7 @@ import ServerAvailability from '@/components/server-availablity';
 
 function Footer() {
   return (
-    <footer className="flex w-full flex-col items-center px-3 text-sm">
+    <footer className="flex w-full flex-col items-center text-sm">
       <div className="w-full">
         <hr className="border-foreground/10" />
       </div>

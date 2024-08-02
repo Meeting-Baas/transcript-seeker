@@ -9,19 +9,26 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { baasApiKeyAtom, gladiaApiKeyAtom, openAIApiKeyAtom } from '@/store';
+import { useApiKeysStore } from '@/store';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAtom } from 'jotai';
 import { Eye, EyeOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm, useFormState } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+
 const formSchema = z.object({
   baasApiKey: z.string().optional(),
   openAIApiKey: z.string().optional(),
   gladiaApiKey: z.string().optional(),
+  assemblyAIApiKey: z.string().optional(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -74,9 +81,17 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({ name, label, description, con
 };
 
 export function SettingsForm() {
-  const [baasApiKey, setBaasApiKey] = useAtom(baasApiKeyAtom);
-  const [openAIApiKey, setOpenAIApiKey] = useAtom(openAIApiKeyAtom);
-  const [gladiaApiKey, setGladiaApiKey] = useAtom(gladiaApiKeyAtom);
+  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
+  const setBaasApiKey = useApiKeysStore((state) => state.setBaasApiKey);
+
+  const openAIApiKey = useApiKeysStore((state) => state.openAIApiKey);
+  const setOpenAIApiKey = useApiKeysStore((state) => state.setOpenAIApiKey);
+
+  const gladiaApiKey = useApiKeysStore((state) => state.gladiaApiKey);
+  const setGladiaApiKey = useApiKeysStore((state) => state.setGladiaApiKey);
+
+  const assemblyAIApiKey = useApiKeysStore((state) => state.assemblyAIApiKey)
+  const setAssemblyAIApiKey = useApiKeysStore((state) => state.setAssemblyAIApiKey);
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -84,6 +99,7 @@ export function SettingsForm() {
       baasApiKey,
       openAIApiKey,
       gladiaApiKey,
+      assemblyAIApiKey,
     },
   });
   const { isDirty } = useFormState({ control: form.control });
@@ -93,16 +109,17 @@ export function SettingsForm() {
     setBaasApiKey(values.baasApiKey!);
     setOpenAIApiKey(values.openAIApiKey!);
     setGladiaApiKey(values.gladiaApiKey!);
+    setAssemblyAIApiKey(values.assemblyAIApiKey!)
     toast.success('API keys updated successfully');
     form.reset(values);
   };
 
   useEffect(() => {
-    form.reset({ baasApiKey, openAIApiKey, gladiaApiKey });
-  }, [baasApiKey, openAIApiKey, gladiaApiKey]);
+    form.reset({ baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey });
+  }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey]);
 
   const renderLink = (text: string, href: string) => (
-    <Button variant="link" asChild className="p-0 w-min h-min">
+    <Button variant="link" asChild className="h-min w-min p-0">
       <a href={href} target="_blank" rel="noopener noreferrer">
         {text}
       </a>
@@ -135,18 +152,39 @@ export function SettingsForm() {
             }
             control={form.control}
           />
-          <ApiKeyField
-            name="gladiaApiKey"
-            label="Transcription" // for now this will be transcription api key
-            description={
-              <>
-                Optional. Used to transcribe file uploads. {' '}
-                This can either be a Gladia or Assembly AI Api Key.
-                {/* {renderLink('Gladia', 'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas')}. */}
-              </>
-            }
-            control={form.control}
-          />
+
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className='text-xl hover:no-underline py-0 pb-4'>Transcription</AccordionTrigger>
+              <AccordionContent className="space-y-6 px-1">
+                <ApiKeyField
+                  name="gladiaApiKey"
+                  label="Gladia" // for now this will be transcription api key
+                  description={
+                    <>
+                      Optional. Used to transcribe file uploads. This can either be a Gladia or
+                      Assembly AI Api Key.
+                      {/* {renderLink('Gladia', 'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas')}. */}
+                    </>
+                  }
+                  control={form.control}
+                />
+
+                <ApiKeyField
+                  name="assemblyAIApiKey"
+                  label="AssemblyAI" // for now this will be transcription api key
+                  description={
+                    <>
+                      Optional. Used to transcribe file uploads. This can either be a Gladia or
+                      Assembly AI Api Key.
+                      {/* {renderLink('Gladia', 'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas')}. */}
+                    </>
+                  }
+                  control={form.control}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
           {isDirty && (
             <Button className="mt-8" type="submit" variant="default">

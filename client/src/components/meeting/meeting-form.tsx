@@ -1,11 +1,10 @@
 'use client';
 
 import { joinMeetingWrapper as joinMeeting } from '@/lib/axios';
-import { baasApiKeyAtom, meetingsAtom, serverAvailabilityAtom } from '@/store';
+import { useApiKeysStore, useMeetingsStore, useServerAvailabilityStore } from '@/store';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as MeetingBaas from '@meeting-baas/shared';
-
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -25,7 +24,6 @@ import { Input } from '@/components/ui/input';
 
 import ServerAlert from '@/components/server-alert';
 import { Meeting } from '@/types';
-import { useAtom } from 'jotai';
 
 const formSchema = z.object({
   meetingURL: z.string().url().min(1, 'Meeting URL is required'),
@@ -35,9 +33,11 @@ const formSchema = z.object({
 });
 
 export function MeetingForm() {
-  const [baasApiKey] = useAtom(baasApiKeyAtom);
-  const [serverAvailability] = useAtom(serverAvailabilityAtom);
-  const [meetings, setMeetings] = useAtom(meetingsAtom);
+  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
+  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
+
+  const meetings = useMeetingsStore((state) => state.meetings);
+  const setMeetings = useMeetingsStore((state) => state.setMeetings);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

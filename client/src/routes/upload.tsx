@@ -1,14 +1,14 @@
-import { Upload } from '@/components/upload';
-
-import { HeaderTitle } from '@/components/header-title';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { useMediaQuery } from '@/hooks/use-media-query';
-import { Separator } from '@/components/ui/separator';
-
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMediaQuery } from '@/hooks/use-media-query';
+import { useProviderOptionsStore } from '@/store';
 
+import { Upload } from '@/components/upload';
+import { HeaderTitle } from '@/components/header-title';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import { Separator } from '@/components/ui/separator';
 import {
   Form,
   FormControl,
@@ -17,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-
 import {
   Select,
   SelectContent,
@@ -25,16 +24,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-import React from 'react';
 import LanguageCombobox from '@/components/language-select';
+import ProvidersForm from '@/components/upload/providers-form';
 
 import * as gladia from '@/lib/transcription/gladia/options';
 import * as assemblyai from '@/lib/transcription/assemblyai/options';
 
-import ProvidersForm from '@/components/upload/providers-form';
-import { useAtom } from 'jotai';
-import { providerOptionsAtom } from '@/store';
+import { Provider } from '@/components/upload/types';
 
 export const formSchema = z.object({
   provider: z.string().min(1, {
@@ -45,6 +41,15 @@ export const formSchema = z.object({
   }),
 });
 
+function getDefaults<Schema extends z.AnyZodObject>(schema: Schema) {
+  return Object.fromEntries(
+    Object.entries(schema.shape).map(([key, value]) => {
+      if (value instanceof z.ZodDefault) return [key, value._def.defaultValue()];
+      return [key, undefined];
+    }),
+  );
+}
+
 export default function UploadPage() {
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
@@ -54,126 +59,155 @@ export default function UploadPage() {
       provider: 'gladia',
       language: 'en',
     },
-    mode: "onChange"
+    mode: 'onChange',
   });
 
-  const [options, setOptions] = React.useState<z.infer<typeof formSchema>>({
+  const [options, setOptions] = useState<z.infer<typeof formSchema>>({
     provider: 'gladia',
     language: 'en',
   });
-  const [providerOptions, setProviderOptions] = useAtom(providerOptionsAtom)
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    setOptions(values);
-  }
+  const rawProviderOptions = useProviderOptionsStore((state) => state.providerOptions);
+  const getProviderOptions = useProviderOptionsStore((state) => state.getProviderOptions);
+  const setProviderOptions = useProviderOptionsStore((state) => state.setProviderOptions);
 
-  const data = form.watch();
-  React.useEffect(() => {
-    if (form.formState.isValid && !form.formState.isValidating) onSubmit(data)
-  }, [form.formState, data]);
+  const providerOptions = useMemo(
+    () => getProviderOptions(options.provider),
+    [rawProviderOptions, options, getProviderOptions],
+  );
 
-  function handleProviderSubmit(values: {
-    [key: string]: unknown
-  }) {
-    // this is the jankiest of jank
-    setProviderOptions(values)
-  }
-
-  function getProviderOptions(provider?: string) {
+  const getProviderSchema = useCallback((provider?: string) => {
     if (provider === 'gladia') return gladia.options;
     if (provider === 'assemblyai') return assemblyai.options;
+  }, []);
 
-    return [];
-  }
+  const providerSchema = useMemo(
+    () => getProviderSchema(options.provider),
+    [options, getProviderSchema],
+  );
+
+  const defaultValues = useMemo(() => {
+    if (!providerOptions) {
+      if (!providerSchema) return;
+      return getDefaults(providerSchema);
+    }
+
+    const data = { ...providerOptions };
+    for (const key in data) {
+      if (!data[key]) {
+        data[key] = false;
+      }
+    }
+
+    return data;
+  }, [providerOptions, providerSchema]);
+
+  const onSubmit = useCallback((values: z.infer<typeof formSchema>) => {
+    setOptions(values);
+  }, []);
+
+  const handleProviderSubmit = useCallback(
+    (values: { [key: string]: unknown }) => {
+      setProviderOptions(options.provider, values);
+    },
+    [options, setProviderOptions],
+  );
+
+  const data = form.watch();
+  useEffect(() => {
+    if (form.formState.isValid && !form.formState.isValidating) onSubmit(data);
+  }, [form.formState, data, onSubmit]);
 
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
-      <div className="px-4 pt-2">
-        <HeaderTitle path="/" title="Upload" />
-      </div>
       <div>
-        <ResizablePanelGroup
-          // padding + footer + header + 1px = 110px
-          // header = 45px
-          // footer = 48px
-          // padding = pt-2 = 8px
-          className="flex min-h-[calc(100dvh-102px)]"
-          direction={isDesktop ? 'horizontal' : 'vertical'}
-        >
-          <ResizablePanel defaultSize={25} minSize={20}>
-            <div className="flex flex-col h-full w-full space-y-4 bg-muted/50 p-4">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-                  {/* Provider */}
-                  <FormField
-                    control={form.control}
-                    name="provider"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Provider</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a provider" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="gladia">Gladia</SelectItem>
-                            <SelectItem value="assemblyai">AssemblyAI</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        {/* <FormDescription>
-                          You can manage email addresses in your{' '}
-                          <Link href="/examples/forms">email settings</Link>.
-                        </FormDescription> */}
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+        <div className="px-4 py-1">
+          <HeaderTitle path="/" title="Upload" border={false} />
+        </div>
+        <Separator />
+      </div>
 
-                  <FormField
-                    control={form.control}
-                    name="language"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel>Language</FormLabel>
-                        <LanguageCombobox form={form} field={field} />
-                        {/* <FormDescription>
-                          You can manage email addresses in your{' '}
-                          <Link href="/examples/forms">email settings</Link>.
-                        </FormDescription> */}
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  {/* <Button type="submit">Save changes</Button> */}
-                </form>
-              </Form>
+      <ResizablePanelGroup
+        className="flex min-h-[calc(100dvh-102px)]"
+        direction={isDesktop ? 'horizontal' : 'vertical'}
+      >
+        <ResizablePanel defaultSize={25} minSize={20}>
+          <div className="flex h-full w-full flex-col space-y-4 bg-muted/50 p-4">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-4">
+                {/* Provider Selection */}
+                <FormField
+                  control={form.control}
+                  name="provider"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Provider</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a provider" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="gladia">Gladia</SelectItem>
+                          <SelectItem value="assemblyai">AssemblyAI</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <Separator />
-              {/* Select additional capabilites (optional) */}
-              <div className="h-full flex-1 space-y-4 flex flex-col">
-                <h2 className="text-md font-semibold">Select additional capabilites</h2>
+                {/* Language Selection */}
+                <FormField
+                  control={form.control}
+                  name="language"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      {/* todo: this doesn't do anything currently */}
+                      {/* todo: add automatic option or auto detect */}
+                      <FormLabel>Language</FormLabel>
+                      <LanguageCombobox form={form} field={field} />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </form>
+            </Form>
 
-                {options?.provider && <ProvidersForm data={getProviderOptions(options.provider)} onSubmit={handleProviderSubmit} />}
-              </div>
-              {/* Diarazation */}
-            </div>
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={75} minSize={30}>
-            <div className="p-4">
-              {options ? (
-                <Upload provider={options.provider!} language={options.language!} options={providerOptions} />
-              ) : (
-                <p>Please save your options to proceed with the upload.</p>
+            <Separator />
+
+            {/* Additional Capabilities */}
+            <div className="flex h-full flex-1 flex-col space-y-4">
+              <h2 className="text-md font-semibold">Select additional capabilities</h2>
+
+              {options?.provider && (
+                <ProvidersForm
+                  defaultValues={defaultValues!}
+                  schema={providerSchema!}
+                  onSubmit={handleProviderSubmit}
+                />
               )}
             </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      </div>
+          </div>
+        </ResizablePanel>
+
+        <ResizableHandle withHandle />
+
+        <ResizablePanel defaultSize={75} minSize={30}>
+          <div className="p-4">
+            {options ? (
+              <Upload
+                provider={options.provider as Provider}
+                language={options.language}
+                options={providerOptions!}
+              />
+            ) : (
+              <p>Please save your options to proceed with the upload.</p>
+            )}
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 import { ArrowLeft } from 'lucide-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -7,9 +8,10 @@ interface HeaderTitleProps {
   path: string;
   title: string;
   subtitle?: React.ReactNode;
+  border?: boolean;
 }
 
-const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, title, subtitle }) => {
+const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, title, subtitle, border = true }) => {
   return (
     <>
       <div className="flex flex-col items-center">
@@ -28,13 +30,17 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, title, subtitle }) => {
           </div>
         </div>
 
-        <div className="w-full">
+        <div
+          className={cn('w-full', {
+            hidden: !border,
+          })}
+        >
           <Separator />
         </div>
 
         {subtitle && (
           <>
-            <p className="hidden md:block text-left md:text-sm md:text-center text-muted-foreground">
+            <p className="hidden text-left text-muted-foreground md:block md:text-center md:text-sm">
               {typeof subtitle === 'string'
                 ? subtitle
                 : React.Children.map(subtitle, (child) =>

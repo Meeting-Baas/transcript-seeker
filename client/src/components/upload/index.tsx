@@ -1,9 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { editorsAtom, gladiaApiKeyAtom, meetingsAtom } from '@/store/index';
+import { useApiKeysStore, useEditorsStore, useMeetingsStore } from '@/store/index';
 
 import {
   Form,
@@ -18,13 +17,15 @@ import { Input } from '@/components/ui/input';
 import { UploadCloudIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
-import * as gladia from '../../lib/transcription/gladia';
+import * as assemblyai from '@/lib/transcription/assemblyai';
+import * as gladia from '@/lib/transcription/gladia';
 
 import { Button } from '@/components/ui/button';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
+import { updateById } from '@/lib/db';
 import { Meeting } from '@/types';
 import { useNavigate } from 'react-router-dom';
-import { updateById } from '@/lib/db';
+import { Provider } from './types';
 
 const MAX_FILE_SIZE = 3000 * 1024 * 1024; // 1000 MB (100 * 1024 KB * 1024 bytes)
 const ACCEPTED_FILE_TYPES = [
@@ -55,18 +56,22 @@ const formSchema = z.object({
 });
 
 interface UploadProps {
-  provider: string;
+  provider: Provider;
   language: string;
   options: {
     [key: string]: any;
   };
 }
 
-export function Upload({ options }: UploadProps) {
-  const [gladiaApiKey] = useAtom(gladiaApiKeyAtom);
+export function Upload({ provider, options }: UploadProps) {
+  const gladiaApiKey = useApiKeysStore((state) => state.gladiaApiKey);
+  const assemblyAIApiKey = useApiKeysStore((state) => state.assemblyAIApiKey);
 
-  const [editors, setEditors] = useAtom(editorsAtom);
-  const [meetings, setMeetings] = useAtom(meetingsAtom);
+  const editors = useEditorsStore((state) => state.editors);
+  const setEditors = useEditorsStore((state) => state.setEditors);
+
+  const meetings = useMeetingsStore((state) => state.meetings);
+  const setMeetings = useMeetingsStore((state) => state.setMeetings);
 
   const navigate = useNavigate();
 
@@ -85,7 +90,30 @@ export function Upload({ options }: UploadProps) {
 
     try {
       // const blob = new Blob([file], { type: 'video/mp4' });
-      const { transcript, data } = await gladia.transcribe(file, gladiaApiKey, options);
+      let transcript;
+      let data;
+
+      const transcriptionFunctions = {
+        gladia: gladia.transcribe,
+        assemblyai: assemblyai.transcribe,
+      };
+
+      const apiKeys = {
+        gladia: gladiaApiKey,
+        assemblyai: assemblyAIApiKey,
+      };
+
+      // assemblyAIApiKey do the same logic but have api key select
+      if (provider in transcriptionFunctions) {
+        ({ transcript, data } = await transcriptionFunctions[provider](
+          file,
+          apiKeys[provider],
+          options,
+        ));
+      } else {
+        throw new Error(`Unsupported provider: ${provider}`);
+      }
+
       console.log('transcript', transcript);
 
       // Generate a unique bot_id
@@ -157,7 +185,7 @@ export function Upload({ options }: UploadProps) {
       toast.success('File processed and meeting stored successfully!', {
         id: loading,
       });
-      
+
       navigate(`/meeting/${bot_id}`);
     } catch (error) {
       console.error('Error generating transcript:', error);

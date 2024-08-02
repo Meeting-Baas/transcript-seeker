@@ -23,6 +23,8 @@ import { formSchema } from '@/routes/upload';
 import { z } from 'zod';
 
 const languages = [
+  // todo: add more languages and make it work
+  { label: 'Auto Detect', value: 'auto' },
   { label: 'English', value: 'en' },
   { label: 'French', value: 'fr' },
   { label: 'German', value: 'de' },

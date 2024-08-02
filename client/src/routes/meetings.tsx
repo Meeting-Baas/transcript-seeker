@@ -2,11 +2,10 @@ import { HeaderTitle } from '@/components/header-title';
 import { ImportMeeting } from '@/components/import-meeting';
 import MeetingTable from '@/components/meeting/meeting-table';
 import ServerAlert from '@/components/server-alert';
-import { serverAvailabilityAtom } from '@/store';
-import { useAtom } from 'jotai';
+import { useServerAvailabilityStore } from '@/store';
 
 function MeetingsPage() {
-  const [serverAvailability] = useAtom(serverAvailabilityAtom);
+  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);  
 
   return (
     <div className="h-full p-8">

@@ -38,6 +38,7 @@ bower_components/
 
 # Lock files
 package-lock.json
+yarn.lock
 
 # TypeScript cache
 *.tsbuildinfo

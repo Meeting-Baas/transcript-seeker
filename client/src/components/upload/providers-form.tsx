@@ -1,76 +1,43 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form';
-import { ProviderOption } from './types';
-import { Switch } from '@/components/ui/switch';
-import React from 'react';
+'use client';
 
-interface ProvidersFormProps {
-  data: ProviderOption[];
-  onSubmit: (values: { [key: string]: unknown; }) => void;
+import AutoForm from '@/components/ui/auto-form';
+import { useEffect, useState, useCallback, useMemo } from 'react';
+import { z } from 'zod';
+import { ZodObjectOrWrapped } from '../ui/auto-form/utils';
+
+interface ProvidersFormProps<T extends z.ZodTypeAny> {
+  defaultValues: z.infer<T>;
+  schema: T;
+  onSubmit: (values: z.infer<T>) => void;
 }
 
-// Define the type for the default values
-type DefaultValuesType = {
-  [key: string]: unknown;
-};
+export default function ProvidersForm<T extends z.ZodTypeAny>({
+  defaultValues,
+  schema,
+  onSubmit,
+}: ProvidersFormProps<T>) {
+  const [values, setValues] = useState<z.infer<T>>(defaultValues);
 
-export default function ProvidersForm({ data, onSubmit }: ProvidersFormProps) {
-  const defaultValues = data.reduce((acc, provider) => {
-    if (provider.type === 'switch') {
-      acc[provider.value] = false;
-    }
-    return acc;
-  }, {} as DefaultValuesType);
+  const parsedSchema = useMemo(() => schema as unknown as ZodObjectOrWrapped, [schema]);
 
-  const form = useForm({
-    defaultValues,
-  });
+  useEffect(() => {
+    if (!defaultValues) return;
+    setValues(defaultValues);
+  }, [defaultValues]);
 
-  const formData = form.watch();
-  React.useEffect(() => {
-    if (form.formState.isValid && !form.formState.isValidating) onSubmit(formData)
-  }, [form.formState, data]);
+  const handleParsedValuesChange = useCallback(
+    (parsedValues: z.infer<T>) => {
+      setValues(parsedValues);
+      onSubmit(parsedValues);
+    },
+    [onSubmit] 
+  );
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex h-full flex-1 flex-col space-y-4"
-      >
-        <ScrollArea className="flex-1">
-          {data.map((provider) => {
-            if (provider.type === 'switch') {
-              return (
-                <FormField
-                  control={form.control}
-                  name={provider.value}
-                  key={provider.value}
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between py-2">
-                      <div className="space-y-0.5">
-                        <FormLabel>{provider.name}</FormLabel>
-                      </div>
-                      <FormControl>
-                        <Switch checked={!!field.value} onCheckedChange={field.onChange} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              );
-            }
-            return null;
-          })}
-        </ScrollArea>
-        <Button type="submit">Save changes</Button>
-      </form>
-    </Form>
+    <AutoForm
+      values={values}
+      onParsedValuesChange={handleParsedValuesChange}
+      formSchema={parsedSchema}
+    />
   );
 }

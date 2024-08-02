@@ -1,29 +1,9 @@
-import { ProviderOption } from '../../../components/upload/types';
+import { z } from 'zod';
 
-export const options: ProviderOption[] = [
-  {
-    name: "Speaker Diarization",
-    value: "diarization",
-    type: "switch"
-  },
-  {
-    name: 'Summarization',
-    value: 'summarization',
-    type: 'switch',
-  },
-  {
-    name: 'Named Entity Recognition',
-    value: 'named_entity_recognition',
-    type: 'switch',
-  },
-  {
-    name: 'Sentiment Analyisis',
-    value: 'sentiment_analysis',
-    type: 'switch',
-  },
-  {
-    name: 'Chapterization',
-    value: 'chapterization',
-    type: 'switch',
-  },
-];
+export const options = z.object({
+  diarization: z.boolean().describe("Speaker Diarization").optional(),
+  summarization: z.boolean().describe("Summarization").optional(),
+  named_entity_recognition: z.boolean().describe("Named Entity Recognition").optional(),
+  sentiment_analysis: z.boolean().describe("Sentiment Analysis").optional(),
+  chapterization: z.boolean().describe("Chapterization").optional(),
+});

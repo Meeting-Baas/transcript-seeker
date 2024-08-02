@@ -22,14 +22,14 @@ export async function pollForResult(resultUrl: string, headers: any) {
   }
 }
 
-export async function uploadFile(blob: Blob, apiToken: string) {
+export async function uploadFile(blob: Blob, apiKey: string) {
   const formData = new FormData();
   formData.append('audio', blob, 'conversation.wav');
 
   const response = await fetch('https://api.gladia.io/v2/upload', {
     method: 'POST',
     headers: {
-      'x-gladia-key': apiToken,
+      'x-gladia-key': apiKey,
     },
     body: formData,
   });
@@ -136,13 +136,13 @@ export function groupUtterancesBySpeaker(
 
 export async function transcribe(
   blob: Blob,
-  apiToken: string,
+  apiKey: string,
   options?: {
     [key: string]: unknown;
   },
 ) {
-  const uploadURL = await uploadFile(blob, apiToken);
-  const data = await startTranscription(uploadURL.audio_url, apiToken, options);
+  const uploadURL = await uploadFile(blob, apiKey);
+  const data = await startTranscription(uploadURL.audio_url, apiKey, options);
 
   const transcription: {
     utterances: GladiaUtterance[];

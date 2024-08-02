@@ -1,5 +1,5 @@
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import Transcript from '@/components/viewer/transcript';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { BLANK_MEETING_INFO, cn } from '@/lib/utils';
@@ -11,20 +11,22 @@ import * as React from 'react';
 import Chat from '@/components/viewer/chat';
 import { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
 import Editor from '@/components/viewer/editor';
-import { chatsAtom, editorsAtom, openAIApiKeyAtom, serverAvailabilityAtom } from '@/store';
+import {
+  useApiKeysStore,
+  useChatsStore,
+  useEditorsStore,
+  useServerAvailabilityStore,
+} from '@/store';
 
 import { z } from 'zod';
 
 import { HeaderTitle } from '@/components/header-title';
 
-import { baasApiKeyAtom } from '@/store';
-import { useAtom } from 'jotai';
-
-import { S3_PROXY_URL, VITE_SERVER_API_URL } from '@/App';
-import { getById, updateById } from '@/lib/db';
-import { JSONContent } from 'novel';
 import OpenAI from 'openai';
 import { toast } from 'sonner';
+import { JSONContent } from 'novel';
+import { getById, updateById } from '@/lib/db';
+import { Separator } from '@radix-ui/react-separator';
 
 type ViewerProps = {
   botId: string;
@@ -33,7 +35,7 @@ type ViewerProps = {
 };
 
 export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
-  const [serverAvailability] = useAtom(serverAvailabilityAtom);
+  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
 
   React.useEffect(() => {
     // if (!baasApiKey) return;
@@ -61,14 +63,18 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
 
   const [meetingURL, setMeetingURL] = React.useState<string | Blob>();
 
-  const [baasApiKey] = useAtom(baasApiKeyAtom);
-  const [openAIApiKey] = useAtom(openAIApiKeyAtom);
+  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
+  const openAIApiKey = useApiKeysStore((state) => state.openAIApiKey);
 
-  const [editors, setEditors] = useAtom(editorsAtom);
-  const [chats, setChats] = useAtom(chatsAtom);
+  const editors = useEditorsStore((state) => state.editors);
+  const setEditors = useEditorsStore((state) => state.setEditors);
+
+  const chats = useChatsStore((state) => state.chats);
+  const setChats = useChatsStore((state) => state.setChats);
+
   const [messages, setMessages] = React.useState<Message[]>([]);
 
-  // const [serverAvailability] = useAtom(serverAvailabilityAtom);
+  //   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
@@ -120,7 +126,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
         };
       };
       if (serverAvailability === 'server') {
-        res = await axios.post(VITE_SERVER_API_URL.concat('/chat'), {
+        res = await axios.post('/api/chat', {
           messages: messagesList,
         });
       } else {
@@ -188,7 +194,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
 
       if (typeof url === 'string') {
         url = url.split('/bots-videos/')[1];
-        setMeetingURL(S3_PROXY_URL + '/' + url);
+        setMeetingURL('/s3/' + url);
       } else {
         setMeetingURL(url);
       }
@@ -238,12 +244,19 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
   }, [messages, data]);
 
   return (
-    <>
-      <div className="px-4 py-2">
-        <HeaderTitle path="/meetings" title={meetingData.name} />
+    <div className="h-full min-h-[calc(100dvh-81px)]">
+      <div>
+        <div className="px-4 py-1">
+          <HeaderTitle path="/meetings" title={meetingData.name} border={false} />
+        </div>
+        <Separator />
       </div>
       <ResizablePanelGroup
-        className="flex min-h-[200dvh] lg:min-h-[85dvh]"
+        // padding + footer + header + 1px = 110px
+        // header = 45px
+        // footer = 48px
+        // padding = pt-2 = 8px
+        className="flex min-h-[200dvh] lg:min-h-[calc(100dvh-102px)]"
         direction={isDesktop ? 'horizontal' : 'vertical'}
       >
         <ResizablePanel defaultSize={67} minSize={25}>
@@ -313,6 +326,6 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
           </ResizablePanelGroup>
         </ResizablePanel>
       </ResizablePanelGroup>
-    </>
+    </div>
   );
 }

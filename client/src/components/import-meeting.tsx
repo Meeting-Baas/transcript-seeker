@@ -1,5 +1,4 @@
-import { meetingsAtom } from '@/store';
-import { useAtom } from 'jotai';
+import { useMeetingsStore } from '@/store';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -20,7 +19,8 @@ const formSchema = z.object({
 
 export function ImportMeeting() {
   // const navigate = useNavigate();
-  const [meetings, setMeetings] = useAtom(meetingsAtom);
+  const meetings = useMeetingsStore((state) => state.meetings);  
+  const setMeetings = useMeetingsStore((state) => state.setMeetings);  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

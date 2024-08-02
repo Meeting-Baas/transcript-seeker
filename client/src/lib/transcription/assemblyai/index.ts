@@ -1,11 +1,6 @@
 import { Transcript } from '@/types';
 import { AssemblyAI, TranscriptUtterance as AssemblyAIUtterance } from 'assemblyai';
 
-export async function makeFetchRequest(url: string, options: any) {
-  const response = await fetch(url, options);
-  return response.json();
-}
-
 export function groupUtterancesBySpeaker(utterances: AssemblyAIUtterance[]): Transcript[] {
   let groupedTranscripts: Transcript[] = [];
   let currentSpeaker: string | null = null;
@@ -27,7 +22,7 @@ export function groupUtterancesBySpeaker(utterances: AssemblyAIUtterance[]): Tra
           speaker: `Speaker ${word.speaker}`,
           words: currentWords,
         });
-        currentSpeaker = word.speaker || null;
+        currentSpeaker = word.speaker || 'Unknown';
         currentWords = [];
         currentWordCount = 0;
       }
@@ -47,25 +42,56 @@ export function groupUtterancesBySpeaker(utterances: AssemblyAIUtterance[]): Tra
 
 const transcribe = async (
   blob: Blob,
-  apiToken: string,
+  apiKey: string,
   options?: {
     [key: string]: unknown;
   },
 ) => {
   const client = new AssemblyAI({
-    apiKey: apiToken,
+    apiKey,
   });
 
+  console.log(options, {
+    ...(options?.summarization ? options.summarization : {}),
+  });
   const uploadURL = await client.files.upload(blob);
   const params = {
     audio: uploadURL,
-    speaker_labels: true,
+    ...options,
+    ...(options?.summarization ? options.summarization : {}),
   };
 
-  console.log(options)
-  const transcript = await client.transcripts.transcribe(params);
-  if (!transcript) console.error('Oops, something went wrong!', transcript);
-  return groupUtterancesBySpeaker(transcript.utterances!);
+  console.log(options);
+  const transcription = await client.transcripts.transcribe(params);
+  if (!transcription) console.error('Oops, something went wrong!', transcription);
+
+  let transcript = groupUtterancesBySpeaker(
+    transcription.utterances
+      ? transcription.utterances
+      : [
+          {
+            confidence: 0,
+            end: 0,
+            speaker: 'Unknown',
+            start: 0,
+            text: transcription.text!,
+            words: transcription.words!,
+          },
+        ],
+  );
+
+  return {
+    data: {
+      ...(options?.summarization
+        ? {
+            summarization: {
+              results: transcription.summary,
+            },
+          }
+        : {}),
+    },
+    transcript: transcript,
+  };
 };
 
 export { transcribe };

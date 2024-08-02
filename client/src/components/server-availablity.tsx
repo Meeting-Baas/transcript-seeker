@@ -1,33 +1,31 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 
-import { VITE_SERVER_API_URL } from '@/App';
 import { cn } from '@/lib/utils';
-import { baasApiKeyAtom, serverAvailabilityAtom } from '@/store';
-import { useAtom } from 'jotai';
+import { useApiKeysStore, useServerAvailabilityStore } from '@/store';
 
 function ServerAvailablity() {
-  const [serverAvailability, setServerAvailablity] = useAtom(serverAvailabilityAtom);
-  const [baasApiKey] = useAtom(baasApiKeyAtom);
+  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
+  const setServerAvailability = useServerAvailabilityStore((state) => state.setServerAvailability);
+  
+  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
 
   const checkServerAvailability = async () => {
     try {
-      console.log('hitting', VITE_SERVER_API_URL.concat('/health'));
-      const response = await axios.get(VITE_SERVER_API_URL.concat('/health'));
+      const response = await axios.get('/api/health');
       if (response.status === 200) {
-        setServerAvailablity('server');
+        setServerAvailability('server');
       } else {
-        setServerAvailablity('local');
+        setServerAvailability('local');
       }
     } catch (error) {
-      // console.log('hitting', VITE_SERVER_API_URL.concat('/health'));
-      setServerAvailablity('local');
+      setServerAvailability('local');
     }
   };
 
   useEffect(() => {
     if (!baasApiKey) {
-      if (serverAvailability != 'error') setServerAvailablity('error');
+      if (serverAvailability != 'error') setServerAvailability('error');
       return;
     }
     checkServerAvailability();

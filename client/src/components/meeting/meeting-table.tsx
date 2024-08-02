@@ -37,23 +37,31 @@ import {
 } from '@/components/ui/table';
 
 import { fetchBotDetailsWrapper as fetchBotDetails } from '@/lib/axios';
-import { baasApiKeyAtom, meetingsAtom, serverAvailabilityAtom } from '@/store';
+import { useApiKeysStore, useMeetingsStore, useServerAvailabilityStore } from '@/store';
 
 // import axios from "axios";
-import { Badge } from '@/components/ui/badge';
-import { useAtom } from 'jotai';
-import { CopyIcon, EyeIcon, LoaderCircleIcon, TrashIcon } from 'lucide-react';
+import { CopyIcon, EyeIcon, LoaderCircleIcon, PencilIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
 // import { ImportMeeting } from "./import-meeting";
 
-import { StorageBucketAPI } from '@/lib/bucketAPI';
-import { Meeting } from '@/types';
 import { isEqual, uniqBy } from 'lodash';
+import { Meeting } from '@/types';
+import { StorageBucketAPI } from '@/lib/bucketAPI';
+import RenameModal from './components/rename-modal';
+import { updateById } from '@/lib/db';
 
-export const columns: (deleteMeeting: (id: string) => void) => ColumnDef<Meeting>[] = (
-  deleteMeeting,
-) => [
+import { formSchema as renameSchema } from './components/rename-modal';
+import { z } from 'zod';
+
+export const columns: (
+  showRename: boolean,
+  setShowRename: (value: boolean) => void,
+  deleteMeeting: (id: string) => void,
+  renameMeeting: (id: string, newName: string) => void,
+  renameSchema: z.Schema,
+) => ColumnDef<Meeting>[] = (showRename, setShowRename, deleteMeeting, renameMeeting) => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -74,6 +82,67 @@ export const columns: (deleteMeeting: (id: string) => void) => ColumnDef<Meeting
     ),
     enableSorting: false,
     enableHiding: false,
+  },
+
+  {
+    id: 'actions',
+    enableHiding: false,
+    cell: ({ row }) => {
+      const meeting = row.original;
+
+      return (
+        <div className="flex w-fit items-center justify-end gap-2">
+          {meeting.status === 'loaded' ? (
+            <Button size="icon" asChild className="h-8 w-8 p-0">
+              <Link to={`/meeting/${meeting.bot_id}`}>
+                <EyeIcon className="h-4 w-4" />
+              </Link>
+            </Button>
+          ) : (
+            <Button variant={'outline'} size={'icon'} className="h-8 w-8 p-0">
+              <LoaderCircleIcon className="h-4 w-4 animate-spin" />
+            </Button>
+          )}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <DotsHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="space-y-1">
+              {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
+              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meeting.bot_id)}>
+                <CopyIcon className="mr-2 h-4 w-4" />
+                Copy Bot ID
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setShowRename(true)}>
+                <PencilIcon className="mr-2 h-4 w-4" />
+                Rename
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="bg-red-500/30 text-red-500 focus:bg-red-500/50 focus:text-red-600"
+                onClick={() => deleteMeeting(meeting.id)}
+              >
+                <TrashIcon className="mr-2 h-4 w-4" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <RenameModal
+            open={showRename}
+            onOpenChange={setShowRename}
+            defaultValues={{
+              name: meeting.name,
+            }}
+            onSubmit={(values: z.infer<typeof renameSchema>) => {
+              renameMeeting(meeting.bot_id, values.name);
+              setShowRename(false);
+            }}
+          />
+        </div>
+      );
+    },
   },
   {
     accessorKey: 'bot_id',
@@ -117,51 +186,6 @@ export const columns: (deleteMeeting: (id: string) => void) => ColumnDef<Meeting
       return <div className="font-medium">{formatted}</div>;
     },
   },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-      const meeting = row.original;
-
-      return (
-        <div className="flex w-fit items-center justify-end gap-2">
-          {meeting.status === 'loaded' ? (
-            <Button size="icon" asChild className="h-8 w-8 p-0">
-              <Link to={`/meeting/${meeting.bot_id}`}>
-                <EyeIcon className="h-4 w-4" />
-              </Link>
-            </Button>
-          ) : (
-            <Button variant={'outline'} size={'icon'} className="h-8 w-8 p-0">
-              <LoaderCircleIcon className="h-4 w-4 animate-spin" />
-            </Button>
-          )}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <DotsHorizontalIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="space-y-1">
-              {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meeting.bot_id)}>
-                <CopyIcon className="mr-2 h-4 w-4" />
-                Copy Bot ID
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="bg-red-500/30 text-red-500 focus:bg-red-500/50 focus:text-red-600"
-                onClick={() => deleteMeeting(meeting.id)}
-              >
-                <TrashIcon className="mr-2 h-4 w-4" />
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
-    },
-  },
 ];
 
 function MeetingTable() {
@@ -178,16 +202,21 @@ function MeetingTable() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const [isLoading, setIsLoading] = React.useState(true);
+  const [showRename, setShowRename] = React.useState(false);
+
   const [data, setData] = React.useState<Meeting[]>([]);
-  const [meetings, setMeetings] = useAtom(meetingsAtom);
+
+  const meetings = useMeetingsStore((state) => state.meetings);
+  const setMeetings = useMeetingsStore((state) => state.setMeetings);
 
   // meeting will update on state change
-  const [baasApiKey] = useAtom(baasApiKeyAtom);
-  const [serverAvailability] = useAtom(serverAvailabilityAtom);
+  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
+
+  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
 
   const table = useReactTable({
     data,
-    columns: columns(deleteMeeting),
+    columns: columns(showRename, setShowRename, deleteMeeting, renameMeeting, renameSchema),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -283,6 +312,7 @@ function MeetingTable() {
 
   async function deleteMeeting(botId: string) {
     try {
+      // await axios.delete(`/api/meeting/${botId}`);
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
 
@@ -303,6 +333,26 @@ function MeetingTable() {
       toast.success('Successfully deleted meeting.');
     } catch (error) {
       console.error('error', error);
+    }
+  }
+  async function renameMeeting(botId: string, newName: string) {
+    try {
+      const updatedMeetings = updateById({
+        originalData: meetings,
+        updateData: { name: newName },
+        id: botId,
+      });
+      setMeetings(updatedMeetings);
+
+      console.log('Updated meetings:', updatedMeetings);
+
+      // Optionally, make an API call to update the meeting on the server
+      // await axios.put(`/api/meeting/${botId}`, updatedMeeting);
+
+      toast.success('Successfully renamed meeting.');
+    } catch (error) {
+      console.error('Error renaming meeting:', error);
+      toast.error('Failed to rename meeting.');
     }
   }
 
