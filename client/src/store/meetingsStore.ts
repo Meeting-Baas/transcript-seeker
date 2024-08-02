@@ -17,6 +17,6 @@ export const useMeetingsStore = create<MeetingsState>()(
     {
       name: 'meetings-storage',
       storage: createJSONStorage(() => storage),
-    }
-  )
+    },
+  ),
 );

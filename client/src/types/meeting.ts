@@ -1,4 +1,4 @@
-import { Transcript } from ".";
+import { Transcript } from '.';
 
 export type Meeting = {
   id: string;

@@ -1,4 +1,3 @@
-
 - [ ] Re-add VTT subtitles on video
 - [ ] Add the ability to download SRT, Docx, MD directly in the front-end
 - [ ] Save Chat + Notes to Meeting object on modification

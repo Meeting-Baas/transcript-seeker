@@ -12,9 +12,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import {
-  FormControl,
-} from '@/components/ui/form';
+import { FormControl } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
@@ -37,7 +35,7 @@ const languages = [
 ] as const;
 
 interface ComboboxProps {
-  form: UseFormReturn<z.infer<typeof formSchema>>
+  form: UseFormReturn<z.infer<typeof formSchema>>;
   field: ControllerRenderProps<z.infer<typeof formSchema>, 'language'>;
 }
 
@@ -49,7 +47,10 @@ export default function LanguageCombobox({ form, field }: ComboboxProps) {
           <Button
             variant="outline"
             role="combobox"
-            className={cn('font-normal px-3 py-2 w-full justify-between', !field.value && 'text-muted-foreground')}
+            className={cn(
+              'w-full justify-between px-3 py-2 font-normal',
+              !field.value && 'text-muted-foreground',
+            )}
           >
             {field.value
               ? languages.find((language) => language.value === field.value)?.label
@@ -58,31 +59,31 @@ export default function LanguageCombobox({ form, field }: ComboboxProps) {
           </Button>
         </FormControl>
       </PopoverTrigger>
-      <PopoverContent className="p-0 popover-content-width-full" align='start'>
+      <PopoverContent className="popover-content-width-full p-0" align="start">
         <Command>
           <CommandInput placeholder="Search language..." className="h-9" />
           <CommandList>
             <CommandEmpty>No language found.</CommandEmpty>
             <CommandList>
-            <CommandGroup>
-              {languages.map((language) => (
-                <CommandItem
-                  value={language.label}
-                  key={language.value}
-                  onSelect={() => {
-                    form.setValue('language', language.value);
-                  }}
-                >
-                  {language.label}
-                  <CheckIcon
-                    className={cn(
-                      'ml-auto h-4 w-4',
-                      language.value === field.value ? 'opacity-100' : 'opacity-0',
-                    )}
-                  />
-                </CommandItem>
-              ))}
-            </CommandGroup>
+              <CommandGroup>
+                {languages.map((language) => (
+                  <CommandItem
+                    value={language.label}
+                    key={language.value}
+                    onSelect={() => {
+                      form.setValue('language', language.value);
+                    }}
+                  >
+                    {language.label}
+                    <CheckIcon
+                      className={cn(
+                        'ml-auto h-4 w-4',
+                        language.value === field.value ? 'opacity-100' : 'opacity-0',
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
             </CommandList>
           </CommandList>
         </Command>

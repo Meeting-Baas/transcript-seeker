@@ -19,13 +19,13 @@ const formSchema = z.object({
 
 export function ImportMeeting() {
   // const navigate = useNavigate();
-  const meetings = useMeetingsStore((state) => state.meetings);  
-  const setMeetings = useMeetingsStore((state) => state.setMeetings);  
+  const meetings = useMeetingsStore((state) => state.meetings);
+  const setMeetings = useMeetingsStore((state) => state.setMeetings);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      botId: "",
+      botId: '',
     },
   });
 

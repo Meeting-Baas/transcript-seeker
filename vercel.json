@@ -1,8 +1,17 @@
 {
   "rewrites": [
-    { "source": "/meetingbaas-api/:match*", "destination": "https://api.meetingbaas.com/:match*" },
-    { "source": "/s3/:match*", "destination": "https://s3.eu-west-3.amazonaws.com/bots-videos/:match*" },
-    { "source": "/api/:match*", "destination": "https://api.meetingbaas.com/404" },
-    {"source": "/(.*)", "destination": "/"}
+    {
+      "source": "/meetingbaas-api/:match*",
+      "destination": "https://api.meetingbaas.com/:match*"
+    },
+    {
+      "source": "/s3/:match*",
+      "destination": "https://s3.eu-west-3.amazonaws.com/bots-videos/:match*"
+    },
+    {
+      "source": "/api/:match*",
+      "destination": "https://api.meetingbaas.com/404"
+    },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }

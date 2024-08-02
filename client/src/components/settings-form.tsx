@@ -90,7 +90,7 @@ export function SettingsForm() {
   const gladiaApiKey = useApiKeysStore((state) => state.gladiaApiKey);
   const setGladiaApiKey = useApiKeysStore((state) => state.setGladiaApiKey);
 
-  const assemblyAIApiKey = useApiKeysStore((state) => state.assemblyAIApiKey)
+  const assemblyAIApiKey = useApiKeysStore((state) => state.assemblyAIApiKey);
   const setAssemblyAIApiKey = useApiKeysStore((state) => state.setAssemblyAIApiKey);
 
   const form = useForm<FormSchema>({
@@ -109,7 +109,7 @@ export function SettingsForm() {
     setBaasApiKey(values.baasApiKey!);
     setOpenAIApiKey(values.openAIApiKey!);
     setGladiaApiKey(values.gladiaApiKey!);
-    setAssemblyAIApiKey(values.assemblyAIApiKey!)
+    setAssemblyAIApiKey(values.assemblyAIApiKey!);
     toast.success('API keys updated successfully');
     form.reset(values);
   };
@@ -155,7 +155,9 @@ export function SettingsForm() {
 
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger className='text-xl hover:no-underline py-0 pb-4'>Transcription</AccordionTrigger>
+              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline">
+                Transcription
+              </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
                 <ApiKeyField
                   name="gladiaApiKey"

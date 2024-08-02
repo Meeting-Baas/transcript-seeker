@@ -28,6 +28,6 @@ export const useApiKeysStore = create<ApiKeysState>()(
     {
       name: 'api-keys-storage',
       storage: createJSONStorage(() => storage),
-    }
-  )
+    },
+  ),
 );

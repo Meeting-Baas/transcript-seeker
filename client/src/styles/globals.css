@@ -94,7 +94,8 @@
     @apply bg-background text-foreground;
   }
 
-  html, body {
+  html,
+  body {
     @apply h-full w-full;
   }
 }

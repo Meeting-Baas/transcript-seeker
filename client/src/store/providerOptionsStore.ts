@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { storage } from '@/store'; 
+import { storage } from '@/store';
 
 interface ProviderOptionsState {
   providerOptions: { [provider: string]: { [key: string]: unknown } };
@@ -27,8 +27,8 @@ export const useProviderOptionsStore = create<ProviderOptionsState>()(
       getProviderOptions: (provider) => get().providerOptions[provider],
     }),
     {
-      name: 'provider-options-storage', 
-      storage: createJSONStorage(() => storage), 
-    }
-  )
+      name: 'provider-options-storage',
+      storage: createJSONStorage(() => storage),
+    },
+  ),
 );

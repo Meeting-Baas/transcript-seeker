@@ -1,16 +1,16 @@
-import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
+import { FormControl, FormItem, FormMessage } from '@/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import * as z from "zod";
-import AutoFormLabel from "../common/label";
-import AutoFormTooltip from "../common/tooltip";
-import { AutoFormInputComponentProps } from "../types";
-import { getBaseSchema } from "../utils";
+} from '@/components/ui/select';
+import * as z from 'zod';
+import AutoFormLabel from '../common/label';
+import AutoFormTooltip from '../common/tooltip';
+import { AutoFormInputComponentProps } from '../types';
+import { getBaseSchema } from '../utils';
 
 export default function AutoFormEnum({
   label,
@@ -20,8 +20,7 @@ export default function AutoFormEnum({
   zodItem,
   fieldProps,
 }: AutoFormInputComponentProps) {
-  const baseValues = (getBaseSchema(zodItem) as unknown as z.ZodEnum<any>)._def
-    .values;
+  const baseValues = (getBaseSchema(zodItem) as unknown as z.ZodEnum<any>)._def.values;
 
   let values: [string, string][] = [];
   if (!Array.isArray(baseValues)) {
@@ -36,19 +35,12 @@ export default function AutoFormEnum({
 
   return (
     <FormItem>
-      <AutoFormLabel
-        label={fieldConfigItem?.label || label}
-        isRequired={isRequired}
-      />
+      <AutoFormLabel label={fieldConfigItem?.label || label} isRequired={isRequired} />
       <FormControl>
-        <Select
-          onValueChange={field.onChange}
-          defaultValue={field.value}
-          {...fieldProps}
-        >
+        <Select onValueChange={field.onChange} defaultValue={field.value} {...fieldProps}>
           <SelectTrigger className={fieldProps.className}>
             <SelectValue placeholder={fieldConfigItem.inputProps?.placeholder}>
-              {field.value ? findItem(field.value)?.[1] : "Select an option"}
+              {field.value ? findItem(field.value)?.[1] : 'Select an option'}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>

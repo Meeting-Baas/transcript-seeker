@@ -1,1 +1,1 @@
-export type Provider = "gladia" | "assemblyai";
+export type Provider = 'gladia' | 'assemblyai';

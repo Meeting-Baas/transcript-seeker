@@ -37,7 +37,12 @@ interface RenameModalProps {
   onSubmit: (values: z.infer<typeof formSchema>) => void;
 }
 
-export default function RenameModal({ open, onOpenChange, defaultValues, onSubmit }: RenameModalProps) {
+export default function RenameModal({
+  open,
+  onOpenChange,
+  defaultValues,
+  onSubmit,
+}: RenameModalProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,

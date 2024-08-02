@@ -83,9 +83,7 @@ export interface GladiaUtterance {
   }[];
 }
 
-export function groupUtterancesBySpeaker(
-  utterances: GladiaUtterance[]
-): Transcript[] {
+export function groupUtterancesBySpeaker(utterances: GladiaUtterance[]): Transcript[] {
   let groupedTranscripts: Transcript[] = [];
   let currentSpeaker: number | null = null;
   let currentWords: Transcript['words'] = [];

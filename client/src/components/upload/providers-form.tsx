@@ -30,7 +30,7 @@ export default function ProvidersForm<T extends z.ZodTypeAny>({
       setValues(parsedValues);
       onSubmit(parsedValues);
     },
-    [onSubmit] 
+    [onSubmit],
   );
 
   return (

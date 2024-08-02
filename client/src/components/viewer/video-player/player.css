@@ -1,6 +1,6 @@
-@import "@vidstack/react/player/styles/default/theme.css";
-@import "@vidstack/react/player/styles/default/layouts/audio.css";
-@import "@vidstack/react/player/styles/default/layouts/video.css";
+@import '@vidstack/react/player/styles/default/theme.css';
+@import '@vidstack/react/player/styles/default/layouts/audio.css';
+@import '@vidstack/react/player/styles/default/layouts/video.css';
 
 .player {
   --brand-color: #f5f5f5;
@@ -17,11 +17,11 @@
   /* 👉 https://vidstack.io/docs/player/components/layouts/default#css-variables for more. */
 }
 
-.player[data-view-type="audio"] .vds-poster {
+.player[data-view-type='audio'] .vds-poster {
   display: none;
 }
 
-.player[data-view-type="video"] {
+.player[data-view-type='video'] {
   aspect-ratio: 16 /9;
 }
 

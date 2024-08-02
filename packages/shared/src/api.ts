@@ -33,17 +33,16 @@ export async function joinMeeting({
   try {
     const url = proxyUrl
       ? `${proxyUrl}/bots`
-      : (process.env.VITE_MEETINGBASS_API_URL ?? "https://api.meetingbaas.com") + "/bots"
+      : (process.env.VITE_MEETINGBASS_API_URL ??
+          "https://api.meetingbaas.com") + "/bots";
 
     const response = await axios.post(
       url,
       {
         meeting_url: meetingURL,
         bot_name: meetingBotName || DEFAULT_BOT_NAME,
-        entry_message:
-          meetingBotEntryMessage || DEFAULT_ENTRY_MESSAGE,
-        bot_image:
-          meetingBotImage || DEFAULT_BOT_IMAGE,
+        entry_message: meetingBotEntryMessage || DEFAULT_ENTRY_MESSAGE,
+        bot_image: meetingBotImage || DEFAULT_BOT_IMAGE,
         speech_to_text: "Gladia",
         reserved: false,
       },
@@ -51,7 +50,7 @@ export async function joinMeeting({
         headers: {
           "x-spoke-api-key": apiKey,
         },
-      }
+      },
     );
 
     console.log(`New bot created, with id: ${response.data?.bot_id}`);

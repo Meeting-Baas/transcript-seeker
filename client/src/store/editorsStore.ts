@@ -17,6 +17,6 @@ export const useEditorsStore = create<EditorsState>()(
     {
       name: 'editors-storage',
       storage: createJSONStorage(() => storage),
-    }
-  )
+    },
+  ),
 );

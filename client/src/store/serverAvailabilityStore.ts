@@ -17,6 +17,6 @@ export const useServerAvailabilityStore = create<ServerAvailabilityState>()(
     {
       name: 'server-availability-storage',
       storage: createJSONStorage(() => storage),
-    }
-  )
+    },
+  ),
 );

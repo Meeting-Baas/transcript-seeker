@@ -7,7 +7,7 @@ import { useApiKeysStore, useServerAvailabilityStore } from '@/store';
 function ServerAvailablity() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
   const setServerAvailability = useServerAvailabilityStore((state) => state.setServerAvailability);
-  
+
   const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
 
   const checkServerAvailability = async () => {

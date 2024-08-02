@@ -6,8 +6,8 @@ import { SettingsIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 function RootPage() {
-  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);  
-  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);  
+  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
+  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
 
   return (
     <div className="relative flex h-full min-h-[calc(100dvh-94px)] flex-col items-center justify-center space-y-2 px-4">
@@ -31,10 +31,10 @@ function RootPage() {
           </a>
         </p>
         <div className="flex w-full items-center gap-4 pb-2">
-          <Link to="/settings" className={cn(buttonVariants({ variant: 'secondary' }), "flex-1")}>
+          <Link to="/settings" className={cn(buttonVariants({ variant: 'secondary' }), 'flex-1')}>
             <SettingsIcon className="mr-2 h-4 w-4" /> Settings
           </Link>
-          <Link to="/meetings" className={cn(buttonVariants({ variant: 'outline' }), "flex-1")}>
+          <Link to="/meetings" className={cn(buttonVariants({ variant: 'outline' }), 'flex-1')}>
             Recordings
           </Link>
         </div>

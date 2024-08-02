@@ -10,7 +10,7 @@ export const gladiaApiKeyAtom = atomWithAsyncStorage('gladiaApiKey', '');
 // Define the atom for storing RecordingInfo, that is, meta-data for storage
 export const meetingsAtom = atomWithAsyncStorage<Meeting[]>('meetings', []);
 export const providerOptionsAtom = atomWithAsyncStorage<{
-    [key: string]: unknown
+  [key: string]: unknown;
 }>('providerOptions', {});
 
 export const editorsAtom = atomWithAsyncStorage<Editor[]>('editors', []);

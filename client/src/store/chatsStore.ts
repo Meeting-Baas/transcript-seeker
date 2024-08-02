@@ -17,6 +17,6 @@ export const useChatsStore = create<ChatsState>()(
     {
       name: 'chats-storage',
       storage: createJSONStorage(() => storage),
-    }
-  )
+    },
+  ),
 );

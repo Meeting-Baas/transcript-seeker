@@ -7,12 +7,12 @@ import {
   MediaPlayer,
   MediaProvider,
   type MediaPlayerInstance,
-  type MediaProviderAdapter
+  type MediaProviderAdapter,
 } from '@vidstack/react';
 import {
   DefaultAudioLayout,
   defaultLayoutIcons,
-  DefaultVideoLayout
+  DefaultVideoLayout,
 } from '@vidstack/react/player/layouts/default';
 
 import { toast } from 'sonner';

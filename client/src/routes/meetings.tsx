@@ -5,7 +5,7 @@ import ServerAlert from '@/components/server-alert';
 import { useServerAvailabilityStore } from '@/store';
 
 function MeetingsPage() {
-  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);  
+  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
 
   return (
     <div className="h-full p-8">

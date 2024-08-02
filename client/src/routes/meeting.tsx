@@ -1,7 +1,7 @@
 import { Viewer } from '@/components/viewer';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
 import { BLANK_MEETING_INFO } from '@/lib/utils';
-import {  Meeting as MeetingT, MeetingInfo } from "@/types";
+import { Meeting as MeetingT, MeetingInfo } from '@/types';
 import { useApiKeysStore, useMeetingsStore, useServerAvailabilityStore } from '@/store';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -11,10 +11,10 @@ import { toast } from 'sonner';
 function MeetingPage() {
   const { botId } = useParams();
 
-  const meetings = useMeetingsStore((state) => state.meetings);  
+  const meetings = useMeetingsStore((state) => state.meetings);
 
-  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);  
-  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);  
+  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
+  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
 
   const [meetingData, setMeetingData] = useState<MeetingInfo>(BLANK_MEETING_INFO);
   const [isLoading, setIsLoading] = useState(true);
