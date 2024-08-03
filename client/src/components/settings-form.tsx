@@ -29,6 +29,7 @@ const formSchema = z.object({
   openAIApiKey: z.string().optional(),
   gladiaApiKey: z.string().optional(),
   assemblyAIApiKey: z.string().optional(),
+  deepgramApiKey: z.string().optional(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -93,6 +94,9 @@ export function SettingsForm() {
   const assemblyAIApiKey = useApiKeysStore((state) => state.assemblyAIApiKey);
   const setAssemblyAIApiKey = useApiKeysStore((state) => state.setAssemblyAIApiKey);
 
+  const deepgramApiKey = useApiKeysStore((state) => state.deepgramApiKey);
+  const setDeepgramApiKey = useApiKeysStore((state) => state.setDeepgramApiKey);
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -100,6 +104,7 @@ export function SettingsForm() {
       openAIApiKey,
       gladiaApiKey,
       assemblyAIApiKey,
+      deepgramApiKey,
     },
   });
   const { isDirty } = useFormState({ control: form.control });
@@ -110,13 +115,14 @@ export function SettingsForm() {
     setOpenAIApiKey(values.openAIApiKey!);
     setGladiaApiKey(values.gladiaApiKey!);
     setAssemblyAIApiKey(values.assemblyAIApiKey!);
+    setDeepgramApiKey(values.deepgramApiKey!);
     toast.success('API keys updated successfully');
     form.reset(values);
   };
 
   useEffect(() => {
-    form.reset({ baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey });
-  }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey]);
+    form.reset({ baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey, deepgramApiKey });
+  }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey, deepgramApiKey]);
 
   const renderLink = (text: string, href: string) => (
     <Button variant="link" asChild className="h-min w-min p-0">
@@ -161,7 +167,7 @@ export function SettingsForm() {
               <AccordionContent className="space-y-6 px-1">
                 <ApiKeyField
                   name="gladiaApiKey"
-                  label="Gladia" // for now this will be transcription api key
+                  label="Gladia"
                   description={
                     <>
                       Optional. Used to transcribe file uploads. Get your key by visiting{' '}
@@ -177,13 +183,28 @@ export function SettingsForm() {
 
                 <ApiKeyField
                   name="assemblyAIApiKey"
-                  label="AssemblyAI" // for now this will be transcription api key
+                  label="AssemblyAI"
                   description={
                     <>
                       Optional. Used to transcribe file uploads. Get your key by visiting{' '}
                       {renderLink(
                         'AssemblyAI',
                         'https://www.assemblyai.com/?utm_source=MeetingBaas',
+                      )}
+                      .
+                    </>
+                  }
+                  control={form.control}
+                />
+                <ApiKeyField
+                  name="deepgramApiKey"
+                  label="Deepgram"
+                  description={
+                    <>
+                      Optional. Used to transcribe file uploads. Get your key by visiting{' '}
+                      {renderLink(
+                        'Deepgram',
+                        'https://console.deepgram.com/signup?utm_source=MeetingBaas',
                       )}
                       .
                     </>

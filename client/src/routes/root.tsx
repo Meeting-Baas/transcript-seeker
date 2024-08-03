@@ -11,7 +11,8 @@ function RootPage() {
   const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
   const gladiaApiKey = useApiKeysStore((state) => state.gladiaApiKey);
   const assemblyAiKey = useApiKeysStore((state) => state.assemblyAIApiKey);
-  const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAiKey;
+  const deepgramApiKey = useApiKeysStore((state) => state.deepgramApiKey);
+  const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAiKey || deepgramApiKey;
 
   return (
     <div className="relative flex h-full min-h-[calc(100dvh-94px)] flex-col items-center justify-center space-y-2 px-4">
@@ -61,7 +62,7 @@ function RootPage() {
           <Link
             to="/upload"
             className={cn(buttonVariants({ variant: 'default' }), 'h-16 flex-1 text-lg', {
-              'pointer-events-none opacity-50': !gladiaApiKey && !assemblyAiKey,
+              'pointer-events-none opacity-50': !gladiaApiKey && !assemblyAiKey && !deepgramApiKey,
             })}
           >
             Upload File

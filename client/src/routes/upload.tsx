@@ -1,14 +1,12 @@
+import { useMediaQuery } from '@/hooks/use-media-query';
+import { useProviderOptionsStore } from '@/store';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMediaQuery } from '@/hooks/use-media-query';
-import { useProviderOptionsStore } from '@/store';
 
-import { Upload } from '@/components/upload';
 import { HeaderTitle } from '@/components/header-title';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { Separator } from '@/components/ui/separator';
+import LanguageCombobox from '@/components/language-select';
 import {
   Form,
   FormControl,
@@ -17,6 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import {
   Select,
   SelectContent,
@@ -24,11 +23,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import LanguageCombobox from '@/components/language-select';
+import { Separator } from '@/components/ui/separator';
+import { Upload } from '@/components/upload';
 import ProvidersForm from '@/components/upload/providers-form';
 
-import * as gladia from '@/lib/transcription/gladia/options';
 import * as assemblyai from '@/lib/transcription/assemblyai/options';
+import * as deepgram from '@/lib/transcription/deepgram/options';
+import * as gladia from '@/lib/transcription/gladia/options';
 
 import { Provider } from '@/components/upload/types';
 
@@ -79,6 +80,7 @@ export default function UploadPage() {
   const getProviderSchema = useCallback((provider?: string) => {
     if (provider === 'gladia') return gladia.options;
     if (provider === 'assemblyai') return assemblyai.options;
+    if (provider === 'deepgram') return deepgram.options;
   }, []);
 
   const providerSchema = useMemo(
@@ -151,6 +153,7 @@ export default function UploadPage() {
                         <SelectContent>
                           <SelectItem value="gladia">Gladia</SelectItem>
                           <SelectItem value="assemblyai">AssemblyAI</SelectItem>
+                          <SelectItem value="deepgram">Deepgram</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />

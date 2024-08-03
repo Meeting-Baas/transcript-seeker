@@ -18,6 +18,7 @@ import { UploadCloudIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import * as assemblyai from '@/lib/transcription/assemblyai';
+import * as deepgram from '@/lib/transcription/deepgram';
 import * as gladia from '@/lib/transcription/gladia';
 
 import { Button } from '@/components/ui/button';
@@ -66,6 +67,7 @@ interface UploadProps {
 export function Upload({ provider, options }: UploadProps) {
   const gladiaApiKey = useApiKeysStore((state) => state.gladiaApiKey);
   const assemblyAIApiKey = useApiKeysStore((state) => state.assemblyAIApiKey);
+  const deepgramApiKey = useApiKeysStore((state) => state.deepgramApiKey);
 
   const editors = useEditorsStore((state) => state.editors);
   const setEditors = useEditorsStore((state) => state.setEditors);
@@ -96,11 +98,13 @@ export function Upload({ provider, options }: UploadProps) {
       const transcriptionFunctions = {
         gladia: gladia.transcribe,
         assemblyai: assemblyai.transcribe,
+        deepgram: deepgram.transcribe,
       };
 
       const apiKeys = {
         gladia: gladiaApiKey,
         assemblyai: assemblyAIApiKey,
+        deepgram: deepgramApiKey,
       };
 
       // assemblyAIApiKey do the same logic but have api key select

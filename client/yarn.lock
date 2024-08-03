@@ -80,6 +80,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@deepgram/captions@npm:^1.1.1":
+  version: 1.2.0
+  resolution: "@deepgram/captions@npm:1.2.0"
+  dependencies:
+    dayjs: "npm:^1.11.10"
+  checksum: 10c0/44c019f9c2da347427a1a5934428d768b1532f0546b2df46740d29983847eaa3d7e1323ff5ec71b4c8d05c5541cf9a5901bf41330a0c14a5ad4f13eea8641766
+  languageName: node
+  linkType: hard
+
+"@deepgram/sdk@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "@deepgram/sdk@npm:3.5.0"
+  dependencies:
+    "@deepgram/captions": "npm:^1.1.1"
+    cross-fetch: "npm:^3.1.5"
+    deepmerge: "npm:^4.3.1"
+    events: "npm:^3.3.0"
+    ws: "npm:^8.17.0"
+  checksum: 10c0/20a6b617c7aa0c307f086dff1e01fc710e464bd36b750ac41c5cf010d12bc6b5d32e9899df6a84678f11c1e84496fdc45a535bb78c3176a5b078e312ebc0e555
+  languageName: node
+  linkType: hard
+
 "@editorjs/editorjs@npm:^2.29.1":
   version: 2.30.2
   resolution: "@editorjs/editorjs@npm:2.30.2"
@@ -820,7 +842,7 @@ __metadata:
 
 "@meeting-baas/shared@file:../packages/shared::locator=client%40workspace%3A.":
   version: 1.0.0
-  resolution: "@meeting-baas/shared@file:../packages/shared#../packages/shared::hash=414fda&locator=client%40workspace%3A."
+  resolution: "@meeting-baas/shared@file:../packages/shared#../packages/shared::hash=32324d&locator=client%40workspace%3A."
   dependencies:
     "@editorjs/editorjs": "npm:^2.29.1"
     "@editorjs/header": "npm:^2.8.3"
@@ -878,7 +900,7 @@ __metadata:
     zod: "npm:^3.23.8"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10c0/00f76b932587344a15757815a8d95ffc46514ecff8cc4e3cc41968edd36f373df9580d615aed5ca654dd0d5234d3c005ba4ae777b9667d35d97babc034727a27
+  checksum: 10c0/860778ba7d0caeed194066e1dc23aa40ec0b48c2fe86f2281a1b111d09303363fc2445f5eaef3be25bfc6527f146c03715bcbbff29d04dc9c637c808c3f39e13
   languageName: node
   linkType: hard
 
@@ -4029,6 +4051,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "client@workspace:."
   dependencies:
+    "@deepgram/sdk": "npm:^3.5.0"
     "@editorjs/editorjs": "npm:^2.29.1"
     "@editorjs/header": "npm:^2.8.3"
     "@editorjs/list": "npm:^1.9.0"
@@ -4272,6 +4295,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cross-fetch@npm:^3.1.5":
+  version: 3.1.8
+  resolution: "cross-fetch@npm:3.1.8"
+  dependencies:
+    node-fetch: "npm:^2.6.12"
+  checksum: 10c0/4c5e022ffe6abdf380faa6e2373c0c4ed7ef75e105c95c972b6f627c3f083170b6886f19fb488a7fa93971f4f69dcc890f122b0d97f0bf5f41ca1d9a8f58c8af
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
@@ -4358,6 +4390,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dayjs@npm:^1.11.10":
+  version: 1.11.12
+  resolution: "dayjs@npm:1.11.12"
+  checksum: 10c0/9673d37f3f9ad8a91caaeae9b3fea9a0010c81c7f58599fb9d860bc3359b86632fbff8eb7dddc86c2acaab01c5e6860bc672952f17b58c9286140c52b077c8e4
+  languageName: node
+  linkType: hard
+
 "debug@npm:2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -4404,6 +4443,13 @@ __metadata:
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
   checksum: 10c0/7f0ee496e0dff14a573dc6127f14c95061b448b87b995fc96c017ce0a1e66af1675e73f1d6064407975bc4ea6ab679497a29fff7b5b9c4e99cb10797c1ad0b4c
+  languageName: node
+  linkType: hard
+
+"deepmerge@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "deepmerge@npm:4.3.1"
+  checksum: 10c0/e53481aaf1aa2c4082b5342be6b6d8ad9dfe387bc92ce197a66dea08bd4265904a087e75e464f14d1347cf2ac8afe1e4c16b266e0561cc5df29382d3c5f80044
   languageName: node
   linkType: hard
 
@@ -5301,6 +5347,13 @@ __metadata:
   version: 5.0.1
   resolution: "event-target-shim@npm:5.0.1"
   checksum: 10c0/0255d9f936215fd206156fd4caa9e8d35e62075d720dc7d847e89b417e5e62cf1ce6c9b4e0a1633a9256de0efefaf9f8d26924b1f3c8620cffb9db78e7d3076b
+  languageName: node
+  linkType: hard
+
+"events@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "events@npm:3.3.0"
+  checksum: 10c0/d6b6f2adbccbcda74ddbab52ed07db727ef52e31a61ed26db9feb7dc62af7fc8e060defa65e5f8af9449b86b52cc1a1f6a79f2eafcf4e62add2b7a1fa4a432f6
   languageName: node
   linkType: hard
 
@@ -7514,7 +7567,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
+"node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.12, node-fetch@npm:^2.6.7":
   version: 2.7.0
   resolution: "node-fetch@npm:2.7.0"
   dependencies:
@@ -10419,7 +10472,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.17.1":
+"ws@npm:^8.17.0, ws@npm:^8.17.1":
   version: 8.18.0
   resolution: "ws@npm:8.18.0"
   peerDependencies:
