@@ -6,15 +6,20 @@ import { cn } from '@/lib/utils';
 import { useApiKeysStore, useServerAvailabilityStore } from '@/store';
 
 function ServerAvailablity() {
+
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
   const setServerAvailability = useServerAvailabilityStore((state) => state.setServerAvailability);
 
   const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
+  // const deepgramApiKey = useApiKeysStore((state) => state.deepgramApiKey);
+  const gladiaApiKey = useApiKeysStore((state) => state.gladiaApiKey);
+  const assemblyAIApiKey = useApiKeysStore((state) => state.assemblyAIApiKey);
 
   const checkServerAvailability = async () => {
     try {
       console.log('hitting', VITE_SERVER_API_URL.concat('/health'));
       const response = await axios.get(VITE_SERVER_API_URL.concat('/health'));
+
       if (response.status === 200) {
         setServerAvailability('server');
       } else {
@@ -26,12 +31,14 @@ function ServerAvailablity() {
   };
 
   useEffect(() => {
-    if (!baasApiKey) {
+    // if (!baasApiKey && !deepgramApiKey && !gladiaApiKey && !assemblyAIApiKey) {
+    if (!baasApiKey  && !gladiaApiKey && !assemblyAIApiKey) {
       if (serverAvailability != 'error') setServerAvailability('error');
       return;
     }
     checkServerAvailability();
-  }, [baasApiKey]);
+  }, [baasApiKey, gladiaApiKey, assemblyAIApiKey]);
+  // }, [baasApiKey, gladiaApiKey, deepgramApiKey,  assemblyAIApiKey]);
 
   return (
     <div className="flex items-center gap-2 text-sm">
