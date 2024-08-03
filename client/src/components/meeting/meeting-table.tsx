@@ -184,15 +184,15 @@ export const columns: (
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-  hour12: true
-}).format(date);
+        hour12: true,
+      }).format(date);
 
       return <div className="font-medium">{formatted}</div>;
     },
     sortingFn: (rowA, rowB, columnId) => {
-      const dateA = new Date(rowA.getValue(columnId)) ;
-      const dateB = new Date(rowB.getValue(columnId)); 
-      console.log("dates", dateA, dateB, typeof(dateA), typeof(dateB))
+      const dateA = new Date(rowA.getValue(columnId));
+      const dateB = new Date(rowB.getValue(columnId));
+      console.log('dates', dateA, dateB, typeof dateA, typeof dateB);
       return dateA.getTime() - dateB.getTime();
     },
   },

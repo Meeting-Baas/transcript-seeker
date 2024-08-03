@@ -165,7 +165,11 @@ export function SettingsForm() {
                   description={
                     <>
                       Optional. Used to transcribe file uploads. Get your key by visiting{' '}
-                      {renderLink('Gladia', 'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas')}.
+                      {renderLink(
+                        'Gladia',
+                        'https://app.gladia.io/auth/signup/?utm_source=MeetingBaas',
+                      )}
+                      .
                     </>
                   }
                   control={form.control}
@@ -177,7 +181,11 @@ export function SettingsForm() {
                   description={
                     <>
                       Optional. Used to transcribe file uploads. Get your key by visiting{' '}
-                      {renderLink('AssemblyAI', 'https://www.assemblyai.com/?utm_source=MeetingBaas')}.
+                      {renderLink(
+                        'AssemblyAI',
+                        'https://www.assemblyai.com/?utm_source=MeetingBaas',
+                      )}
+                      .
                     </>
                   }
                   control={form.control}
