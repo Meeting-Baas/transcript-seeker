@@ -2,6 +2,16 @@ import { Transcript } from '@/types';
 import { createClient } from '@deepgram/sdk';
 import { DeepgramTranscriptionOptions } from './options';
 
+const getAudioBufferFromBlob = async (blob) => {
+  // Convert Blob to ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+
+  // Convert ArrayBuffer to Buffer (Node.js-like Buffer)
+  const buffer = new Uint8Array(arrayBuffer);
+
+  return buffer;
+};
+
 function groupUtterancesBySpeaker(utterances: any[]): Transcript[] {
   let groupedTranscripts: Transcript[] = [];
   let currentWords: Transcript['words'] = [];
@@ -47,10 +57,10 @@ export const transcribe = async (
   data: { summarization?: { results: string } };
   transcript: Transcript[];
 }> => {
-  const deepgram = createClient(apiKey);
-
-  const arrayBuffer = await blob.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+    console.log("key ???", apiKey)
+  const deepgram = createClient(apiKey, {global: { url: "/deepgram" }},
+);
+  const buffer = await getAudioBufferFromBlob(blob);
 
   const { result, error } = await deepgram.listen.prerecorded.transcribeFile(buffer, {
     ...options,

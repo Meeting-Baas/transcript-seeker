@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
   const MEETINGBASS_S3_URL = env.VITE_MEETINGBASS_S3_URL;
   const VITE_SERVER_API_URL = env.VITE_SERVER_API_URL;
   const VITE_BAAS_PROXY_URL = env.VITE_BAAS_PROXY_URL;
+  const VITE_DEEPGRAM_PROXY_URL = env.VITE_DEEPGRAM_PROXY_URL || 'https://api.deepgram.com';
   const VITE_S3_PROXY_URL = env.VITE_S3_PROXY_URL;
   const HOST = env.HOST;
   const PORT = env.PORT;
@@ -48,6 +49,12 @@ export default defineConfig(({ mode }) => {
           target: MEETINGBASS_API_URL,
           changeOrigin: true,
           rewrite: (path) => path.replace(new RegExp(`^${VITE_BAAS_PROXY_URL}`), ''),
+          secure: true,
+        },
+        [`${VITE_DEEPGRAM_PROXY_URL}`]: {
+          target: VITE_DEEPGRAM_PROXY_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(new RegExp(`^${VITE_DEEPGRAM_PROXY_URL}`), ''),
           secure: true,
         },
         [`${VITE_S3_PROXY_URL}`]: {
