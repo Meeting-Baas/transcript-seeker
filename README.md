@@ -4,7 +4,7 @@
 
 ## Overview
 
-Open-source transcription playground powered by meeting bot API technology. <br/>
+Open-source transcription playground powered by transcription APIs and meeting bot API technology. <br/>
 Upload and store recordings, or use our meeting bot transcription API to record Google Meet, Microsoft Teams and Zoom: <br/>
 
 - Transcribe recordings with our meeting transcription API.
