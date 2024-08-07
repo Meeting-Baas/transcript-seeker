@@ -198,6 +198,58 @@ export const columns: (
   },
 ];
 
+export async function fetchMeetingDetails(botId: string, baasApiKey: string, serverAvailability: any): Promise<Meeting> {
+
+  try {
+    const result = await fetchBotDetails({
+      botId: botId,
+      baasApiKey: baasApiKey,
+      serverAvailability: serverAvailability,
+    });
+
+    if (result?.data?.data && Object.keys(result.data.data).length === 0) {
+      console.log(`Data not yet available, for ${botId}:`);
+
+      // todo: createdAt should be the time the meeting was created, 
+      // impossible to get from the bot_id => should be nullable
+      return {
+        id: botId,
+        name: 'Recording in progress...',
+        bot_id: botId,
+        attendees: ['-'],
+        createdAt: new Date(Date.now()),
+        status: 'loading',
+      };
+    }
+
+    // if ("error" in result) {
+    //   throw new Error(result.error);
+    // }
+    return {
+      id: botId,
+      name: result.data.name || 'Unnamed Meeting',
+      bot_id: botId,
+      attendees: result.data.attendees || ['-'],
+      createdAt: new Date(result.data.createdAt || Date.now()),
+      data: {
+        ...result?.data?.data,
+      },
+      status: 'loaded',
+    };
+  } catch (error) {
+    console.error(`Error fetching details for bot ${botId}:`, error);
+    return {
+      id: botId,
+      name: 'Unnamed Meeting',
+      bot_id: botId,
+      attendees: ['-'],
+      createdAt: new Date(Date.now()),
+      status: 'error',
+    };
+  }
+}
+
+
 function MeetingTable() {
   const [sorting, setSorting] = React.useState<SortingState>([
     {
@@ -251,53 +303,7 @@ function MeetingTable() {
         meetings.map(async (meeting) => {
           if (!meeting.bot_id) return null;
           if (meeting.status === 'loaded') return meeting;
-
-          try {
-            const result = await fetchBotDetails({
-              botId: meeting.bot_id,
-              baasApiKey: baasApiKey,
-              serverAvailability: serverAvailability,
-            });
-
-            if (result?.data?.data && Object.keys(result.data.data).length === 0) {
-              console.log(`Data not yet available, for ${meeting.bot_id}:`);
-
-              return {
-                id: meeting.bot_id,
-                name: meeting.name || 'Unnamed Meeting',
-                bot_id: meeting.bot_id,
-                attendees: meeting.attendees || [],
-                createdAt: new Date(meeting.createdAt),
-                status: 'loading',
-              };
-            }
-
-            // if ("error" in result) {
-            //   throw new Error(result.error);
-            // }
-
-            return {
-              id: meeting.bot_id,
-              name: result.data.name || 'Unnamed Meeting',
-              bot_id: meeting.bot_id,
-              attendees: result.data.attendees || ['-'],
-              createdAt: new Date(result.data.createdAt || meeting.createdAt),
-              data: {
-                ...result?.data?.data,
-              },
-              status: 'loaded',
-            };
-          } catch (error) {
-            console.error(`Error fetching details for bot ${meeting.bot_id}:`, error);
-            return {
-              id: meeting.bot_id,
-              name: 'Unnamed Meeting',
-              bot_id: meeting.bot_id,
-              attendees: meeting.attendees || [],
-              createdAt: new Date(meeting.createdAt),
-              status: 'error',
-            };
-          }
+          return fetchMeetingDetails(meeting.bot_id, baasApiKey, serverAvailability);
         }),
       );
 
