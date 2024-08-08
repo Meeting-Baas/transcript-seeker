@@ -25,9 +25,11 @@ import { HeaderTitle } from '@/components/header-title';
 import { PROXY_URL, S3_PROXY_URL } from '@/App';
 import { getById, updateById } from '@/lib/db';
 import { Separator } from '@radix-ui/react-separator';
+import { Link } from 'lucide-react';
 import { JSONContent } from 'novel';
 import OpenAI from 'openai';
 import { toast } from 'sonner';
+import { buttonVariants } from './ui/button';
 
 type ViewerProps = {
   botId: string;
@@ -246,12 +248,25 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
 
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
-      <div>
-        <div className="px-4 py-1">
-          <HeaderTitle path="/meetings" title={meetingData.name} border={false} />
-        </div>
-        <Separator />
-      </div>
+<div className="w-full">
+  <div className="relative flex items-center justify-center px-4 py-1">
+    <div className="absolute left-4">
+      <HeaderTitle path="/meetings" title={"Back"} border={false} />
+    </div>
+    <div className="flex-grow text-center">
+      <h1 className="text-xl font-semibold">{meetingData.name}</h1>
+    </div>
+    <div className="absolute right-4">
+      <Link
+        to={`/share/${botId}`}
+        className={cn(buttonVariants({ variant: 'outline' }), 'ml-2 text-xl font-semibold')}
+      >
+        Share!!!
+      </Link>
+    </div>
+  </div>
+  <Separator />
+</div>
       <ResizablePanelGroup
         // padding + footer + header + 1px = 110px
         // header = 45px

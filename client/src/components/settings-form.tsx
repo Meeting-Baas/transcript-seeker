@@ -26,6 +26,7 @@ import {
 
 const formSchema = z.object({
   baasApiKey: z.string().optional(),
+  baasPublicEncryptionKey: z.string().optional(),
   openAIApiKey: z.string().optional(),
   gladiaApiKey: z.string().optional(),
   assemblyAIApiKey: z.string().optional(),
@@ -130,23 +131,45 @@ export function SettingsForm() {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline">
+                Meeting Baas API for video-meetings 🐟 
+              </AccordionTrigger>
+              <AccordionContent className="space-y-6 px-1">
           <ApiKeyField
             name="baasApiKey"
-            label="Meeting Baas 🐟"
+            label="API Key"
             description={
               <>
-                Record, transcribe and display video meetings. Get your Meeting Baas API key by
+                Use this key to record, and transcribe. Get your Meeting Baas API key by
                 visiting {renderLink('MeetingBaas', 'https://meetingbaas.com/login')}.
               </>
             }
             control={form.control}
           />
+
           <ApiKeyField
-            name="openAIApiKey"
-            label="OpenAI"
+            name="baasPublicEncryptionKey"
+            label="Public Encryption Key"
             description={
               <>
-                Optional. Used to "chat with your meetings". Get your key by visiting{' '}
+                This key is used to encrypt your API keys when sharing recordings with others. Get your Public Encryption Key by
+                visiting {renderLink('MeetingBaas', 'https://meetingbaas.com/login')}.
+              </>
+            }
+            control={form.control}
+          />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+          <ApiKeyField
+            name="openAIApiKey"
+            label="Chat with your meetings using the OpenAI API"
+            description={
+              <>
+                Optional. Get your API key by visiting{' '}
                 {renderLink('OpenAI', 'https://platform.openai.com/api-keys')}.
               </>
             }
@@ -156,7 +179,7 @@ export function SettingsForm() {
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline">
-                Transcription API keys
+                Transcription API keys for local file uploads
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
                 <ApiKeyField
