@@ -248,25 +248,25 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
 
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
-<div className="w-full">
-  <div className="relative flex items-center justify-center px-4 py-1">
-    <div className="absolute left-4">
-      <HeaderTitle path="/meetings" title={"Back"} border={false} />
-    </div>
-    <div className="flex-grow text-center">
-      <h1 className="text-xl font-semibold">{meetingData.name}</h1>
-    </div>
-    <div className="absolute right-4">
-      <Link
-        to={`/share/${botId}`}
-        className={cn(buttonVariants({ variant: 'outline' }), 'ml-2 text-xl font-semibold')}
-      >
-        Share!!!
-      </Link>
-    </div>
-  </div>
-  <Separator />
-</div>
+      <div className="w-full">
+        <div className="relative flex items-center justify-center px-4 py-1">
+          <div className="absolute left-4">
+            <HeaderTitle path="/meetings" title={'Back'} border={false} />
+          </div>
+          <div className="flex-grow text-center">
+            <h1 className="text-xl font-semibold">{meetingData.name}</h1>
+          </div>
+          <div className="absolute right-4">
+            <Link
+              to={`/share/${botId}`}
+              className={cn(buttonVariants({ variant: 'outline' }), 'ml-2 text-xl font-semibold')}
+            >
+              Share!!!
+            </Link>
+          </div>
+        </div>
+        <Separator />
+      </div>
       <ResizablePanelGroup
         // padding + footer + header + 1px = 110px
         // header = 45px

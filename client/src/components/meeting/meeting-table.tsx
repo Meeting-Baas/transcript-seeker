@@ -198,8 +198,11 @@ export const columns: (
   },
 ];
 
-export async function fetchMeetingDetails(botId: string, baasApiKey: string, serverAvailability: any): Promise<Meeting> {
-
+export async function fetchMeetingDetails(
+  botId: string,
+  baasApiKey: string,
+  serverAvailability: any,
+): Promise<Meeting> {
   try {
     const result = await fetchBotDetails({
       botId: botId,
@@ -210,7 +213,7 @@ export async function fetchMeetingDetails(botId: string, baasApiKey: string, ser
     if (result?.data?.data && Object.keys(result.data.data).length === 0) {
       console.log(`Data not yet available, for ${botId}:`);
 
-      // todo: createdAt should be the time the meeting was created, 
+      // todo: createdAt should be the time the meeting was created,
       // impossible to get from the bot_id => should be nullable
       return {
         id: botId,
@@ -248,7 +251,6 @@ export async function fetchMeetingDetails(botId: string, baasApiKey: string, ser
     };
   }
 }
-
 
 function MeetingTable() {
   const [sorting, setSorting] = React.useState<SortingState>([

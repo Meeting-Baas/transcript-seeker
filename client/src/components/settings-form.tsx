@@ -131,36 +131,36 @@ export function SettingsForm() {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline">
-                Meeting Baas API for video-meetings 🐟 
+                Meeting Baas API for video-meetings 🐟
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
-          <ApiKeyField
-            name="baasApiKey"
-            label="API Key"
-            description={
-              <>
-                Use this key to record, and transcribe. Get your Meeting Baas API key by
-                visiting {renderLink('MeetingBaas', 'https://meetingbaas.com/login')}.
-              </>
-            }
-            control={form.control}
-          />
+                <ApiKeyField
+                  name="baasApiKey"
+                  label="API Key"
+                  description={
+                    <>
+                      Use this key to record, and transcribe. Get your Meeting Baas API key by
+                      visiting {renderLink('MeetingBaas', 'https://meetingbaas.com/login')}.
+                    </>
+                  }
+                  control={form.control}
+                />
 
-          <ApiKeyField
-            name="baasPublicEncryptionKey"
-            label="Public Encryption Key"
-            description={
-              <>
-                This key is used to encrypt your API keys when sharing recordings with others. Get your Public Encryption Key by
-                visiting {renderLink('MeetingBaas', 'https://meetingbaas.com/login')}.
-              </>
-            }
-            control={form.control}
-          />
+                <ApiKeyField
+                  name="baasPublicEncryptionKey"
+                  label="Public Encryption Key"
+                  description={
+                    <>
+                      This key is used to encrypt your API keys when sharing recordings with others.
+                      Get your Public Encryption Key by visiting{' '}
+                      {renderLink('MeetingBaas', 'https://meetingbaas.com/login')}.
+                    </>
+                  }
+                  control={form.control}
+                />
               </AccordionContent>
             </AccordionItem>
           </Accordion>

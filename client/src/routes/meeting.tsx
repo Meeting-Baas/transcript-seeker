@@ -9,14 +9,18 @@ import { useParams, useSearchParams } from 'react-router-dom';
 
 import { toast } from 'sonner';
 
-async function fetchPublicLink(botId: string, publicLink: string, serverAvailability: ServerAvailability): Meeting {
-const initialMeeting: Meeting = {
+async function fetchPublicLink(
+  botId: string,
+  publicLink: string,
+  serverAvailability: ServerAvailability,
+): Meeting {
+  const initialMeeting: Meeting = {
     id: publicLink,
     name: 'Loading...',
     bot_id: botId!,
     attendees: ['-'],
     createdAt: new Date(),
-    status: 'loading'
+    status: 'loading',
   };
 
   try {
@@ -27,7 +31,7 @@ const initialMeeting: Meeting = {
     return {
       ...initialMeeting,
       name: 'Error fetching meeting details',
-      status: 'error'
+      status: 'error',
     };
   }
 }
@@ -46,7 +50,6 @@ function MeetingPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchMeetingData = async (): Promise<MeetingInfo> => {
-
     // check if it's a public link
     if (publicLink && botId) {
       console.log('fetching public link with public link', publicLink);

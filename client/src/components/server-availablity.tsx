@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 import { useApiKeysStore, useServerAvailabilityStore } from '@/store';
 
 function ServerAvailablity() {
-
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
   const setServerAvailability = useServerAvailabilityStore((state) => state.setServerAvailability);
 
@@ -32,7 +31,7 @@ function ServerAvailablity() {
 
   useEffect(() => {
     // if (!baasApiKey && !deepgramApiKey && !gladiaApiKey && !assemblyAIApiKey) {
-    if (!baasApiKey  && !gladiaApiKey && !assemblyAIApiKey) {
+    if (!baasApiKey && !gladiaApiKey && !assemblyAIApiKey) {
       if (serverAvailability != 'error') setServerAvailability('error');
       return;
     }
