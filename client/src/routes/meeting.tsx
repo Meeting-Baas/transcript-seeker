@@ -1,6 +1,6 @@
 import { fetchMeetingDetails } from '@/components/meeting/meeting-table';
 import { Viewer } from '@/components/viewer';
-import { StorageBucketAPI } from '@/lib/bucketAPI';
+// import { StorageBucketAPI } from '@/lib/bucketAPI';
 import { BLANK_MEETING_INFO } from '@/lib/utils';
 import { useApiKeysStore, useMeetingsStore, useServerAvailabilityStore } from '@/store';
 import { Meeting, MeetingInfo, Meeting as MeetingT, ServerAvailability } from '@/types';
@@ -13,7 +13,7 @@ async function fetchPublicLink(
   botId: string,
   publicLink: string,
   serverAvailability: ServerAvailability,
-): Meeting {
+): Promise<Meeting> {
   const initialMeeting: Meeting = {
     id: publicLink,
     name: 'Loading...',
@@ -36,10 +36,20 @@ async function fetchPublicLink(
   }
 }
 
+// TODO : Remove it when RSA encryption will be done
+const DISABLE_ENCRYPTION: boolean = true;
+
 function MeetingPage() {
   const { botId } = useParams();
+
   const [searchParams] = useSearchParams();
-  const publicLink = searchParams.get('public-link');
+
+  let publicLink;
+  if (DISABLE_ENCRYPTION) {
+    publicLink = searchParams.get('api_key');
+  } else {
+    publicLink = searchParams.get('public-link')
+  }
 
   const meetings = useMeetingsStore((state) => state.meetings);
 
@@ -62,20 +72,25 @@ function MeetingPage() {
     const meeting: MeetingT | undefined = meetings.find(
       (meeting: MeetingT) => meeting.bot_id === botId,
     );
-    if (!meeting) throw new Error('Meeting not found');
+    if (!meeting) {
+      throw new Error('Meeting not found');
+    }
 
-    const storageAPI = new StorageBucketAPI('local_files');
-    await storageAPI.init();
-
-    const videoContent = await storageAPI.get(`${meeting.bot_id}.mp4`);
-    if (videoContent && meeting.data?.assets[0]) meeting.data.assets[0].mp4_s3_path = videoContent;
+    // TODO : Ce local-storage HACK n'est pas assez hospitalier. Ici peuvent venir des problemes d'initialization
+    // TODO : Cette fonction devrait pouvoir s'executer plus tard
+    // const storageAPI = new StorageBucketAPI('local_files');
+    // await storageAPI.init();
+    // const videoContent = await storageAPI.get(`${meeting.bot_id}.mp4`);
+    // if (videoContent && meeting.data?.assets[0]) {
+    //   meeting.data.assets[0].mp4_s3_path = videoContent;
+    // }
 
     return meeting.data || BLANK_MEETING_INFO;
   };
 
   useEffect(() => {
-    // if (!baasApiKey) return;
-    if (meetings.length <= 0) return;
+    // TODO : I suspect that this condition is bullshit. Thy all meetings must be already listed here ?
+    // if (meetings.length <= 0) return;
 
     const loadData = async () => {
       setIsLoading(true);

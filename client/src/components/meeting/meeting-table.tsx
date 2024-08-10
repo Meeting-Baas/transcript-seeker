@@ -234,9 +234,7 @@ export async function fetchMeetingDetails(
       bot_id: botId,
       attendees: result.data.attendees || ['-'],
       createdAt: new Date(result.data.createdAt || Date.now()),
-      data: {
-        ...result?.data?.data,
-      },
+      data: result?.data?.data,
       status: 'loaded',
     };
   } catch (error) {

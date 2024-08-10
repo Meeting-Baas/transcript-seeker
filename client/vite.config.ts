@@ -6,14 +6,21 @@ import checker from 'vite-plugin-checker';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, path.resolve(__dirname, '../'));
+  console.log('mode:', mode);
+  console.log(env);
+
   // Load the .env file from the parent directory
   dotenv.config({ path: resolve(__dirname, '../.env') });
 
-  const MEETINGBASS_API_URL = env.VITE_MEETINGBASS_API_URL;
-  const MEETINGBASS_S3_URL = env.VITE_MEETINGBASS_S3_URL;
-  const VITE_SERVER_API_URL = env.VITE_SERVER_API_URL;
-  const VITE_BAAS_PROXY_URL = env.VITE_BAAS_PROXY_URL;
-  const VITE_S3_PROXY_URL = env.VITE_S3_PROXY_URL;
+  const MEETINGBASS_API_URL: string = env.VITE_MEETINGBASS_API_URL;
+  const MEETINGBASS_S3_URL: string = env.VITE_MEETINGBASS_S3_URL;
+  const VITE_SERVER_API_URL: string = env.VITE_SERVER_API_URL;
+  const VITE_BAAS_PROXY_URL: string = env.VITE_BAAS_PROXY_URL;
+  const VITE_S3_PROXY_URL: string = env.VITE_S3_PROXY_URL;
+  const VITE_CLIENT_PORT: number = Number(env.VITE_CLIENT_PORT) || 5173;
+  const VITE_CLIENT_HOST: string = env.VITE_CLIENT_HOST || "localhost";
+
+  // TODO : Remove this nasty stuff - Or must be prefixed by VITE_ if necessary
   const HOST = env.HOST;
   const PORT = env.PORT;
 
@@ -26,6 +33,8 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     server: {
+      port: VITE_CLIENT_PORT,
+      host: VITE_CLIENT_HOST,
       proxy: {
         [`${VITE_SERVER_API_URL}`]: {
           target: `http://${HOST}:${PORT}`,

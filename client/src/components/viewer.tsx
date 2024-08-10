@@ -22,7 +22,7 @@ import { z } from 'zod';
 
 import { HeaderTitle } from '@/components/header-title';
 
-import { PROXY_URL, S3_PROXY_URL } from '@/App';
+import { PROXY_URL, S3_PROXY_URL, PROFILE } from '@/App';
 import { getById, updateById } from '@/lib/db';
 import { Separator } from '@radix-ui/react-separator';
 import { Link } from 'lucide-react';
@@ -193,12 +193,18 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
     // if (!baasApiKey) return;
     if (data?.assets?.length > 0) {
       let url = data?.assets[0]?.mp4_s3_path;
+      console.info!(`🐮 ${url}`);
       if (!url) return;
 
       if (typeof url === 'string') {
-        url = url.split('/bots-videos/')[1];
-        setMeetingURL(S3_PROXY_URL + '/' + url);
+        if (PROFILE === 'local') {
+          setMeetingURL(url);
+        } else {
+          url = url.split('/bots-videos/')[1];
+          setMeetingURL(S3_PROXY_URL + '/' + url);
+        }
       } else {
+        // TODO : local storage doesnt works
         setMeetingURL(url);
       }
     }

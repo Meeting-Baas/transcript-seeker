@@ -50,7 +50,7 @@ export const fetchBotDetailsWrapper = async ({
   if (!data?.id)
     return {
       data: {
-        data: {},
+        data: undefined,
       },
     };
 
