@@ -5,12 +5,8 @@ import { defineConfig, loadEnv } from 'vite';
 import checker from 'vite-plugin-checker';
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, path.resolve(__dirname, '../'));
-  console.log('mode:', mode);
-  console.log(env);
-
-  // Load the .env file from the parent directory
-  dotenv.config({ path: resolve(__dirname, '../.env') });
+  dotenv.config({ path: resolve(__dirname, './.env') });
+  const env = loadEnv(mode, path.resolve(__dirname, './'));
 
   const MEETINGBASS_API_URL: string = env.VITE_MEETINGBASS_API_URL;
   const MEETINGBASS_S3_URL: string = env.VITE_MEETINGBASS_S3_URL;
@@ -25,7 +21,7 @@ export default defineConfig(({ mode }) => {
   const PORT = env.PORT;
 
   return {
-    base: './',
+    base: '/transcript-seeker/', // use relative paths
     plugins: [
       react(),
       checker({
