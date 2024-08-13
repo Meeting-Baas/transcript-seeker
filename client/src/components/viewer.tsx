@@ -22,7 +22,7 @@ import { z } from 'zod';
 
 import { HeaderTitle } from '@/components/header-title';
 
-import { PROXY_URL, S3_PROXY_URL, PROFILE } from '@/App';
+import { PROXY_URL, S3_PROXY_URL } from '@/App';
 import { getById, updateById } from '@/lib/db';
 import { Separator } from '@radix-ui/react-separator';
 import { Link } from 'lucide-react';
@@ -282,7 +282,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
         className="flex min-h-[200dvh] lg:min-h-[calc(100dvh-102px)]"
         direction={isDesktop ? 'horizontal' : 'vertical'}
       >
-        <ResizablePanel defaultSize={67} minSize={25}>
+        <ResizablePanel defaultSize={33} minSize={25}>
           <ResizablePanelGroup direction="vertical" className={cn('flex h-full w-full')}>
             <ResizablePanel defaultSize={50} minSize={25}>
               <div className="flex h-full flex-1 overflow-hidden rounded-b-none border-0 border-x border-b border-t lg:border-0 lg:border-b lg:border-l lg:border-t">
@@ -320,7 +320,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
           </ResizablePanelGroup>
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={33} minSize={25}>
+        <ResizablePanel defaultSize={67} minSize={25}>
           <ResizablePanelGroup direction="vertical" className={cn('flex h-full w-full')}>
             <ResizablePanel defaultSize={67} minSize={25}>
               <Editor
