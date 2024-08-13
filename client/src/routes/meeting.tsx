@@ -27,18 +27,23 @@ function MeetingPage() {
     );
     if (!meeting) throw new Error('Meeting not found');
 
-    const storageAPI = new StorageBucketAPI('local_files');
-    await storageAPI.init();
+    if (meeting.bot_id.startsWith('local_file')) {
+      const storageAPI = new StorageBucketAPI('local_files');
+      await storageAPI.init();
 
-    const videoContent = await storageAPI.get(`${meeting.bot_id}.mp4`);
-    if (videoContent && meeting.data?.assets[0]) meeting.data.assets[0].mp4_s3_path = videoContent;
+      const videoContent = await storageAPI.get(`${meeting.bot_id}.mp4`);
+      if (videoContent && meeting.data?.assets[0]) meeting.data.assets[0].mp4_blob = videoContent;
+    }
 
     return meeting.data || BLANK_MEETING_INFO;
   };
 
   useEffect(() => {
     // if (!baasApiKey) return;
-    if (meetings.length <= 0) return;
+    // Note: This condition checks for meetings. Initially, the meetings array will be empty and later populated.
+    // Attachment: https://share.cleanshot.com/Z59XsrtV
+    console.log('Meetings:', meetings);
+    if (meetings.length === 0) return;
 
     const loadData = async () => {
       setIsLoading(true);

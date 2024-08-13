@@ -23,7 +23,8 @@ export type MeetingInfo = {
   attendees: [{ name: string }];
   assets: [
     {
-      mp4_s3_path: string | Blob;
+      mp4_s3_path: string;
+      mp4_blob?: Blob;
     },
   ];
   created_at: {

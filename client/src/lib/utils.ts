@@ -40,3 +40,33 @@ export const BLANK_MEETING_INFO: MeetingInfo = {
     nanos_since_epoch: 0,
   },
 };
+
+export const LOADING_EDITOR_DATA = {
+  type: 'doc',
+  content: [
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'Loading...',
+        },
+      ],
+    },
+  ],
+};
+
+export const BLANK_EDITOR_DATA = {
+  type: 'doc',
+  content: [
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'Nothing here yet!',
+        },
+      ],
+    },
+  ],
+};
