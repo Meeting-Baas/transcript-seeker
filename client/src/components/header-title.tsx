@@ -22,11 +22,10 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, title, subtitle, border
               className="flex w-min items-center gap-1 py-2 text-lg hover:text-muted-foreground"
             >
               <ArrowLeft />
-              <p>Back</p>
+                <h1 className="text-2xl font-bold">{title}</h1>
             </Link>
           </div>
           <div className="flex flex-grow flex-col items-end md:items-center">
-            <h1 className="text-2xl font-bold">{title}</h1>
           </div>
         </div>
 
