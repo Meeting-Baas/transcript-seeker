@@ -91,12 +91,9 @@ function MeetingPage() {
     };
 
     useEffect(() => {
-        // TODO : I suspect that this condition is bullshit. Thy all meetings must be already listed here ?
-        // if (!baasApiKey) return;
-        // Note: This condition checks for meetings. Initially, the meetings array will be empty and later populated.
-        // Attachment: https://share.cleanshot.com/Z59XsrtV
-        console.log('Meetings:', meetings);
-        if (meetings.length === 0) return;
+        // Not necessary as we can hit a direct page load from this page directly
+        // Note: This condition used to check for meetings. Initially, the meetings array will be empty and later populated.
+        // if (meetings.length === 0) return;
 
         const loadData = async () => {
             setIsLoading(true);
