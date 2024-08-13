@@ -2,7 +2,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { BLANK_MEETING_INFO, cn } from '@/lib/utils';
+import { BLANK_EDITOR_DATA, BLANK_MEETING_INFO, LOADING_EDITOR_DATA, cn } from '@/lib/utils';
 import { Editor as EditorT, MeetingInfo, Message } from '@/types';
 import { MediaPlayerInstance } from '@vidstack/react';
 import axios from 'axios';
@@ -85,7 +85,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
     if (!botId) return;
 
     const newEditors = updateById({
-      id: data.id,
+      id: botId,
       originalData: editors,
       updateData: { content }, // Assuming `content` should be part of the updated data
     });
@@ -96,7 +96,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
     if (!botId) return;
 
     const newChats = updateById({
-      id: data.id,
+      id: botId,
       originalData: chats,
       updateData: { messages }, // Assuming `content` should be part of the updated data
     });
@@ -193,19 +193,16 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
     // if (!baasApiKey) return;
     if (data?.assets?.length > 0) {
       let url = data?.assets[0]?.mp4_s3_path;
-      console.info!(`🐮 ${url}`);
-      if (!url) return;
+      // console.info!(`🐮 ${url}`);
+      // if (!url) return;
+      let blob = data?.assets[0]?.mp4_blob;
 
-      if (typeof url === 'string') {
-        if (PROFILE === 'local') {
-          setMeetingURL(url);
-        } else {
-          url = url.split('/bots-videos/')[1];
-          setMeetingURL(S3_PROXY_URL + '/' + url);
-        }
-      } else {
-        // TODO : local storage doesnt works
-        setMeetingURL(url);
+      // note: this check still exists to main compatability with old data
+      if (url && typeof url === 'string') {
+        url = url.split('/bots-videos/')[1];
+        setMeetingURL(S3_PROXY_URL + '/' + url);
+      } else if (blob) {
+        setMeetingURL(blob);
       }
     }
   }, [baasApiKey, data]);
@@ -229,11 +226,15 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
         data: editors,
         id: botId,
       });
-      if (!editorData) {
-        editor?.commands.setContent(undefined);
+
+      if (!editorData?.content) { 
+        editor?.commands.setContent(BLANK_EDITOR_DATA);
         return;
       }
+
       editor?.commands.setContent(editorData.content);
+    } else {
+      editor?.commands.setContent(BLANK_EDITOR_DATA);
     }
   }, [editors, data]);
 
@@ -323,20 +324,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
           <ResizablePanelGroup direction="vertical" className={cn('flex h-full w-full')}>
             <ResizablePanel defaultSize={67} minSize={25}>
               <Editor
-                initialValue={{
-                  type: 'doc',
-                  content: [
-                    {
-                      type: 'paragraph',
-                      content: [
-                        {
-                          type: 'text',
-                          text: 'Loading...',
-                        },
-                      ],
-                    },
-                  ],
-                }}
+                initialValue={LOADING_EDITOR_DATA}
                 onCreate={({ editor }) => setEditor(editor)}
                 onChange={handleEditorChange}
               />
