@@ -32,7 +32,7 @@ export const BLANK_MEETING_INFO: MeetingInfo = {
   attendees: [{ name: '-' }],
   assets: [
     {
-      mp4_s3_path: '',
+      s3_path: '',
     },
   ],
   created_at: {

@@ -144,7 +144,7 @@ export function Upload({ provider, options }: UploadProps) {
           attendees: [{ name: '-' }], // The transcript doesn't provide attendee information
           assets: [
             {
-              mp4_s3_path: '', // We don't have this information from the transcript
+              s3_path: '', // We don't have this information from the transcript
             },
           ],
           created_at: {

@@ -27,7 +27,7 @@ export type MeetingInfo = {
             // FIXED?
             // Second, this field comme from Spoke API, it is a string, it must never change his shape to Blob
             // or other data types
-            mp4_s3_path: string;
+            s3_path: string,
             mp4_blob?: Blob;
         },
     ];

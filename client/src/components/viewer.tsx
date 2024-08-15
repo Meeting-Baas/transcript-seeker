@@ -192,15 +192,16 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
   React.useEffect(() => {
     // if (!baasApiKey) return;
     if (data?.assets?.length > 0) {
-      let url = data?.assets[0]?.mp4_s3_path;
-      // console.info!(`🐮 ${url}`);
+      let url = data?.assets[0]?.s3_path;
+      console.info!(`🐮 s3_path : ${url}`);
       // if (!url) return;
       let blob = data?.assets[0]?.mp4_blob;
 
       // note: this check still exists to main compatability with old data
       if (url && typeof url === 'string') {
-        url = url.split('/bots-videos/')[1];
-        setMeetingURL(S3_PROXY_URL + '/' + url);
+        url = S3_PROXY_URL + '/' + url + '/stream.m3u8';
+        console.info(`🐮 final_url : ${url}`);
+        setMeetingURL(url);
       } else if (blob) {
         setMeetingURL(blob);
       }
