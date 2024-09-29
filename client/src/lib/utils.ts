@@ -9,36 +9,12 @@ export function cn(...inputs: ClassValue[]) {
 
 // Create a constant for a blank MeetingInfo object
 export const BLANK_MEETING_INFO: MeetingInfo = {
-  id: '',
   name: '',
-  editors: [
-    {
-      video: {
-        transcripts: [
-          {
-            speaker: '',
-            words: [
-              {
-                start_time: 0,
-                end_time: 0,
-                text: '',
-              },
-            ],
-          },
-        ],
-      },
+    bot_data: {
+      bot: null,
+      transcripts: []
     },
-  ],
-  attendees: [{ name: '-' }],
-  assets: [
-    {
-      s3_path: '',
-    },
-  ],
-  created_at: {
-    secs_since_epoch: 0,
-    nanos_since_epoch: 0,
-  },
+    mp4: '',
 };
 
 export const LOADING_EDITOR_DATA = {

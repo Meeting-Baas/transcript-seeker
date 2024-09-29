@@ -83,8 +83,8 @@ function MeetingPage() {
             const storageAPI = new StorageBucketAPI('local_files');
             await storageAPI.init();
 
-            const videoContent = await storageAPI.get(`${meeting.bot_id}.mp4`);
-            if (videoContent && meeting.data?.assets[0]) meeting.data.assets[0].mp4_blob = videoContent;
+            //const videoContent = await storageAPI.get(`${meeting.bot_id}.mp4`);
+            //if (videoContent && meeting.data?.assets[0]) meeting.data.assets[0].mp4_blob = videoContent;
         }
 
         return meeting.data || BLANK_MEETING_INFO;

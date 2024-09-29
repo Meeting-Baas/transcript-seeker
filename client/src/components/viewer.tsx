@@ -190,35 +190,16 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
 
   // this should come along the loaded data or props and doesn't make sense.
   React.useEffect(() => {
-    // if (!baasApiKey) return;
-    if (data?.assets?.length > 0) {
-      let url = data?.assets[0]?.s3_path;
-      console.info!(`🐮 s3_path : ${url}`);
-      // if (!url) return;
-      let blob = data?.assets[0]?.mp4_blob;
-
-      // note: this check still exists to main compatability with old data
-      if (url && typeof url === 'string') {
-        url = S3_PROXY_URL + '/' + url + '/stream.m3u8';
-        console.info(`🐮 final_url : ${url}`);
-        setMeetingURL(url);
-      } else if (blob) {
-        setMeetingURL(blob);
-      }
-    }
+      let url = data?.mp4;
+      console.info(`🐮 final_url : ${url}`);
+      setMeetingURL(url);
   }, [baasApiKey, data]);
 
   React.useEffect(() => {
-    if (data?.editors?.length > 0) {
-      const editors = data.editors;
-      const transcripts: MeetingInfo['editors'][0]['video']['transcripts'][0][] = [];
-      editors.forEach((editor) => {
-        transcripts.push(...editor.video.transcripts);
-      });
-
+      console.log(data);
+      const transcripts = data?.bot_data?.transcripts;
       console.log('parsed transcript:', transcripts);
-      setTranscripts(transcripts);
-    }
+      setTranscripts(transcripts!);
   }, [data]);
 
   React.useEffect(() => {
