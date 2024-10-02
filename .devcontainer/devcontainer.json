@@ -30,6 +30,10 @@
 			"sudo -u postgres psql -c \"CREATE DATABASE project1;\""
 		]
 	},
+	// "postStartCommand": {
+	// 	"frontend": "nohup bash -c 'yarn frontend:dev &'",
+	// 	"backend": "nohup bash -c 'yarn backend:dev &'"
+	// },
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
