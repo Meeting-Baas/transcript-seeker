@@ -19,7 +19,7 @@
 		}
 	},
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"updateContentCommand": ["corepack enable", "corepack install", "yarn install", "yarn install:all"],
+	"updateContentCommand": ["npm install -g corepack", "corepack enable", "corepack install", "yarn install", "yarn install:all"],
 	"postAttachCommand": ["yarn run build", "yarn dev"],
 	// Configure tool-specific properties.
 	"customizations": {
