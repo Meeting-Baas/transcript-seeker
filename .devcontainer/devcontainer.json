@@ -5,7 +5,9 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	"features": {},
+	"features": {
+		"ghcr.io/itsmechlark/features/postgresql:1": {}
+	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
 		3080
@@ -20,7 +22,14 @@
 	},
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "corepack enable && corepack install && yarn install && yarn install:all",
-	"postAttachCommand": "yarn run build && yarn dev",
+	"postAttachCommand": {
+		"shared": "yarn shared:build",
+		"db": [
+			"service postgresql start",
+			"sudo -u postgres psql -c \"ALTER USER postgres PASSWORD 'postgres';\"",
+			"sudo -u postgres psql -c \"CREATE DATABASE project1;\""
+		]
+	},
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
