@@ -19,14 +19,13 @@
 		}
 	},
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"updateContentCommand": ["npm install -g corepack", "corepack enable", "corepack install", "yarn install", "yarn install:all"],
-	"postAttachCommand": ["yarn run build", "yarn dev"],
+	"postCreateCommand": "corepack enable && corepack install && yarn install && yarn install:all",
+	"postAttachCommand": "yarn run build && yarn dev",
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
 		"vscode": {
 			"settings": {
-				"editor.wordWrap": "on",
 				"editor.formatOnSave": true,
 				"editor.defaultFormatter": "esbenp.prettier-vscode",
 				"prettier-eslint.eslintIntegration": true
