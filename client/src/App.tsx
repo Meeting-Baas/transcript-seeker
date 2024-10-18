@@ -11,7 +11,6 @@ import { Route, Routes } from 'react-router-dom';
 
 import { Toaster } from '@/components/ui/sonner';
 
-import { migrate } from '@/db/migrate';
 import { useEffect } from 'react';
 
 export const VITE_SERVER_API_URL = import.meta.env.VITE_SERVER_API_URL;
@@ -21,9 +20,6 @@ export const PROFILE = import.meta.env.VITE_PROFILE;
 
 export default function App() {
   console.log('global api var', VITE_SERVER_API_URL);
-  useEffect(() => {
-    migrate()
-  }, []);
 
   return (
     <>
