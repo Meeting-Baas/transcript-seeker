@@ -7,22 +7,23 @@ import { getAPIKey } from '@/queries'; // Assuming you already have this
 import { SettingsIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SelectAPIKey } from '@/db/schema';
+import { useServerAvailabilityStore } from '@/store';
 
 // Custom fetcher for SWR to use getAPIKey
 const fetchAPIKey = (type: SelectAPIKey['type']) => getAPIKey({ type });
 
 function RootPage() {
-  // Fetching the API keys using SWR
+  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
   const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
   const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
   const { data: assemblyAIApiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
-  const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAIApiKey;
+  const apiKeysExist = baasApiKey?.content || gladiaApiKey?.content || assemblyAIApiKey?.content;
 
   return (
     <div className="relative flex h-full min-h-[calc(100dvh-94px)] flex-col items-center justify-center space-y-2 px-4">
       <div className="fixed left-0 right-0 top-4 z-50 mx-4 flex justify-center">
         <div className="max-w-md">
-          <ServerAlert mode={"error"} />
+          <ServerAlert mode={serverAvailability} />
         </div>
       </div>
 
@@ -66,7 +67,7 @@ function RootPage() {
           <Link
             to="/upload"
             className={cn(buttonVariants({ variant: 'default' }), 'h-16 flex-1 text-lg', {
-              'pointer-events-none opacity-50': !gladiaApiKey && !assemblyAIApiKey,
+              'pointer-events-none opacity-50': !gladiaApiKey?.content && !assemblyAIApiKey?.content,
             })}
           >
             Upload File
@@ -74,7 +75,7 @@ function RootPage() {
           <Link
             to="/join"
             className={cn(buttonVariants({ variant: 'default' }), 'h-16 flex-1 text-lg', {
-              'pointer-events-none opacity-50': !baasApiKey,
+              'pointer-events-none opacity-50': !baasApiKey?.content,
             })}
           >
             Record Meeting

@@ -4,38 +4,12 @@ import { CircleAlertIcon, TerminalIcon, TriangleAlertIcon } from 'lucide-react';
 export function ServerAlert(props: { mode: 'server' | 'local' | 'error' }) {
   return (
     <>
-      {props.mode === 'server' ? (
-        <Alert className="border-blue-300/30 bg-blue-300/10">
-          <TerminalIcon className="h-4 w-4" />
-          <AlertTitle>FYI</AlertTitle>
-          <AlertDescription>
-            Connected to API Backend.
-            {/* {customAxios && customAxios.defaults && (
-            <>
-              {" @"}
-              {customAxios.defaults.baseURL}
-            </>
-          )} */}
-          </AlertDescription>
-        </Alert>
-      ) : props.mode === 'local' ? (
+      {props.mode === 'local' ? (
         <Alert className="border-blue-300/30 bg-blue-300/10">
           <TriangleAlertIcon className="h-4 w-4" />
           <AlertTitle>FYI</AlertTitle>
           <AlertDescription>
-            We're using your browser's local storage (IndexedDB) as there is no server to connect
-            to.{' '}
-            {/* <p>
-              Get your back-end running by following our{" "}
-              <a
-                href="https://github.com/Meeting-Baas/Meeting-Bot-As-A-Service/main/apps"
-                target="_blank"
-                className="underline font-semibold"
-              >
-                GitHub tutorial
-              </a>
-              .
-            </p> */}
+            We're using your browser's local storage (IndexedDB) to run Transcript Seeker.
           </AlertDescription>
         </Alert>
       ) : (

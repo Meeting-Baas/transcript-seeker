@@ -29,7 +29,7 @@ export const apiKeyTypeEnum = pgEnum("type", ["meetingbaas", "gladia", "openai",
 export const apiKeysTable = pgTable("api_keys", {
     id: serial("id"),
     type: apiKeyTypeEnum(),
-    content: text("content").notNull()
+    content: text("content")
 });
 
 export type InsertAPIKey = typeof apiKeysTable.$inferInsert;

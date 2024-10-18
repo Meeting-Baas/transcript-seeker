@@ -1,1 +1,1 @@
-export type ServerAvailability = 'server' | 'local' | 'error';
+export type ServerAvailability = 'local' | 'error';

@@ -15,6 +15,13 @@
       "when": 1729272965155,
       "tag": "0001_tranquil_deathstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729274606628,
+      "tag": "0002_aberrant_kitty_pryde",
+      "breakpoints": true
     }
   ]
 }

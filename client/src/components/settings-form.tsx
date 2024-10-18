@@ -9,7 +9,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useApiKeysStore } from '@/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -98,10 +97,10 @@ export function SettingsForm() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      baasApiKey: baasApiKey?.content,
-      openAIApiKey: openAIApiKey?.content,
-      gladiaApiKey: gladiaApiKey?.content,
-      assemblyAIApiKey: assemblyAIApiKey?.content,
+      baasApiKey: baasApiKey?.content ?? '',
+      openAIApiKey: openAIApiKey?.content ?? '',
+      gladiaApiKey: gladiaApiKey?.content ?? '',
+      assemblyAIApiKey: assemblyAIApiKey?.content ?? '',
     },
   });
   const { isDirty } = useFormState({ control: form.control });
@@ -119,10 +118,10 @@ export function SettingsForm() {
 
   useEffect(() => {
     form.reset({
-      baasApiKey: baasApiKey?.content,
-      openAIApiKey: openAIApiKey?.content,
-      gladiaApiKey: gladiaApiKey?.content,
-      assemblyAIApiKey: assemblyAIApiKey?.content,
+      baasApiKey: baasApiKey?.content ?? '',
+      openAIApiKey: openAIApiKey?.content ?? '',
+      gladiaApiKey: gladiaApiKey?.content ?? '',
+      assemblyAIApiKey: assemblyAIApiKey?.content ?? '',
     });
   }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey]);
 

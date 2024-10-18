@@ -16,5 +16,15 @@
     "bps": true,
     "folderMillis": 1729272965155,
     "hash": "1502982335e0483596c96eee01b0221680f370ba58a26adeff81e8f3ef05a381"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"api_keys\" ALTER COLUMN \"content\" DROP NOT NULL;",
+      "\nALTER TABLE \"api_keys\" DROP COLUMN IF EXISTS \"created_at\";",
+      "\nALTER TABLE \"api_keys\" DROP COLUMN IF EXISTS \"updated_at\";"
+    ],
+    "bps": true,
+    "folderMillis": 1729274606628,
+    "hash": "9ab11110b064244cc6109823a53c04750d8fd86737e264cf085d9b4738270a33"
   }
 ]

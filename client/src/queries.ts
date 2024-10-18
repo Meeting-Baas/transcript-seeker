@@ -11,7 +11,6 @@ export async function getAPIKey({ type }: { type: SelectAPIKey['type'] }) {
 
 export async function setAPIKey({ type, content }: InsertAPIKey) {
     if (!type) return;
-    if (!content) return;
     const apiKey = await db.query.apiKeysTable.findFirst({
         where: (apiKeys, { eq }) => (eq(apiKeys.type, type)),
     });
