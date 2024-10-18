@@ -23,10 +23,6 @@ export type MeetingInfo = {
     attendees: [{ name: string }];
     assets: [
         {
-            // TODO : NEVER DO THAT. First, yhe field name is mp4_s3_path, it contains the 'path' word, not 'data'.
-            // FIXED?
-            // Second, this field comme from Spoke API, it is a string, it must never change his shape to Blob
-            // or other data types
             s3_path: string,
             mp4_blob?: Blob;
         },
