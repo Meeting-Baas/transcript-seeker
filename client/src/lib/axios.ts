@@ -45,6 +45,8 @@ export const fetchBotDetailsWrapper = async ({
         ? VITE_SERVER_API_URL.concat(`/meeting/${botId}`)
         : PROXY_URL.concat('/bots/meeting_data'),
   });
+
+  // todo: over here we need to port the new data to the old data as there are too many references of using old data types
   const data: MeetingInfo = serverAvailability === 'server' ? response.data['data'] : response.data;
 
   if (!data?.id)
