@@ -118,7 +118,12 @@ export function SettingsForm() {
   };
 
   useEffect(() => {
-    form.reset({ baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey });
+    form.reset({
+      baasApiKey: baasApiKey?.content,
+      openAIApiKey: openAIApiKey?.content,
+      gladiaApiKey: gladiaApiKey?.content,
+      assemblyAIApiKey: assemblyAIApiKey?.content,
+    });
   }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey]);
 
   const renderLink = (text: string, href: string) => (
