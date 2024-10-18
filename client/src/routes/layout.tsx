@@ -11,7 +11,7 @@ export default function Layout() {
               the child routes we defined above. */}
         <Outlet />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

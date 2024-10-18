@@ -69,8 +69,7 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'),
-        '@meeting-baas/shared': path.resolve(__dirname, '../packages/shared/src'),
+        '@': path.resolve(__dirname, './src')
       },
     },
   };

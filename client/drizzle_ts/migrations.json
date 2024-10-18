@@ -1,0 +1,12 @@
+[
+  {
+    "sql": [
+      "CREATE TYPE \"public\".\"type\" AS ENUM('meetingbaas', 'gladia', 'assemblyai');",
+      "\nCREATE TABLE IF NOT EXISTS \"api_keys\" (\n\t\"id\" serial NOT NULL,\n\t\"type\" \"type\",\n\t\"content\" text NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n",
+      "\nCREATE TABLE IF NOT EXISTS \"meetings\" (\n\t\"id\" serial NOT NULL,\n\t\"name\" text,\n\t\"bot_id\" text NOT NULL,\n\t\"attendees\" text[] DEFAULT '{}'::text[] NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n"
+    ],
+    "bps": true,
+    "folderMillis": 1729268089566,
+    "hash": "0fa3f97aeb1e378e8c8cd7e74c606f61077d7740d5ea913b3b94288c6ba1e276"
+  }
+]

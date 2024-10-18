@@ -37,5 +37,5 @@ export const apiKeysTable = pgTable("api_keys", {
     }).$onUpdateFn(() => sql`now()`),
 });
 
-export type InsertAPIKey = typeof meetingsTable.$inferInsert;
-export type SelectAPIKey = typeof meetingsTable.$inferSelect;
+export type InsertAPIKey = typeof apiKeysTable.$inferInsert;
+export type SelectAPIKey = typeof apiKeysTable.$inferSelect;

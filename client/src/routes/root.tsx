@@ -1,23 +1,27 @@
 import ServerAlert from '@/components/server-alert';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useApiKeysStore, useServerAvailabilityStore } from '@/store';
+import useSWR from 'swr';
+import { getAPIKey } from '@/queries'; // Assuming you already have this
 
 import { SettingsIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+// Custom fetcher for SWR to use getAPIKey
+const fetchAPIKey = (type) => getAPIKey({ type });
+
 function RootPage() {
-  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
-  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
-  const gladiaApiKey = useApiKeysStore((state) => state.gladiaApiKey);
-  const assemblyAiKey = useApiKeysStore((state) => state.assemblyAIApiKey);
+  // Fetching the API keys using SWR
+  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
+  const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
+  const { data: assemblyAiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
   const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAiKey;
 
   return (
     <div className="relative flex h-full min-h-[calc(100dvh-94px)] flex-col items-center justify-center space-y-2 px-4">
       <div className="fixed left-0 right-0 top-4 z-50 mx-4 flex justify-center">
         <div className="max-w-md">
-          <ServerAlert mode={serverAvailability} />
+          <ServerAlert mode={"error"} />
         </div>
       </div>
 
