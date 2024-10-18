@@ -8,5 +8,13 @@
     "bps": true,
     "folderMillis": 1729268089566,
     "hash": "0fa3f97aeb1e378e8c8cd7e74c606f61077d7740d5ea913b3b94288c6ba1e276"
+  },
+  {
+    "sql": [
+      "ALTER TYPE \"public\".\"type\" ADD VALUE 'openai' BEFORE 'assemblyai';"
+    ],
+    "bps": true,
+    "folderMillis": 1729272965155,
+    "hash": "1502982335e0483596c96eee01b0221680f370ba58a26adeff81e8f3ef05a381"
   }
 ]

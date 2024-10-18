@@ -24,17 +24,12 @@ export const meetingsTable = pgTable("meetings", {
 export type InsertMeeting = typeof meetingsTable.$inferInsert;
 export type SelectMeeting = typeof meetingsTable.$inferSelect;
 
-export const apiKeyTypeEnum = pgEnum("type", ["meetingbaas", "gladia", "assemblyai"]);
+export const apiKeyTypeEnum = pgEnum("type", ["meetingbaas", "gladia", "openai", "assemblyai"]);
 
 export const apiKeysTable = pgTable("api_keys", {
     id: serial("id"),
     type: apiKeyTypeEnum(),
-    content: text("content").notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at", {
-        mode: "date",
-        withTimezone: true,
-    }).$onUpdateFn(() => sql`now()`),
+    content: text("content").notNull()
 });
 
 export type InsertAPIKey = typeof apiKeysTable.$inferInsert;

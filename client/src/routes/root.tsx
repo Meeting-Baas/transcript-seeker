@@ -6,16 +6,17 @@ import { getAPIKey } from '@/queries'; // Assuming you already have this
 
 import { SettingsIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SelectAPIKey } from '@/db/schema';
 
 // Custom fetcher for SWR to use getAPIKey
-const fetchAPIKey = (type) => getAPIKey({ type });
+const fetchAPIKey = (type: SelectAPIKey['type']) => getAPIKey({ type });
 
 function RootPage() {
   // Fetching the API keys using SWR
   const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
   const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
-  const { data: assemblyAiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
-  const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAiKey;
+  const { data: assemblyAIApiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
+  const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAIApiKey;
 
   return (
     <div className="relative flex h-full min-h-[calc(100dvh-94px)] flex-col items-center justify-center space-y-2 px-4">
@@ -65,7 +66,7 @@ function RootPage() {
           <Link
             to="/upload"
             className={cn(buttonVariants({ variant: 'default' }), 'h-16 flex-1 text-lg', {
-              'pointer-events-none opacity-50': !gladiaApiKey && !assemblyAiKey,
+              'pointer-events-none opacity-50': !gladiaApiKey && !assemblyAIApiKey,
             })}
           >
             Upload File

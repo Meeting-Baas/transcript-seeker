@@ -27,10 +27,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Root />} />
+          <Route path="settings" element={<Settings />} />
           {/* <Route path="join" element={<Join />} />
           <Route path="upload" element={<Upload />} />
           <Route path="meetings" element={<Meetings />} />
-          <Route path="settings" element={<Settings />} />
+          
           <Route path="/meeting/:botId" element={<Meeting />} /> */}
           <Route path="*" element={<NotFound />} />
         </Route>

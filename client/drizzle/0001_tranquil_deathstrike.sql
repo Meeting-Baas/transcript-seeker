@@ -1,0 +1,1 @@
+ALTER TYPE "public"."type" ADD VALUE 'openai' BEFORE 'assemblyai';

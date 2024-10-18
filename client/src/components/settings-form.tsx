@@ -23,6 +23,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { getAPIKey, setAPIKey } from '@/queries';
+
+import useSWR from 'swr';
+import { SelectAPIKey } from '@/db/schema';
+
+// Custom fetcher for SWR to use getAPIKey
+const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
 
 const formSchema = z.object({
   baasApiKey: z.string().optional(),
@@ -82,35 +89,30 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({ name, label, description, con
 };
 
 export function SettingsForm() {
-  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
-  const setBaasApiKey = useApiKeysStore((state) => state.setBaasApiKey);
-
-  const openAIApiKey = useApiKeysStore((state) => state.openAIApiKey);
-  const setOpenAIApiKey = useApiKeysStore((state) => state.setOpenAIApiKey);
-
-  const gladiaApiKey = useApiKeysStore((state) => state.gladiaApiKey);
-  const setGladiaApiKey = useApiKeysStore((state) => state.setGladiaApiKey);
-
-  const assemblyAIApiKey = useApiKeysStore((state) => state.assemblyAIApiKey);
-  const setAssemblyAIApiKey = useApiKeysStore((state) => state.setAssemblyAIApiKey);
+  // Fetching the API keys using SWR
+  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
+  const { data: openAIApiKey } = useSWR('openai', () => fetchAPIKey('openai'));
+  const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
+  const { data: assemblyAIApiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      baasApiKey,
-      openAIApiKey,
-      gladiaApiKey,
-      assemblyAIApiKey,
+      baasApiKey: baasApiKey?.content,
+      openAIApiKey: openAIApiKey?.content,
+      gladiaApiKey: gladiaApiKey?.content,
+      assemblyAIApiKey: assemblyAIApiKey?.content,
     },
   });
   const { isDirty } = useFormState({ control: form.control });
 
   const onSubmit = async (values: FormSchema) => {
     console.log('Submitted values:', values);
-    setBaasApiKey(values.baasApiKey!);
-    setOpenAIApiKey(values.openAIApiKey!);
-    setGladiaApiKey(values.gladiaApiKey!);
-    setAssemblyAIApiKey(values.assemblyAIApiKey!);
+    setAPIKey({ type: "meetingbaas", content: values.baasApiKey! });
+    setAPIKey({ type: "openai", content: values.openAIApiKey! });
+    setAPIKey({ type: "gladia", content: values.gladiaApiKey! });
+    setAPIKey({ type: "assemblyai", content: values.assemblyAIApiKey! });
+
     toast.success('API keys updated successfully');
     form.reset(values);
   };
