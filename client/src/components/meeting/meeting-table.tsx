@@ -4,7 +4,6 @@ import { ChevronDownIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import {
   ColumnDef,
   ColumnFiltersState,
-  createColumnHelper,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -24,8 +23,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  // DropdownMenuLabel,
-  //   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -51,7 +48,6 @@ import { z } from 'zod';
 import { formSchema as renameSchema } from './components/rename-modal';
 import useSWR from 'swr';
 import {
-  getAPIKey,
   getMeetings,
   deleteMeeting as deleteMeetingDb,
   renameMeeting as renameMeetingDb,
@@ -65,12 +61,10 @@ const fetchMeetings = async () => {
   }
   return [];
 };
-// const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
 
 export const columns: (
   deleteMeeting: (id: number, botId: string) => void,
   renameMeeting: (id: number, newName: string) => void,
-  renameSchema: z.Schema,
 ) => ColumnDef<Meeting>[] = (deleteMeeting, renameMeeting) => [
   {
     id: 'select',
@@ -93,7 +87,6 @@ export const columns: (
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     id: 'actions',
     enableHiding: false,
@@ -224,7 +217,7 @@ function MeetingTable() {
   const [sorting, setSorting] = React.useState<SortingState>([
     {
       id: 'createdAt',
-      desc: true, // sort by name in descending order by default
+      desc: true, 
     },
   ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -233,16 +226,11 @@ function MeetingTable() {
   });
   const [rowSelection, setRowSelection] = React.useState({});
 
-  // const [data, setData] = React.useState<Meeting[]>([]);
-
   const { data, mutate, isLoading } = useSWR('meetings', () => fetchMeetings());
-
-  // const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
-  // const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
 
   const table = useReactTable({
     data: data!,
-    columns: columns(deleteMeeting, renameMeeting, renameSchema),
+    columns: columns(deleteMeeting, renameMeeting),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -264,10 +252,6 @@ function MeetingTable() {
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
 
-      // const meeting = getById({
-      //   data: meetings,
-      //   id: botId
-      // });
       // todo: see if this uses botId or id storageAPI
       await deleteMeetingDb({ id: id });
       if (await storageAPI.get(`${botId}.mp4`)) await storageAPI.del(`${botId}.mp4`);
