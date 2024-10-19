@@ -1,4 +1,3 @@
-import process from "node:process";
 import typescript from "rollup-plugin-typescript2";
 import resolve from "@rollup/plugin-node-resolve";
 import pkg from "./package.json";
@@ -7,7 +6,6 @@ import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import terser from "@rollup/plugin-terser";
 import json from "@rollup/plugin-json";
-import generatePackageJson from "rollup-plugin-generate-package-json";
 
 const plugins = [
   peerDepsExternal(),
@@ -46,8 +44,6 @@ export default [
         ...Object.keys(pkg.dependencies || {}),
         ...Object.keys(pkg.devDependencies || {}),
         ...Object.keys(pkg.peerDependencies || {}),
-        "react",
-        "react-dom",
       ],
       preserveSymlinks: true,
       plugins,

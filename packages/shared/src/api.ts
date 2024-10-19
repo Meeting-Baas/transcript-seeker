@@ -1,6 +1,7 @@
 // shared/src/api.ts
 import process from "node:process";
 import axios from "axios";
+import * as constants from './constants';
 
 export interface JoinMeetingParams {
   meetingBotName?: string;
@@ -13,12 +14,6 @@ export interface JoinMeetingParams {
 export interface JoinMeetingResult {
   bot_id: string;
 }
-
-export const DEFAULT_BOT_NAME = "Baas Meeting Bot";
-export const DEFAULT_ENTRY_MESSAGE = "Hello 🐟 - recording this meeting.";
-export const DEFAULT_BOT_IMAGE =
-  "https://meetingbaas.com/static/a7d46fd33668f28baa9cbf66005489f0/a6312/preview.png";
-export const DEFAULT_SPEECH_TO_TEXT = "Gladia";
 
 export async function joinMeeting({
   meetingBotName,
@@ -41,9 +36,9 @@ export async function joinMeeting({
       url,
       {
         meeting_url: meetingURL,
-        bot_name: meetingBotName || DEFAULT_BOT_NAME,
-        entry_message: meetingBotEntryMessage || DEFAULT_ENTRY_MESSAGE,
-        bot_image: meetingBotImage || DEFAULT_BOT_IMAGE,
+        bot_name: meetingBotName || constants.DEFAULT_BOT_NAME,
+        entry_message: meetingBotEntryMessage || constants.DEFAULT_ENTRY_MESSAGE,
+        bot_image: meetingBotImage || constants.DEFAULT_BOT_IMAGE,
         speech_to_text: "Gladia",
         reserved: false,
       },

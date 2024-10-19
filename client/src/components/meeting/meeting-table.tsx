@@ -62,7 +62,7 @@ const fetchMeetings = async () => {
   return [];
 };
 
-export const columns: (
+const columns: (
   deleteMeeting: (id: number, botId: string) => void,
   renameMeeting: (id: number, newName: string) => void,
 ) => ColumnDef<Meeting>[] = (deleteMeeting, renameMeeting) => [
@@ -218,7 +218,7 @@ function MeetingTable() {
   const [sorting, setSorting] = React.useState<SortingState>([
     {
       id: 'createdAt',
-      desc: true, 
+      desc: true,
     },
   ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -282,9 +282,9 @@ function MeetingTable() {
 
   return (
     <div className="w-full sm:max-h-[70dvh] sm:min-h-[50dvh] sm:overflow-auto">
-      {data?.length && data?.length > 0 ? (
-        <>
-          <div className="flex items-center gap-2 border-x border-b border-border px-2 pb-2 pt-1 rounded-b-md mb-4">
+      <div className="mb-4 flex items-center gap-2 rounded-b-md border-x border-b border-border px-2 pb-2 pt-1 empty:pb-0">
+        {data?.length && data?.length > 0 ? (
+          <>
             {/* TODO: implement search module connectivity here */}
             <Input
               placeholder="Filter Bot Id..."
@@ -315,7 +315,11 @@ function MeetingTable() {
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
+          </>
+        ) : (<></>)}
+      </div>
+      {data?.length && data?.length > 0 ? (
+        <>
           <div className="flex-grow overflow-auto rounded-md sm:max-h-[calc(70dvh-186px)]">
             <div className="flex-grow overflow-auto rounded-md border">
               <Table>
