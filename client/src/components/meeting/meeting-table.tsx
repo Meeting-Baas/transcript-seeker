@@ -55,15 +55,23 @@ import RenameModal from './components/rename-modal';
 import { z } from 'zod';
 import { formSchema as renameSchema } from './components/rename-modal';
 import useSWR from 'swr';
-import { getMeetings } from '@/queries';
+import { getAPIKey, getMeetings, deleteMeeting as deleteMeetingDb } from '@/queries';
+import { SelectAPIKey } from '@/db/schema';
 
-const fetchMeetings = async () => await getMeetings();
+const fetchMeetings = async () => {
+  const meetings = await getMeetings();
+  if (!meetings) return [];
+  if (Array.isArray(meetings)) {
+    return meetings;
+  }
+  return [];
+};
 const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
 
 export const columns: (
   showRename: boolean,
   setShowRename: (value: boolean) => void,
-  deleteMeeting: (id: string) => void,
+  deleteMeeting: (id: number, botId: string) => void,
   renameMeeting: (id: string, newName: string) => void,
   renameSchema: z.Schema,
 ) => ColumnDef<Meeting>[] = (showRename, setShowRename, deleteMeeting, renameMeeting) => [
@@ -127,7 +135,7 @@ export const columns: (
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="bg-red-500/30 text-red-500 focus:bg-red-500/50 focus:text-red-600"
-                onClick={() => deleteMeeting(meeting.id)}
+                onClick={() => deleteMeeting(meeting.id, meeting.bot_id)}
               >
                 <TrashIcon className="mr-2 h-4 w-4" />
                 Delete
@@ -197,7 +205,6 @@ export const columns: (
     sortingFn: (rowA, rowB, columnId) => {
       const dateA = new Date(rowA.getValue(columnId));
       const dateB = new Date(rowB.getValue(columnId));
-      console.log('dates', dateA, dateB, typeof dateA, typeof dateB);
       return dateA.getTime() - dateB.getTime();
     },
   },
@@ -271,15 +278,15 @@ function MeetingTable() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [showRename, setShowRename] = React.useState(false);
 
-  const [data, setData] = React.useState<Meeting[]>([]);
+  // const [data, setData] = React.useState<Meeting[]>([]);
 
-  const { data: meetings } = useSWR('meetings', () => fetchMeetings());
+  const { data, mutate } = useSWR('meetings', () => fetchMeetings());
 
-  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
-  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
+  // const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
+  // const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
 
   const table = useReactTable({
-    data,
+    data: data!,
     columns: columns(showRename, setShowRename, deleteMeeting, renameMeeting, renameSchema),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -297,7 +304,7 @@ function MeetingTable() {
     },
   });
 
-  async function deleteMeeting(botId: string) {
+  async function deleteMeeting(id: number, botId: string) {
     try {
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
@@ -306,15 +313,15 @@ function MeetingTable() {
       //   data: meetings,
       //   id: botId
       // });
-      const updatedMeetings = meetings.filter((meeting) => meeting.bot_id !== botId);
-      setMeetings(updatedMeetings);
-
+      // todo: see if this uses botId or id storageAPI
+      await deleteMeetingDb({ id: id });
       storageAPI.del(`${botId}.mp4`);
+      mutate();
+
       console.log(
         'updating meetings',
-        meetings.filter((meeting) => meeting.bot_id !== botId),
+        data
       );
-      fetchData();
 
       toast.success('Successfully deleted meeting.');
     } catch (error) {
@@ -341,7 +348,7 @@ function MeetingTable() {
 
   return (
     <div className="w-full sm:max-h-[70dvh] sm:min-h-[50dvh] sm:overflow-auto">
-      {data.length > 0 ? (
+      {data?.length > 0 ? (
         <>
           <div className="flex items-center gap-2 pb-4">
             {/* TODO: implement search module connectivity here */}

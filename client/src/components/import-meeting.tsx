@@ -30,7 +30,7 @@ export function ImportMeeting() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     let { botId: botId } = values;
@@ -39,7 +39,7 @@ export function ImportMeeting() {
       return;
     }
 
-    createMeeting(
+    await createMeeting(
       {
         bot_id: botId,
         type: 'meetingbaas',
