@@ -27,7 +27,6 @@ import { getAPIKey, setAPIKey } from '@/queries';
 import useSWR from 'swr';
 import { SelectAPIKey } from '@/db/schema';
 
-// Custom fetcher for SWR to use getAPIKey
 const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
 
 const formSchema = z.object({
@@ -88,7 +87,6 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({ name, label, description, con
 };
 
 export function SettingsForm() {
-  // Fetching the API keys using SWR
   const { data: baasApiKey, mutate: mutateBaasApiKey } = useSWR('meetingbaas', () =>
     fetchAPIKey('meetingbaas'),
   );
@@ -119,6 +117,7 @@ export function SettingsForm() {
     await setAPIKey({ type: 'openai', content: values.openAIApiKey! });
     await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
     await setAPIKey({ type: 'assemblyai', content: values.assemblyAIApiKey! });
+
     mutateBaasApiKey();
     mutateOpenAIApiKey();
     mutateGladiaApiKey();
