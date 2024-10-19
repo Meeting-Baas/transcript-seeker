@@ -89,10 +89,18 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({ name, label, description, con
 
 export function SettingsForm() {
   // Fetching the API keys using SWR
-  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
-  const { data: openAIApiKey } = useSWR('openai', () => fetchAPIKey('openai'));
-  const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
-  const { data: assemblyAIApiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
+  const { data: baasApiKey, mutate: mutateBaasApiKey } = useSWR('meetingbaas', () =>
+    fetchAPIKey('meetingbaas'),
+  );
+  const { data: openAIApiKey, mutate: mutateOpenAIApiKey } = useSWR('openai', () =>
+    fetchAPIKey('openai'),
+  );
+  const { data: gladiaApiKey, mutate: mutateGladiaApiKey } = useSWR('gladia', () =>
+    fetchAPIKey('gladia'),
+  );
+  const { data: assemblyAIApiKey, mutate: mutateAssemblyAIApiKey } = useSWR('assemblyai', () =>
+    fetchAPIKey('assemblyai'),
+  );
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -106,11 +114,15 @@ export function SettingsForm() {
   const { isDirty } = useFormState({ control: form.control });
 
   const onSubmit = async (values: FormSchema) => {
-    console.log('Submitted values:', values);
-    setAPIKey({ type: "meetingbaas", content: values.baasApiKey! });
-    setAPIKey({ type: "openai", content: values.openAIApiKey! });
-    setAPIKey({ type: "gladia", content: values.gladiaApiKey! });
-    setAPIKey({ type: "assemblyai", content: values.assemblyAIApiKey! });
+    // console.log('Submitted values:', values);
+    await setAPIKey({ type: 'meetingbaas', content: values.baasApiKey! });
+    await setAPIKey({ type: 'openai', content: values.openAIApiKey! });
+    await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
+    await setAPIKey({ type: 'assemblyai', content: values.assemblyAIApiKey! });
+    mutateBaasApiKey();
+    mutateOpenAIApiKey();
+    mutateGladiaApiKey();
+    mutateAssemblyAIApiKey();
 
     toast.success('API keys updated successfully');
     form.reset(values);
