@@ -56,7 +56,6 @@ import {
   deleteMeeting as deleteMeetingDb,
   renameMeeting as renameMeetingDb,
 } from '@/queries';
-import { SelectAPIKey } from '@/db/schema';
 
 const fetchMeetings = async () => {
   const meetings = await getMeetings();
@@ -69,8 +68,6 @@ const fetchMeetings = async () => {
 // const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
 
 export const columns: (
-  showRename: boolean,
-  setShowRename: (value: boolean) => void,
   deleteMeeting: (id: number, botId: string) => void,
   renameMeeting: (id: number, newName: string) => void,
   renameSchema: z.Schema,
