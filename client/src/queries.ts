@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { apiKeysTable, InsertAPIKey, SelectAPIKey } from "@/db/schema";
+import { apiKeysTable, InsertAPIKey, InsertMeeting, meetingsTable, SelectAPIKey } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function getAPIKey({ type }: { type: SelectAPIKey['type'] }) {
@@ -28,4 +28,16 @@ export async function setAPIKey({ type, content }: InsertAPIKey) {
                 content: apiKeysTable.content
             })
     }
+}
+
+export async function getMeetings() {
+    return await db.query.meetingsTable.findMany();
+}
+
+export async function createMeeting(values: InsertMeeting) {
+    return await db.insert(meetingsTable)
+        .values(values).returning({
+            name: meetingsTable.name,
+            // content: apiKeysTable.content
+        })
 }

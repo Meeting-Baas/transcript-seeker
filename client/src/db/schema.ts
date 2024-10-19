@@ -1,14 +1,19 @@
 import { sql } from "drizzle-orm";
 import { serial, text, timestamp, pgTable, pgEnum } from "drizzle-orm/pg-core";
 
+export const meetingTypeEnum = pgEnum("type", ["meetingbaas", "local"]);
+export const meetingStatusEnum = pgEnum("status", ["loaded", "loading", "error"]);
+
 export const meetingsTable = pgTable("meetings", {
     id: serial("id"),
+    type: meetingTypeEnum(),
     name: text("name"),
     bot_id: text("bot_id").notNull(),
     attendees: text("attendees")
         .array()
         .notNull()
         .default(sql`'{}'::text[]`),
+    status: meetingStatusEnum(),
     // transcript: text("transcript")
     //   .array()
     //   .notNull()

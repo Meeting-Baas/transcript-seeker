@@ -1,7 +1,7 @@
 import Join from '@/routes/join';
 import Layout from '@/routes/layout';
 import Meeting from '@/routes/meeting';
-import Meetings from '@/routes/meetings';
+import Recordings from '@/routes/recordings';
 import NotFound from '@/routes/not-found';
 import Root from '@/routes/root';
 import Settings from '@/routes/settings';
@@ -28,6 +28,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Root />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="recordings" element={<Recordings />} />
           {/* <Route path="join" element={<Join />} />
           <Route path="upload" element={<Upload />} />
           <Route path="meetings" element={<Meetings />} />

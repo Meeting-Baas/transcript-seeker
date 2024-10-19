@@ -259,7 +259,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
       <div className="w-full">
         <div className="relative flex items-center justify-center px-4 py-1">
           <div className="absolute left-4">
-            <HeaderTitle path="/meetings" title={'Back'} border={false} />
+            <HeaderTitle path="/recordings" title={'Back'} border={false} />
           </div>
           <div className="flex-grow text-center">
             <h1 className="text-xl font-semibold">{meetingData.name}</h1>

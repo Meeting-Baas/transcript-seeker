@@ -26,5 +26,21 @@
     "bps": true,
     "folderMillis": 1729274606628,
     "hash": "9ab11110b064244cc6109823a53c04750d8fd86737e264cf085d9b4738270a33"
+  },
+  {
+    "sql": [
+      "CREATE TYPE \"public\".\"status\" AS ENUM('loaded', 'loading', 'error');",
+      "\nALTER TABLE \"meetings\" ADD COLUMN \"type\" \"type\";",
+      "\nALTER TABLE \"meetings\" ADD COLUMN \"status\" \"status\";",
+      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE text;",
+      "\nALTER TABLE \"public\".\"meetings\" ALTER COLUMN \"type\" SET DATA TYPE text;",
+      "\nDROP TYPE \"public\".\"type\";",
+      "\nCREATE TYPE \"public\".\"type\" AS ENUM('meetingbaas', 'local');",
+      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"type\" USING \"type\"::\"public\".\"type\";",
+      "\nALTER TABLE \"public\".\"meetings\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"type\" USING \"type\"::\"public\".\"type\";"
+    ],
+    "bps": true,
+    "folderMillis": 1729312393789,
+    "hash": "37dbfcbbed529cd862c15cfb367cd1ecdf575b6dd2e633207a4d2471f89af862"
   }
 ]

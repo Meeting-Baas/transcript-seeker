@@ -50,7 +50,7 @@ function RootPage() {
           🐟
         </p>
         <div className="flex w-full items-center gap-4 pb-2">
-          <Link to="/meetings" className={cn(buttonVariants({ variant: 'outline' }), 'flex-1')}>
+          <Link to="/recordings" className={cn(buttonVariants({ variant: 'outline' }), 'flex-1')}>
             Recordings
           </Link>
         </div>

@@ -4,7 +4,7 @@ import MeetingTable from '@/components/meeting/meeting-table';
 import ServerAlert from '@/components/server-alert';
 import { useServerAvailabilityStore } from '@/store';
 
-function MeetingsPage() {
+function RecordingsPage() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
 
   return (
@@ -19,9 +19,9 @@ function MeetingsPage() {
       <div className="py-4">
         <ImportMeeting />
       </div>
-      <MeetingTable />
+      {/* <MeetingTable /> */}
     </div>
   );
 }
 
-export default MeetingsPage;
+export default RecordingsPage;

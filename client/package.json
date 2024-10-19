@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "db:generate": "drizzle-kit generate && deno run ./src/compile-migrations.ts",
+    "db:generate": "drizzle-kit generate && tsc compile-migrations.ts --skipLibCheck --target esnext --module nodenext --outDir drizzle_ts && node drizzle_ts/compile-migrations.js",
     "lint": "eslint --fix  .",
     "format": "prettier --write \"{,!(node_modules|venv)/**/}*.{js,jsx,ts,tsx}\"",
     "preview": "vite preview"

@@ -1,5 +1,3 @@
-import { useMeetingsStore } from '@/store';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -9,6 +7,8 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/ui/input';
 
 import { toast } from 'sonner';
+import { getMeetings, createMeeting } from '@/queries';
+import useSWR from 'swr';
 // import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
@@ -17,10 +17,11 @@ const formSchema = z.object({
   }),
 });
 
+const fetchMeetings = async () => await getMeetings();
+
 export function ImportMeeting() {
   // const navigate = useNavigate();
-  const meetings = useMeetingsStore((state) => state.meetings);
-  const setMeetings = useMeetingsStore((state) => state.setMeetings);
+  const { data: meetings } = useSWR('meetings', () => fetchMeetings());
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -32,26 +33,24 @@ export function ImportMeeting() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    let { botId: botIdN } = values;
-    let botId = botIdN.toString();
-
-    if (meetings.some((meeting) => meeting.bot_id === botId)) {
+    let { botId: botId } = values;
+    if (meetings?.some((meeting) => meeting.bot_id === botId)) {
       toast.error('This meeting has already been imported');
       return;
     }
 
-    setMeetings([
-      ...meetings,
+    createMeeting(
       {
-        id: botId,
         bot_id: botId,
+        type: 'meetingbaas',
         name: 'Imported Meeting',
         attendees: ['-'],
-        createdAt: new Date(),
         status: 'loading',
       },
-    ]);
+    );
 
+    // todo: remove console.log
+    console.log(meetings)
     toast.success('Meeting imported successfully');
     // navigate(`/meeting/${botId}`)
   }
