@@ -19,7 +19,7 @@ function RecordingsPage() {
       <div className="py-4">
         <ImportMeeting />
       </div>
-      {/* <MeetingTable /> */}
+      <MeetingTable />
     </div>
   );
 }

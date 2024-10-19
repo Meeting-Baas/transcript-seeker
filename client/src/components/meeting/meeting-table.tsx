@@ -36,8 +36,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { fetchBotDetailsWrapper as fetchBotDetails } from '@/lib/axios';
-import { useApiKeysStore, useMeetingsStore, useServerAvailabilityStore } from '@/store';
+// import { fetchBotDetailsWrapper as fetchBotDetails } from '@/lib/axios';
+import { useServerAvailabilityStore } from '@/store';
 
 // import axios from "axios";
 import { Badge } from '@/components/ui/badge';
@@ -54,6 +54,11 @@ import RenameModal from './components/rename-modal';
 
 import { z } from 'zod';
 import { formSchema as renameSchema } from './components/rename-modal';
+import useSWR from 'swr';
+import { getMeetings } from '@/queries';
+
+const fetchMeetings = async () => await getMeetings();
+const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
 
 export const columns: (
   showRename: boolean,
@@ -268,13 +273,10 @@ function MeetingTable() {
 
   const [data, setData] = React.useState<Meeting[]>([]);
 
-  const meetings = useMeetingsStore((state) => state.meetings);
-  const setMeetings = useMeetingsStore((state) => state.setMeetings);
+  const { data: meetings } = useSWR('meetings', () => fetchMeetings());
 
-  // meeting will update on state change
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
-
-  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
+  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
 
   const table = useReactTable({
     data,
@@ -294,37 +296,6 @@ function MeetingTable() {
       rowSelection,
     },
   });
-
-  async function fetchData() {
-    setIsLoading(true);
-
-    try {
-      const meetingDetails = await Promise.all(
-        meetings.map(async (meeting) => {
-          if (!meeting.bot_id) return null;
-          if (meeting.status === 'loaded') return meeting;
-          return fetchMeetingDetails(meeting.bot_id, baasApiKey, serverAvailability);
-        }),
-      );
-
-      const filteredMeetingDetails = meetingDetails.filter(
-        (meeting): meeting is Meeting => meeting !== null,
-      );
-
-      const newMeetings: Meeting[] = uniqBy([...filteredMeetingDetails, ...meetings], 'bot_id');
-
-      if (!isEqual(meetings, newMeetings) && newMeetings.length >= meetings.length) {
-        console.log('updating', meetings, newMeetings);
-        setMeetings(newMeetings);
-      }
-
-      setData(newMeetings);
-    } catch (error) {
-      console.error('Error fetching meeting details:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   async function deleteMeeting(botId: string) {
     try {
@@ -367,10 +338,6 @@ function MeetingTable() {
       toast.error('Failed to rename meeting.');
     }
   }
-
-  React.useEffect(() => {
-    fetchData();
-  }, [meetings, baasApiKey, serverAvailability]);
 
   return (
     <div className="w-full sm:max-h-[70dvh] sm:min-h-[50dvh] sm:overflow-auto">

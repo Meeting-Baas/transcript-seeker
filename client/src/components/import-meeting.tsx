@@ -50,7 +50,7 @@ export function ImportMeeting() {
     );
 
     // todo: remove console.log
-    console.log(meetings)
+    console.log('new meeting imported', meetings)
     toast.success('Meeting imported successfully');
     // navigate(`/meeting/${botId}`)
   }

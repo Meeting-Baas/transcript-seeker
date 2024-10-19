@@ -1,28 +1,88 @@
-import react from '@vitejs/plugin-react-swc';
 import dotenv from 'dotenv';
+import react from '@vitejs/plugin-react-swc';
 import path, { resolve } from 'path';
 import { defineConfig, loadEnv } from 'vite';
+
 import checker from 'vite-plugin-checker';
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, path.resolve(__dirname, '../'));
-  console.log('mode:', mode);
-  console.log(env);
+import type { ManifestOptions, VitePWAOptions } from 'vite-plugin-pwa';
+import { VitePWA } from 'vite-plugin-pwa';
+import replace from '@rollup/plugin-replace';
 
-  // Load the .env file from the parent directory
-  dotenv.config({ path: resolve(__dirname, '../.env') });
+dotenv.config({ path: resolve(__dirname, '../.env') });
 
-  const MEETINGBASS_API_URL: string = env.VITE_MEETINGBASS_API_URL;
-  const MEETINGBASS_S3_URL: string = env.VITE_MEETINGBASS_S3_URL;
-  const VITE_SERVER_API_URL: string = env.VITE_SERVER_API_URL;
-  const VITE_BAAS_PROXY_URL: string = env.VITE_BAAS_PROXY_URL;
-  const VITE_S3_PROXY_URL: string = env.VITE_S3_PROXY_URL;
-  const VITE_CLIENT_PORT: number = Number(env.VITE_CLIENT_PORT) || 5173;
-  const VITE_CLIENT_HOST: string = env.VITE_CLIENT_HOST || "localhost";
+const pwaOptions: Partial<VitePWAOptions> = {
+  mode: 'development',
+  base: '/',
+  includeAssets: ['logo.svg'],
+  registerType: 'autoUpdate',
+  manifest: {
+    name: 'Transcript Seeker',
+    short_name: 'Transcript Seeker',
+    theme_color: '#78FFF0',
+    icons: [
+      {
+        src: 'pwa-192x192.png', // <== don't add slash, for testing
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        src: '/pwa-512x512.png', // <== don't remove slash, for testing
+        sizes: '512x512',
+        type: 'image/png',
+      },
+      {
+        src: 'pwa-512x512.png', // <== don't add slash, for testing
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'any maskable',
+      },
+    ],
+  },
+  devOptions: {
+    enabled: process.env.SW_DEV === 'true',
+    /* when using generateSW the PWA plugin will switch to classic */
+    type: 'module',
+    navigateFallback: 'index.html',
+  },
+};
 
-  // TODO : Remove this nasty stuff - Or must be prefixed by VITE_ if necessary
-  const HOST = env.HOST;
-  const PORT = env.PORT;
+const replaceOptions = { __DATE__: new Date().toISOString() };
+const reload = process.env.RELOAD_SW === 'true';
+const selfDestroying = process.env.SW_DESTROY === 'true';
+
+console.log(process.env.SW);
+if (process.env.SW === 'true') {
+  pwaOptions.srcDir = 'src';
+  pwaOptions.filename = 'service-worker.ts';
+  pwaOptions.strategies = 'injectManifest';
+  // ;(pwaOptions.manifest as Partial<ManifestOptions>).name = 'PWA Inject Manifest'
+  // ;(pwaOptions.manifest as Partial<ManifestOptions>).short_name = 'PWA Inject'
+  pwaOptions.injectManifest = {
+    minify: false,
+    enableWorkboxModulesLogs: true,
+  };
+}
+
+if (reload) {
+  // @ts-expect-error just ignore
+  replaceOptions.__RELOAD_SW__ = 'true';
+}
+
+if (selfDestroying) pwaOptions.selfDestroying = selfDestroying;
+
+export default defineConfig(() => {
+  const MEETINGBASS_API_URL = process.env.MEETINGBASS_API_URL;
+  const MEETINGBASS_S3_URL = process.env.MEETINGBASS_S3_URL;
+  const SERVER_API_URL = process.env.SERVER_API_URL;
+  const BAAS_PROXY_URL = process.env.BAAS_PROXY_URL;
+  const S3_PROXY_URL = process.env.S3_PROXY_URL;
+  const CLIENT_PORT: number = Number(process.env.CLIENT_PORT) || 5173;
+  const CLIENT_HOST: string = process.env.CLIENT_HOST || 'localhost';
+
+  // TODO : Remove this nasty stuff - Or must be prefixed by  if necessary
+  const HOST = process.env.HOST;
+  const PORT = process.env.PORT;
 
   return {
     base: './',
@@ -31,12 +91,15 @@ export default defineConfig(({ mode }) => {
       checker({
         typescript: true,
       }),
+      VitePWA(pwaOptions),
+      replace(replaceOptions),
     ],
     server: {
-      port: VITE_CLIENT_PORT,
-      host: VITE_CLIENT_HOST,
+      port: CLIENT_PORT,
+      host: CLIENT_HOST,
+      // todo: replace with proxy server
       proxy: {
-        [`${VITE_SERVER_API_URL}`]: {
+        [`${SERVER_API_URL}`]: {
           target: `http://${HOST}:${PORT}`,
           changeOrigin: true,
           secure: false,
@@ -53,23 +116,23 @@ export default defineConfig(({ mode }) => {
             });
           },
         },
-        [`${VITE_BAAS_PROXY_URL}`]: {
+        [`${BAAS_PROXY_URL}`]: {
           target: MEETINGBASS_API_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp(`^${VITE_BAAS_PROXY_URL}`), ''),
+          rewrite: (path) => path.replace(new RegExp(`^${BAAS_PROXY_URL}`), ''),
           secure: true,
         },
-        [`${VITE_S3_PROXY_URL}`]: {
+        [`${S3_PROXY_URL}`]: {
           target: MEETINGBASS_S3_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp(`^${VITE_S3_PROXY_URL}`), ''),
+          rewrite: (path) => path.replace(new RegExp(`^${S3_PROXY_URL}`), ''),
           secure: true,
         },
       },
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src')
+        '@': path.resolve(__dirname, './src'),
       },
     },
     optimizeDeps: { exclude: ['@electric-sql/pglite'] },

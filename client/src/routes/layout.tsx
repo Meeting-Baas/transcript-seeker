@@ -1,4 +1,5 @@
 import Footer from '@/components/footer';
+import ReloadPrompt from '@/components/reload-prompt';
 import { Outlet } from 'react-router-dom';
 
 export default function Layout() {
@@ -10,6 +11,7 @@ export default function Layout() {
               so you can think about this <Outlet> as a placeholder for
               the child routes we defined above. */}
         <Outlet />
+        <ReloadPrompt />
       </main>
       <Footer />
     </div>
