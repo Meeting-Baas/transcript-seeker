@@ -4,6 +4,7 @@ import { ChevronDownIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import {
   ColumnDef,
   ColumnFiltersState,
+  createColumnHelper,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -13,6 +14,7 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
+import type { Row } from '@tanstack/react-table';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -36,26 +38,24 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-// import { fetchBotDetailsWrapper as fetchBotDetails } from '@/lib/axios';
-import { useServerAvailabilityStore } from '@/store';
-
-// import axios from "axios";
 import { Badge } from '@/components/ui/badge';
 import { CopyIcon, EyeIcon, LoaderCircleIcon, PencilIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-// import { ImportMeeting } from "./import-meeting";
 
 import { StorageBucketAPI } from '@/lib/bucketAPI';
-import { updateById } from '@/lib/db';
 import { Meeting } from '@/types';
-import { isEqual, uniqBy } from 'lodash';
 import RenameModal from './components/rename-modal';
 
 import { z } from 'zod';
 import { formSchema as renameSchema } from './components/rename-modal';
 import useSWR from 'swr';
-import { getAPIKey, getMeetings, deleteMeeting as deleteMeetingDb } from '@/queries';
+import {
+  getAPIKey,
+  getMeetings,
+  deleteMeeting as deleteMeetingDb,
+  renameMeeting as renameMeetingDb,
+} from '@/queries';
 import { SelectAPIKey } from '@/db/schema';
 
 const fetchMeetings = async () => {
@@ -66,15 +66,15 @@ const fetchMeetings = async () => {
   }
   return [];
 };
-const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
+// const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
 
 export const columns: (
   showRename: boolean,
   setShowRename: (value: boolean) => void,
   deleteMeeting: (id: number, botId: string) => void,
-  renameMeeting: (id: string, newName: string) => void,
+  renameMeeting: (id: number, newName: string) => void,
   renameSchema: z.Schema,
-) => ColumnDef<Meeting>[] = (showRename, setShowRename, deleteMeeting, renameMeeting) => [
+) => ColumnDef<Meeting>[] = (deleteMeeting, renameMeeting) => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -100,62 +100,9 @@ export const columns: (
   {
     id: 'actions',
     enableHiding: false,
-    cell: ({ row }) => {
-      const meeting = row.original;
-
-      return (
-        <div className="flex w-fit items-center justify-end gap-2">
-          {meeting.status === 'loaded' ? (
-            <Button size="icon" asChild className="h-8 w-8 p-0">
-              <Link to={`/meeting/${meeting.bot_id}`}>
-                <EyeIcon className="h-4 w-4" />
-              </Link>
-            </Button>
-          ) : (
-            <Button variant={'outline'} size={'icon'} className="h-8 w-8 p-0">
-              <LoaderCircleIcon className="h-4 w-4 animate-spin" />
-            </Button>
-          )}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <DotsHorizontalIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="space-y-1">
-              {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meeting.bot_id)}>
-                <CopyIcon className="mr-2 h-4 w-4" />
-                Copy Bot ID
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setShowRename(true)}>
-                <PencilIcon className="mr-2 h-4 w-4" />
-                Rename
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="bg-red-500/30 text-red-500 focus:bg-red-500/50 focus:text-red-600"
-                onClick={() => deleteMeeting(meeting.id, meeting.bot_id)}
-              >
-                <TrashIcon className="mr-2 h-4 w-4" />
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <RenameModal
-            open={showRename}
-            onOpenChange={setShowRename}
-            defaultValues={{
-              name: meeting.name,
-            }}
-            onSubmit={(values: z.infer<typeof renameSchema>) => {
-              renameMeeting(meeting.bot_id, values.name);
-              setShowRename(false);
-            }}
-          />
-        </div>
-      );
-    },
+    cell: (props) => (
+      <RowActions row={props.row} deleteMeeting={deleteMeeting} renameMeeting={renameMeeting} />
+    ),
   },
   {
     accessorKey: 'bot_id',
@@ -210,56 +157,70 @@ export const columns: (
   },
 ];
 
-export async function fetchMeetingDetails(
-  botId: string,
-  baasApiKey: string,
-  serverAvailability: any,
-): Promise<Meeting> {
-  try {
-    const result = await fetchBotDetails({
-      botId: botId,
-      baasApiKey: baasApiKey,
-      serverAvailability: serverAvailability,
-    });
+function RowActions({
+  row,
+  deleteMeeting,
+  renameMeeting,
+}: {
+  row: Row<Meeting>;
+  deleteMeeting: (id: number, botId: string) => void;
+  renameMeeting: (id: number, newName: string) => void;
+}) {
+  const [showRename, setShowRename] = React.useState(false);
+  const { original: meeting } = row;
 
-    if (result?.data?.data && Object.keys(result.data.data).length === 0) {
-      console.log(`Data not yet available, for ${botId}:`);
-
-      // todo: createdAt should be the time the meeting was created,
-      // impossible to get from the bot_id => should be nullable
-      return {
-        id: botId,
-        name: 'Recording in progress...',
-        bot_id: botId,
-        attendees: ['-'],
-        createdAt: new Date(Date.now()),
-        status: 'loading',
-      };
-    }
-
-    // if ("error" in result) {
-    //   throw new Error(result.error);
-    // }
-    return {
-      id: botId,
-      name: result.data.name || 'Unnamed Meeting',
-      bot_id: botId,
-      attendees: result.data.attendees || ['-'],
-      createdAt: new Date(result.data.createdAt || Date.now()),
-      data: result?.data?.data,
-      status: 'loaded',
-    };
-  } catch (error) {
-    console.error(`Error fetching details for bot ${botId}:`, error);
-    return {
-      id: botId,
-      name: 'Unnamed Meeting',
-      bot_id: botId,
-      attendees: ['-'],
-      createdAt: new Date(Date.now()),
-      status: 'error',
-    };
-  }
+  return (
+    <div className="flex w-fit items-center justify-end gap-2">
+      {meeting.status === 'loaded' ? (
+        <Button size="icon" asChild className="h-8 w-8 p-0">
+          <Link to={`/meeting/${meeting.bot_id}`}>
+            <EyeIcon className="h-4 w-4" />
+          </Link>
+        </Button>
+      ) : (
+        <Button variant={'outline'} size={'icon'} className="h-8 w-8 p-0">
+          <LoaderCircleIcon className="h-4 w-4 animate-spin" />
+        </Button>
+      )}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <DotsHorizontalIcon className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="space-y-1">
+          {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
+          <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meeting.bot_id)}>
+            <CopyIcon className="mr-2 h-4 w-4" />
+            Copy Bot ID
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setShowRename(true)}>
+            <PencilIcon className="mr-2 h-4 w-4" />
+            Rename
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="bg-red-500/30 text-red-500 focus:bg-red-500/50 focus:text-red-600"
+            onClick={() => deleteMeeting(meeting.id, meeting.bot_id)}
+          >
+            <TrashIcon className="mr-2 h-4 w-4" />
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <RenameModal
+        open={showRename}
+        onOpenChange={setShowRename}
+        defaultValues={{
+          name: meeting.name,
+        }}
+        onSubmit={(values: z.infer<typeof renameSchema>) => {
+          renameMeeting(meeting.id, values.name);
+          setShowRename(false);
+        }}
+      />
+    </div>
+  );
 }
 
 function MeetingTable() {
@@ -275,8 +236,6 @@ function MeetingTable() {
   });
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const [showRename, setShowRename] = React.useState(false);
-
   // const [data, setData] = React.useState<Meeting[]>([]);
 
   const { data, mutate, isLoading } = useSWR('meetings', () => fetchMeetings());
@@ -286,7 +245,7 @@ function MeetingTable() {
 
   const table = useReactTable({
     data: data!,
-    columns: columns(showRename, setShowRename, deleteMeeting, renameMeeting, renameSchema),
+    columns: columns(deleteMeeting, renameMeeting, renameSchema),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -314,30 +273,24 @@ function MeetingTable() {
       // });
       // todo: see if this uses botId or id storageAPI
       await deleteMeetingDb({ id: id });
-      storageAPI.del(`${botId}.mp4`);
+      if (await storageAPI.get(`${botId}.mp4`)) await storageAPI.del(`${botId}.mp4`);
       mutate();
 
-      console.log(
-        'updating meetings',
-        data
-      );
+      console.log('updating meetings', data);
 
       toast.success('Successfully deleted meeting.');
     } catch (error) {
       console.error('error', error);
     }
   }
-  async function renameMeeting(botId: string, newName: string) {
+
+  async function renameMeeting(id: number, newName: string) {
     try {
-      const updatedMeetings = updateById({
-        originalData: meetings,
-        updateData: { name: newName },
-        id: botId,
-      });
-      setMeetings(updatedMeetings);
+      console.log(id);
+      await renameMeetingDb({ id, name: newName });
+      mutate();
 
-      console.log('Updated meetings:', updatedMeetings);
-
+      console.log('Updated meetings:', data);
       toast.success('Successfully renamed meeting.');
     } catch (error) {
       console.error('Error renaming meeting:', error);

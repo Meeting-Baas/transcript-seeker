@@ -26,15 +26,9 @@ export async function setAPIKey({ type, content }: InsertAPIKey) {
       .update(apiKeysTable)
       .set({ type: type, content: content })
       .where(eq(apiKeysTable.type, type))
-      .returning({
-        type: apiKeysTable.type,
-        content: apiKeysTable.content,
-      });
+      .returning();
   } else {
-    return await db.insert(apiKeysTable).values({ type: type, content: content }).returning({
-      type: apiKeysTable.type,
-      content: apiKeysTable.content,
-    });
+    return await db.insert(apiKeysTable).values({ type: type, content: content }).returning();
   }
 }
 
@@ -43,10 +37,22 @@ export async function getMeetings() {
 }
 
 export async function createMeeting(values: InsertMeeting) {
-  return await db.insert(meetingsTable).values(values).returning({
-    name: meetingsTable.name,
-    // content: apiKeysTable.content
-  });
+  return await db.insert(meetingsTable).values(values).returning();
+}
+
+export async function renameMeeting({
+  id,
+  name,
+}: {
+  id: InsertMeeting['id'];
+  name: InsertMeeting['name'];
+}) {
+  if (!id) return;
+  return await db
+    .update(meetingsTable)
+    .set({ name, updatedAt: new Date() })
+    .where(eq(meetingsTable.id, id))
+    .returning();
 }
 
 export async function deleteMeeting({ id }: { id: SelectMeeting['id'] }) {

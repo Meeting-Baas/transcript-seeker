@@ -1,0 +1,1 @@
+ALTER TABLE "meetings" ALTER COLUMN "updated_at" SET DATA TYPE timestamp;

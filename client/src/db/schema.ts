@@ -23,7 +23,7 @@ export const meetingsTable = pgTable("meetings", {
     updatedAt: timestamp("updated_at", {
         mode: "date",
         withTimezone: true,
-    }).$onUpdateFn(() => sql`now()`),
+    }),
 });
 
 export type InsertMeeting = typeof meetingsTable.$inferInsert;

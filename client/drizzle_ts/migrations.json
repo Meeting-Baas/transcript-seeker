@@ -10,5 +10,13 @@
     "bps": true,
     "folderMillis": 1729349802498,
     "hash": "d26ffe01b3c929199d79fd806304e8958b20e1490cc19cca8110d6e8ffd4e214"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"meetings\" ALTER COLUMN \"updated_at\" SET DATA TYPE timestamp;"
+    ],
+    "bps": true,
+    "folderMillis": 1729351909172,
+    "hash": "e6d57c06a55237248dfb9ff2f25ce83c8841032ac909e2e1eb89ca0521fa119f"
   }
 ]
