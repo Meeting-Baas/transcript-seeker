@@ -275,12 +275,11 @@ function MeetingTable() {
   });
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const [isLoading, setIsLoading] = React.useState(true);
   const [showRename, setShowRename] = React.useState(false);
 
   // const [data, setData] = React.useState<Meeting[]>([]);
 
-  const { data, mutate } = useSWR('meetings', () => fetchMeetings());
+  const { data, mutate, isLoading } = useSWR('meetings', () => fetchMeetings());
 
   // const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
   // const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
