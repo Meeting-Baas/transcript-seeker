@@ -16,9 +16,7 @@ function RecordingsPage() {
       <div className="my-2 bg-white">
         <ServerAlert mode={serverAvailability} />
       </div>
-      <div className="py-4">
-        <ImportMeeting />
-      </div>
+      <ImportMeeting />
       <MeetingTable />
     </div>
   );

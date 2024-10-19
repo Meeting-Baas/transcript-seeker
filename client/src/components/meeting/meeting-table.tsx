@@ -66,34 +66,27 @@ export const columns: (
   deleteMeeting: (id: number, botId: string) => void,
   renameMeeting: (id: number, newName: string) => void,
 ) => ColumnDef<Meeting>[] = (deleteMeeting, renameMeeting) => [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: (props) => (
-      <RowActions row={props.row} deleteMeeting={deleteMeeting} renameMeeting={renameMeeting} />
-    ),
-  },
+  // {
+  //   id: 'select',
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={
+  //         table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: 'bot_id',
     header: 'Bot ID',
@@ -144,6 +137,15 @@ export const columns: (
       const dateB = new Date(rowB.getValue(columnId));
       return dateA.getTime() - dateB.getTime();
     },
+  },
+
+  {
+    id: 'actions',
+    header: "Actions",
+    enableHiding: false,
+    cell: (props) => (
+      <RowActions row={props.row} deleteMeeting={deleteMeeting} renameMeeting={renameMeeting} />
+    ),
   },
 ];
 
@@ -283,7 +285,7 @@ function MeetingTable() {
     <div className="w-full sm:max-h-[70dvh] sm:min-h-[50dvh] sm:overflow-auto">
       {data?.length > 0 ? (
         <>
-          <div className="flex items-center gap-2 pb-4">
+          <div className="flex items-center gap-2 border-x border-b border-border px-2 pb-2 pt-1 rounded-b-md mb-4">
             {/* TODO: implement search module connectivity here */}
             <Input
               placeholder="Filter Bot Id..."

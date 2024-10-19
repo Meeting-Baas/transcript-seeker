@@ -58,7 +58,7 @@ export function ImportMeeting() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full items-start justify-between gap-2"
+        className="flex w-full items-start justify-between gap-2 border-x border-t border-border px-2 pt-2 pb-1 rounded-t-md"
       >
         <FormField
           control={form.control}
@@ -77,8 +77,8 @@ export function ImportMeeting() {
           )}
         />
 
-        <Button type="submit" className="text-md">
-          Import Meeting
+        <Button type="submit" className='min-w-[116px]'>
+          Import
         </Button>
       </form>
     </Form>
