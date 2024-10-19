@@ -133,6 +133,8 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
+        '@meeting-baas/shared': path.resolve(__dirname, '../packages/shared/src'),
+
       },
     },
     optimizeDeps: { exclude: ['@electric-sql/pglite'] },

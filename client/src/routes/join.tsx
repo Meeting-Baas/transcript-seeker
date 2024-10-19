@@ -5,7 +5,7 @@ function JoinPage() {
   return (
     <div className="h-full p-8">
       <div className="pb-4">
-        <HeaderTitle path="/" title="Join a Meeting" />
+        <HeaderTitle path="/" title="Record Meeting" />
       </div>
       <MeetingForm />
     </div>

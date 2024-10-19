@@ -1,4 +1,4 @@
-import { PROXY_URL } from '@/App';
+import { PROXY_URL } from '@/lib/constants';
 import { createImageUpload } from 'novel/plugins';
 import { toast } from 'sonner';
 

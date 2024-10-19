@@ -1,5 +1,5 @@
 import { HeaderTitle } from '@/components/header-title';
-import { ImportMeeting } from '@/components/import-meeting';
+import { ImportMeeting } from '@/components/meeting/meeting-import';
 import MeetingTable from '@/components/meeting/meeting-table';
 import ServerAlert from '@/components/server-alert';
 import { useServerAvailabilityStore } from '@/store';

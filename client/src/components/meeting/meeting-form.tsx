@@ -1,7 +1,7 @@
 'use client';
 
 import { joinMeetingWrapper as joinMeeting } from '@/lib/axios';
-import { useApiKeysStore, useMeetingsStore, useServerAvailabilityStore } from '@/store';
+import { useServerAvailabilityStore } from '@/store';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as MeetingBaas from '@meeting-baas/shared';
@@ -25,6 +25,20 @@ import { Input } from '@/components/ui/input';
 import ServerAlert from '@/components/server-alert';
 import { Meeting } from '@/types';
 
+import useSWR from 'swr';
+import { createMeeting, getAPIKey, getMeetings } from '@/queries';
+import type { SelectAPIKey } from '@/db/schema';
+
+// const fetchMeetings = async () => {
+//   const meetings = await getMeetings();
+//   if (!meetings) return [];
+//   if (Array.isArray(meetings)) {
+//     return meetings;
+//   }
+//   return [];
+// };
+const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
+
 const formSchema = z.object({
   meetingURL: z.string().url().min(1, 'Meeting URL is required'),
   meetingBotName: z.string().optional(),
@@ -34,10 +48,8 @@ const formSchema = z.object({
 
 export function MeetingForm() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
-  const baasApiKey = useApiKeysStore((state) => state.baasApiKey);
-
-  const meetings = useMeetingsStore((state) => state.meetings);
-  const setMeetings = useMeetingsStore((state) => state.setMeetings);
+  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
+  // const { data: meetings } = useSWR('meetings', () => fetchMeetings());
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,14 +65,14 @@ export function MeetingForm() {
     try {
       const { meetingURL, meetingBotName, meetingBotImage, meetingBotEntryMessage } = values;
       const result = await joinMeeting({
-        baasApiKey,
+        baasApiKey: baasApiKey?.content ?? "",
         serverAvailability,
         params: {
           meetingURL,
           meetingBotName,
           meetingBotEntryMessage,
           meetingBotImage,
-          apiKey: baasApiKey,
+          apiKey: baasApiKey?.content,
         },
       });
 
@@ -68,23 +80,16 @@ export function MeetingForm() {
         throw new Error(result.error);
       }
 
-      const apiSource = serverAvailability === 'server' ? 'server API' : 'local implementation';
-
-      const newMeeting: Meeting = {
-        id: String(result.data.bot_id),
+      const newMeeting: Omit<Meeting, "id"> = {
         bot_id: String(result.data.bot_id),
-        name: 'Spoke Recorded Meeting',
+        name: 'MeetingBaas Recorded Meeting',
         attendees: ['-'],
         createdAt: new Date(),
         status: 'loading',
       };
-      setMeetings([...meetings, newMeeting]);
-      // setMeetings((prevMeetings) => {
-      //   const newMeetings = [...prevMeetings, { bot_id: result.data.bot_id, name: "New Meeting", attendees: ['-'], created_at: new Date() }];
-      //   return newMeetings;
-      // });
-      console.log('form data', result.data);
-      toast.success(`Meeting bot created successfully using ${apiSource}`);
+  
+      createMeeting(newMeeting);
+      toast.success(`Meeting bot created successfully!`);
     } catch (error) {
       console.error('Error adding meeting bot:', error);
       toast.error('Failed to create meeting bot');
@@ -178,7 +183,7 @@ export function MeetingForm() {
               </FormItem>
             )}
           /> */}
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className='w-full'>Submit</Button>
         </form>
       </Form>
     </>

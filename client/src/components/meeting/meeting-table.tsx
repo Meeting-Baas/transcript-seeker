@@ -141,7 +141,6 @@ export const columns: (
 
   {
     id: 'actions',
-    header: "Actions",
     enableHiding: false,
     cell: (props) => (
       <RowActions row={props.row} deleteMeeting={deleteMeeting} renameMeeting={renameMeeting} />
@@ -162,7 +161,7 @@ function RowActions({
   const { original: meeting } = row;
 
   return (
-    <div className="flex w-fit items-center justify-end gap-2">
+    <div className="flex w-full items-center justify-end gap-2">
       {meeting.status === 'loaded' ? (
         <Button size="icon" asChild className="h-8 w-8 p-0">
           <Link to={`/meeting/${meeting.bot_id}`}>
@@ -181,7 +180,7 @@ function RowActions({
             <DotsHorizontalIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className="space-y-1">
+        <DropdownMenuContent align="end" className="space-y-1">
           {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
           <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meeting.bot_id)}>
             <CopyIcon className="mr-2 h-4 w-4" />
@@ -283,7 +282,7 @@ function MeetingTable() {
 
   return (
     <div className="w-full sm:max-h-[70dvh] sm:min-h-[50dvh] sm:overflow-auto">
-      {data?.length > 0 ? (
+      {data?.length && data?.length > 0 ? (
         <>
           <div className="flex items-center gap-2 border-x border-b border-border px-2 pb-2 pt-1 rounded-b-md mb-4">
             {/* TODO: implement search module connectivity here */}
@@ -358,10 +357,10 @@ function MeetingTable() {
             </div>
           </div>
           <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
+            {/* <div className="flex-1 text-sm text-muted-foreground">
               {table.getFilteredSelectedRowModel().rows.length} of{' '}
               {table.getFilteredRowModel().rows.length} row(s) selected.
-            </div>
+            </div> */}
             <div className="space-x-2">
               <Button
                 variant="outline"
