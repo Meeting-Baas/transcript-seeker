@@ -1,6 +1,7 @@
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { clientsClaim } from 'workbox-core'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
+import { getMeetings } from '@/queries'
 
 declare let self: ServiceWorkerGlobalScope
 
@@ -22,3 +23,26 @@ registerRoute(new NavigationRoute(
 
 self.skipWaiting()
 clientsClaim()
+
+// todo: switch to background sync api
+// Function to check for loading meetings
+async function checkLoadingMeetings() {
+  try {
+    const meetings = await getMeetings()
+    console.log(meetings)
+    const loadingMeetings = meetings.filter(meeting => meeting.status === 'loading')
+    if (loadingMeetings.length > 0) {
+      console.log('Meetings with loading status:', loadingMeetings)
+    }
+  } catch (error) {
+    console.error('Error checking for loading meetings:', error)
+  }
+}
+
+// Set up periodic sync (every 10 seconds)
+const SYNC_INTERVAL = 10000 // 10 seconds
+
+setInterval(checkLoadingMeetings, SYNC_INTERVAL)
+
+// Initial check when the service worker starts
+checkLoadingMeetings()

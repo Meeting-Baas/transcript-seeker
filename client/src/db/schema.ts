@@ -1,8 +1,8 @@
 import { sql } from "drizzle-orm";
 import { serial, text, timestamp, pgTable, pgEnum } from "drizzle-orm/pg-core";
 
-export const meetingTypeEnum = pgEnum("type", ["meetingbaas", "local"]);
-export const meetingStatusEnum = pgEnum("status", ["loaded", "loading", "error"]);
+export const meetingTypeEnum = pgEnum("meeting_type", ["meetingbaas", "local"]);
+export const meetingStatusEnum = pgEnum("meeting_status", ["loaded", "loading", "error"]);
 
 export const meetingsTable = pgTable("meetings", {
     id: serial("id"),
@@ -29,7 +29,7 @@ export const meetingsTable = pgTable("meetings", {
 export type InsertMeeting = typeof meetingsTable.$inferInsert;
 export type SelectMeeting = typeof meetingsTable.$inferSelect;
 
-export const apiKeyTypeEnum = pgEnum("type", ["meetingbaas", "gladia", "openai", "assemblyai"]);
+export const apiKeyTypeEnum = pgEnum("api_key_type", ["meetingbaas", "gladia", "openai", "assemblyai"]);
 
 export const apiKeysTable = pgTable("api_keys", {
     id: serial("id"),

@@ -1,5 +1,5 @@
 {
-  "id": "b00bdc1e-02ff-4c9b-a22a-f4bcd779e566",
+  "id": "d02e7ca0-bd47-4c39-9bc3-69263003bc0e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -16,7 +16,7 @@
         },
         "type": {
           "name": "type",
-          "type": "type",
+          "type": "api_key_type",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
@@ -24,19 +24,6 @@
         "content": {
           "name": "content",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
         }
@@ -57,6 +44,13 @@
           "primaryKey": false,
           "notNull": true
         },
+        "type": {
+          "name": "type",
+          "type": "meeting_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
         "name": {
           "name": "name",
           "type": "text",
@@ -75,6 +69,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'{}'::text[]"
+        },
+        "status": {
+          "name": "status",
+          "type": "meeting_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -98,13 +99,31 @@
     }
   },
   "enums": {
-    "public.type": {
-      "name": "type",
+    "public.api_key_type": {
+      "name": "api_key_type",
       "schema": "public",
       "values": [
         "meetingbaas",
         "gladia",
+        "openai",
         "assemblyai"
+      ]
+    },
+    "public.meeting_status": {
+      "name": "meeting_status",
+      "schema": "public",
+      "values": [
+        "loaded",
+        "loading",
+        "error"
+      ]
+    },
+    "public.meeting_type": {
+      "name": "meeting_type",
+      "schema": "public",
+      "values": [
+        "meetingbaas",
+        "local"
       ]
     }
   },

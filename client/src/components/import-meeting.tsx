@@ -21,7 +21,7 @@ const fetchMeetings = async () => await getMeetings();
 
 export function ImportMeeting() {
   // const navigate = useNavigate();
-  const { data: meetings } = useSWR('meetings', () => fetchMeetings());
+  const { data: meetings, mutate } = useSWR('meetings', () => fetchMeetings());
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,9 +48,8 @@ export function ImportMeeting() {
         status: 'loading',
       },
     );
+    mutate();
 
-    // todo: remove console.log
-    console.log('new meeting imported', meetings)
     toast.success('Meeting imported successfully');
     // navigate(`/meeting/${botId}`)
   }

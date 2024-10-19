@@ -1,46 +1,14 @@
 [
   {
     "sql": [
-      "CREATE TYPE \"public\".\"type\" AS ENUM('meetingbaas', 'gladia', 'assemblyai');",
-      "\nCREATE TABLE IF NOT EXISTS \"api_keys\" (\n\t\"id\" serial NOT NULL,\n\t\"type\" \"type\",\n\t\"content\" text NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n",
-      "\nCREATE TABLE IF NOT EXISTS \"meetings\" (\n\t\"id\" serial NOT NULL,\n\t\"name\" text,\n\t\"bot_id\" text NOT NULL,\n\t\"attendees\" text[] DEFAULT '{}'::text[] NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n"
+      "CREATE TYPE \"public\".\"api_key_type\" AS ENUM('meetingbaas', 'gladia', 'openai', 'assemblyai');",
+      "\nCREATE TYPE \"public\".\"meeting_status\" AS ENUM('loaded', 'loading', 'error');",
+      "\nCREATE TYPE \"public\".\"meeting_type\" AS ENUM('meetingbaas', 'local');",
+      "\nCREATE TABLE IF NOT EXISTS \"api_keys\" (\n\t\"id\" serial NOT NULL,\n\t\"type\" \"api_key_type\",\n\t\"content\" text\n);\n",
+      "\nCREATE TABLE IF NOT EXISTS \"meetings\" (\n\t\"id\" serial NOT NULL,\n\t\"type\" \"meeting_type\",\n\t\"name\" text,\n\t\"bot_id\" text NOT NULL,\n\t\"attendees\" text[] DEFAULT '{}'::text[] NOT NULL,\n\t\"status\" \"meeting_status\",\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n"
     ],
     "bps": true,
-    "folderMillis": 1729268089566,
-    "hash": "0fa3f97aeb1e378e8c8cd7e74c606f61077d7740d5ea913b3b94288c6ba1e276"
-  },
-  {
-    "sql": [
-      "ALTER TYPE \"public\".\"type\" ADD VALUE 'openai' BEFORE 'assemblyai';"
-    ],
-    "bps": true,
-    "folderMillis": 1729272965155,
-    "hash": "1502982335e0483596c96eee01b0221680f370ba58a26adeff81e8f3ef05a381"
-  },
-  {
-    "sql": [
-      "ALTER TABLE \"api_keys\" ALTER COLUMN \"content\" DROP NOT NULL;",
-      "\nALTER TABLE \"api_keys\" DROP COLUMN IF EXISTS \"created_at\";",
-      "\nALTER TABLE \"api_keys\" DROP COLUMN IF EXISTS \"updated_at\";"
-    ],
-    "bps": true,
-    "folderMillis": 1729274606628,
-    "hash": "9ab11110b064244cc6109823a53c04750d8fd86737e264cf085d9b4738270a33"
-  },
-  {
-    "sql": [
-      "CREATE TYPE \"public\".\"status\" AS ENUM('loaded', 'loading', 'error');",
-      "\nALTER TABLE \"meetings\" ADD COLUMN \"type\" \"type\";",
-      "\nALTER TABLE \"meetings\" ADD COLUMN \"status\" \"status\";",
-      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE text;",
-      "\nALTER TABLE \"public\".\"meetings\" ALTER COLUMN \"type\" SET DATA TYPE text;",
-      "\nDROP TYPE \"public\".\"type\";",
-      "\nCREATE TYPE \"public\".\"type\" AS ENUM('meetingbaas', 'local');",
-      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"type\" USING \"type\"::\"public\".\"type\";",
-      "\nALTER TABLE \"public\".\"meetings\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"type\" USING \"type\"::\"public\".\"type\";"
-    ],
-    "bps": true,
-    "folderMillis": 1729312393789,
-    "hash": "37dbfcbbed529cd862c15cfb367cd1ecdf575b6dd2e633207a4d2471f89af862"
+    "folderMillis": 1729349802498,
+    "hash": "d26ffe01b3c929199d79fd806304e8958b20e1490cc19cca8110d6e8ffd4e214"
   }
 ]
