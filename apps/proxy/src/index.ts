@@ -2,14 +2,15 @@ import dotenv from "dotenv";
 import path from "path";
 
 var root: string;
-var client: string;
 
 var root = path.resolve(__dirname, "..", "..");
+console.log('pth', root)
 dotenv.config({
   path: path.resolve(root, ".env"),
 });
 
 import express, { Express, Request, Response } from "express";
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import { checkEnvironmentVariables } from "./lib/utils";
 
 import cors from "cors";
@@ -27,14 +28,18 @@ app.get("/health", (_req: Request, res: Response) =>
   res.status(200).send("OK")
 );
 
-app.use((req, res) => {
-  res.sendFile(path.join(client, "index.html"));
+/** @type {import('http-proxy-middleware/dist/types').RequestHandler<express.Request, express.Response>} */
+const baasProxy = createProxyMiddleware({
+  target: 'https://api.meetingbaas.com',
+  changeOrigin: true,
 });
+app.use("/api/meetingbaas", baasProxy);
 
-// webhook setup
-const PORT = process.env.PORT || 3080;
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
+
 app.listen(PORT, () => {
-  const url = `http://localhost:${PORT}`;
+  const url = `http://${HOST}:${PORT}`;
   console.log(
     `\n\n[server]: 🟢🟢 Proxy is running at \u001b]8;;${url}\u001b\\${url}\u001b]8;;\u001b\\ 🟢🟢`
   );

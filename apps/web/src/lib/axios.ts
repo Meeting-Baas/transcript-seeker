@@ -1,35 +1,23 @@
-import { PROXY_URL, VITE_SERVER_API_URL } from '@/lib/constants';
+import { VITE_PROXY_URL } from '@/lib/constants';
 import { MeetingInfo } from '@/types';
 import * as MeetingBaas from '@meeting-baas/shared';
 import axios from 'axios';
 
 interface JoinMeetingWrapperProps {
   baasApiKey: string;
-  serverAvailability: 'server' | 'local' | 'error';
   params: MeetingBaas.JoinMeetingParams;
 }
 
-interface FetchBotDetailsWrapperProps {
-  baasApiKey: string;
-  serverAvailability: 'server' | 'local' | 'error';
-  botId: string;
-  raw?: boolean;
-}
 
 export const joinMeetingWrapper = async ({
   baasApiKey,
-  serverAvailability,
   params,
 }: JoinMeetingWrapperProps) => {
-  if (serverAvailability === 'server') {
-    return await axios.post(VITE_SERVER_API_URL.concat('/join'), params);
-  } else {
-    return await MeetingBaas.joinMeeting({
-      ...params,
-      apiKey: baasApiKey,
-      proxyUrl: PROXY_URL,
-    });
-  }
+  return await MeetingBaas.joinMeeting({
+    ...params,
+    apiKey: baasApiKey,
+    proxyUrl: VITE_PROXY_URL,
+  });
 };
 
 // export const fetchBotDetailsWrapper = async ({

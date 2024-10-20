@@ -21,15 +21,12 @@ export async function joinMeeting({
   meetingBotEntryMessage,
   apiKey,
   proxyUrl,
-}: JoinMeetingParams & { proxyUrl?: string }): Promise<{
+}: JoinMeetingParams & { proxyUrl: string }): Promise<{
   data?: JoinMeetingResult;
   error?: string;
 }> {
   try {
-    const url = proxyUrl
-      ? `${proxyUrl}/bots`
-      : (process.env.MEETINGBASS_API_URL ??
-          "https://api.meetingbaas.com") + "/bots";
+    const url = `${proxyUrl}/api/meetingbaas/bots`
 
     const response = await axios.post(
       url,

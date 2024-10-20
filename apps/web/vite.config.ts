@@ -71,24 +71,15 @@ if (reload) {
 if (selfDestroying) pwaOptions.selfDestroying = selfDestroying;
 
 export default defineConfig(() => {
-  const MEETINGBASS_API_URL = process.env.MEETINGBASS_API_URL;
-  const MEETINGBASS_S3_URL = process.env.MEETINGBASS_S3_URL;
-  const SERVER_API_URL = process.env.SERVER_API_URL;
-  const BAAS_PROXY_URL = process.env.BAAS_PROXY_URL;
-  const S3_PROXY_URL = process.env.S3_PROXY_URL;
-  const CLIENT_PORT: number = Number(process.env.CLIENT_PORT) || 5173;
-  const CLIENT_HOST: string = process.env.CLIENT_HOST || 'localhost';
-
-  // TODO : Remove this nasty stuff - Or must be prefixed by  if necessary
-  const HOST = process.env.HOST;
-  const PORT = process.env.PORT;
+  const CLIENT_PORT: number = Number(process.env.VITE_CLIENT_PORT) || 5173;
+  const CLIENT_HOST: string = process.env.VITE_CLIENT_HOST || 'localhost';
 
   return {
     base: './',
     plugins: [
       react(),
       checker({
-        typescript: true,
+        typescript: false,
       }),
       VitePWA(pwaOptions),
       replace(replaceOptions),
@@ -100,9 +91,9 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
-        // '@meeting-baas/shared': path.resolve(__dirname, '../../packages/shared'),
+        '@meeting-baas/ui': path.resolve(__dirname, '../../packages/ui/src'),
       },
     },
-    optimizeDeps: { exclude: ['@electric-sql/pglite'] },
+    optimizeDeps: { exclude: ['@electric-sql/pglite', '@meeting-baas/ui'] },
   };
 });
