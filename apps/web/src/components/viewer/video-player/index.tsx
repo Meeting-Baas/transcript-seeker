@@ -1,20 +1,13 @@
 import './player.css';
 
+import type { MediaPlayerInstance, MediaProviderAdapter } from '@vidstack/react';
 import { useEffect, useRef } from 'react';
-
-import {
-  isHLSProvider,
-  MediaPlayer,
-  MediaProvider,
-  type MediaPlayerInstance,
-  type MediaProviderAdapter,
-} from '@vidstack/react';
+import { isHLSProvider, MediaPlayer, MediaProvider } from '@vidstack/react';
 import {
   DefaultAudioLayout,
   defaultLayoutIcons,
   DefaultVideoLayout,
 } from '@vidstack/react/player/layouts/default';
-
 import { toast } from 'sonner';
 
 interface PlayerProps {

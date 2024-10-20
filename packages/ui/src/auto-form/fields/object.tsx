@@ -1,3 +1,6 @@
+import { useForm, useFormContext } from 'react-hook-form';
+import * as z from 'zod';
+
 import {
   Accordion,
   AccordionContent,
@@ -5,13 +8,12 @@ import {
   AccordionTrigger,
 } from '@meeting-baas/ui/accordion';
 import { FormField } from '@meeting-baas/ui/form';
-import { useForm, useFormContext } from 'react-hook-form';
-import * as z from 'zod';
+
 import { DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS } from '../config';
+import resolveDependencies from '../dependencies';
 import { Dependency, FieldConfig, FieldConfigItem } from '../types';
 import { beautifyObjectName, getBaseSchema, getBaseType, zodToHtmlInputProps } from '../utils';
 import AutoFormArray from './array';
-import resolveDependencies from '../dependencies';
 
 function DefaultParent({ children }: { children: React.ReactNode }) {
   return <>{children}</>;

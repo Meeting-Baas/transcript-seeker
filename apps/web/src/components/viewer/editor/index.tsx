@@ -1,27 +1,29 @@
 'use client';
+
+import type { JSONContent } from 'novel';
 import React from 'react'; // useState
 import {
-  EditorRoot,
-  EditorCommand,
-  EditorCommandItem,
-  EditorCommandEmpty,
-  EditorContent,
-  type JSONContent,
-  EditorCommandList,
   EditorBubble,
+  EditorCommand,
+  EditorCommandEmpty,
+  EditorCommandItem,
+  EditorCommandList,
+  EditorContent,
   EditorInstance,
+  EditorRoot,
 } from 'novel';
-import { ImageResizer, handleCommandNavigation } from 'novel/extensions';
-import { defaultExtensions } from './extensions';
-import { NodeSelector } from './selectors/node-selector';
-import { LinkSelector } from './selectors/link-selector';
-import { ColorSelector } from './selectors/color-selector';
+import { handleCommandNavigation, ImageResizer } from 'novel/extensions';
+import { handleImageDrop, handleImagePaste } from 'novel/plugins';
 
+import { Separator } from '@meeting-baas/ui/separator';
+
+import { defaultExtensions } from './extensions';
+import { uploadFn } from './image-upload';
+import { ColorSelector } from './selectors/color-selector';
+import { LinkSelector } from './selectors/link-selector';
+import { NodeSelector } from './selectors/node-selector';
 import { TextButtons } from './selectors/text-buttons';
 import { slashCommand, suggestionItems } from './slash-command';
-import { handleImageDrop, handleImagePaste } from 'novel/plugins';
-import { uploadFn } from './image-upload';
-import { Separator } from '@meeting-baas/ui/separator';
 
 const extensions = [...defaultExtensions, slashCommand];
 

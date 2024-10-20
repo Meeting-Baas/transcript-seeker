@@ -1,5 +1,6 @@
 import { FormControl, FormItem } from '@meeting-baas/ui/form';
 import { Switch } from '@meeting-baas/ui/switch';
+
 import AutoFormLabel from '../common/label';
 import AutoFormTooltip from '../common/tooltip';
 import { AutoFormInputComponentProps } from '../types';

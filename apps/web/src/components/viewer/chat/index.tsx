@@ -1,9 +1,9 @@
 import ChatInput, { formSchema } from '@/components/viewer/chat/chat-input';
 import Message from '@/components/viewer/chat/message';
-import { Card, CardContent, CardHeader } from '@meeting-baas/ui/card';
 import { Message as MessageT } from '@/types';
-
 import { z } from 'zod';
+
+import { Card, CardContent, CardHeader } from '@meeting-baas/ui/card';
 
 interface ChatProps {
   messages?: MessageT[];

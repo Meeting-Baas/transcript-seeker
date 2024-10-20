@@ -1,3 +1,5 @@
+import { eq } from 'drizzle-orm';
+
 import { db } from '@meeting-baas/db/client';
 import {
   apiKeysTable,
@@ -7,7 +9,6 @@ import {
   SelectAPIKey,
   SelectMeeting,
 } from '@meeting-baas/db/schema';
-import { eq } from 'drizzle-orm';
 
 export async function getAPIKey({ type }: { type: SelectAPIKey['type'] }) {
   if (!type) return;

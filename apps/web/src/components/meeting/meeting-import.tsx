@@ -1,14 +1,14 @@
+import { createMeeting, getMeetings } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import useSWR from 'swr';
 import { z } from 'zod';
 
 import { Button } from '@meeting-baas/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
 
-import { toast } from 'sonner';
-import { getMeetings, createMeeting } from '@/queries';
-import useSWR from 'swr';
 // import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
@@ -46,15 +46,13 @@ export function ImportMeeting() {
       return;
     }
 
-    await createMeeting(
-      {
-        botId: botId,
-        type: 'meetingbaas',
-        name: 'Imported Meeting',
-        attendees: ['-'],
-        status: 'loading',
-      },
-    );
+    await createMeeting({
+      botId: botId,
+      type: 'meetingbaas',
+      name: 'Imported Meeting',
+      attendees: ['-'],
+      status: 'loading',
+    });
     mutate();
 
     toast.success('Meeting imported successfully');
@@ -65,7 +63,7 @@ export function ImportMeeting() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full items-start justify-between gap-2 border-x border-t border-border px-2 pt-2 pb-1 rounded-t-md"
+        className="flex w-full items-start justify-between gap-2 rounded-t-md border-x border-t border-border px-2 pb-1 pt-2"
       >
         <FormField
           control={form.control}
@@ -84,7 +82,7 @@ export function ImportMeeting() {
           )}
         />
 
-        <Button type="submit" className='min-w-[116px]'>
+        <Button type="submit" className="min-w-[116px]">
           Import
         </Button>
       </form>

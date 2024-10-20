@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-
-import { cn } from '@meeting-baas/ui';
-import useSWR from 'swr';
-import { SelectAPIKey } from '@meeting-baas/db/schema';
 import { getAPIKey } from '@/queries';
 import { useServerAvailabilityStore } from '@/store';
+import useSWR from 'swr';
+
+import { SelectAPIKey } from '@meeting-baas/db/schema';
+import { cn } from '@meeting-baas/ui';
 
 // Custom fetcher for SWR to use getAPIKey
 const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
@@ -33,9 +33,7 @@ function ServerAvailablity() {
           'bg-red-500': serverAvailability === 'error',
         })}
       />
-      {serverAvailability === 'local'
-          ? 'Running on PGLite'
-          : 'Invalid or missing API Keys'}
+      {serverAvailability === 'local' ? 'Running on PGLite' : 'Invalid or missing API Keys'}
     </div>
   );
 }

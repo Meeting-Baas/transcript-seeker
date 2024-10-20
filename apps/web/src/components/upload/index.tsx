@@ -1,9 +1,19 @@
+import { StorageBucketAPI } from '@/lib/bucketAPI';
+import * as assemblyai from '@/lib/transcription/assemblyai';
+import * as gladia from '@/lib/transcription/gladia';
+import { createMeeting, getAPIKey, getEditors, getMeetings } from '@/queries';
+import { useApiKeysStore, useEditorsStore, useMeetingsStore } from '@/store/index';
+import { Meeting } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { UploadCloudIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import useSWR from 'swr';
 import { z } from 'zod';
 
-import { useApiKeysStore, useEditorsStore, useMeetingsStore } from '@/store/index';
-
+import type { SelectAPIKey } from '@meeting-baas/db/schema';
+import { Button } from '@meeting-baas/ui/button';
 import {
   Form,
   FormControl,
@@ -14,20 +24,7 @@ import {
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
 
-import { UploadCloudIcon } from 'lucide-react';
-import { toast } from 'sonner';
-
-import * as assemblyai from '@/lib/transcription/assemblyai';
-import * as gladia from '@/lib/transcription/gladia';
-
-import { Button } from '@meeting-baas/ui/button';
-import { StorageBucketAPI } from '@/lib/bucketAPI';
-import { Meeting } from '@/types';
-import { useNavigate } from 'react-router-dom';
 import { Provider } from './types';
-import useSWR from 'swr';
-import { createMeeting, getAPIKey, getEditors, getMeetings } from '@/queries';
-import type { SelectAPIKey } from '@meeting-baas/db/schema';
 
 const MAX_FILE_SIZE = 3000 * 1024 * 1024; // 1000 MB (100 * 1024 KB * 1024 bytes)
 const ACCEPTED_FILE_TYPES = [
@@ -141,7 +138,7 @@ export function Upload({ provider, options }: UploadProps) {
       await storageAPI.init();
       await storageAPI.set(`${botId}.mp4`, file);
 
-      const newMeeting: Omit<Meeting, "id"> = {
+      const newMeeting: Omit<Meeting, 'id'> = {
         botId: botId,
         name: file.name, // Use the file name as the meeting name
         attendees: ['-'], // You might want to extract attendees from the transcript

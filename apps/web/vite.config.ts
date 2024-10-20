@@ -1,13 +1,11 @@
-import dotenv from 'dotenv';
-import react from '@vitejs/plugin-react-swc';
 import path, { resolve } from 'path';
-import { defineConfig } from 'vite';
-
-import checker from 'vite-plugin-checker';
-
 import type { VitePWAOptions } from 'vite-plugin-pwa';
-import { VitePWA } from 'vite-plugin-pwa';
+import { defineConfig } from 'vite';
 import replace from '@rollup/plugin-replace';
+import react from '@vitejs/plugin-react-swc';
+import dotenv from 'dotenv';
+import checker from 'vite-plugin-checker';
+import { VitePWA } from 'vite-plugin-pwa';
 
 dotenv.config({ path: resolve(__dirname, '../../.env') });
 
@@ -58,7 +56,7 @@ if (process.env.SW === 'true') {
   pwaOptions.injectManifest = {
     minify: false,
     enableWorkboxModulesLogs: true,
-    maximumFileSizeToCacheInBytes: 11000000
+    maximumFileSizeToCacheInBytes: 11000000,
   };
 }
 
@@ -86,7 +84,7 @@ export default defineConfig(() => {
     ],
     server: {
       port: CLIENT_PORT,
-      host: CLIENT_HOST
+      host: CLIENT_HOST,
     },
     resolve: {
       alias: {

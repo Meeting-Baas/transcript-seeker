@@ -1,5 +1,14 @@
 'use client';
 
+import type { Row } from '@tanstack/react-table';
+import * as React from 'react';
+import { StorageBucketAPI } from '@/lib/bucketAPI';
+import {
+  deleteMeeting as deleteMeetingDb,
+  getMeetings,
+  renameMeeting as renameMeetingDb,
+} from '@/queries';
+import { Meeting } from '@/types';
 import { ChevronDownIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import {
   ColumnDef,
@@ -13,9 +22,13 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import type { Row } from '@tanstack/react-table';
-import * as React from 'react';
+import { CopyIcon, EyeIcon, LoaderCircleIcon, PencilIcon, TrashIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
+import useSWR from 'swr';
+import { z } from 'zod';
 
+import { Badge } from '@meeting-baas/ui/badge';
 import { Button } from '@meeting-baas/ui/button';
 import { Checkbox } from '@meeting-baas/ui/checkbox';
 import {
@@ -35,23 +48,7 @@ import {
   TableRow,
 } from '@meeting-baas/ui/table';
 
-import { Badge } from '@meeting-baas/ui/badge';
-import { CopyIcon, EyeIcon, LoaderCircleIcon, PencilIcon, TrashIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
-
-import { StorageBucketAPI } from '@/lib/bucketAPI';
-import { Meeting } from '@/types';
-import RenameModal from './components/rename-modal';
-
-import { z } from 'zod';
-import { formSchema as renameSchema } from './components/rename-modal';
-import useSWR from 'swr';
-import {
-  getMeetings,
-  deleteMeeting as deleteMeetingDb,
-  renameMeeting as renameMeetingDb,
-} from '@/queries';
+import RenameModal, { formSchema as renameSchema } from './components/rename-modal';
 
 const fetchMeetings = async () => {
   const meetings = await getMeetings();
@@ -316,7 +313,9 @@ function MeetingTable() {
               </DropdownMenuContent>
             </DropdownMenu>
           </>
-        ) : (<></>)}
+        ) : (
+          <></>
+        )}
       </div>
       {data?.length && data?.length > 0 ? (
         <>

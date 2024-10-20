@@ -1,7 +1,8 @@
-import React, { useCallback, useRef, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
-import { cn } from '@meeting-baas/ui';
 import { ChevronDown, Search } from 'lucide-react';
+
+import { cn } from '@meeting-baas/ui';
 import { Button } from '@meeting-baas/ui/button';
 import { Input } from '@meeting-baas/ui/input';
 

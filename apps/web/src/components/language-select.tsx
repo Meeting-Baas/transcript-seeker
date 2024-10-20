@@ -1,6 +1,9 @@
 'use client';
 
+import { formSchema } from '@/routes/upload';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 
 import { cn } from '@meeting-baas/ui';
 import { Button } from '@meeting-baas/ui/button';
@@ -14,11 +17,6 @@ import {
 } from '@meeting-baas/ui/command';
 import { FormControl } from '@meeting-baas/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@meeting-baas/ui/popover';
-
-import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
-import { formSchema } from '@/routes/upload';
-
-import { z } from 'zod';
 
 const languages = [
   // todo: add more languages and make it work

@@ -1,3 +1,5 @@
+import * as z from 'zod';
+
 import { FormControl, FormItem, FormMessage } from '@meeting-baas/ui/form';
 import {
   Select,
@@ -6,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@meeting-baas/ui/select';
-import * as z from 'zod';
+
 import AutoFormLabel from '../common/label';
 import AutoFormTooltip from '../common/tooltip';
 import { AutoFormInputComponentProps } from '../types';

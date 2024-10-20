@@ -1,12 +1,11 @@
 import Join from '@/routes/join';
 import Layout from '@/routes/layout';
+import NotFound from '@/routes/not-found';
 import Meeting from '@/routes/recording';
 import Recordings from '@/routes/recordings';
-import NotFound from '@/routes/not-found';
 import Root from '@/routes/root';
 import Settings from '@/routes/settings';
 import Upload from '@/routes/upload';
-
 import { Route, Routes } from 'react-router-dom';
 
 import { Toaster } from '@meeting-baas/ui/sonner';

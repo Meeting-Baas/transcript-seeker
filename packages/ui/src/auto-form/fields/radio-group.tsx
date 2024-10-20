@@ -1,6 +1,8 @@
+import * as z from 'zod';
+
 import { FormControl, FormItem, FormLabel, FormMessage } from '@meeting-baas/ui/form';
 import { RadioGroup, RadioGroupItem } from '@meeting-baas/ui/radio-group';
-import * as z from 'zod';
+
 import AutoFormLabel from '../common/label';
 import AutoFormTooltip from '../common/tooltip';
 import { AutoFormInputComponentProps } from '../types';

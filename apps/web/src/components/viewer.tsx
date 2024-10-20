@@ -1,35 +1,32 @@
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
-import Transcript from '@/components/viewer/transcript';
-import { Player as VideoPlayer } from '@/components/viewer/video-player';
-import { useMediaQuery } from '@/hooks/use-media-query';
-import { BLANK_EDITOR_DATA, BLANK_MEETING_INFO, LOADING_EDITOR_DATA, cn } from '@meeting-baas/ui';
-import { Editor as EditorT, MeetingInfo, Message } from '@/types';
-import { MediaPlayerInstance } from '@vidstack/react';
-import axios from 'axios';
 import * as React from 'react';
-
+import { HeaderTitle } from '@/components/header-title';
 import Chat from '@/components/viewer/chat';
 import { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
 import Editor from '@/components/viewer/editor';
+import Transcript from '@/components/viewer/transcript';
+import { Player as VideoPlayer } from '@/components/viewer/video-player';
+import { useMediaQuery } from '@/hooks/use-media-query';
+import { PROXY_URL, S3_PROXY_URL } from '@/lib/constants';
+import { getById, updateById } from '@/lib/db';
 import {
   useApiKeysStore,
   useChatsStore,
   useEditorsStore,
   useServerAvailabilityStore,
 } from '@/store';
-
-import { z } from 'zod';
-
-import { HeaderTitle } from '@/components/header-title';
-
-import { PROXY_URL, S3_PROXY_URL } from '@/lib/constants';
-import { getById, updateById } from '@/lib/db';
+import { Editor as EditorT, MeetingInfo, Message } from '@/types';
 import { Separator } from '@radix-ui/react-separator';
+import { MediaPlayerInstance } from '@vidstack/react';
+import axios from 'axios';
 import { Link } from 'lucide-react';
 import { JSONContent } from 'novel';
 import OpenAI from 'openai';
 import { toast } from 'sonner';
+import { z } from 'zod';
+
+import { BLANK_EDITOR_DATA, BLANK_MEETING_INFO, cn, LOADING_EDITOR_DATA } from '@meeting-baas/ui';
 import { buttonVariants } from '@meeting-baas/ui/button';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
 
 type ViewerProps = {
   botId: string;
@@ -228,7 +225,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
         id: botId,
       });
 
-      if (!editorData?.content) { 
+      if (!editorData?.content) {
         editor?.commands.setContent(BLANK_EDITOR_DATA);
         return;
       }

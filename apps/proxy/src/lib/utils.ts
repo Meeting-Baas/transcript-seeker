@@ -1,5 +1,3 @@
 import { checkEnvironmentVariables } from "./checkEnvironmentVariables";
 
-export {
-  checkEnvironmentVariables
-};
+export { checkEnvironmentVariables };

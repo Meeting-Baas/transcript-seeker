@@ -1,59 +1,55 @@
-import { Separator } from '@meeting-baas/ui/separator';
-import { cn } from '@meeting-baas/ui';
-import { ArrowLeft } from 'lucide-react';
 import React from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { cn } from '@meeting-baas/ui';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@meeting-baas/ui/breadcrumb';
+
+interface PathItem {
+  href?: string;
+  name: string;
+}
+
 interface HeaderTitleProps {
-  path: string;
-  title: string;
-  subtitle?: React.ReactNode;
+  path: PathItem[];
   border?: boolean;
 }
 
-const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, title, subtitle, border = true }) => {
+const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, border = true }) => {
   return (
-    <>
-      <div className="flex flex-col items-center">
-        <div className="flex w-full flex-row items-center">
-          <div className="flex-shrink-0">
-            <Link
-              to={path}
-              className="flex w-min items-center gap-1 py-2 text-lg hover:text-muted-foreground"
-            >
-              <ArrowLeft />
-                <h1 className="text-2xl font-bold">{title}</h1>
-            </Link>
-          </div>
-          <div className="flex flex-grow flex-col items-end md:items-center">
-          </div>
-        </div>
-
-        <div
-          className={cn('w-full', {
-            hidden: !border,
-          })}
-        >
-          <Separator />
-        </div>
-
-        {subtitle && (
-          <>
-            <p className="hidden text-left text-muted-foreground md:block md:text-center md:text-sm">
-              {typeof subtitle === 'string'
-                ? subtitle
-                : React.Children.map(subtitle, (child) =>
-                    typeof child === 'string'
-                      ? child
-                      : React.cloneElement(child as React.ReactElement, {
-                          className: 'text-muted-foreground hover:underline',
-                        }),
-                  )}
-            </p>
-          </>
-        )}
-      </div>
-    </>
+    <header
+      className={cn(
+        'sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b bg-background px-4',
+        { 'border-b': border },
+      )}
+    >
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          {path.map((item, index) => (
+            <React.Fragment key={`brd_container-${index}`}>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                {item.href ? (
+                  <BreadcrumbLink href={item.href}>{item.name}</BreadcrumbLink>
+                ) : (
+                  <BreadcrumbPage>{item.name}</BreadcrumbPage>
+                )}
+              </BreadcrumbItem>
+            </React.Fragment>
+          ))}
+        </BreadcrumbList>
+      </Breadcrumb>
+    </header>
   );
 };
 

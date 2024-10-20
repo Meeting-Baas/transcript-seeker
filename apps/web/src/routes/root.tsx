@@ -1,13 +1,14 @@
 import ServerAlert from '@/components/server-alert';
-import { buttonVariants } from '@meeting-baas/ui/button';
-import { cn } from '@meeting-baas/ui';
-import useSWR from 'swr';
 import { getAPIKey } from '@/queries'; // Assuming you already have this
 
+import { useServerAvailabilityStore } from '@/store';
 import { SettingsIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import useSWR from 'swr';
+
 import { SelectAPIKey } from '@meeting-baas/db/schema';
-import { useServerAvailabilityStore } from '@/store';
+import { cn } from '@meeting-baas/ui';
+import { buttonVariants } from '@meeting-baas/ui/button';
 
 // Custom fetcher for SWR to use getAPIKey
 const fetchAPIKey = (type: SelectAPIKey['type']) => getAPIKey({ type });
@@ -67,7 +68,8 @@ function RootPage() {
           <Link
             to="/upload"
             className={cn(buttonVariants({ variant: 'default' }), 'h-16 flex-1 text-lg', {
-              'pointer-events-none opacity-50': !gladiaApiKey?.content && !assemblyAIApiKey?.content,
+              'pointer-events-none opacity-50':
+                !gladiaApiKey?.content && !assemblyAIApiKey?.content,
             })}
           >
             Upload File

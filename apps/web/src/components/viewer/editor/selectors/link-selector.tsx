@@ -1,6 +1,3 @@
-import { cn } from '@meeting-baas/ui';
-import { useEditor } from 'novel';
-import { Check, Trash } from 'lucide-react';
 import {
   // type Dispatch,
   // type FC,
@@ -8,8 +5,12 @@ import {
   useEffect,
   useRef,
 } from 'react';
+import { Check, Trash } from 'lucide-react';
+import { useEditor } from 'novel';
+
+import { cn } from '@meeting-baas/ui';
 import { Button } from '@meeting-baas/ui/button';
-import { PopoverContent, Popover, PopoverTrigger } from '@meeting-baas/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@meeting-baas/ui/popover';
 
 export function isValidUrl(url: string) {
   try {

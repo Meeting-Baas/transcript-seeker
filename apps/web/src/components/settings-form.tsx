@@ -1,3 +1,19 @@
+import { useEffect, useState } from 'react';
+import { getAPIKey, setAPIKey } from '@/queries';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeOff } from 'lucide-react';
+import { useForm, useFormState } from 'react-hook-form';
+import { toast } from 'sonner';
+import useSWR from 'swr';
+import { z } from 'zod';
+
+import { SelectAPIKey } from '@meeting-baas/db/schema';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@meeting-baas/ui/accordion';
 import { Button } from '@meeting-baas/ui/button';
 import {
   Form,
@@ -9,23 +25,7 @@ import {
   FormMessage,
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Eye, EyeOff } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useForm, useFormState } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@meeting-baas/ui/accordion';
-import { getAPIKey, setAPIKey } from '@/queries';
-
-import useSWR from 'swr';
-import { SelectAPIKey } from '@meeting-baas/db/schema';
+import { Separator } from '@meeting-baas/ui/separator';
 
 const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
 
@@ -44,9 +44,16 @@ interface ApiKeyFieldProps {
   label: string;
   description: React.ReactNode;
   control: any;
+  className?: string;
 }
 
-const ApiKeyField: React.FC<ApiKeyFieldProps> = ({ name, label, description, control }) => {
+const ApiKeyField: React.FC<ApiKeyFieldProps> = ({
+  name,
+  label,
+  description,
+  control,
+  className,
+}) => {
   const [showValues, setShowValues] = useState(false);
   const toggleVisibility = () => setShowValues(!showValues);
 
@@ -55,7 +62,7 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({ name, label, description, con
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           <FormLabel className="text-lg">{label}</FormLabel>
           <FormDescription className="text-primary">{description}</FormDescription>
           <FormControl>
@@ -184,6 +191,7 @@ export function SettingsForm() {
           <ApiKeyField
             name="openAIApiKey"
             label="Chat with your meetings using the OpenAI API"
+            className="[&>label]:text-xl"
             description={
               <>
                 Optional. Get your API key by visiting{' '}
@@ -192,6 +200,7 @@ export function SettingsForm() {
             }
             control={form.control}
           />
+          <Separator />
 
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">

@@ -1,17 +1,15 @@
-import { Button } from '@meeting-baas/ui/button';
-import { Textarea } from '@meeting-baas/ui/textarea';
+import * as React from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   // ArrowLeft,
   ArrowUpIcon,
   LoaderCircleIcon,
 } from 'lucide-react';
-import * as React from 'react';
-
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-
+import { toast } from 'sonner';
 import { z } from 'zod';
 
+import { Button } from '@meeting-baas/ui/button';
 import {
   Form,
   FormControl,
@@ -21,7 +19,7 @@ import {
   //   FormLabel,
   FormMessage,
 } from '@meeting-baas/ui/form';
-import { toast } from 'sonner';
+import { Textarea } from '@meeting-baas/ui/textarea';
 
 export const formSchema = z.object({
   message: z.string().trim().min(2, {

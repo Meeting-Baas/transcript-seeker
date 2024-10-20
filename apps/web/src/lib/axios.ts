@@ -1,4 +1,5 @@
 import { VITE_PROXY_URL } from '@/lib/constants';
+
 import { joinMeeting, JoinMeetingParams } from '@meeting-baas/shared';
 
 interface JoinMeetingWrapperProps {
@@ -6,10 +7,7 @@ interface JoinMeetingWrapperProps {
   params: JoinMeetingParams;
 }
 
-export const joinMeetingWrapper = async ({
-  baasApiKey,
-  params,
-}: JoinMeetingWrapperProps) => {
+export const joinMeetingWrapper = async ({ baasApiKey, params }: JoinMeetingWrapperProps) => {
   return await joinMeeting({
     ...params,
     apiKey: baasApiKey,

@@ -1,5 +1,6 @@
 // shared/src/api.ts
-import axios from "axios";
+import axios from 'axios';
+
 import * as constants from './constants';
 
 export interface JoinMeetingParams {
@@ -26,7 +27,7 @@ export async function joinMeeting({
   error?: string;
 }> {
   try {
-    const url = `${proxyUrl}/api/meetingbaas/bots`
+    const url = `${proxyUrl}/api/meetingbaas/bots`;
 
     const response = await axios.post(
       url,
@@ -35,12 +36,12 @@ export async function joinMeeting({
         bot_name: meetingBotName || constants.DEFAULT_BOT_NAME,
         entry_message: meetingBotEntryMessage || constants.DEFAULT_ENTRY_MESSAGE,
         bot_image: meetingBotImage || constants.DEFAULT_BOT_IMAGE,
-        speech_to_text: "Gladia",
+        speech_to_text: 'Gladia',
         reserved: false,
       },
       {
         headers: {
-          "x-spoke-api-key": apiKey,
+          'x-spoke-api-key': apiKey,
         },
       },
     );
@@ -49,7 +50,7 @@ export async function joinMeeting({
     return { data: response.data };
   } catch (error: any) {
     // console.error("Error joining meeting:", error);
-    return { error: error.message || "Unknown error" };
+    return { error: error.message || 'Unknown error' };
   }
 }
 
@@ -58,22 +59,16 @@ export interface BotDetailsParams {
   apiKey: string;
   proxyUrl?: string;
 }
-export async function fetchBotDetails({
-  botId,
-  apiKey,
-  proxyUrl,
-}: BotDetailsParams) {
+export async function fetchBotDetails({ botId, apiKey, proxyUrl }: BotDetailsParams) {
   try {
-    const url = proxyUrl
-      ? proxyUrl
-      : "https://api.meetingbaas.com/bots/meeting_data";
+    const url = proxyUrl ? proxyUrl : 'https://api.meetingbaas.com/bots/meeting_data';
 
     const response = await axios.get(url, {
       params: {
         bot_id: botId,
       },
       headers: {
-        "x-spoke-api-key": apiKey,
+        'x-spoke-api-key': apiKey,
       },
     });
 
@@ -81,6 +76,6 @@ export async function fetchBotDetails({
     return { data: response.data };
   } catch (error: any) {
     // console.error("Error fetching meeting:", error);
-    return { error: error.message || "Unknown error" };
+    return { error: error.message || 'Unknown error' };
   }
 }

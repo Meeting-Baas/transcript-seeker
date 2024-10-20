@@ -1,14 +1,28 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMediaQuery } from '@/hooks/use-media-query';
+import { HeaderTitle } from '@/components/header-title';
+import LanguageCombobox from '@/components/language-select';
 // import { useProviderOptionsStore } from '@/store';
 
 import { Upload } from '@/components/upload';
-import { HeaderTitle } from '@/components/header-title';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
-import { Separator } from '@meeting-baas/ui/separator';
+import ProvidersForm from '@/components/upload/providers-form';
+import { Provider } from '@/components/upload/types';
+import { useMediaQuery } from '@/hooks/use-media-query';
+import * as assemblyai from '@/lib/transcription/assemblyai/options';
+import * as gladia from '@/lib/transcription/gladia/options';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowLeft } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { z } from 'zod';
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@meeting-baas/ui/breadcrumb';
 import {
   Form,
   FormControl,
@@ -24,13 +38,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@meeting-baas/ui/select';
-import LanguageCombobox from '@/components/language-select';
-import ProvidersForm from '@/components/upload/providers-form';
-
-import * as gladia from '@/lib/transcription/gladia/options';
-import * as assemblyai from '@/lib/transcription/assemblyai/options';
-
-import { Provider } from '@/components/upload/types';
+import { Separator } from '@meeting-baas/ui/separator';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@meeting-baas/ui/sidebar';
 
 export const formSchema = z.object({
   provider: z.string().min(1, {
@@ -51,8 +70,6 @@ function getDefaults<Schema extends z.AnyZodObject>(schema: Schema) {
 }
 
 export default function UploadPage() {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -112,7 +129,7 @@ export default function UploadPage() {
       // setProviderOptions(options.provider, values);
     },
     // [options, setProviderOptions],
-    [options]
+    [options],
   );
 
   const data = form.watch();
@@ -121,68 +138,60 @@ export default function UploadPage() {
   }, [form.formState, data, onSubmit]);
 
   return (
-    <div className="h-full min-h-[calc(100dvh-81px)]">
-      <div>
-        <div className="px-4 py-1">
-          <HeaderTitle path="/" title="Upload" border={false} />
-        </div>
-        <Separator />
-      </div>
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel className="px-0">Settings</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-4">
+                  {/* Provider Selection */}
+                  <FormField
+                    control={form.control}
+                    name="provider"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Provider</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a provider" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="gladia">Gladia</SelectItem>
+                            <SelectItem value="assemblyai">AssemblyAI</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-      <ResizablePanelGroup
-        className="flex min-h-[calc(100dvh-102px)]"
-        direction={isDesktop ? 'horizontal' : 'vertical'}
-      >
-        <ResizablePanel defaultSize={25} minSize={20}>
-          <div className="flex h-full w-full flex-col space-y-4 bg-muted/50 p-4">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-                {/* Provider Selection */}
-                <FormField
-                  control={form.control}
-                  name="provider"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Provider</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a provider" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="gladia">Gladia</SelectItem>
-                          <SelectItem value="assemblyai">AssemblyAI</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  {/* Language Selection */}
+                  <FormField
+                    control={form.control}
+                    name="language"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        {/* todo: this doesn't do anything currently */}
+                        {/* todo: add automatic option or auto detect */}
+                        <FormLabel>Language</FormLabel>
+                        <LanguageCombobox form={form} field={field} />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </form>
+              </Form>
+            </SidebarGroupContent>
+          </SidebarGroup>
+          <Separator />
+          <SidebarGroup>
+            <SidebarGroupLabel className="px-0">Select additional capabilities</SidebarGroupLabel>
 
-                {/* Language Selection */}
-                <FormField
-                  control={form.control}
-                  name="language"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      {/* todo: this doesn't do anything currently */}
-                      {/* todo: add automatic option or auto detect */}
-                      <FormLabel>Language</FormLabel>
-                      <LanguageCombobox form={form} field={field} />
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </form>
-            </Form>
-
-            <Separator />
-
-            {/* Additional Capabilities */}
-            <div className="flex h-full flex-1 flex-col space-y-4">
-              <h2 className="text-md font-semibold">Select additional capabilities</h2>
-
+            <SidebarGroupContent>
               {options?.provider && (
                 <ProvidersForm
                   defaultValues={defaultValues!}
@@ -190,26 +199,40 @@ export default function UploadPage() {
                   onSubmit={handleProviderSubmit}
                 />
               )}
-            </div>
-          </div>
-        </ResizablePanel>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
 
-        <ResizableHandle withHandle />
+      <SidebarInset>
+        <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b bg-background px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Upload File</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
 
-        <ResizablePanel defaultSize={75} minSize={30}>
-          <div className="p-4">
-            {options ? (
-              <Upload
-                provider={options.provider as Provider}
-                language={options.language}
-                options={providerOptions!}
-              />
-            ) : (
-              <p>Please save your options to proceed with the upload.</p>
-            )}
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
-    </div>
+        <div className="p-4">
+          {options ? (
+            <Upload
+              provider={options.provider as Provider}
+              language={options.language}
+              options={providerOptions!}
+            />
+          ) : (
+            <p>Please save your options to proceed with the upload.</p>
+          )}
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

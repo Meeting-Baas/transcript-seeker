@@ -1,14 +1,22 @@
 'use client';
 
+import ServerAlert from '@/components/server-alert';
 import { joinMeetingWrapper as joinMeeting } from '@/lib/axios';
-import { useServerAvailabilityStore } from '@/store';
-
+import { createMeeting, getAPIKey, getMeetings } from '@/queries';
+import { Meeting } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DEFAULT_BOT_NAME, DEFAULT_BOT_IMAGE, DEFAULT_ENTRY_MESSAGE, DEFAULT_SPEECH_TO_TEXT } from '@meeting-baas/shared';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import useSWR from 'swr';
 import { z } from 'zod';
 
+import type { SelectAPIKey } from '@meeting-baas/db/schema';
+import {
+  DEFAULT_BOT_IMAGE,
+  DEFAULT_BOT_NAME,
+  DEFAULT_ENTRY_MESSAGE,
+  DEFAULT_SPEECH_TO_TEXT,
+} from '@meeting-baas/shared';
 // Remove the axios import
 
 import { Button } from '@meeting-baas/ui/button';
@@ -21,13 +29,6 @@ import {
   FormMessage,
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
-
-import ServerAlert from '@/components/server-alert';
-import { Meeting } from '@/types';
-
-import useSWR from 'swr';
-import { createMeeting, getAPIKey, getMeetings } from '@/queries';
-import type { SelectAPIKey } from '@meeting-baas/db/schema';
 
 // const fetchMeetings = async () => {
 //   const meetings = await getMeetings();
@@ -47,7 +48,6 @@ const formSchema = z.object({
 });
 
 export function MeetingForm() {
-  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
   const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
   // const { data: meetings } = useSWR('meetings', () => fetchMeetings());
 
@@ -65,8 +65,7 @@ export function MeetingForm() {
     try {
       const { meetingURL, meetingBotName, meetingBotImage, meetingBotEntryMessage } = values;
       const result = await joinMeeting({
-        baasApiKey: baasApiKey?.content ?? "",
-        serverAvailability,
+        baasApiKey: baasApiKey?.content ?? '',
         params: {
           meetingURL,
           meetingBotName,
@@ -80,14 +79,14 @@ export function MeetingForm() {
         throw new Error(result.error);
       }
 
-      const newMeeting: Omit<Meeting, "id"> = {
+      const newMeeting: Omit<Meeting, 'id'> = {
         botId: String(result.data.bot_id),
         name: 'MeetingBaas Recorded Meeting',
         attendees: ['-'],
         createdAt: new Date(),
         status: 'loading',
       };
-  
+
       createMeeting(newMeeting);
       toast.success(`Meeting bot created successfully!`);
     } catch (error) {
@@ -97,80 +96,76 @@ export function MeetingForm() {
   }
 
   return (
-    <>
-      <div className="my-2 bg-white">
-        <ServerAlert mode={serverAvailability} />
-      </div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="meetingURL"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Meeting URL *</FormLabel>
-                <FormControl>
-                  <Input type="url" placeholder="Enter meeting URL" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="meetingBotName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Meeting Bot Name (optional)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder={DEFAULT_BOT_NAME}
-                    className={!field.value ? 'text-gray-400' : ''}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="meetingBotImage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Meeting Bot Image (optional)</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={DEFAULT_BOT_IMAGE}
-                    className={!field.value ? 'text-gray-400' : ''}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="meetingBotEntryMessage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Meeting Bot Entry Message (optional)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder={DEFAULT_ENTRY_MESSAGE}
-                    className={!field.value ? 'text-gray-400' : ''}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* this doesn't really make sense if you think about it */}
-          {/* <FormField
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="meetingURL"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Meeting URL *</FormLabel>
+              <FormControl>
+                <Input type="url" placeholder="Enter meeting URL" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="meetingBotName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Meeting Bot Name (optional)</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder={DEFAULT_BOT_NAME}
+                  className={!field.value ? 'text-gray-400' : ''}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="meetingBotImage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Meeting Bot Image (optional)</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={DEFAULT_BOT_IMAGE}
+                  className={!field.value ? 'text-gray-400' : ''}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="meetingBotEntryMessage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Meeting Bot Entry Message (optional)</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder={DEFAULT_ENTRY_MESSAGE}
+                  className={!field.value ? 'text-gray-400' : ''}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* this doesn't really make sense if you think about it */}
+        {/* <FormField
             control={form.control}
             name="apiKey"
             render={({ field }) => (
@@ -183,9 +178,10 @@ export function MeetingForm() {
               </FormItem>
             )}
           /> */}
-          <Button type="submit" className='w-full'>Submit</Button>
-        </form>
-      </Form>
-    </>
+        <Button type="submit" className="w-full">
+          Submit
+        </Button>
+      </form>
+    </Form>
   );
 }

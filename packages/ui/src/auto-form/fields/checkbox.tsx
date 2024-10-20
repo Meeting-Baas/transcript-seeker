@@ -1,8 +1,9 @@
 import { Checkbox } from '@meeting-baas/ui/checkbox';
 import { FormControl, FormItem } from '@meeting-baas/ui/form';
+
+import AutoFormLabel from '../common/label';
 import AutoFormTooltip from '../common/tooltip';
 import { AutoFormInputComponentProps } from '../types';
-import AutoFormLabel from '../common/label';
 
 export default function AutoFormCheckbox({
   label,

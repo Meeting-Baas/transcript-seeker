@@ -1,5 +1,5 @@
-import { FormLabel } from '@meeting-baas/ui/form';
 import { cn } from '@meeting-baas/ui';
+import { FormLabel } from '@meeting-baas/ui/form';
 
 function AutoFormLabel({
   label,
