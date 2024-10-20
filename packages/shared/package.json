@@ -1,23 +1,27 @@
 {
   "name": "@meeting-baas/shared",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "types": "./dist/types/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "private": true,
+  "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.js",
-      "types": "./dist/types/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "default": "./src/client.ts"
+    },
+    "./schema": {
+      "types": "./dist/schema.d.ts",
+      "default": "./src/schema.ts"
     }
   },
   "scripts": {
-    "clean": "rimraf dist",
-    "build": "pnpm clean && rollup -c --silent --bundleConfigAsCjs",
-    "build:watch": "rollup -c -w"
+    "build": "tsc",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "tsc",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "axios": "^1.7.2",
