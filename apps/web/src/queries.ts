@@ -64,6 +64,21 @@ export async function deleteMeetingByBotId({ botId }: { botId: SelectMeeting['bo
   return await db.delete(meetingsTable).where(eq(meetingsTable.botId, botId));
 }
 
-export async function getEditors() {
-  return await db.query.editorsTable.findMany();
+export async function getEditor({ id }: { id: SelectMeeting['id'] }) {
+  if (!id) return;
+  const meeting = await db.query.meetingsTable.findFirst({
+    where: (meetings, { eq }) => eq(meetings.id, id),
+  });
+  return meeting?.editorContent;
+}
+
+export async function setEditor({ id, editorContent }: { id: SelectMeeting['id']; editorContent: SelectMeeting['editorContent']; }) {
+  if (!id) return;
+  return await db
+    .update(meetingsTable)
+    .set({ editorContent })
+    .where(eq(meetingsTable.id, id))
+    .returning({
+      editorContent: meetingsTable.editorContent
+    });
 }

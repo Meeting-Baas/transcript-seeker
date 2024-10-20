@@ -1,8 +1,7 @@
 import { StorageBucketAPI } from '@/lib/bucketAPI';
 import * as assemblyai from '@/lib/transcription/assemblyai';
 import * as gladia from '@/lib/transcription/gladia';
-import { createMeeting, getAPIKey, getEditors, getMeetings } from '@/queries';
-import { useApiKeysStore, useEditorsStore, useMeetingsStore } from '@/store/index';
+import { createMeeting, getAPIKey, getEditors, getMeetings, setEditor } from '@/queries';
 import { Meeting } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadCloudIcon } from 'lucide-react';
@@ -25,6 +24,7 @@ import {
 import { Input } from '@meeting-baas/ui/input';
 
 import { Provider } from './types';
+import { v4 as uuidv4 } from 'uuid';
 
 const MAX_FILE_SIZE = 3000 * 1024 * 1024; // 1000 MB (100 * 1024 KB * 1024 bytes)
 const ACCEPTED_FILE_TYPES = [
@@ -118,7 +118,6 @@ export function UploadForm({ provider, options }: UploadProps) {
         assemblyai: assemblyAIApiKey?.content ?? '',
       };
 
-      // assemblyAIApiKey do the same logic but have api key select
       if (provider in transcriptionFunctions) {
         ({ transcript, data } = await transcriptionFunctions[provider](
           file,
@@ -132,9 +131,8 @@ export function UploadForm({ provider, options }: UploadProps) {
       console.log('transcript', transcript);
 
       // Generate a unique bot_id
-      const date = Date.now();
-      const botId = `local_file_${date}`;
-
+      const botId = uuidv4();
+    
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
       await storageAPI.set(`${botId}.mp4`, file);
@@ -168,6 +166,7 @@ export function UploadForm({ provider, options }: UploadProps) {
         },
       };
 
+      const { id } = await createMeeting(newMeeting);
       if (data.summarization) {
         const content = {
           type: 'doc',
@@ -186,15 +185,9 @@ export function UploadForm({ provider, options }: UploadProps) {
           ],
         };
 
-        const newEditors = updateById({
-          id: botId,
-          originalData: editors,
-          updateData: { content }, // Assuming `content` should be part of the updated data
-        });
-        setEditors(newEditors);
+        await setEditor({ id, editorContent: content });
       }
 
-      createMeeting([...meetings, newMeeting]);
       toast.success('File processed and meeting stored successfully!', {
         id: loading,
       });
