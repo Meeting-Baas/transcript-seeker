@@ -1,0 +1,1 @@
+ALTER TABLE "meetings" ADD COLUMN "editor_content" jsonb DEFAULT '{}'::jsonb NOT NULL;

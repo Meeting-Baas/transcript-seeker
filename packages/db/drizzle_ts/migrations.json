@@ -10,5 +10,13 @@
     "bps": true,
     "folderMillis": 1729405589250,
     "hash": "d26ffe01b3c929199d79fd806304e8958b20e1490cc19cca8110d6e8ffd4e214"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"meetings\" ADD COLUMN \"editor_content\" jsonb DEFAULT '{}'::jsonb NOT NULL;"
+    ],
+    "bps": true,
+    "folderMillis": 1729421692078,
+    "hash": "40fef6cfa04e0602970506e979c8cc0d26ea7df71b0bf57acb4b7560cf0e8dcb"
   }
 ]

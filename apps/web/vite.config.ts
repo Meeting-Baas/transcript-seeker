@@ -1,17 +1,16 @@
 import dotenv from 'dotenv';
 import react from '@vitejs/plugin-react-swc';
 import path, { resolve } from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
 import checker from 'vite-plugin-checker';
 
-import type { ManifestOptions, VitePWAOptions } from 'vite-plugin-pwa';
+import type { VitePWAOptions } from 'vite-plugin-pwa';
 import { VitePWA } from 'vite-plugin-pwa';
 import replace from '@rollup/plugin-replace';
 
 dotenv.config({ path: resolve(__dirname, '../../.env') });
 
-console.log
 const pwaOptions: Partial<VitePWAOptions> = {
   mode: 'development',
   base: '/',
@@ -56,11 +55,10 @@ if (process.env.SW === 'true') {
   pwaOptions.srcDir = 'src';
   pwaOptions.filename = 'service-worker.ts';
   pwaOptions.strategies = 'injectManifest';
-  // ;(pwaOptions.manifest as Partial<ManifestOptions>).name = 'PWA Inject Manifest'
-  // ;(pwaOptions.manifest as Partial<ManifestOptions>).short_name = 'PWA Inject'
   pwaOptions.injectManifest = {
     minify: false,
     enableWorkboxModulesLogs: true,
+    maximumFileSizeToCacheInBytes: 11000000
   };
 }
 

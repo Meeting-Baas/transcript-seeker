@@ -17,7 +17,7 @@ async function fetchPublicLink(
     const initialMeeting: Meeting = {
         id: publicLink,
         name: 'Loading...',
-        bot_id: botId!,
+        botId: botId!,
         attendees: ['-'],
         createdAt: new Date(),
         status: 'loading',
@@ -70,7 +70,7 @@ function MeetingPage() {
         if (!botId) throw new Error('No bot ID provided');
 
         const meeting: MeetingT | undefined = meetings.find(
-            (meeting: MeetingT) => meeting.bot_id === botId,
+            (meeting: MeetingT) => meeting.botId === botId,
         );
         if (!meeting) {
             throw new Error('Meeting not found');
@@ -79,11 +79,11 @@ function MeetingPage() {
         // TODO : Ce local-storage HACK n'est pas assez hospitalier. Ici peuvent venir des problemes d'initialization
         // TODO : Cette fonction devrait pouvoir s'executer plus tard
         // FIXED?
-        if (meeting.bot_id.startsWith('local_file')) {
+        if (meeting.botId.startsWith('local_file')) {
             const storageAPI = new StorageBucketAPI('local_files');
             await storageAPI.init();
 
-            const videoContent = await storageAPI.get(`${meeting.bot_id}.mp4`);
+            const videoContent = await storageAPI.get(`${meeting.botId}.mp4`);
             if (videoContent && meeting.data?.assets[0]) meeting.data.assets[0].mp4_blob = videoContent;
         }
 

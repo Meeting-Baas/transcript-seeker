@@ -88,9 +88,9 @@ const columns: (
   //   enableHiding: false,
   // },
   {
-    accessorKey: 'bot_id',
+    accessorKey: 'botId',
     header: 'Bot ID',
-    cell: ({ row }) => <div>{row.getValue('bot_id')}</div>,
+    cell: ({ row }) => <div>{row.getValue('botId')}</div>,
   },
   {
     accessorKey: 'name',
@@ -164,7 +164,7 @@ function RowActions({
     <div className="flex w-full items-center justify-end gap-2">
       {meeting.status === 'loaded' ? (
         <Button size="icon" asChild className="h-8 w-8 p-0">
-          <Link to={`/meeting/${meeting.bot_id}`}>
+          <Link to={`/meeting/${meeting.botId}`}>
             <EyeIcon className="h-4 w-4" />
           </Link>
         </Button>
@@ -182,7 +182,7 @@ function RowActions({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="space-y-1">
           {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
-          <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meeting.bot_id)}>
+          <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meeting.botId)}>
             <CopyIcon className="mr-2 h-4 w-4" />
             Copy Bot ID
           </DropdownMenuItem>
@@ -192,7 +192,7 @@ function RowActions({
           </DropdownMenuItem>
           <DropdownMenuItem
             className="bg-red-500/30 text-red-500 focus:bg-red-500/50 focus:text-red-600"
-            onClick={() => deleteMeeting(meeting.id, meeting.bot_id)}
+            onClick={() => deleteMeeting(meeting.id, meeting.botId)}
           >
             <TrashIcon className="mr-2 h-4 w-4" />
             Delete
@@ -223,7 +223,7 @@ function MeetingTable() {
   ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
-    bot_id: false,
+    botId: false,
   });
   const [rowSelection, setRowSelection] = React.useState({});
 
@@ -288,8 +288,8 @@ function MeetingTable() {
             {/* TODO: implement search module connectivity here */}
             <Input
               placeholder="Filter Bot Id..."
-              value={(table.getColumn('bot_id')?.getFilterValue() as string) ?? ''}
-              onChange={(event) => table.getColumn('bot_id')?.setFilterValue(event.target.value)}
+              value={(table.getColumn('botId')?.getFilterValue() as string) ?? ''}
+              onChange={(event) => table.getColumn('botId')?.setFilterValue(event.target.value)}
             />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

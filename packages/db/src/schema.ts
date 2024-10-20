@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { serial, text, timestamp, pgTable, pgEnum } from "drizzle-orm/pg-core";
+import { serial, text, timestamp, pgTable, pgEnum, jsonb } from "drizzle-orm/pg-core";
 
 export const meetingTypeEnum = pgEnum("meeting_type", ["meetingbaas", "local"]);
 export const meetingStatusEnum = pgEnum("meeting_status", ["loaded", "loading", "error"]);
@@ -8,12 +8,15 @@ export const meetingsTable = pgTable("meetings", {
     id: serial("id"),
     type: meetingTypeEnum(),
     name: text("name"),
-    bot_id: text("bot_id").notNull(),
+    botId: text("bot_id").notNull(),
     attendees: text("attendees")
         .array()
         .notNull()
         .default(sql`'{}'::text[]`),
     status: meetingStatusEnum(),
+    editorContent: jsonb("editor_content")
+      .notNull()
+      .default({}),
     // transcript: text("transcript")
     //   .array()
     //   .notNull()
@@ -28,6 +31,22 @@ export const meetingsTable = pgTable("meetings", {
 
 export type InsertMeeting = typeof meetingsTable.$inferInsert;
 export type SelectMeeting = typeof meetingsTable.$inferSelect;
+
+// todo: refactor this
+// export const editorsTable = pgTable("editors", {
+//     id: serial("id"),
+//     content: jsonb("content")
+//       .notNull()
+//       .default({}),
+//     createdAt: timestamp("created_at").defaultNow().notNull(),
+//     updatedAt: timestamp("updated_at", {
+//         mode: "date",
+//         withTimezone: true,
+//     }),
+// });
+
+// export type InsertEditor = typeof editorsTable.$inferInsert;
+// export type SelectEditor = typeof editorsTable.$inferSelect;
 
 export const apiKeyTypeEnum = pgEnum("api_key_type", ["meetingbaas", "gladia", "openai", "assemblyai"]);
 

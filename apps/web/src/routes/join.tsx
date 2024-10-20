@@ -1,5 +1,5 @@
 import { HeaderTitle } from '@/components/header-title';
-import { MeetingForm } from '../components/meeting/meeting-form';
+import { MeetingForm } from '../components/meeting/meeting-record-form';
 
 function JoinPage() {
   return (

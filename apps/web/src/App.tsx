@@ -21,6 +21,7 @@ export default function App() {
           <Route path="settings" element={<Settings />} />
           <Route path="recordings" element={<Recordings />} />
           <Route path="join" element={<Join />} />
+          <Route path="upload" element={<Upload />} />
           {/*
           <Route path="upload" element={<Upload />} />
   

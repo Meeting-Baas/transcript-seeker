@@ -81,7 +81,7 @@ export function MeetingForm() {
       }
 
       const newMeeting: Omit<Meeting, "id"> = {
-        bot_id: String(result.data.bot_id),
+        botId: String(result.data.bot_id),
         name: 'MeetingBaas Recorded Meeting',
         attendees: ['-'],
         createdAt: new Date(),

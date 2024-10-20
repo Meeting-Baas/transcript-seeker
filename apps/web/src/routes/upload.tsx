@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { useProviderOptionsStore } from '@/store';
+// import { useProviderOptionsStore } from '@/store';
 
 import { Upload } from '@/components/upload';
 import { HeaderTitle } from '@/components/header-title';
@@ -67,14 +67,15 @@ export default function UploadPage() {
     language: 'en',
   });
 
-  const rawProviderOptions = useProviderOptionsStore((state) => state.providerOptions);
-  const getProviderOptions = useProviderOptionsStore((state) => state.getProviderOptions);
-  const setProviderOptions = useProviderOptionsStore((state) => state.setProviderOptions);
+  // const rawProviderOptions = useProviderOptionsStore((state) => state.providerOptions);
+  // const getProviderOptions = useProviderOptionsStore((state) => state.getProviderOptions);
+  // const setProviderOptions = useProviderOptionsStore((state) => state.setProviderOptions);
 
-  const providerOptions = useMemo(
-    () => getProviderOptions(options.provider),
-    [rawProviderOptions, options, getProviderOptions],
-  );
+  // const providerOptions = useMemo(
+  //   () => getProviderOptions(options.provider),
+  //   [rawProviderOptions, options, getProviderOptions],
+  // );
+  const providerOptions = null;
 
   const getProviderSchema = useCallback((provider?: string) => {
     if (provider === 'gladia') return gladia.options;
@@ -108,9 +109,10 @@ export default function UploadPage() {
 
   const handleProviderSubmit = useCallback(
     (values: { [key: string]: unknown }) => {
-      setProviderOptions(options.provider, values);
+      // setProviderOptions(options.provider, values);
     },
-    [options, setProviderOptions],
+    // [options, setProviderOptions],
+    [options]
   );
 
   const data = form.watch();

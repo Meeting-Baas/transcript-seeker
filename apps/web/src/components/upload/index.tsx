@@ -22,10 +22,12 @@ import * as gladia from '@/lib/transcription/gladia';
 
 import { Button } from '@meeting-baas/ui/button';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
-import { updateById } from '@/lib/db';
 import { Meeting } from '@/types';
 import { useNavigate } from 'react-router-dom';
 import { Provider } from './types';
+import useSWR from 'swr';
+import { createMeeting, getAPIKey, getEditors, getMeetings } from '@/queries';
+import type { SelectAPIKey } from '@meeting-baas/db/schema';
 
 const MAX_FILE_SIZE = 3000 * 1024 * 1024; // 1000 MB (100 * 1024 KB * 1024 bytes)
 const ACCEPTED_FILE_TYPES = [
@@ -63,15 +65,30 @@ interface UploadProps {
   };
 }
 
+const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
+const fetchMeetings = async () => {
+  const meetings = await getMeetings();
+  if (!meetings) return [];
+  if (Array.isArray(meetings)) {
+    return meetings;
+  }
+  return [];
+};
+const fetchEditors = async () => {
+  const editors = await fetchEditors();
+  if (!editors) return [];
+  if (Array.isArray(editors)) {
+    return editors;
+  }
+  return [];
+};
+
 export function Upload({ provider, options }: UploadProps) {
-  const gladiaApiKey = useApiKeysStore((state) => state.gladiaApiKey);
-  const assemblyAIApiKey = useApiKeysStore((state) => state.assemblyAIApiKey);
+  const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
+  const { data: assemblyAIApiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
 
-  const editors = useEditorsStore((state) => state.editors);
-  const setEditors = useEditorsStore((state) => state.setEditors);
-
-  const meetings = useMeetingsStore((state) => state.meetings);
-  const setMeetings = useMeetingsStore((state) => state.setMeetings);
+  const { data: editors, mutate: mutateEditors } = useSWR('editors', () => fetchEditors());
+  const { data: meetings, mutate: mutateMeetings } = useSWR('meetings', () => fetchMeetings());
 
   const navigate = useNavigate();
 
@@ -99,8 +116,8 @@ export function Upload({ provider, options }: UploadProps) {
       };
 
       const apiKeys = {
-        gladia: gladiaApiKey,
-        assemblyai: assemblyAIApiKey,
+        gladia: gladiaApiKey?.content ?? '',
+        assemblyai: assemblyAIApiKey?.content ?? '',
       };
 
       // assemblyAIApiKey do the same logic but have api key select
@@ -118,21 +135,20 @@ export function Upload({ provider, options }: UploadProps) {
 
       // Generate a unique bot_id
       const date = Date.now();
-      const bot_id = `local_file_${date}`;
+      const botId = `local_file_${date}`;
 
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
-      await storageAPI.set(`${bot_id}.mp4`, file);
+      await storageAPI.set(`${botId}.mp4`, file);
 
-      const newMeeting: Meeting = {
-        id: bot_id,
-        bot_id: bot_id,
+      const newMeeting: Omit<Meeting, "id"> = {
+        botId: botId,
         name: file.name, // Use the file name as the meeting name
         attendees: ['-'], // You might want to extract attendees from the transcript
         createdAt: new Date(),
         status: 'loaded',
         data: {
-          id: bot_id,
+          id: botId,
           name: file.name, // Use the file name as the meeting name
           editors: [
             {
@@ -173,20 +189,19 @@ export function Upload({ provider, options }: UploadProps) {
         };
 
         const newEditors = updateById({
-          id: bot_id,
+          id: botId,
           originalData: editors,
           updateData: { content }, // Assuming `content` should be part of the updated data
         });
         setEditors(newEditors);
       }
 
-      setMeetings([...meetings, newMeeting]);
-      console.log([...meetings, newMeeting], meetings);
+      createMeeting([...meetings, newMeeting]);
       toast.success('File processed and meeting stored successfully!', {
         id: loading,
       });
 
-      navigate(`/meeting/${bot_id}`);
+      navigate(`/meeting/${botId}`);
     } catch (error) {
       console.error('Error generating transcript:', error);
       toast.error('Oops! Something went wrong, please try again later', {

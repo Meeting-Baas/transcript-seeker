@@ -17,7 +17,14 @@ const formSchema = z.object({
   }),
 });
 
-const fetchMeetings = async () => await getMeetings();
+const fetchMeetings = async () => {
+  const meetings = await getMeetings();
+  if (!meetings) return [];
+  if (Array.isArray(meetings)) {
+    return meetings;
+  }
+  return [];
+};
 
 export function ImportMeeting() {
   // const navigate = useNavigate();
@@ -41,7 +48,7 @@ export function ImportMeeting() {
 
     await createMeeting(
       {
-        bot_id: botId,
+        botId: botId,
         type: 'meetingbaas',
         name: 'Imported Meeting',
         attendees: ['-'],

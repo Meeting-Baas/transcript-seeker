@@ -3,7 +3,7 @@ import { Transcript } from '.';
 export type Meeting = {
     id: number;
     name: string;
-    bot_id: string;
+    botId: string;
     attendees: string[];
     data?: MeetingInfo;
     createdAt: Date;
