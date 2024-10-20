@@ -2,8 +2,8 @@ import {
   Avatar,
   // AvatarImage,
   AvatarFallback,
-} from '@/components/ui/avatar';
-import { cn } from '@/lib/utils';
+} from '@meeting-baas/ui/avatar';
+import { cn } from '@meeting-baas/ui';
 import { BotMessageSquareIcon, UserIcon } from 'lucide-react';
 
 function Message({ message }: { message: { content: string; role: string } }) {

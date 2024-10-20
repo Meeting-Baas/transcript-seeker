@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@meeting-baas/ui/button';
 import { Link } from 'react-router-dom';
 
 function NotFoundPage() {

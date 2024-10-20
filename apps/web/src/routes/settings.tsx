@@ -1,7 +1,7 @@
 import { SettingsForm } from '../components/settings-form';
 
 import { HeaderTitle } from '@/components/header-title';
-import { Button } from '@/components/ui/button';
+import { Button } from '@meeting-baas/ui/button';
 
 function SettingsPage() {
   return (

@@ -11,7 +11,7 @@ import { z } from 'zod';
 
 // Remove the axios import
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@meeting-baas/ui/button';
 import {
   Form,
   FormControl,
@@ -19,15 +19,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@meeting-baas/ui/form';
+import { Input } from '@meeting-baas/ui/input';
 
 import ServerAlert from '@/components/server-alert';
 import { Meeting } from '@/types';
 
 import useSWR from 'swr';
 import { createMeeting, getAPIKey, getMeetings } from '@/queries';
-import type { SelectAPIKey } from '@/db/schema';
+import type { SelectAPIKey } from '@meeting-baas/db/schema';
 
 // const fetchMeetings = async () => {
 //   const meetings = await getMeetings();

@@ -7,8 +7,8 @@ import { useProviderOptionsStore } from '@/store';
 
 import { Upload } from '@/components/upload';
 import { HeaderTitle } from '@/components/header-title';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { Separator } from '@/components/ui/separator';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
+import { Separator } from '@meeting-baas/ui/separator';
 import {
   Form,
   FormControl,
@@ -16,14 +16,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '@meeting-baas/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@meeting-baas/ui/select';
 import LanguageCombobox from '@/components/language-select';
 import ProvidersForm from '@/components/upload/providers-form';
 

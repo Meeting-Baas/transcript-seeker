@@ -1,5 +1,5 @@
-import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
+import { Separator } from '@meeting-baas/ui/separator';
+import { cn } from '@meeting-baas/ui';
 import { ArrowLeft } from 'lucide-react';
 import React from 'react';
 import { Link } from 'react-router-dom';

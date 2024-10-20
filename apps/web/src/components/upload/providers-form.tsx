@@ -1,9 +1,9 @@
 'use client';
 
-import AutoForm from '@/components/ui/auto-form';
+import AutoForm from '@meeting-baas/ui/auto-form';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { z } from 'zod';
-import { ZodObjectOrWrapped } from '../ui/auto-form/utils';
+import { ZodObjectOrWrapped } from '.@meeting-baas/ui/auto-form/utils';
 
 interface ProvidersFormProps<T extends z.ZodTypeAny> {
   defaultValues: z.infer<T>;

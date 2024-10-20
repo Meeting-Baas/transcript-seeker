@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@meeting-baas/ui';
 import useSWR from 'swr';
-import { SelectAPIKey } from '@/db/schema';
+import { SelectAPIKey } from '@meeting-baas/db/schema';
 import { getAPIKey } from '@/queries';
 import { useServerAvailabilityStore } from '@/store';
 

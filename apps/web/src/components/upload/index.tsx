@@ -11,8 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@meeting-baas/ui/form';
+import { Input } from '@meeting-baas/ui/input';
 
 import { UploadCloudIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -20,7 +20,7 @@ import { toast } from 'sonner';
 import * as assemblyai from '@/lib/transcription/assemblyai';
 import * as gladia from '@/lib/transcription/gladia';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@meeting-baas/ui/button';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
 import { updateById } from '@/lib/db';
 import { Meeting } from '@/types';

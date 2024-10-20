@@ -4,23 +4,15 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./src/index.ts"
-    },
-    "./client": {
-      "types": "./dist/client.d.ts",
-      "default": "./src/client.ts"
-    },
-    "./schema": {
-      "types": "./dist/schema.d.ts",
-      "default": "./src/schema.ts"
-    }
+    ".": "./src/index.ts"
   },
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "tsc",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
@@ -28,20 +20,15 @@
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "@rollup/plugin-alias": "^5.1.0",
-    "@rollup/plugin-commonjs": "^25.0.2",
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.1.0",
-    "@rollup/plugin-replace": "^6.0.1",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@types/jest": "^29.5.2",
-    "@types/node": "^20.14.9",
-    "@types/react": "^18.3.3",
-    "rimraf": "^5.0.1",
-    "rollup": "^3.26.0",
-    "rollup-plugin-generate-package-json": "^3.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-typescript2": "^0.35.0",
-    "typescript": "^5.2.2"
-  }
+    "@meeting-baas/eslint-config": "workspace:*",
+    "@meeting-baas/prettier-config": "workspace:*",
+    "@meeting-baas/tailwind-config": "workspace:*",
+    "@meeting-baas/tsconfig": "workspace:*",
+    "@types/node": "^20.16.11",
+    "@types/react": "catalog:react18",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@meeting-baas/prettier-config"
 }

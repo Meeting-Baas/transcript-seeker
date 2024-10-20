@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@meeting-baas/ui/button';
+import { Textarea } from '@meeting-baas/ui/textarea';
 import {
   // ArrowLeft,
   ArrowUpIcon,
@@ -20,7 +20,7 @@ import {
   FormItem,
   //   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '@meeting-baas/ui/form';
 import { toast } from 'sonner';
 
 export const formSchema = z.object({

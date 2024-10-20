@@ -2,8 +2,8 @@
 
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import { cn } from '@meeting-baas/ui';
+import { Button } from '@meeting-baas/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -11,9 +11,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
-import { FormControl } from '@/components/ui/form';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+} from '@meeting-baas/ui/command';
+import { FormControl } from '@meeting-baas/ui/form';
+import { Popover, PopoverContent, PopoverTrigger } from '@meeting-baas/ui/popover';
 
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { formSchema } from '@/routes/upload';

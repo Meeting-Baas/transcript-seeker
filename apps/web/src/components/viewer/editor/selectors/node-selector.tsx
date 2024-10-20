@@ -14,8 +14,8 @@ import {
 import { EditorBubbleItem, EditorInstance, useEditor } from 'novel';
 
 import { Popover } from '@radix-ui/react-popover';
-import { PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
+import { PopoverContent, PopoverTrigger } from '@meeting-baas/ui/popover';
+import { Button } from '@meeting-baas/ui/button';
 
 export type SelectorItem = {
   name: string;

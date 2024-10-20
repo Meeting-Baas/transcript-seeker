@@ -9,7 +9,7 @@ import Upload from '@/routes/upload';
 
 import { Route, Routes } from 'react-router-dom';
 
-import { Toaster } from '@/components/ui/sonner';
+import { Toaster } from '@meeting-baas/ui/sonner';
 
 export default function App() {
   return (

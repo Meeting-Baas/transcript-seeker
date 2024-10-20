@@ -5,13 +5,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@meeting-baas/ui/dialog';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@meeting-baas/ui/button';
 import {
   Form,
   FormControl,
@@ -20,9 +20,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '@meeting-baas/ui/form';
 
-import { Input } from '@/components/ui/input';
+import { Input } from '@meeting-baas/ui/input';
 
 export const formSchema = z.object({
   name: z.string().min(2, {

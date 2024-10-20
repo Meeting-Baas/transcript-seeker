@@ -1,8 +1,8 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@meeting-baas/ui';
 import { EditorBubbleItem, useEditor } from 'novel';
 import { BoldIcon, ItalicIcon, UnderlineIcon, StrikethroughIcon, CodeIcon } from 'lucide-react';
 import type { SelectorItem } from './node-selector';
-import { Button } from '@/components/ui/button';
+import { Button } from '@meeting-baas/ui/button';
 
 export const TextButtons = () => {
   const { editor } = useEditor();

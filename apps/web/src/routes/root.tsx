@@ -1,12 +1,12 @@
 import ServerAlert from '@/components/server-alert';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { buttonVariants } from '@meeting-baas/ui/button';
+import { cn } from '@meeting-baas/ui';
 import useSWR from 'swr';
 import { getAPIKey } from '@/queries'; // Assuming you already have this
 
 import { SettingsIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { SelectAPIKey } from '@/db/schema';
+import { SelectAPIKey } from '@meeting-baas/db/schema';
 import { useServerAvailabilityStore } from '@/store';
 
 // Custom fetcher for SWR to use getAPIKey

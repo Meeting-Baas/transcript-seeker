@@ -1,8 +1,8 @@
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
 import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { BLANK_EDITOR_DATA, BLANK_MEETING_INFO, LOADING_EDITOR_DATA, cn } from '@/lib/utils';
+import { BLANK_EDITOR_DATA, BLANK_MEETING_INFO, LOADING_EDITOR_DATA, cn } from '@meeting-baas/ui';
 import { Editor as EditorT, MeetingInfo, Message } from '@/types';
 import { MediaPlayerInstance } from '@vidstack/react';
 import axios from 'axios';
@@ -29,7 +29,7 @@ import { Link } from 'lucide-react';
 import { JSONContent } from 'novel';
 import OpenAI from 'openai';
 import { toast } from 'sonner';
-import { buttonVariants } from './ui/button';
+import { buttonVariants } from '@meeting-baas/ui/button';
 
 type ViewerProps = {
   botId: string;

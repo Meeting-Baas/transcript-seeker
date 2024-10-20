@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@meeting-baas/ui/button';
 import {
   Form,
   FormControl,
@@ -7,8 +7,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@meeting-baas/ui/form';
+import { Input } from '@meeting-baas/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -21,11 +21,11 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
+} from '@meeting-baas/ui/accordion';
 import { getAPIKey, setAPIKey } from '@/queries';
 
 import useSWR from 'swr';
-import { SelectAPIKey } from '@/db/schema';
+import { SelectAPIKey } from '@meeting-baas/db/schema';
 
 const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
 

@@ -1,9 +1,9 @@
 import React, { useCallback, useRef, useEffect, useState, useMemo } from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
-import { cn } from '@/lib/utils';
+import { cn } from '@meeting-baas/ui';
 import { ChevronDown, Search } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@meeting-baas/ui/button';
+import { Input } from '@meeting-baas/ui/input';
 
 export interface Word {
   start_time: number;

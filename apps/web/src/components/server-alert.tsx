@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '@meeting-baas/ui/alert';
 import { CircleAlertIcon, TerminalIcon, TriangleAlertIcon } from 'lucide-react';
 
 export function ServerAlert(props: { mode: 'server' | 'local' | 'error' }) {

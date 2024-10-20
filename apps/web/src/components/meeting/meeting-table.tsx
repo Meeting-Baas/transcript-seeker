@@ -16,16 +16,16 @@ import {
 import type { Row } from '@tanstack/react-table';
 import * as React from 'react';
 
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@meeting-baas/ui/button';
+import { Checkbox } from '@meeting-baas/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
+} from '@meeting-baas/ui/dropdown-menu';
+import { Input } from '@meeting-baas/ui/input';
 import {
   Table,
   TableBody,
@@ -33,9 +33,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@meeting-baas/ui/table';
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@meeting-baas/ui/badge';
 import { CopyIcon, EyeIcon, LoaderCircleIcon, PencilIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
