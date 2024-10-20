@@ -51,7 +51,6 @@ const replaceOptions = { __DATE__: new Date().toISOString() };
 const reload = process.env.RELOAD_SW === 'true';
 const selfDestroying = process.env.SW_DESTROY === 'true';
 
-console.log(process.env.SW);
 if (process.env.SW === 'true') {
   pwaOptions.srcDir = 'src';
   pwaOptions.filename = 'service-worker.ts';
@@ -133,7 +132,7 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
-        '@meeting-baas/shared': path.resolve(__dirname, '../packages/shared/src'),
+        '@meeting-baas/shared': path.resolve(__dirname, '../packages/shared'),
 
       },
     },

@@ -13,6 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@meeting-baas/shared": "workspace:*",
     "@editorjs/editorjs": "^2.29.1",
     "@editorjs/header": "^2.8.3",
     "@editorjs/list": "^1.9.0",

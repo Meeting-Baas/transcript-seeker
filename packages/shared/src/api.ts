@@ -1,5 +1,4 @@
 // shared/src/api.ts
-import process from "node:process";
 import axios from "axios";
 import * as constants from './constants';
 
@@ -29,7 +28,7 @@ export async function joinMeeting({
   try {
     const url = proxyUrl
       ? `${proxyUrl}/bots`
-      : (process.env.VITE_MEETINGBASS_API_URL ??
+      : (process.env.MEETINGBASS_API_URL ??
           "https://api.meetingbaas.com") + "/bots";
 
     const response = await axios.post(

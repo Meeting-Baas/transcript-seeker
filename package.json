@@ -15,8 +15,8 @@
     "meetingbaas"
   ],
   "scripts": {
-    "build": "pnpm -r --filter './packages/*' --filter './client/**' run build",
-    "dev": "pnpm -r --parallel --filter './packages/*' --filter './client/**' run dev"
+    "build": "pnpm -r --filter './packages/*' --filter './web/**' run build",
+    "dev": "pnpm -r --parallel --filter './packages/*' --filter './web/**' run dev"
   },
   "devDependencies": {
     "@meeting-baas/shared": "*:workspace",
