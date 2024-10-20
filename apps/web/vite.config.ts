@@ -95,39 +95,7 @@ export default defineConfig(() => {
     ],
     server: {
       port: CLIENT_PORT,
-      host: CLIENT_HOST,
-      // todo: replace with proxy server
-      proxy: {
-        [`${SERVER_API_URL}`]: {
-          target: `http://${HOST}:${PORT}`,
-          changeOrigin: true,
-          secure: false,
-          ws: true,
-          configure: (proxy, _options) => {
-            proxy.on('error', (err, _req, _res) => {
-              console.log('proxy error', err);
-            });
-            proxy.on('proxyReq', (proxyReq, req, _res) => {
-              console.log('Sending Request to the Target:', req.method, req.url);
-            });
-            proxy.on('proxyRes', (proxyRes, req, _res) => {
-              console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
-            });
-          },
-        },
-        [`${BAAS_PROXY_URL}`]: {
-          target: MEETINGBASS_API_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp(`^${BAAS_PROXY_URL}`), ''),
-          secure: true,
-        },
-        [`${S3_PROXY_URL}`]: {
-          target: MEETINGBASS_S3_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp(`^${S3_PROXY_URL}`), ''),
-          secure: true,
-        },
-      },
+      host: CLIENT_HOST
     },
     resolve: {
       alias: {

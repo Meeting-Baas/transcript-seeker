@@ -1,19 +1,34 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ],
-  // This exists only to make the shadcn-ui cli happy ¯\_(ツ)_/¯
+  "extends": "@meeting-baas/tsconfig/base.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "lib": ["ES2022", "dom", "dom.iterable"],
+
+    "jsx": "react-jsx",
+        "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@meeting-baas/*": ["../packages/shared/src/*"]
-    }
-  }
+      "@/*": ["./src/*"]
+    },
+    "module": "esnext",
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+  },
+  "include": ["src", "../../packages/db/src/compile-migrations.ts", "vite.config.ts"],
+  "exclude": ["node_modules"]
 }
