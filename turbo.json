@@ -48,14 +48,13 @@
       "interactive": true
     }
   },
-  // todo: add all env vars
   "globalEnv": [
-    "BASS_API_KEY",
-    "OPENAI_API_KEY",
-    "OPENAI_MODEL",
-    "OPENAI_BASE_URL",
+    "VITE_PROXY_URL",
+    "VITE_CLIENT_PORT",
+    "VITE_CLIENT_HOST",
     "SW",
     "SW_DEV",
+    "HOST",
     "PORT"
   ],
   "globalPassThroughEnv": [

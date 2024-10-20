@@ -1,4 +1,3 @@
-
 export const DEFAULT_BOT_NAME = "Baas Meeting Bot";
 export const DEFAULT_ENTRY_MESSAGE = "Hello 🐟 - recording this meeting.";
 export const DEFAULT_BOT_IMAGE =

@@ -1,19 +1,16 @@
 import { VITE_PROXY_URL } from '@/lib/constants';
-import { MeetingInfo } from '@/types';
-import * as MeetingBaas from '@meeting-baas/shared';
-import axios from 'axios';
+import { joinMeeting, JoinMeetingParams } from '@meeting-baas/shared';
 
 interface JoinMeetingWrapperProps {
   baasApiKey: string;
-  params: MeetingBaas.JoinMeetingParams;
+  params: JoinMeetingParams;
 }
-
 
 export const joinMeetingWrapper = async ({
   baasApiKey,
   params,
 }: JoinMeetingWrapperProps) => {
-  return await MeetingBaas.joinMeeting({
+  return await joinMeeting({
     ...params,
     apiKey: baasApiKey,
     proxyUrl: VITE_PROXY_URL,

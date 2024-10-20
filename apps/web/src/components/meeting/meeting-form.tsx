@@ -4,7 +4,7 @@ import { joinMeetingWrapper as joinMeeting } from '@/lib/axios';
 import { useServerAvailabilityStore } from '@/store';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as MeetingBaas from '@meeting-baas/shared';
+import { DEFAULT_BOT_NAME, DEFAULT_BOT_IMAGE, DEFAULT_ENTRY_MESSAGE, DEFAULT_SPEECH_TO_TEXT } from '@meeting-baas/shared';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -55,9 +55,9 @@ export function MeetingForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       meetingURL: '',
-      meetingBotName: MeetingBaas.DEFAULT_BOT_NAME,
-      meetingBotEntryMessage: MeetingBaas.DEFAULT_ENTRY_MESSAGE,
-      meetingBotImage: MeetingBaas.DEFAULT_BOT_IMAGE,
+      meetingBotName: DEFAULT_BOT_NAME,
+      meetingBotEntryMessage: DEFAULT_ENTRY_MESSAGE,
+      meetingBotImage: DEFAULT_BOT_IMAGE,
     },
   });
 
@@ -125,7 +125,7 @@ export function MeetingForm() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder={MeetingBaas.DEFAULT_BOT_NAME}
+                    placeholder={DEFAULT_BOT_NAME}
                     className={!field.value ? 'text-gray-400' : ''}
                     {...field}
                   />
@@ -142,7 +142,7 @@ export function MeetingForm() {
                 <FormLabel>Meeting Bot Image (optional)</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={MeetingBaas.DEFAULT_BOT_IMAGE}
+                    placeholder={DEFAULT_BOT_IMAGE}
                     className={!field.value ? 'text-gray-400' : ''}
                     {...field}
                   />
@@ -160,7 +160,7 @@ export function MeetingForm() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder={MeetingBaas.DEFAULT_ENTRY_MESSAGE}
+                    placeholder={DEFAULT_ENTRY_MESSAGE}
                     className={!field.value ? 'text-gray-400' : ''}
                     {...field}
                   />

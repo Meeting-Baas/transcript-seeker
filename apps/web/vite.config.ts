@@ -9,8 +9,9 @@ import type { ManifestOptions, VitePWAOptions } from 'vite-plugin-pwa';
 import { VitePWA } from 'vite-plugin-pwa';
 import replace from '@rollup/plugin-replace';
 
-dotenv.config({ path: resolve(__dirname, '../.env') });
+dotenv.config({ path: resolve(__dirname, '../../.env') });
 
+console.log
 const pwaOptions: Partial<VitePWAOptions> = {
   mode: 'development',
   base: '/',
@@ -22,17 +23,17 @@ const pwaOptions: Partial<VitePWAOptions> = {
     theme_color: '#78FFF0',
     icons: [
       {
-        src: 'pwa-192x192.png', // <== don't add slash, for testing
+        src: 'pwa-192x192.png',
         sizes: '192x192',
         type: 'image/png',
       },
       {
-        src: '/pwa-512x512.png', // <== don't remove slash, for testing
+        src: '/pwa-512x512.png',
         sizes: '512x512',
         type: 'image/png',
       },
       {
-        src: 'pwa-512x512.png', // <== don't add slash, for testing
+        src: 'pwa-512x512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'any maskable',
@@ -78,6 +79,7 @@ export default defineConfig(() => {
     base: './',
     plugins: [
       react(),
+      // todo: reenable ts
       checker({
         typescript: false,
       }),

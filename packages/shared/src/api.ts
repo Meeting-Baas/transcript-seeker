@@ -45,10 +45,10 @@ export async function joinMeeting({
       },
     );
 
-    console.log(`New bot created, with id: ${response.data?.bot_id}`);
+    // console.log(`New bot created, with id: ${response.data?.bot_id}`);
     return { data: response.data };
   } catch (error: any) {
-    console.error("Error joining meeting:", error);
+    // console.error("Error joining meeting:", error);
     return { error: error.message || "Unknown error" };
   }
 }
@@ -77,10 +77,10 @@ export async function fetchBotDetails({
       },
     });
 
-    console.log(`bot details fetched, with id: ${response.data?.id}`);
+    // console.log(`bot details fetched, with id: ${response.data?.id}`);
     return { data: response.data };
   } catch (error: any) {
-    console.error("Error fetching meeting:", error);
+    // console.error("Error fetching meeting:", error);
     return { error: error.message || "Unknown error" };
   }
 }
