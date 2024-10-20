@@ -4,7 +4,6 @@ import path from "path";
 var root: string;
 
 var root = path.resolve(__dirname, "..", "..");
-console.log('pth', root)
 dotenv.config({
   path: path.resolve(root, ".env"),
 });
@@ -18,9 +17,6 @@ import cors from "cors";
 const app: Express = express();
 checkEnvironmentVariables();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
 app.set("trust proxy", 1); // trust first proxy
 app.use(cors());
 
@@ -28,11 +24,11 @@ app.get("/health", (_req: Request, res: Response) =>
   res.status(200).send("OK")
 );
 
-/** @type {import('http-proxy-middleware/dist/types').RequestHandler<express.Request, express.Response>} */
-const baasProxy = createProxyMiddleware({
+const baasProxy = createProxyMiddleware<Request, Response>({
   target: 'https://api.meetingbaas.com',
-  changeOrigin: true,
+  changeOrigin: true
 });
+
 app.use("/api/meetingbaas", baasProxy);
 
 const PORT = process.env.PORT || 3000;
