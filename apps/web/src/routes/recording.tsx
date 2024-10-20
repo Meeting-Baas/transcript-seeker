@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchMeetingDetails } from '@/components/meeting/meeting-table';
+import { fetchMeetingDetails } from '@/components/meeting/data-table';
 import { Viewer } from '@/components/viewer';
 import { StorageBucketAPI } from '@/lib/bucketAPI';
 import { useApiKeysStore, useMeetingsStore, useServerAvailabilityStore } from '@/store';

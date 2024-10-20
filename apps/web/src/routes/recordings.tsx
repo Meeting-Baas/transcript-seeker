@@ -1,13 +1,27 @@
 import { HeaderTitle } from '@/components/header-title';
+import { columns } from '@/components/meeting/columns';
+import { DataTable } from '@/components/meeting/data-table';
 import { ImportMeeting } from '@/components/meeting/meeting-import';
-import MeetingTable from '@/components/meeting/meeting-table';
 import ServerAlert from '@/components/server-alert';
+import { getMeetings } from '@/queries';
 import { useServerAvailabilityStore } from '@/store';
+import useSWR from 'swr';
 
 import { Separator } from '@meeting-baas/ui/separator';
+import { Skeleton } from '@meeting-baas/ui/skeleton';
+
+const fetchMeetings = async () => {
+  const meetings = await getMeetings();
+  if (!meetings) return [];
+  if (Array.isArray(meetings)) {
+    return meetings;
+  }
+  return [];
+};
 
 function RecordingsPage() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
+  const { data: meetings, isLoading, mutate } = useSWR('meetings', () => fetchMeetings());
 
   return (
     <div className="h-full">
@@ -25,11 +39,26 @@ function RecordingsPage() {
         </div>
         <Separator className="my-4" />
 
-        <div className="my-2 bg-white">
+        <div className="my-4 bg-white">
           <ServerAlert mode={serverAvailability} />
         </div>
         <ImportMeeting />
-        <MeetingTable />
+
+        {meetings && meetings.length > 0 ? (
+          <DataTable data={meetings} columns={columns} />
+        ) : (
+          <>
+            <div className="mb-4 flex items-center gap-2 rounded-b-md border-x border-b border-border px-2 pb-2 pt-1 empty:pb-0">
+              {isLoading ? (
+                <>
+                  <Skeleton className='w-full h-9' />
+                  <Skeleton className='min-w-32 h-9' />
+                </>
+              ) : (<></>)}
+            </div>
+            <p>{isLoading ? 'Loading...' : 'No results.'}</p>
+          </>
+        )}
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ export function ImportMeeting() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     let { botId: botId } = values;
-    if (meetings?.some((meeting) => meeting.bot_id === botId)) {
+    if (meetings?.some((meeting) => meeting.botId === botId)) {
       toast.error('This meeting has already been imported');
       return;
     }
@@ -72,7 +72,7 @@ export function ImportMeeting() {
             <FormItem className="w-full">
               {/* <FormLabel>Username</FormLabel> */}
               <FormControl>
-                <Input placeholder="Bot Id" {...field} />
+                <Input placeholder="Import meeting with Bot ID..." {...field} />
               </FormControl>
               {/* <FormDescription>
                 This is your public display name.
@@ -82,7 +82,7 @@ export function ImportMeeting() {
           )}
         />
 
-        <Button type="submit" className="min-w-[116px]">
+        <Button type="submit" className="min-w-32">
           Import
         </Button>
       </form>

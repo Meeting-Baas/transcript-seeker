@@ -1,5 +1,5 @@
 import { HeaderTitle } from '@/components/header-title';
-import { MeetingForm } from '@/components/meeting/meeting-record-form';
+import { MeetingForm } from '@/components/join/meeting-record-form';
 import ServerAlert from '@/components/server-alert';
 import { useServerAvailabilityStore } from '@/store';
 
