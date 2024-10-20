@@ -131,3 +131,6 @@ dist
 .vercel
 
 dev-dist
+
+# turbo
+.turbo

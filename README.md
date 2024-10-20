@@ -1,6 +1,6 @@
 # Transcript Seeker
 
-![Header](./transcriptSeeker.png)
+![Header](./.github/images/transcript-seeker.png)
 
 ## Overview
 
@@ -40,13 +40,13 @@ Running directly in your browser using [IndexedDB](https://developer.mozilla.org
 2. Install dependencies:
 
    ```
-   yarn install && yarn install:all
+   pnpm install
    ```
 
 3. Build dependencies:
 
    ```
-   yarn run build
+   pnpm build
    ```
 
 4. Copy the .env.example to .env
@@ -57,7 +57,7 @@ Running directly in your browser using [IndexedDB](https://developer.mozilla.org
 
 5. Run using just the front-end, without adding variables in .env necessary for now:
    ```
-   cd client && yarn run dev
+   pnpm dev
    ```
 
 ## Contributing

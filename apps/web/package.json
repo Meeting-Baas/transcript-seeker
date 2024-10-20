@@ -1,11 +1,12 @@
 {
-  "name": "client",
+  "name": "@meeting-baas/web",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "check-types": "tsc --noEmit",
     "db:generate": "drizzle-kit generate && tsc compile-migrations.ts --skipLibCheck --target esnext --module nodenext --outDir drizzle_ts && node drizzle_ts/compile-migrations.js",
     "pwa:generate": "pwa-assets-generator --preset minimal-2023 public/logo.svg",
     "lint": "eslint --fix  .",
@@ -13,13 +14,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@meeting-baas/shared": "workspace:*",
     "@editorjs/editorjs": "^2.29.1",
     "@editorjs/header": "^2.8.3",
     "@editorjs/list": "^1.9.0",
     "@editorjs/paragraph": "^2.11.5",
     "@electric-sql/pglite": "^0.2.12",
     "@hookform/resolvers": "^3.6.0",
+    "@meeting-baas/shared": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
