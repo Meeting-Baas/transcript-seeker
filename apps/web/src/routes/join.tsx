@@ -1,5 +1,5 @@
-import { HeaderTitle } from '@/components/header-title';
-import { MeetingForm } from '@/components/join/meeting-record-form';
+import { Header } from '@/components/header';
+import { MeetingForm } from '@/components/join/join-meeting-form';
 import ServerAlert from '@/components/server-alert';
 import { useServerAvailabilityStore } from '@/store';
 
@@ -10,7 +10,7 @@ function JoinPage() {
 
   return (
     <div className="h-full">
-      <HeaderTitle
+      <Header
         path={[
           {
             name: 'Record Meeting',

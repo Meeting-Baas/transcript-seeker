@@ -17,12 +17,12 @@ interface PathItem {
   name: string;
 }
 
-interface HeaderTitleProps {
+interface HeaderProps {
   path: PathItem[];
   border?: boolean;
 }
 
-const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, border = true }) => {
+const Header: React.FC<HeaderProps> = ({ path, border = true }) => {
   return (
     <header
       className={cn(
@@ -53,4 +53,4 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ path, border = true }) => {
   );
 };
 
-export { HeaderTitle };
+export { Header };

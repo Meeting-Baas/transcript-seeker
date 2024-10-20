@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HeaderTitle } from '@/components/header-title';
+import { Header } from '@/components/header';
 import Chat from '@/components/viewer/chat';
 import { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
 import Editor from '@/components/viewer/editor';
@@ -256,7 +256,7 @@ export function Viewer({ botId, isLoading, meetingData }: ViewerProps) {
       <div className="w-full">
         <div className="relative flex items-center justify-center px-4 py-1">
           <div className="absolute left-4">
-            <HeaderTitle path="/recordings" title={'Back'} border={false} />
+            <Header path="/recordings" title={'Back'} border={false} />
           </div>
           <div className="flex-grow text-center">
             <h1 className="text-xl font-semibold">{meetingData.name}</h1>

@@ -71,6 +71,7 @@ const fetchMeetings = async () => {
   }
   return [];
 };
+
 const fetchEditors = async () => {
   const editors = await fetchEditors();
   if (!editors) return [];
@@ -80,7 +81,7 @@ const fetchEditors = async () => {
   return [];
 };
 
-export function Upload({ provider, options }: UploadProps) {
+export function UploadForm({ provider, options }: UploadProps) {
   const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
   const { data: assemblyAIApiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
 

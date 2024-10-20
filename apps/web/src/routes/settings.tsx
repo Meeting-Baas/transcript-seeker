@@ -1,14 +1,14 @@
-import { HeaderTitle } from '@/components/header-title';
+import { Header } from '@/components/header';
 
 import { Button } from '@meeting-baas/ui/button';
 import { Separator } from '@meeting-baas/ui/separator';
 
-import { SettingsForm } from '../components/settings-form';
+import { SettingsForm } from '../components/settings/settings-form';
 
 function SettingsPage() {
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
-      <HeaderTitle
+      <Header
         path={[
           {
             name: 'Settings',

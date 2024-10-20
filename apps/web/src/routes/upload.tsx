@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { HeaderTitle } from '@/components/header-title';
+import { Header } from '@/components/header';
 import LanguageCombobox from '@/components/language-select';
 // import { useProviderOptionsStore } from '@/store';
 
-import { Upload } from '@/components/upload';
+import { UploadForm } from '@/components/upload/upload-form';
 import ProvidersForm from '@/components/upload/providers-form';
 import { Provider } from '@/components/upload/types';
 import { useMediaQuery } from '@/hooks/use-media-query';
@@ -223,7 +223,7 @@ export default function UploadPage() {
 
         <div className="p-4">
           {options ? (
-            <Upload
+            <UploadForm
               provider={options.provider as Provider}
               language={options.language}
               options={providerOptions!}

@@ -1,4 +1,4 @@
-import { HeaderTitle } from '@/components/header-title';
+import { Header } from '@/components/header';
 import { columns } from '@/components/meeting/columns';
 import { DataTable } from '@/components/meeting/data-table';
 import { ImportMeeting } from '@/components/meeting/meeting-import';
@@ -25,7 +25,7 @@ function RecordingsPage() {
 
   return (
     <div className="h-full">
-      <HeaderTitle
+      <Header
         path={[
           {
             name: 'Recordings',
