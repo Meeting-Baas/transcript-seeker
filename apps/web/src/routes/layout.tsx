@@ -12,7 +12,8 @@ export default function Layout() {
         <Outlet />
         <ReloadPrompt />
       </main>
-      <Footer />
+      {/* todo: figure out a enabled if so thing */}
+      {/* <Footer /> */}
     </div>
   );
 }
