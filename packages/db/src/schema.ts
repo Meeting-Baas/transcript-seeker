@@ -47,7 +47,12 @@ export const meetingsTable = pgTable('meetings', {
       video_url: null,
       video_blob: null,
     }),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
   updatedAt: timestamp('updated_at', {
     mode: 'date',
     withTimezone: true,
@@ -66,7 +71,12 @@ export const editorsTable = pgTable('editors', {
   id: serial('id'),
   meetingId: serial('meeting_id'),
   content: jsonb('content').notNull().default({}),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
   updatedAt: timestamp('updated_at', {
     mode: 'date',
     withTimezone: true,
@@ -90,7 +100,12 @@ export const chatsTable = pgTable('chats', {
     .notNull()
     .$type<Message[]>()
     .default(sql`'[]'::jsonb`),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
   updatedAt: timestamp('updated_at', {
     mode: 'date',
     withTimezone: true,

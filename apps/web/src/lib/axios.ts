@@ -1,56 +1,47 @@
 import { VITE_PROXY_URL } from '@/lib/constants';
+import { Meeting } from '@/types';
 
-import type { JoinMeetingParams } from '@meeting-baas/shared';
-import { joinMeeting } from '@meeting-baas/shared';
+import type { BotDetailsParams, JoinMeetingParams, MeetingData } from '@meeting-baas/shared';
+import * as MeetingBaas from '@meeting-baas/shared';
 
-interface JoinMeetingWrapperProps {
-  baasApiKey: string;
-  params: JoinMeetingParams;
-}
+interface JoinMeetingProps extends Omit<JoinMeetingParams, 'proxyUrl'> {}
 
-export const joinMeetingWrapper = async ({ baasApiKey, params }: JoinMeetingWrapperProps) => {
-  return await joinMeeting({
-    ...params,
-    apiKey: baasApiKey,
+export const joinMeeting = async ({ ...params }: JoinMeetingProps) => {
+  return await MeetingBaas.joinMeeting({
     proxyUrl: VITE_PROXY_URL,
+    ...params,
   });
 };
 
-// export const fetchBotDetailsWrapper = async ({
-//   baasApiKey,
-//   serverAvailability,
-//   botId,
-// }: FetchBotDetailsWrapperProps) => {
-//   const response = await MeetingBaas.fetchBotDetails({
-//     botId,
-//     apiKey: baasApiKey,
-//     proxyUrl:
-//       serverAvailability === 'server'
-//         ? VITE_SERVER_API_URL.concat(`/meeting/${botId}`)
-//         : PROXY_URL.concat('/bots/meeting_data'),
-//   });
+interface FetchBotDetailsProps extends Omit<BotDetailsParams, 'proxyUrl'> {}
 
-//   // todo: over here we need to port the new data to the old data as there are too many references of using old data types
-//   const data: MeetingInfo = serverAvailability === 'server' ? response.data['data'] : response.data;
+export const fetchBotDetails = async ({ ...params }: FetchBotDetailsProps) => {
+  const response = await MeetingBaas.fetchBotDetails({
+    proxyUrl: VITE_PROXY_URL,
+    ...params,
+  });
 
-//   if (!data?.id)
-//     return {
-//       data: {
-//         data: undefined,
-//       },
-//     };
+  const data: MeetingData = response.data;
 
-//   return {
-//     data: {
-//       id: data.id,
-//       name: 'Spoke Recorded Meeting',
-//       attendees: data['attendees'].map((attendee: { name: string }) => {
-//         return attendee.name;
-//       }),
-//       data: data,
-//       createdAt: new Date(
-//         data.created_at.secs_since_epoch * 1000 + data.created_at.nanos_since_epoch / 1000000,
-//       ),
-//     },
-//   };
-// };
+  if (!data?.bot_data.bot?.id) return null;
+
+  const bot = data.bot_data.bot;
+  const transcripts = data.bot_data.transcripts;
+
+  const speakers = new Set<string>();
+  transcripts.forEach((transcript) => {
+    speakers.add(transcript.speaker);
+  });
+
+  return {
+    botId: bot.uuid,
+    status: 'loaded',
+    attendees: Array.from(speakers),
+    transcripts: transcripts,
+    assets: {
+      video_url: data.mp4,
+      video_blob: null
+    },
+    createdAt: new Date(bot.created_at + 'Z'),
+  } as Omit<Meeting, "id">;
+};

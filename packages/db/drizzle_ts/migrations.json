@@ -19,5 +19,15 @@
     "bps": true,
     "folderMillis": 1729500958186,
     "hash": "e716adf4251229331fa18bc242e6e69cfe5ec18bf0b3cb4eaa99c55de9ec9ec8"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"chats\" ALTER COLUMN \"created_at\" SET DATA TYPE timestamp with time zone;",
+      "\nALTER TABLE \"editors\" ALTER COLUMN \"created_at\" SET DATA TYPE timestamp with time zone;",
+      "\nALTER TABLE \"meetings\" ALTER COLUMN \"created_at\" SET DATA TYPE timestamp with time zone;"
+    ],
+    "bps": true,
+    "folderMillis": 1729509307792,
+    "hash": "0b1ac9c255f8b9ac6510add02fd22816eed7904f5d738ab2b88aca4f2c6c0f67"
   }
 ]

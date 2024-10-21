@@ -1,9 +1,9 @@
 'use client';
 
-import ServerAlert from '@/components/server-alert';
-import { joinMeetingWrapper as joinMeeting } from '@/lib/axios';
-import { createMeeting, getAPIKey, getMeetings } from '@/queries';
 import type { Meeting } from '@/types';
+import ServerAlert from '@/components/server-alert';
+import { joinMeeting } from '@/lib/axios';
+import { createMeeting, getAPIKey, getMeetings } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -69,30 +69,30 @@ export function MeetingForm() {
     try {
       const { meetingURL, meetingBotName, meetingBotImage, meetingBotEntryMessage } = values;
       const result = await joinMeeting({
-        baasApiKey: baasApiKey ?? '',
-        params: {
-          meetingURL,
-          meetingBotName,
-          meetingBotEntryMessage,
-          meetingBotImage,
-          apiKey: baasApiKey ?? '',
-        },
+        meetingURL,
+        meetingBotName,
+        meetingBotEntryMessage,
+        meetingBotImage,
+        apiKey: baasApiKey ?? '',
       });
 
       if ('error' in result) {
         throw new Error(result.error);
       }
 
-      const newMeeting: Omit<Meeting, 'id'> = {
+      createMeeting({
         botId: result.data?.bot_id ?? '',
         type: 'meetingbaas',
         name: 'MeetingBaas Recorded Meeting',
         attendees: ['-'],
+        transcripts: [],
+        assets: {
+          video_url: null,
+          video_blob: null,
+        },
         createdAt: new Date(),
         status: 'loading',
-      };
-
-      createMeeting(newMeeting);
+      });
       toast.success(`Meeting bot created successfully!`);
     } catch (error) {
       console.error('Error adding meeting bot:', error);

@@ -25,11 +25,19 @@ app.get("/health", (_req: Request, res: Response) =>
 );
 
 const baasProxy = createProxyMiddleware<Request, Response>({
-  target: "https://api.meetingbaas.com",
+  // todo: revert this back later
+  target: "https://api.meeting-baas.com",
   changeOrigin: true,
 });
 
 app.use("/api/meetingbaas", baasProxy);
+
+const s3Proxy = createProxyMiddleware<Request, Response>({
+  target: "https://s3.eu-west-3.amazonaws.com/meeting-baas-video",
+  changeOrigin: true,
+});
+
+app.use("/api/s3", s3Proxy);
 
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || "0.0.0.0";

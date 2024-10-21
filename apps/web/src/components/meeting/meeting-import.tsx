@@ -51,6 +51,11 @@ export function ImportMeeting() {
       type: 'meetingbaas',
       name: 'Imported Meeting',
       attendees: ['-'],
+      transcripts: [],
+      assets: {
+        video_url: null,
+        video_blob: null,
+      },
       status: 'loading',
     });
     mutate();

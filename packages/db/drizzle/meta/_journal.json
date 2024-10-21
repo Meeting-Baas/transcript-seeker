@@ -15,6 +15,13 @@
       "when": 1729500958186,
       "tag": "0001_silly_lord_tyger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729509307792,
+      "tag": "0002_cool_gamora",
+      "breakpoints": true
     }
   ]
 }

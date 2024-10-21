@@ -34,10 +34,14 @@ export async function joinMeeting({
       {
         meeting_url: meetingURL,
         bot_name: meetingBotName || constants.DEFAULT_BOT_NAME,
-        entry_message: meetingBotEntryMessage || constants.DEFAULT_ENTRY_MESSAGE,
         bot_image: meetingBotImage || constants.DEFAULT_BOT_IMAGE,
-        speech_to_text: 'Gladia',
+        speech_to_text: {
+          provider: 'Default',
+          api_key: null,
+        },
         reserved: false,
+        entry_message: meetingBotEntryMessage || constants.DEFAULT_ENTRY_MESSAGE,
+        recording_mode: 'speaker_view'
       },
       {
         headers: {
@@ -59,9 +63,10 @@ export interface BotDetailsParams {
   apiKey: string;
   proxyUrl?: string;
 }
+
 export async function fetchBotDetails({ botId, apiKey, proxyUrl }: BotDetailsParams) {
   try {
-    const url = proxyUrl ? proxyUrl : 'https://api.meetingbaas.com/bots/meeting_data';
+    const url = `${proxyUrl}/api/meetingbaas/bots/meeting_data`;
 
     const response = await axios.get(url, {
       params: {

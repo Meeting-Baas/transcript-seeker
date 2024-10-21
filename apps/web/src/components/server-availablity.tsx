@@ -6,7 +6,6 @@ import useSWR from 'swr';
 import type { SelectAPIKey } from '@meeting-baas/db/schema';
 import { cn } from '@meeting-baas/ui';
 
-// Custom fetcher for SWR to use getAPIKey
 const fetchAPIKey = async (type: SelectAPIKey['type']) => {
   const apiKey = await getAPIKey({ type });
   if (apiKey) return apiKey.content;
