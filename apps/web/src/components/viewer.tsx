@@ -1,11 +1,21 @@
+import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
+import type { Meeting, Message } from '@/types';
+import type { MediaPlayerInstance } from '@vidstack/react';
+import type { JSONContent } from 'novel';
+import type { z } from 'zod';
+import * as React from 'react';
 import { Header } from '@/components/header';
 import Chat from '@/components/viewer/chat';
-import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
 import Editor from '@/components/viewer/editor';
 import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { BLANK_EDITOR_DATA, LOADING_EDITOR_DATA } from '@/lib/constants';
+import {
+  BLANK_EDITOR_DATA,
+  LOADING_EDITOR_DATA,
+  VITE_PROXY_URL,
+  VITE_S3_PREFIX,
+} from '@/lib/constants';
 import {
   getAPIKey,
   getChatByMeetingId,
@@ -13,22 +23,16 @@ import {
   setChat,
   setEditor as setEditorDB,
 } from '@/queries';
-import type { Meeting, Message } from '@/types';
-import type { MediaPlayerInstance } from '@vidstack/react';
-import type { JSONContent } from 'novel';
+import { DownloadIcon } from 'lucide-react';
 import OpenAI from 'openai';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import useSWR from 'swr';
-import type { z } from 'zod';
 
 import type { SelectAPIKey, SelectEditor } from '@meeting-baas/db/schema';
 import { cn } from '@meeting-baas/ui';
-import { buttonVariants } from '@meeting-baas/ui/button';
+import { Button, buttonVariants } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
-
-import { VITE_PROXY_URL, VITE_S3_PREFIX } from "@/lib/constants";
 
 interface ViewerProps {
   botId: string;
@@ -240,7 +244,11 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
           <div className="absolute right-4">
             <Link
               to={`/share/${botId}`}
-              className={cn(buttonVariants({ variant: 'outline' }), 'pointer-events-none opacity-50', 'ml-2')}
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'pointer-events-none opacity-50',
+                'ml-2',
+              )}
             >
               Share
             </Link>
@@ -272,11 +280,16 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={50} minSize={15}>
               <div className="h-full max-h-full flex-1 space-y-2 overflow-auto rounded-t-none border-0 border-x bg-background p-4 md:p-6 lg:border-0 lg:border-b lg:border-l">
-                <div>
-                  <h2 className="px-0.5 text-2xl font-bold md:text-3xl">Meeting Transcript</h2>
-                  {/* <p className="text-muted-foreground">
-                    A detailed transcript of the video meeting.
-                  </p> */}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2 className="px-0.5 text-2xl font-bold md:text-3xl">Transcript</h2>
+                  <div className='flex gap-2'>
+                    <Button className="h-8" size="sm">
+                      <DownloadIcon className="h-4 w-4" /> Download JSON
+                    </Button>
+                    <Button className="h-8" size="sm">
+                      <DownloadIcon className="h-4 w-4" /> Download Video
+                    </Button>
+                  </div>
                 </div>
                 {isLoading && <div className="flex px-0.5">Loading...</div>}
                 <Transcript

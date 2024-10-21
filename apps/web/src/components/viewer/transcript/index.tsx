@@ -118,7 +118,7 @@ const Transcript: React.FC<TranscriptProps> = ({ transcript, currentTime, onWord
     <div className="flex h-[calc(100%-48px)] flex-col">
       <div className="flex items-center gap-2 pb-2">
         <div className="relative flex-grow">
-          <Search className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="text"
             placeholder="Search"
@@ -142,7 +142,7 @@ const Transcript: React.FC<TranscriptProps> = ({ transcript, currentTime, onWord
                 {entry.words.map((word, wordIndex) => (
                   <p
                     key={`${entryIndex}-${wordIndex}`}
-                    className={cn('w-fit cursor-pointer rounded-md px-0.5 px-1 text-sm', {
+                    className={cn('w-fit cursor-pointer rounded-md px-0.5 text-sm', {
                       'bg-blue-500 text-white': word === findNearest,
                       'bg-yellow-100': searchResults.includes(word),
                     })}
@@ -153,7 +153,7 @@ const Transcript: React.FC<TranscriptProps> = ({ transcript, currentTime, onWord
                     {highlightSearchTerm(word.text)}{' '}
                   </p>
                 ))}
-                {entry.words.length === 0 && <p>No transcript available</p>}
+                {entry.words.length === 0 && <p className='text-sm px-0.5'>No transcript available</p>}
               </div>
             </div>
           ))}
