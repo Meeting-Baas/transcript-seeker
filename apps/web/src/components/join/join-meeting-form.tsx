@@ -38,7 +38,10 @@ import { Input } from '@meeting-baas/ui/input';
 //   }
 //   return [];
 // };
-const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
+const fetchAPIKey = async (type: SelectAPIKey['type']) => {
+  const apiKey = await getAPIKey({ type });
+  return apiKey?.content;
+};
 
 const formSchema = z.object({
   meetingURL: z.string().url().min(1, 'Meeting URL is required'),
@@ -48,7 +51,7 @@ const formSchema = z.object({
 });
 
 export function MeetingForm() {
-  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
+  const { data: baasApiKey } = useSWR('baasApiKey', () => fetchAPIKey('meetingbaas'));
   // const { data: meetings } = useSWR('meetings', () => fetchMeetings());
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -65,13 +68,13 @@ export function MeetingForm() {
     try {
       const { meetingURL, meetingBotName, meetingBotImage, meetingBotEntryMessage } = values;
       const result = await joinMeeting({
-        baasApiKey: baasApiKey?.content ?? '',
+        baasApiKey: baasApiKey ?? '',
         params: {
           meetingURL,
           meetingBotName,
           meetingBotEntryMessage,
           meetingBotImage,
-          apiKey: baasApiKey?.content,
+          apiKey: baasApiKey ?? '',
         },
       });
 
@@ -80,7 +83,8 @@ export function MeetingForm() {
       }
 
       const newMeeting: Omit<Meeting, 'id'> = {
-        botId: String(result.data.bot_id),
+        botId: result.data?.bot_id ?? '',
+        type: 'meetingbaas',
         name: 'MeetingBaas Recorded Meeting',
         attendees: ['-'],
         createdAt: new Date(),

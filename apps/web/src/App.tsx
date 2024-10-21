@@ -21,10 +21,7 @@ export default function App() {
           <Route path="recordings" element={<Recordings />} />
           <Route path="join" element={<Join />} />
           <Route path="upload" element={<Upload />} />
-          {/*
-          <Route path="upload" element={<Upload />} />
-  
-          <Route path="/meeting/:botId" element={<Meeting />} /> */}
+          <Route path="/meeting/:botId" element={<Meeting />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

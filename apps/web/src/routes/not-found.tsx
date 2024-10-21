@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Button } from '@meeting-baas/ui/button';
+import ServerAvailablity from '@/components/server-availablity';
 
 function NotFoundPage() {
   return (
@@ -11,6 +12,9 @@ function NotFoundPage() {
         <Button asChild>
           <Link to="/">Back To Home</Link>
         </Button>
+      </div>
+      <div className="fixed bottom-4 left-4 text-sm text-muted-foreground flex items-center gap-2">
+        <ServerAvailablity />
       </div>
     </div>
   );

@@ -27,7 +27,10 @@ import {
 import { Input } from '@meeting-baas/ui/input';
 import { Separator } from '@meeting-baas/ui/separator';
 
-const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
+const fetchAPIKey = async (type: SelectAPIKey['type']) => {
+  const apiKey = await getAPIKey({ type });
+  return apiKey?.content;
+};
 
 const formSchema = z.object({
   baasApiKey: z.string().optional(),
@@ -94,26 +97,26 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({
 };
 
 export function SettingsForm() {
-  const { data: baasApiKey, mutate: mutateBaasApiKey } = useSWR('meetingbaas', () =>
+  const { data: baasApiKey, mutate: mutateBaasApiKey } = useSWR('baasApiKey', () =>
     fetchAPIKey('meetingbaas'),
   );
-  const { data: openAIApiKey, mutate: mutateOpenAIApiKey } = useSWR('openai', () =>
+  const { data: openAIApiKey, mutate: mutateOpenAIApiKey } = useSWR('openAIApiKey', () =>
     fetchAPIKey('openai'),
   );
-  const { data: gladiaApiKey, mutate: mutateGladiaApiKey } = useSWR('gladia', () =>
+  const { data: gladiaApiKey, mutate: mutateGladiaApiKey } = useSWR('gladiaApiKey', () =>
     fetchAPIKey('gladia'),
   );
-  const { data: assemblyAIApiKey, mutate: mutateAssemblyAIApiKey } = useSWR('assemblyai', () =>
+  const { data: assemblyAIApiKey, mutate: mutateAssemblyAIApiKey } = useSWR('assemblyAIApiKey', () =>
     fetchAPIKey('assemblyai'),
   );
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      baasApiKey: baasApiKey?.content ?? '',
-      openAIApiKey: openAIApiKey?.content ?? '',
-      gladiaApiKey: gladiaApiKey?.content ?? '',
-      assemblyAIApiKey: assemblyAIApiKey?.content ?? '',
+      baasApiKey: baasApiKey ?? '',
+      openAIApiKey: openAIApiKey ?? '',
+      gladiaApiKey: gladiaApiKey ?? '',
+      assemblyAIApiKey: assemblyAIApiKey ?? '',
     },
   });
   const { isDirty } = useFormState({ control: form.control });
@@ -136,10 +139,10 @@ export function SettingsForm() {
 
   useEffect(() => {
     form.reset({
-      baasApiKey: baasApiKey?.content ?? '',
-      openAIApiKey: openAIApiKey?.content ?? '',
-      gladiaApiKey: gladiaApiKey?.content ?? '',
-      assemblyAIApiKey: assemblyAIApiKey?.content ?? '',
+      baasApiKey: baasApiKey ?? '',
+      openAIApiKey: openAIApiKey ?? '',
+      gladiaApiKey: gladiaApiKey ?? '',
+      assemblyAIApiKey: assemblyAIApiKey ?? '',
     });
   }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey]);
 

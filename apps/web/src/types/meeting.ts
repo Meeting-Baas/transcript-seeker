@@ -1,3 +1,5 @@
+// import type { JSONContent } from 'novel';
+
 import { Transcript } from '.';
 
 export type Meeting = {
@@ -5,30 +7,13 @@ export type Meeting = {
   name: string;
   botId: string;
   attendees: string[];
-  data?: MeetingInfo;
+  transcripts: Transcript[];
+  assets: {
+    video_url: string | null;
+    video_blob: Blob | null;
+  };
+  // editorContent?: JSONContent;
   createdAt: Date;
   status: 'loaded' | 'loading' | 'error';
-};
-
-export type MeetingInfo = {
-  id: string;
-  name: string;
-  editors: [
-    {
-      video: {
-        transcripts: Transcript[];
-      };
-    },
-  ];
-  attendees: [{ name: string }];
-  assets: [
-    {
-      s3_path: string;
-      mp4_blob?: Blob;
-    },
-  ];
-  created_at: {
-    secs_since_epoch: number;
-    nanos_since_epoch: number;
-  };
+  type: 'meetingbaas' | 'local';
 };

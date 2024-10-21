@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Header } from '@/components/header';
 import LanguageCombobox from '@/components/language-select';
+import ServerAvailablity from '@/components/server-availablity';
+import ProvidersForm from '@/components/upload/providers-form';
+import { Provider } from '@/components/upload/types';
 // import { useProviderOptionsStore } from '@/store';
 
 import { UploadForm } from '@/components/upload/upload-form';
-import ProvidersForm from '@/components/upload/providers-form';
-import { Provider } from '@/components/upload/types';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import * as assemblyai from '@/lib/transcription/assemblyai/options';
 import * as gladia from '@/lib/transcription/gladia/options';
@@ -42,6 +43,7 @@ import { Separator } from '@meeting-baas/ui/separator';
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupAction,
   SidebarGroupContent,
@@ -124,6 +126,7 @@ export default function UploadPage() {
     setOptions(values);
   }, []);
 
+  // todo: fix provider options so that it is stored like it was prev
   const handleProviderSubmit = useCallback(
     (values: { [key: string]: unknown }) => {
       // setProviderOptions(options.provider, values);
@@ -202,6 +205,10 @@ export default function UploadPage() {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
+
+        <SidebarFooter>
+          <ServerAvailablity />
+        </SidebarFooter>
       </Sidebar>
 
       <SidebarInset>

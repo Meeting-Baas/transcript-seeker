@@ -2,7 +2,6 @@ import { promises as fs } from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
 import { readMigrationFiles } from 'drizzle-orm/migrator';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = join(__filename, '..');
 const migrations = readMigrationFiles({ migrationsFolder: './drizzle/' });

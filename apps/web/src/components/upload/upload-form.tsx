@@ -1,14 +1,16 @@
-import { StorageBucketAPI } from '@/lib/bucketAPI';
+import type { JSONContent } from 'novel';
+import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import * as assemblyai from '@/lib/transcription/assemblyai';
 import * as gladia from '@/lib/transcription/gladia';
 import { createMeeting, getAPIKey, getEditors, getMeetings, setEditor } from '@/queries';
-import { Meeting } from '@/types';
+import { Meeting, Transcript as TranscriptT } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadCloudIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import useSWR from 'swr';
+import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 
 import type { SelectAPIKey } from '@meeting-baas/db/schema';
@@ -24,7 +26,6 @@ import {
 import { Input } from '@meeting-baas/ui/input';
 
 import { Provider } from './types';
-import { v4 as uuidv4 } from 'uuid';
 
 const MAX_FILE_SIZE = 3000 * 1024 * 1024; // 1000 MB (100 * 1024 KB * 1024 bytes)
 const ACCEPTED_FILE_TYPES = [
@@ -62,32 +63,20 @@ interface UploadProps {
   };
 }
 
-const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
-const fetchMeetings = async () => {
-  const meetings = await getMeetings();
-  if (!meetings) return [];
-  if (Array.isArray(meetings)) {
-    return meetings;
-  }
-  return [];
+const fetchAPIKey = async (type: SelectAPIKey['type']) => {
+  const apiKey = await getAPIKey({ type });
+  return apiKey?.content;
 };
 
-const fetchEditors = async () => {
-  const editors = await fetchEditors();
-  if (!editors) return [];
-  if (Array.isArray(editors)) {
-    return editors;
+interface TranscriptionFunctionResponse {
+  summarization?: {
+    results: string,
   }
-  return [];
-};
+}
 
 export function UploadForm({ provider, options }: UploadProps) {
-  const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
-  const { data: assemblyAIApiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
-
-  const { data: editors, mutate: mutateEditors } = useSWR('editors', () => fetchEditors());
-  const { data: meetings, mutate: mutateMeetings } = useSWR('meetings', () => fetchMeetings());
-
+  const { data: gladiaApiKey } = useSWR('gladiaApiKey', () => fetchAPIKey('gladia'));
+  const { data: assemblyAIApiKey } = useSWR('assemblyAIApiKey', () => fetchAPIKey('assemblyai'));
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -96,17 +85,13 @@ export function UploadForm({ provider, options }: UploadProps) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     const { file } = values;
     const loading = toast.loading('Processing file...');
 
     console.log('options', options);
-
     try {
-      // const blob = new Blob([file], { type: 'video/mp4' });
-      let transcript;
-      let data;
+      let transcripts: TranscriptT[] = [];
+      let data: TranscriptionFunctionResponse = {};
 
       const transcriptionFunctions = {
         gladia: gladia.transcribe,
@@ -114,12 +99,12 @@ export function UploadForm({ provider, options }: UploadProps) {
       };
 
       const apiKeys = {
-        gladia: gladiaApiKey?.content ?? '',
-        assemblyai: assemblyAIApiKey?.content ?? '',
+        gladia: gladiaApiKey ?? '',
+        assemblyai: assemblyAIApiKey ?? '',
       };
 
       if (provider in transcriptionFunctions) {
-        ({ transcript, data } = await transcriptionFunctions[provider](
+        ({ transcripts, data } = await transcriptionFunctions[provider](
           file,
           apiKeys[provider],
           options,
@@ -128,47 +113,31 @@ export function UploadForm({ provider, options }: UploadProps) {
         throw new Error(`Unsupported provider: ${provider}`);
       }
 
-      console.log('transcript', transcript);
+      console.log('transcripts', transcripts);
 
-      // Generate a unique bot_id
       const botId = uuidv4();
-    
+  
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
       await storageAPI.set(`${botId}.mp4`, file);
 
       const newMeeting: Omit<Meeting, 'id'> = {
         botId: botId,
-        name: file.name, // Use the file name as the meeting name
-        attendees: ['-'], // You might want to extract attendees from the transcript
+        name: file.name,
+        attendees: ['-'],
         createdAt: new Date(),
         status: 'loaded',
-        data: {
-          id: botId,
-          name: file.name, // Use the file name as the meeting name
-          editors: [
-            {
-              video: {
-                transcripts: transcript,
-              },
-            },
-          ],
-          attendees: [{ name: '-' }], // The transcript doesn't provide attendee information
-          assets: [
-            {
-              s3_path: '', // We don't have this information from the transcript
-            },
-          ],
-          created_at: {
-            secs_since_epoch: Math.floor(Date.now() / 1000),
-            nanos_since_epoch: (Date.now() % 1000) * 1000000,
-          },
+        type: 'local',
+        transcripts: transcripts,
+        assets: {
+          video_url: null,
+          video_blob: null,
         },
       };
 
       const { id } = await createMeeting(newMeeting);
       if (data.summarization) {
-        const content = {
+        const content: JSONContent = {
           type: 'doc',
           content: [
             {

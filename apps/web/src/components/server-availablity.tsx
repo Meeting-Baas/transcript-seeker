@@ -7,18 +7,22 @@ import { SelectAPIKey } from '@meeting-baas/db/schema';
 import { cn } from '@meeting-baas/ui';
 
 // Custom fetcher for SWR to use getAPIKey
-const fetchAPIKey = async (type: SelectAPIKey['type']) => await getAPIKey({ type });
+const fetchAPIKey = async (type: SelectAPIKey['type']) => {
+  const apiKey = await getAPIKey({ type });
+  return apiKey?.content;
+};
 
 function ServerAvailablity() {
+// todo: port this to
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
   const setServerAvailability = useServerAvailabilityStore((state) => state.setServerAvailability);
 
-  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
-  const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
-  const { data: assemblyAIApiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
+  const { data: baasApiKey } = useSWR('baasApiKey', () => fetchAPIKey('meetingbaas'));
+  const { data: gladiaApiKey } = useSWR('gladiaApiKey', () => fetchAPIKey('gladia'));
+  const { data: assemblyAIApiKey } = useSWR('assemblyAIApiKey', () => fetchAPIKey('assemblyai'));
 
   useEffect(() => {
-    if (!baasApiKey?.content && !gladiaApiKey?.content && !assemblyAIApiKey?.content) {
+    if (!baasApiKey && !gladiaApiKey && !assemblyAIApiKey) {
       if (serverAvailability != 'error') setServerAvailability('error');
       return;
     }

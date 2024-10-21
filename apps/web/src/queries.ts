@@ -3,10 +3,13 @@ import { eq } from 'drizzle-orm';
 import { db } from '@meeting-baas/db/client';
 import {
   apiKeysTable,
+  editorsTable,
   InsertAPIKey,
+  InsertEditor,
   InsertMeeting,
   meetingsTable,
   SelectAPIKey,
+  SelectEditor,
   SelectMeeting,
 } from '@meeting-baas/db/schema';
 
@@ -37,6 +40,13 @@ export async function getMeetings() {
   return await db.query.meetingsTable.findMany();
 }
 
+export async function getMeetingByBotId({ botId }: { botId: SelectMeeting['botId'] }) {
+  if (!botId) return;
+  return await db.query.meetingsTable.findFirst({
+    where: (meetings, { eq }) => eq(meetings.botId, botId),
+  });
+}
+
 export async function createMeeting(values: InsertMeeting) {
   return await db.insert(meetingsTable).values(values).returning();
 }
@@ -64,21 +74,37 @@ export async function deleteMeetingByBotId({ botId }: { botId: SelectMeeting['bo
   return await db.delete(meetingsTable).where(eq(meetingsTable.botId, botId));
 }
 
-export async function getEditor({ id }: { id: SelectMeeting['id'] }) {
-  if (!id) return;
-  const meeting = await db.query.meetingsTable.findFirst({
-    where: (meetings, { eq }) => eq(meetings.id, id),
+export async function getEditorByMeetingId({ meetingId }: { meetingId: SelectEditor['meetingId'] }) {
+  if (!meetingId) return;
+  const editor = await db.query.editorsTable.findFirst({
+    where: (meetings, { eq }) => eq(meetings.meetingId, meetingId),
   });
-  return meeting?.editorContent;
+  return editor;
 }
 
-export async function setEditor({ id, editorContent }: { id: SelectMeeting['id']; editorContent: SelectMeeting['editorContent']; }) {
-  if (!id) return;
-  return await db
-    .update(meetingsTable)
-    .set({ editorContent })
-    .where(eq(meetingsTable.id, id))
-    .returning({
-      editorContent: meetingsTable.editorContent
-    });
+// export async function setEditor({ id, editorContent }: { id: SelectMeeting['id']; editorContent: SelectMeeting['editorContent']; }) {
+//   if (!id) return;
+//   return await db
+//     .update(meetingsTable)
+//     .set({ editorContent })
+//     .where(eq(meetingsTable.id, id))
+//     .returning({
+//       editorContent: meetingsTable.editorContent
+//     });
+// }
+
+export async function setEditor({ meetingId, content }: { meetingId: InsertEditor['meetingId']; content: InsertEditor['content'] }) {
+  if (!meetingId) return;
+  const editor = await db.query.editorsTable.findFirst({
+    where: (editors, { eq }) => eq(editors.meetingId, meetingId),
+  });
+  if (editor) {
+    return await db
+      .update(editorsTable)
+      .set({ content: content })
+      .where(eq(editorsTable.meetingId, meetingId))
+      .returning();
+  } else {
+    return await db.insert(editorsTable).values({ meetingId: meetingId, content: content }).returning();
+  }
 }

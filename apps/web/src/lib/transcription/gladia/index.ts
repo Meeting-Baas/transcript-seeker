@@ -145,7 +145,7 @@ export async function transcribe(
   const transcription: {
     utterances: GladiaUtterance[];
   } = data.transcription;
-  let transcript = groupUtterancesBySpeaker(transcription.utterances);
+  let transcripts = groupUtterancesBySpeaker(transcription.utterances);
 
-  return { data: data, transcript: transcript };
+  return { data, transcripts };
 }

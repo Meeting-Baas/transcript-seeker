@@ -15,6 +15,20 @@
       "when": 1729421692078,
       "tag": "0001_normal_veda",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729488314681,
+      "tag": "0002_far_kid_colt",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1729489679959,
+      "tag": "0003_secret_morgan_stark",
+      "breakpoints": true
     }
   ]
 }

@@ -1,3 +1,4 @@
+import Footer from '@/components/footer';
 import ServerAlert from '@/components/server-alert';
 import { getAPIKey } from '@/queries'; // Assuming you already have this
 
@@ -11,16 +12,20 @@ import { cn } from '@meeting-baas/ui';
 import { buttonVariants } from '@meeting-baas/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@meeting-baas/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@meeting-baas/ui/tooltip';
+import ServerAvailablity from '@/components/server-availablity';
 
 // Custom fetcher for SWR to use getAPIKey
-const fetchAPIKey = (type: SelectAPIKey['type']) => getAPIKey({ type });
+const fetchAPIKey = async (type: SelectAPIKey['type']) => {
+  const apiKey = await getAPIKey({ type });
+  return apiKey?.content;
+};
 
 function RootPage() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
-  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'));
-  const { data: gladiaApiKey } = useSWR('gladia', () => fetchAPIKey('gladia'));
-  const { data: assemblyAIApiKey } = useSWR('assemblyai', () => fetchAPIKey('assemblyai'));
-  const apiKeysExist = baasApiKey?.content || gladiaApiKey?.content || assemblyAIApiKey?.content;
+  const { data: baasApiKey } = useSWR('baasApiKey', () => fetchAPIKey('meetingbaas'));
+  const { data: gladiaApiKey } = useSWR('gladiaApiKey', () => fetchAPIKey('gladia'));
+  const { data: assemblyAIApiKey } = useSWR('assemblyAIApiKey', () => fetchAPIKey('assemblyai'));
+  const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAIApiKey;
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-gradient-to-br from-muted/20 to-muted/40 p-4">
@@ -66,7 +71,7 @@ function RootPage() {
             <Link
               to="/join"
               className={cn(buttonVariants({ variant: 'outline' }), 'w-full items-center gap-2', {
-                'pointer-events-none opacity-50': !baasApiKey?.content,
+                'pointer-events-none opacity-50': !baasApiKey,
               })}
             >
               <Mic className="h-4 w-4" />
@@ -75,8 +80,7 @@ function RootPage() {
             <Link
               to="/upload"
               className={cn(buttonVariants({ variant: 'outline' }), 'gap-2', {
-                'pointer-events-none opacity-50':
-                  !gladiaApiKey?.content && !assemblyAIApiKey?.content,
+                'pointer-events-none opacity-50': !gladiaApiKey && !assemblyAIApiKey,
               })}
             >
               <Upload className="h-4 w-4" />
@@ -101,6 +105,9 @@ function RootPage() {
           </div>
         </CardContent>
       </Card>
+      <div className="fixed bottom-4 left-4 text-sm text-muted-foreground flex items-center gap-2">
+        <ServerAvailablity />
+      </div>
     </div>
   );
 }

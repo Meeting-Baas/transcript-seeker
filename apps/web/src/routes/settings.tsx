@@ -4,6 +4,7 @@ import { Button } from '@meeting-baas/ui/button';
 import { Separator } from '@meeting-baas/ui/separator';
 
 import { SettingsForm } from '../components/settings/settings-form';
+import ServerAvailablity from '@/components/server-availablity';
 
 function SettingsPage() {
   return (
@@ -36,6 +37,9 @@ function SettingsPage() {
         <Separator className="my-4" />
 
         <SettingsForm />
+      </div>
+      <div className="fixed bottom-4 left-4 text-sm text-muted-foreground flex items-center gap-2">
+        <ServerAvailablity />
       </div>
     </div>
   );

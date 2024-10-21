@@ -12,7 +12,7 @@ import {
 } from '@meeting-baas/ui/dropdown-menu';
 
 import RenameModal, { formSchema as renameSchema } from './rename-modal';
-import { StorageBucketAPI } from '@/lib/bucketAPI';
+import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 
 import {
   deleteMeeting as deleteMeetingDb,

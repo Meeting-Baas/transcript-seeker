@@ -1,6 +1,7 @@
 import { Header } from '@/components/header';
 import { MeetingForm } from '@/components/join/join-meeting-form';
 import ServerAlert from '@/components/server-alert';
+import ServerAvailablity from '@/components/server-availablity';
 import { useServerAvailabilityStore } from '@/store';
 
 import { Separator } from '@meeting-baas/ui/separator';
@@ -29,6 +30,9 @@ function JoinPage() {
           <ServerAlert mode={serverAvailability} />
         </div>
         <MeetingForm />
+      </div>
+      <div className="fixed bottom-4 left-4 text-sm text-muted-foreground flex items-center gap-2">
+        <ServerAvailablity />
       </div>
     </div>
   );

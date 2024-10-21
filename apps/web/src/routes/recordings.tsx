@@ -9,6 +9,7 @@ import useSWR from 'swr';
 
 import { Separator } from '@meeting-baas/ui/separator';
 import { Skeleton } from '@meeting-baas/ui/skeleton';
+import ServerAvailablity from '@/components/server-availablity';
 
 const fetchMeetings = async () => {
   const meetings = await getMeetings();
@@ -59,6 +60,9 @@ function RecordingsPage() {
             <p>{isLoading ? 'Loading...' : 'No results.'}</p>
           </>
         )}
+      </div>
+      <div className="fixed bottom-4 left-4 text-sm text-muted-foreground flex items-center gap-2">
+        <ServerAvailablity />
       </div>
     </div>
   );

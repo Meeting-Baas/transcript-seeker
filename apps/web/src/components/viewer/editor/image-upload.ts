@@ -1,9 +1,9 @@
-import { PROXY_URL } from '@/lib/constants';
+import { VITE_PROXY_URL } from '@/lib/constants';
 import { createImageUpload } from 'novel/plugins';
 import { toast } from 'sonner';
 
 const onUpload = (file: File) => {
-  const promise = fetch(PROXY_URL.concat('/upload'), {
+  const promise = fetch(VITE_PROXY_URL.concat('/upload'), {
     method: 'POST',
     headers: {
       'content-type': file?.type || 'application/octet-stream',

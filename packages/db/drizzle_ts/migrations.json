@@ -18,5 +18,27 @@
     "bps": true,
     "folderMillis": 1729421692078,
     "hash": "40fef6cfa04e0602970506e979c8cc0d26ea7df71b0bf57acb4b7560cf0e8dcb"
+  },
+  {
+    "sql": [
+      "CREATE TABLE IF NOT EXISTS \"editors\" (\n\t\"id\" serial NOT NULL,\n\t\"content\" jsonb DEFAULT '{}'::jsonb NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n",
+      "\nALTER TABLE \"meetings\" ALTER COLUMN \"type\" SET NOT NULL;",
+      "\nALTER TABLE \"meetings\" ALTER COLUMN \"status\" SET NOT NULL;",
+      "\nALTER TABLE \"meetings\" ADD COLUMN \"transcripts\" text[] DEFAULT '{}'::jsonb[] NOT NULL;",
+      "\nALTER TABLE \"meetings\" ADD COLUMN \"assets\" jsonb DEFAULT '{\"video_url\":null,\"video_blob\":null}'::jsonb NOT NULL;",
+      "\nALTER TABLE \"meetings\" DROP COLUMN IF EXISTS \"editor_content\";"
+    ],
+    "bps": true,
+    "folderMillis": 1729488314681,
+    "hash": "bca61081aad5583879840d6992bcde05c9f9fd8b04d9b5404eb25148e5dacf85"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"meetings\" ADD PRIMARY KEY (\"id\");",
+      "\nALTER TABLE \"editors\" ADD COLUMN \"meeting_id\" serial NOT NULL;"
+    ],
+    "bps": true,
+    "folderMillis": 1729489679959,
+    "hash": "74ccc053d05cfd8e3f9f1bd29a87963639c70f3af308b2e53e3344e3327f89d1"
   }
 ]

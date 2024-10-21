@@ -65,7 +65,7 @@ const transcribe = async (
   const transcription = await client.transcripts.transcribe(params);
   if (!transcription) console.error('Oops, something went wrong!', transcription);
 
-  let transcript = groupUtterancesBySpeaker(
+  let transcripts = groupUtterancesBySpeaker(
     transcription.utterances
       ? transcription.utterances
       : [
@@ -90,7 +90,7 @@ const transcribe = async (
           }
         : {}),
     },
-    transcript: transcript,
+    transcripts,
   };
 };
 
