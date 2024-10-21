@@ -36,9 +36,9 @@ type ViewerProps = {
 
 const fetchAPIKey = async (type: SelectAPIKey['type']) => {
   const apiKey = await getAPIKey({ type });
-  return apiKey?.content;
+  if (apiKey) return apiKey.content;
+  return null;
 };
-
 
 const fetchEditorByMeetingId = async (meetingId: SelectEditor['meetingId']) => {
   const editor = await getEditorByMeetingId({ meetingId });

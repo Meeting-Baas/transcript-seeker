@@ -9,11 +9,11 @@ import { cn } from '@meeting-baas/ui';
 // Custom fetcher for SWR to use getAPIKey
 const fetchAPIKey = async (type: SelectAPIKey['type']) => {
   const apiKey = await getAPIKey({ type });
-  return apiKey?.content;
+  if (apiKey) return apiKey.content;
+  return null;
 };
 
 function ServerAvailablity() {
-  // todo: port this to
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
   const setServerAvailability = useServerAvailabilityStore((state) => state.setServerAvailability);
 

@@ -16,7 +16,7 @@ export function ServerAlert(props: { mode: ServerAvailability; contrast?: 'defau
           })}
         >
           <LoaderCircleIcon className="h-4 w-4 animate-spin" />
-          <AlertTitle>FYI</AlertTitle>
+          <AlertTitle>Loading...</AlertTitle>
           <AlertDescription>
             <Skeleton className="h-10 min-w-96"></Skeleton>
           </AlertDescription>

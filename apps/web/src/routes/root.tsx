@@ -14,10 +14,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@meet
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@meeting-baas/ui/tooltip';
 import ServerAvailablity from '@/components/server-availablity';
 
-// Custom fetcher for SWR to use getAPIKey
 const fetchAPIKey = async (type: SelectAPIKey['type']) => {
   const apiKey = await getAPIKey({ type });
-  return apiKey?.content;
+  if (apiKey) return apiKey.content;
+  return null;
 };
 
 function RootPage() {

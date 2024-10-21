@@ -40,7 +40,8 @@ import { Input } from '@meeting-baas/ui/input';
 // };
 const fetchAPIKey = async (type: SelectAPIKey['type']) => {
   const apiKey = await getAPIKey({ type });
-  return apiKey?.content;
+  if (apiKey) return apiKey.content;
+  return null;
 };
 
 const formSchema = z.object({
