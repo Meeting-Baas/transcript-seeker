@@ -18,6 +18,7 @@
     "@editorjs/header": "^2.8.3",
     "@editorjs/list": "^1.9.0",
     "@editorjs/paragraph": "^2.11.5",
+    "@hookform/resolvers": "^3.9.0",
     "@meeting-baas/db": "workspace:*",
     "@meeting-baas/shared": "workspace:*",
     "@meeting-baas/ui": "workspace:*",

@@ -3,12 +3,15 @@ import { eq } from 'drizzle-orm';
 import { db } from '@meeting-baas/db/client';
 import {
   apiKeysTable,
+  chatsTable,
   editorsTable,
   InsertAPIKey,
+  InsertChat,
   InsertEditor,
   InsertMeeting,
   meetingsTable,
   SelectAPIKey,
+  SelectChat,
   SelectEditor,
   SelectMeeting,
 } from '@meeting-baas/db/schema';
@@ -77,21 +80,10 @@ export async function deleteMeetingByBotId({ botId }: { botId: SelectMeeting['bo
 export async function getEditorByMeetingId({ meetingId }: { meetingId: SelectEditor['meetingId'] }) {
   if (!meetingId) return;
   const editor = await db.query.editorsTable.findFirst({
-    where: (meetings, { eq }) => eq(meetings.meetingId, meetingId),
+    where: (editors, { eq }) => eq(editors.meetingId, meetingId),
   });
   return editor;
 }
-
-// export async function setEditor({ id, editorContent }: { id: SelectMeeting['id']; editorContent: SelectMeeting['editorContent']; }) {
-//   if (!id) return;
-//   return await db
-//     .update(meetingsTable)
-//     .set({ editorContent })
-//     .where(eq(meetingsTable.id, id))
-//     .returning({
-//       editorContent: meetingsTable.editorContent
-//     });
-// }
 
 export async function setEditor({ meetingId, content }: { meetingId: InsertEditor['meetingId']; content: InsertEditor['content'] }) {
   if (!meetingId) return;
@@ -106,5 +98,29 @@ export async function setEditor({ meetingId, content }: { meetingId: InsertEdito
       .returning();
   } else {
     return await db.insert(editorsTable).values({ meetingId: meetingId, content: content }).returning();
+  }
+}
+
+export async function getChatByMeetingId({ meetingId }: { meetingId: SelectChat['meetingId'] }) {
+  if (!meetingId) return;
+  const chat = await db.query.chatsTable.findFirst({
+    where: (chats, { eq }) => eq(chats.meetingId, meetingId),
+  });
+  return chat;
+}
+
+export async function setChat({ meetingId, messages }: { meetingId: InsertChat['meetingId']; messages: InsertChat['messages'] }) {
+  if (!meetingId) return;
+  const chat = await db.query.chatsTable.findFirst({
+    where: (chats, { eq }) => eq(chats.meetingId, meetingId),
+  });
+  if (chat) {
+    return await db
+      .update(chatsTable)
+      .set({ messages, updatedAt: new Date() })
+      .where(eq(chatsTable.meetingId, meetingId))
+      .returning();
+  } else {
+    return await db.insert(chatsTable).values({ meetingId: meetingId, messages }).returning();
   }
 }

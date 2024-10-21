@@ -11,5 +11,13 @@
     "bps": true,
     "folderMillis": 1729493920869,
     "hash": "2005d8b0907ba00bbad9b4668cd847cd3cf4b663b46abeed1fbc08a0b5de7939"
+  },
+  {
+    "sql": [
+      "CREATE TABLE IF NOT EXISTS \"chats\" (\n\t\"id\" serial NOT NULL,\n\t\"meeting_id\" serial NOT NULL,\n\t\"messages\" jsonb DEFAULT '[]'::jsonb NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n"
+    ],
+    "bps": true,
+    "folderMillis": 1729500958186,
+    "hash": "e716adf4251229331fa18bc242e6e69cfe5ec18bf0b3cb4eaa99c55de9ec9ec8"
   }
 ]

@@ -8,7 +8,10 @@ import { Card, CardContent, CardHeader } from '@meeting-baas/ui/card';
 interface ChatProps {
   messages?: MessageT[];
   handleSubmit: (values: z.infer<typeof formSchema>) => void;
-  disabled: boolean;
+  disabled?: {
+    value: boolean;
+    reason: 'openai' | 'loading';
+  };
 }
 
 function Chat({ messages = [], handleSubmit, disabled }: ChatProps) {
@@ -19,14 +22,19 @@ function Chat({ messages = [], handleSubmit, disabled }: ChatProps) {
       </CardHeader>
       <CardContent className="flex h-full flex-col gap-4 overflow-auto p-4">
         <div className="flex h-full flex-col gap-4 overflow-auto">
-          {!disabled && messages.length === 0 && (
+          {!disabled?.value && messages.length === 0 && (
             <div className="flex h-full w-full items-center justify-center text-center text-muted-foreground">
               There are no messages. Type something to start chatting.
             </div>
           )}
-          {disabled && (
+          {disabled?.value && disabled.reason === 'openai' && (
             <div className="flex h-full w-full items-center justify-center text-center text-muted-foreground">
               No OpenAI API key was found. Please input one in the settings to start chatting.
+            </div>
+          )}
+          {disabled?.value && disabled.reason === 'loading' && (
+            <div className="flex h-full w-full items-center justify-center text-center text-muted-foreground">
+              The chat is loading... Please wait...
             </div>
           )}
           {messages.map((message, index) => (
@@ -35,7 +43,7 @@ function Chat({ messages = [], handleSubmit, disabled }: ChatProps) {
         </div>
 
         <div className="flex flex-1 items-end">
-          <ChatInput handleSubmit={handleSubmit} disabled={disabled} />
+          <ChatInput handleSubmit={handleSubmit} disabled={disabled?.value || false} />
         </div>
       </CardContent>
     </Card>

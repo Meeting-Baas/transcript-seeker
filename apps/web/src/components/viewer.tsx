@@ -7,18 +7,18 @@ import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { BLANK_EDITOR_DATA, LOADING_EDITOR_DATA, VITE_PROXY_URL } from '@/lib/constants';
-import { getAPIKey, getEditorByMeetingId, setEditor as setEditorDB } from '@/queries';
 import {
-  // useChatsStore,
-  useServerAvailabilityStore,
-} from '@/store';
+  getAPIKey,
+  getChatByMeetingId,
+  getEditorByMeetingId,
+  setChat,
+  setEditor as setEditorDB,
+} from '@/queries';
 import { Editor as EditorT, Meeting, Message } from '@/types';
-import { Separator } from '@radix-ui/react-separator';
 import { MediaPlayerInstance } from '@vidstack/react';
-import axios from 'axios';
-import { Link } from 'lucide-react';
 import { JSONContent } from 'novel';
 import OpenAI from 'openai';
+import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import useSWR from 'swr';
 import { z } from 'zod';
@@ -40,15 +40,19 @@ const fetchAPIKey = async (type: SelectAPIKey['type']) => {
   return null;
 };
 
-const fetchEditorByMeetingId = async (meetingId: SelectEditor['meetingId']) => {
+const fetchEditorContentByMeetingId = async (meetingId: SelectEditor['meetingId']) => {
   const editor = await getEditorByMeetingId({ meetingId });
   if (editor) return editor?.content;
   return null;
 };
 
-export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
-  // const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
+const fetchChatByMeetingId = async (meetingId: SelectEditor['meetingId']) => {
+  const chat = await getChatByMeetingId({ meetingId });
+  if (chat) return chat;
+  return null;
+};
 
+export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const [data] = React.useState<Meeting>(meeting);
   const [transcripts, setTranscripts] = React.useState<any[]>([
     {
@@ -70,41 +74,38 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
 
   const [video, setVideo] = React.useState<string | Blob>();
 
-  // todo: add tests
-  // const { data: baasApiKey } = useSWR('baasApiKey', () => fetchAPIKey('meetingbaas'));
   const { data: openAIApiKey } = useSWR('openAIApiKey', () => fetchAPIKey('openai'));
 
   const {
     data: editorContent,
     mutate: mutateEditorContent,
     isLoading: isEditorContentLoading,
-  } = useSWR(`editorContent_${meeting.id}`, () => fetchEditorByMeetingId(meeting.id));
+  } = useSWR(`editorContent_${meeting.id}`, () => fetchEditorContentByMeetingId(meeting.id));
 
-  // const chats = useChatsStore((state) => state.chats);
-  // const setChats = useChatsStore((state) => state.setChats);
+  const {
+    data: chat,
+    mutate: mutateChat,
+    isLoading: isChatLoading,
+  } = useSWR(`chat_${meeting.id}`, () => fetchChatByMeetingId(meeting.id));
 
   const [messages, setMessages] = React.useState<Message[]>([]);
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const handleEditorChange = async (content: JSONContent) => {
-    if (!botId) return;
-    console.log(editorContent);
+    if (!meeting) return;
     await setEditorDB({ meetingId: meeting.id, content: content });
     mutateEditorContent();
   };
 
-  const handleMessageChange = (messages: Message[]) => {
-    if (!botId) return;
-
-    // const newChats = updateById({
-    //   id: botId,
-    //   originalData: chats,
-    //   updateData: { messages }, // Assuming `content` should be part of the updated data
-    // });
-    // setChats(newChats);
+  const handleMessageChange = async (messages: Message[]) => {
+    if (!meeting) return;
+    await setChat({
+      meetingId: meeting.id,
+      messages,
+    });
+    mutateChat();
   };
 
-  // todo: decide if we want to create seperate tables for chat and editors or put them in the message table
   const handleChatSubmit = async (values: z.infer<typeof chatSchema>) => {
     const message = values.message;
     setMessages((prev) => [...prev, { content: message, role: 'user' }]);
@@ -131,6 +132,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
 
       // todo: create a proxy openai server instead idk
       // todo: allow options for the proxy server to include api keys so no need for clients
+      if (!openAIApiKey) return;
       const openai = new OpenAI({
         apiKey: openAIApiKey,
         dangerouslyAllowBrowser: true,
@@ -153,6 +155,12 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
       setMessages((prev) => [...prev, { content: res.data.response, role: 'assistant' }]);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops! Something went wrong.');
+      setMessages((prev) => [
+        ...prev,
+        { content: `Oops! Something went wrong. ${error}`, role: 'assistant' },
+      ]);
+      return;
     }
   };
 
@@ -163,7 +171,6 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const handleSeek = React.useCallback(
     (time: number) => {
       if (player) {
-        // seek on click
         player.currentTime = time;
       }
     },
@@ -204,18 +211,11 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   React.useEffect(() => {
     if (messages.length > 0) {
       handleMessageChange(messages);
-      // } else if (messages.length === 0 && chats.length > 0) {
-      //   const chat = getById({
-      //     id: botId,
-      //     data: chats,
-      //   });
-
-      //   if (!chat) return;
-      //   if (!chat.messages) return;
-      //   setMessages(chat.messages);
-      // }
+    } else if (messages.length === 0 && chat) {
+      if (!chat.messages) return;
+      setMessages(chat.messages);
     }
-  }, [messages, data]);
+  }, [isChatLoading, messages]);
 
   return (
     <div className="min-h-svh">
@@ -237,19 +237,14 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
           <div className="absolute right-4">
             <Link
               to={`/share/${botId}`}
-              className={cn(buttonVariants({ variant: 'outline' }), 'ml-2 text-xl font-semibold')}
+              className={cn(buttonVariants({ variant: 'outline' }), 'ml-2')}
             >
-              Share!!!
+              Share
             </Link>
           </div>
         </div>
-        <Separator />
       </div>
       <ResizablePanelGroup
-        // padding + footer + header + 1px = 110px
-        // header = 45px
-        // footer = 48px
-        // padding = pt-2 = 8px
         className="flex min-h-[200dvh] lg:min-h-[calc(100svh-theme(spacing.16))]"
         direction={isDesktop ? 'horizontal' : 'vertical'}
       >
@@ -302,7 +297,14 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={33} minSize={25}>
-              <Chat messages={messages} handleSubmit={handleChatSubmit} disabled={!openAIApiKey} />
+              <Chat
+                messages={messages}
+                handleSubmit={handleChatSubmit}
+                disabled={{
+                  value: !openAIApiKey || isChatLoading,
+                  reason: isChatLoading ? 'loading' : 'openai',
+                }}
+              />
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>

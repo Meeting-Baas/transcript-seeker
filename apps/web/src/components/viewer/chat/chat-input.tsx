@@ -53,7 +53,7 @@ function ChatInput({ handleSubmit, disabled }: ChatInputProps) {
 
       setIsLoading(false);
       form.reset({ message: '' });
-      toast.error('Ooops! Something went wrong. Please try again.');
+      toast.error('Oops! Something went wrong. Please try again.');
     }
   }
 

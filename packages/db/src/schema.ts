@@ -1,7 +1,23 @@
 import { relations, sql } from 'drizzle-orm';
 import { jsonb, pgEnum, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
-import type { Transcript } from '@meeting-baas/shared';
+import type { Message, Transcript } from '@meeting-baas/shared';
+
+export const apiKeyTypeEnum = pgEnum('api_key_type', [
+  'meetingbaas',
+  'gladia',
+  'openai',
+  'assemblyai',
+]);
+
+export const apiKeysTable = pgTable('api_keys', {
+  id: serial('id'),
+  type: apiKeyTypeEnum(),
+  content: text('content'),
+});
+
+export type InsertAPIKey = typeof apiKeysTable.$inferInsert;
+export type SelectAPIKey = typeof apiKeysTable.$inferSelect;
 
 export const meetingTypeEnum = pgEnum('meeting_type', ['meetingbaas', 'local']);
 export const meetingStatusEnum = pgEnum('meeting_status', ['loaded', 'loading', 'error']);
@@ -40,6 +56,7 @@ export const meetingsTable = pgTable('meetings', {
 
 export const meetingsRelations = relations(meetingsTable, ({ one }) => ({
   editors: one(editorsTable),
+  chats: one(chatsTable),
 }));
 
 export type InsertMeeting = typeof meetingsTable.$inferInsert;
@@ -66,18 +83,26 @@ export const editorsRelations = relations(editorsTable, ({ one }) => ({
 export type InsertEditor = typeof editorsTable.$inferInsert;
 export type SelectEditor = typeof editorsTable.$inferSelect;
 
-export const apiKeyTypeEnum = pgEnum('api_key_type', [
-  'meetingbaas',
-  'gladia',
-  'openai',
-  'assemblyai',
-]);
-
-export const apiKeysTable = pgTable('api_keys', {
+export const chatsTable = pgTable('chats', {
   id: serial('id'),
-  type: apiKeyTypeEnum(),
-  content: text('content'),
+  meetingId: serial('meeting_id'),
+  messages: jsonb('messages')
+    .notNull()
+    .$type<Message[]>()
+    .default(sql`'[]'::jsonb`),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', {
+    mode: 'date',
+    withTimezone: true,
+  }),
 });
 
-export type InsertAPIKey = typeof apiKeysTable.$inferInsert;
-export type SelectAPIKey = typeof apiKeysTable.$inferSelect;
+export const chatsRelations = relations(chatsTable, ({ one }) => ({
+  chat: one(meetingsTable, {
+    fields: [chatsTable.meetingId],
+    references: [meetingsTable.id],
+  }),
+}));
+
+export type InsertChat = typeof chatsTable.$inferInsert;
+export type SelectChat = typeof chatsTable.$inferSelect;
