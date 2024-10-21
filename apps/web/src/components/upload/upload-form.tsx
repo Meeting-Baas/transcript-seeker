@@ -153,7 +153,7 @@ export function UploadForm({ provider, options }: UploadProps) {
           ],
         };
 
-        await setEditor({ id, editorContent: content });
+        await setEditor({ meetingId: id, content: content });
       }
 
       toast.success('File processed and meeting stored successfully!', {

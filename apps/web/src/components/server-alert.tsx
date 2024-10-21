@@ -1,5 +1,5 @@
 import type { ServerAvailability } from '@/types';
-import { CircleAlertIcon, LoaderCircleIcon, TerminalIcon, TriangleAlertIcon } from 'lucide-react';
+import { CircleAlertIcon, LoaderCircleIcon, TriangleAlertIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { cn } from '@meeting-baas/ui';

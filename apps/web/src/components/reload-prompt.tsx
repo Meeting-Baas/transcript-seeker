@@ -1,4 +1,4 @@
-import { pwaInfo } from 'virtual:pwa-info';
+// import { pwaInfo } from 'virtual:pwa-info';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 import { Alert, AlertTitle } from '@meeting-baas/ui/alert';

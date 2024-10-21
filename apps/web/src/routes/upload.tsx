@@ -1,21 +1,18 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Header } from '@/components/header';
 import LanguageCombobox from '@/components/language-select';
 import ServerAvailablity from '@/components/server-availablity';
 import ProvidersForm from '@/components/upload/providers-form';
 import type { Provider } from '@/components/upload/types';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 // import { useProviderOptionsStore } from '@/store';
 
 import { UploadForm } from '@/components/upload/upload-form';
-import { useMediaQuery } from '@/hooks/use-media-query';
 import * as assemblyai from '@/lib/transcription/assemblyai/options';
 import * as gladia from '@/lib/transcription/gladia/options';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
+import { useProviderOptionsStore } from '@/store/providerOptionsStore';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -45,14 +42,12 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
+  SidebarTrigger
 } from '@meeting-baas/ui/sidebar';
-import { useProviderOptionsStore } from '@/store/providerOptionsStore';
 
 export const formSchema = z.object({
   provider: z.string().min(1, {

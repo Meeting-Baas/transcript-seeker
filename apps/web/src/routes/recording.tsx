@@ -1,12 +1,12 @@
-import type { Meeting as MeetingT } from '@/types';
 import { Viewer } from '@/components/viewer';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import { getMeetingByBotId } from '@/queries';
+import type { Meeting as MeetingT } from '@/types';
 import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
 
-import NotFoundPage from './not-found';
 import FullSpinner from '@/components/loader';
+import NotFoundPage from './not-found';
 
 const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
   if (!botId) throw new Error('No bot ID provided');

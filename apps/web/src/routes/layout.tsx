@@ -1,4 +1,3 @@
-import Footer from '@/components/footer';
 import ReloadPrompt from '@/components/reload-prompt';
 import TabManager from '@/components/tab-manager';
 import { Outlet } from 'react-router-dom';

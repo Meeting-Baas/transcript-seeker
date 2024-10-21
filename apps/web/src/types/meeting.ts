@@ -14,7 +14,7 @@ export interface Meeting {
   };
   // editorContent?: JSONContent;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt?: Date | null;
   status: 'loaded' | 'loading' | 'error';
   type: 'meetingbaas' | 'local';
 }

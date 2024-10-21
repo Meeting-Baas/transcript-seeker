@@ -25,6 +25,8 @@ import useSWR from 'swr';
 import { useState } from 'react';
 import { CopyIcon, EyeIcon, LoaderCircle, PencilIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Meeting } from '@/types';
+import { z } from 'zod';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -39,7 +41,7 @@ const fetchMeetings = async () => {
   return [];
 };
 
-export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
+export function DataTableRowActions({ row }: DataTableRowActionsProps<Meeting>) {
   const meeting = row.original;
   const [showRename, setShowRename] = useState(false);
   const { data: meetings, mutate } = useSWR('meetings', () => fetchMeetings());
