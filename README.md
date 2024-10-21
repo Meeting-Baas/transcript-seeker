@@ -12,7 +12,7 @@ Upload and store recordings, or use our meeting bot transcription API to record 
 - Annotate recordings.
 - And more.
 
-Running directly in your browser using [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
+Running directly in your browser using [PGLite](https://pglite.dev/).
 
 ## Key Features
 
@@ -21,35 +21,22 @@ Running directly in your browser using [IndexedDB](https://developer.mozilla.org
 - Generate recordings with meta-data on Zoom, Google Meet, Teams, using [Meeting Baas' 🐟](https://meetingbaas.com) meeting bot API.
 - Chat with transcripts via OpenAI
 - Add notes to recordings, or automatically add AI summaries of transcripts as a note, as soon as you upload a file.
-- Standalone mode with browser Local Storage
 
 ## Tech Stack
 
 - Frontend: React, TypeScript, TailwindCSS
 - Media Playback: Vidstack
-- Backend: Meeting bot transcription API
+- Proxy: Express (w/Node Http Proxy)
 
 ## Quick Start
 
 1. Clone the repo:
 
    ```
-   git clone https://github.com/Meeting-Baas/transcript-seeker && cd transcript-seeker
+   npx create-turbo@latest -e https://github.com/techwithanirudh/transcript-seeker/tree/pglite
    ```
 
-2. Install dependencies:
-
-   ```
-   pnpm install
-   ```
-
-3. Build dependencies:
-
-   ```
-   pnpm build
-   ```
-
-4. Copy the .env.example to .env
+2. Copy the .env.example to .env
 
    ```
    cp .env.example .env
@@ -57,7 +44,7 @@ Running directly in your browser using [IndexedDB](https://developer.mozilla.org
 
 5. Run using just the front-end, without adding variables in .env necessary for now:
    ```
-   pnpm dev
+   pnpm run dev
    ```
 
 ## Contributing
@@ -76,3 +63,4 @@ Open an issue or join our [Discord](https://discord.com/invite/dsvFgDTr6c).
 
 - [Meeting Baas API](https://meetingbaas.com/) - Our meeting bot API and meeting transcription API provider
 - [Vidstack](https://www.vidstack.io/)
+- [PGLite](https://pglite.dev/)
