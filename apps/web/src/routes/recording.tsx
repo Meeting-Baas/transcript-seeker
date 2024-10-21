@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
 
 import NotFoundPage from './not-found';
+import FullSpinner from '@/components/loader';
 
 const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
   if (!botId) throw new Error('No bot ID provided');
@@ -35,7 +36,7 @@ function MeetingPage() {
     mutate,
   } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId));
   if (!meeting) {
-    if (isLoading) return <>Fetching the data.</>
+    if (isLoading) return <FullSpinner />
     return <NotFoundPage />;
   }
   return <Viewer botId={botId!} isLoading={isLoading} meeting={meeting} />;
