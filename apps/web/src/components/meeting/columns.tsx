@@ -85,11 +85,6 @@ export const columns: ColumnDef<Meeting>[] = [
 
       return <div className="font-medium">{formatted}</div>;
     },
-    sortingFn: (rowA, rowB, columnId) => {
-      const dateA = new Date(rowA.getValue(columnId));
-      const dateB = new Date(rowB.getValue(columnId));
-      return dateA.getTime() - dateB.getTime();
-    },
   },
 
 //   {

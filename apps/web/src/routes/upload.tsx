@@ -52,6 +52,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@meeting-baas/ui/sidebar';
+import { useProviderOptionsStore } from '@/store/providerOptionsStore';
 
 export const formSchema = z.object({
   provider: z.string().min(1, {
@@ -131,7 +132,6 @@ export default function UploadPage() {
       setProviderOptions(options.provider, values);
     },
     [options, setProviderOptions],
-    // [options],
   );
 
   const data = form.watch();
