@@ -29,7 +29,6 @@ function ServerAvailablity() {
   );
 
   useEffect(() => {
-    // todo: on fresh db create this is broken fix this
     if (isBaasApiKeyLoading || isGladiaApiKeyLoading || isAssemblyAIApiKeyLoading) {
       setServerAvailability('loading');
       return;

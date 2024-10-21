@@ -46,7 +46,7 @@ export default function LanguageCombobox({ form, field }: ComboboxProps) {
             variant="outline"
             role="combobox"
             className={cn(
-              'w-full justify-between px-3 py-2 font-normal',
+              'w-full bg-transparent justify-between px-3 py-2 font-normal',
               !field.value && 'text-muted-foreground',
             )}
           >

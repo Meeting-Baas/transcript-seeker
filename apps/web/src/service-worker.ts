@@ -24,7 +24,8 @@ registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html'), { allow
 self.skipWaiting();
 clientsClaim();
 
-// // todo: switch to background sync api
+// // todo: when the user hits the recordigns page call background sync api to fetch the data then finish it
+// todo: do the same with the serverAvailablity
 // // Function to check for loading meetings
 // async function checkLoadingMeetings() {
 //   try {
