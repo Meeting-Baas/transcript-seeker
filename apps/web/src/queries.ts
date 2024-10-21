@@ -101,7 +101,7 @@ export async function setEditor({ meetingId, content }: { meetingId: InsertEdito
   if (editor) {
     return await db
       .update(editorsTable)
-      .set({ content: content })
+      .set({ content: content, updatedAt: new Date() })
       .where(eq(editorsTable.meetingId, meetingId))
       .returning();
   } else {

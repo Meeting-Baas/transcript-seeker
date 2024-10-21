@@ -202,8 +202,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
 
   React.useEffect(() => {
     if (data?.transcripts) {
-      const transcripts: Meeting['transcripts'] = [];
-      console.log(data?.transcripts)
+      const transcripts: Meeting['transcripts'] = data.transcripts;
       console.log('parsed transcript:', transcripts);
       setTranscripts(transcripts);
     }

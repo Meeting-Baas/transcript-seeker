@@ -7,13 +7,23 @@ CREATE TABLE IF NOT EXISTS "api_keys" (
 	"content" text
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "meetings" (
+CREATE TABLE IF NOT EXISTS "editors" (
 	"id" serial NOT NULL,
-	"type" "meeting_type",
-	"name" text,
+	"meeting_id" serial NOT NULL,
+	"content" jsonb DEFAULT '{}'::jsonb NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "meetings" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"type" "meeting_type" NOT NULL,
+	"status" "meeting_status" NOT NULL,
 	"bot_id" text NOT NULL,
 	"attendees" text[] DEFAULT '{}'::text[] NOT NULL,
-	"status" "meeting_status",
+	"transcripts" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"assets" jsonb DEFAULT '{"video_url":null,"video_blob":null}'::jsonb NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone
 );

@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1729405589250,
-      "tag": "0000_classy_slapstick",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1729421692078,
-      "tag": "0001_normal_veda",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1729488314681,
-      "tag": "0002_far_kid_colt",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1729489679959,
-      "tag": "0003_secret_morgan_stark",
+      "when": 1729493920869,
+      "tag": "0000_sparkling_cardiac",
       "breakpoints": true
     }
   ]

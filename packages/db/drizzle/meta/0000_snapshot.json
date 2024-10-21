@@ -1,5 +1,5 @@
 {
-  "id": "0bc5c499-26d4-4cc3-b5ea-f1b201f7d870",
+  "id": "0166deed-0af0-45dd-a714-338aaef4af86",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -34,8 +34,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "public.meetings": {
-      "name": "meetings",
+    "public.editors": {
+      "name": "editors",
       "schema": "",
       "columns": {
         "id": {
@@ -44,18 +44,68 @@
           "primaryKey": false,
           "notNull": true
         },
-        "type": {
-          "name": "type",
-          "type": "meeting_type",
-          "typeSchema": "public",
+        "meeting_id": {
+          "name": "meeting_id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "public.meetings": {
+      "name": "meetings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "meeting_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "meeting_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
         },
         "bot_id": {
           "name": "bot_id",
@@ -70,12 +120,19 @@
           "notNull": true,
           "default": "'{}'::text[]"
         },
-        "status": {
-          "name": "status",
-          "type": "meeting_status",
-          "typeSchema": "public",
+        "transcripts": {
+          "name": "transcripts",
+          "type": "jsonb",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "assets": {
+          "name": "assets",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{\"video_url\":null,\"video_blob\":null}'::jsonb"
         },
         "created_at": {
           "name": "created_at",
@@ -102,17 +159,29 @@
     "public.api_key_type": {
       "name": "api_key_type",
       "schema": "public",
-      "values": ["meetingbaas", "gladia", "openai", "assemblyai"]
+      "values": [
+        "meetingbaas",
+        "gladia",
+        "openai",
+        "assemblyai"
+      ]
     },
     "public.meeting_status": {
       "name": "meeting_status",
       "schema": "public",
-      "values": ["loaded", "loading", "error"]
+      "values": [
+        "loaded",
+        "loading",
+        "error"
+      ]
     },
     "public.meeting_type": {
       "name": "meeting_type",
       "schema": "public",
-      "values": ["meetingbaas", "local"]
+      "values": [
+        "meetingbaas",
+        "local"
+      ]
     }
   },
   "schemas": {},

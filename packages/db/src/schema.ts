@@ -1,12 +1,14 @@
 import { relations, sql } from 'drizzle-orm';
 import { jsonb, pgEnum, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
+import type { Transcript } from '@meeting-baas/shared';
+
 export const meetingTypeEnum = pgEnum('meeting_type', ['meetingbaas', 'local']);
 export const meetingStatusEnum = pgEnum('meeting_status', ['loaded', 'loading', 'error']);
 
 export const meetingsTable = pgTable('meetings', {
   id: serial('id').primaryKey(),
-  name: text('name'),
+  name: text('name').notNull(),
   type: meetingTypeEnum().notNull(),
   status: meetingStatusEnum().notNull(),
   botId: text('bot_id').notNull(),
@@ -14,14 +16,21 @@ export const meetingsTable = pgTable('meetings', {
     .array()
     .notNull()
     .default(sql`'{}'::text[]`),
-  transcripts: text('transcripts')
-    .array()
+  transcripts: jsonb('transcripts')
     .notNull()
-    .default(sql`'{}'::jsonb[]`),
-  assets: jsonb('assets').notNull().default({
-    video_url: null,
-    video_blob: null,
-  }),
+    .$type<Transcript[]>()
+    .default(sql`'[]'::jsonb`),
+  assets: jsonb('assets')
+    .notNull()
+    .$type<{
+      // todo: this is very misleading saying that blob_can store Blob
+      video_url: string | null;
+      video_blob: Blob | null;
+    }>()
+    .default({
+      video_url: null,
+      video_blob: null,
+    }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at', {
     mode: 'date',
@@ -30,7 +39,7 @@ export const meetingsTable = pgTable('meetings', {
 });
 
 export const meetingsRelations = relations(meetingsTable, ({ one }) => ({
-  editors: one(editorsTable)
+  editors: one(editorsTable),
 }));
 
 export type InsertMeeting = typeof meetingsTable.$inferInsert;
