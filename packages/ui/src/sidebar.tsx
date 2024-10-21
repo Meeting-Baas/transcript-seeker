@@ -11,9 +11,8 @@ import { useIsMobile } from '@meeting-baas/ui/hooks/use-mobile';
 import { Input } from '@meeting-baas/ui/input';
 import { Separator } from '@meeting-baas/ui/separator';
 import { Sheet, SheetContent } from '@meeting-baas/ui/sheet';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@meeting-baas/ui/tooltip';
-
 import { Skeleton } from '@meeting-baas/ui/skeleton';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@meeting-baas/ui/tooltip';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar:state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;

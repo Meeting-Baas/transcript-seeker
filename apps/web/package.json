@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
     "check-types": "tsc --noEmit",
     "pwa:generate": "pwa-assets-generator --preset minimal-2023 public/logo.svg",
     "lint": "eslint --fix  .",
