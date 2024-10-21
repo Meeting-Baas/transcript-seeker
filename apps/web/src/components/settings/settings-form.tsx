@@ -161,7 +161,7 @@ export function SettingsForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline">
+              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
                 Meeting Baas API for video-meetings 🐟
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
@@ -192,23 +192,29 @@ export function SettingsForm() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <ApiKeyField
-            name="openAIApiKey"
-            label="Chat with your meetings using the OpenAI API"
-            className="[&>label]:text-xl"
-            description={
-              <>
-                Optional. Get your API key by visiting{' '}
-                {renderLink('OpenAI', 'https://platform.openai.com/api-keys')}.
-              </>
-            }
-            control={form.control}
-          />
-          <Separator />
-
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline">
+              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
+                Chat with your meetings using the OpenAI API
+              </AccordionTrigger>
+              <AccordionContent className="space-y-6 px-1">
+                <ApiKeyField
+                  name="openAIApiKey"
+                  label="API Key"
+                  description={
+                    <>
+                      Use this key to chat with your meeting. Get your OpenAI API key by
+                      visiting {renderLink('OpenAI', 'https://platform.openai.com/')}.
+                    </>
+                  }
+                  control={form.control}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
                 Transcription API keys for local file uploads
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
