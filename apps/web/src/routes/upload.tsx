@@ -86,15 +86,14 @@ export default function UploadPage() {
     language: 'en',
   });
 
-  // const rawProviderOptions = useProviderOptionsStore((state) => state.providerOptions);
-  // const getProviderOptions = useProviderOptionsStore((state) => state.getProviderOptions);
-  // const setProviderOptions = useProviderOptionsStore((state) => state.setProviderOptions);
+  const rawProviderOptions = useProviderOptionsStore((state) => state.providerOptions);
+  const getProviderOptions = useProviderOptionsStore((state) => state.getProviderOptions);
+  const setProviderOptions = useProviderOptionsStore((state) => state.setProviderOptions);
 
-  // const providerOptions = useMemo(
-  //   () => getProviderOptions(options.provider),
-  //   [rawProviderOptions, options, getProviderOptions],
-  // );
-  const providerOptions = null;
+  const providerOptions = useMemo(
+    () => getProviderOptions(options.provider),
+    [rawProviderOptions, options, getProviderOptions],
+  );
 
   const getProviderSchema = useCallback((provider?: string) => {
     if (provider === 'gladia') return gladia.options;
@@ -129,10 +128,10 @@ export default function UploadPage() {
   // todo: fix provider options so that it is stored like it was prev
   const handleProviderSubmit = useCallback(
     (values: Record<string, unknown>) => {
-      // setProviderOptions(options.provider, values);
+      setProviderOptions(options.provider, values);
     },
-    // [options, setProviderOptions],
-    [options],
+    [options, setProviderOptions],
+    // [options],
   );
 
   const data = form.watch();

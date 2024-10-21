@@ -1,11 +1,11 @@
-import type { JSONContent } from 'novel';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import * as assemblyai from '@/lib/transcription/assemblyai';
 import * as gladia from '@/lib/transcription/gladia';
-import { createMeeting, getAPIKey, getEditors, getMeetings, setEditor } from '@/queries';
+import { createMeeting, getAPIKey, setEditor } from '@/queries';
 import type { Meeting, Transcript as TranscriptT } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadCloudIcon } from 'lucide-react';
+import type { JSONContent } from 'novel';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';

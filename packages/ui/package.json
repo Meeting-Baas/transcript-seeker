@@ -8,6 +8,10 @@
       "types": "./dist/src/index.d.ts",
       "default": "./src/index.ts"
     },
+    "./auto-form": {
+      "types": "./dist/src/auto-form/index.d.ts",
+      "default": "./src/auto-form/index.tsx"
+    },
     "./*": {
       "types": "./dist/src/*.d.ts",
       "default": [

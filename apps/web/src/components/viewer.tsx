@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Header } from '@/components/header';
 import Chat from '@/components/viewer/chat';
 import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
@@ -6,7 +5,7 @@ import Editor from '@/components/viewer/editor';
 import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { BLANK_EDITOR_DATA, LOADING_EDITOR_DATA, VITE_PROXY_URL } from '@/lib/constants';
+import { BLANK_EDITOR_DATA, LOADING_EDITOR_DATA } from '@/lib/constants';
 import {
   getAPIKey,
   getChatByMeetingId,
@@ -15,10 +14,10 @@ import {
   setEditor as setEditorDB,
 } from '@/queries';
 import type { Meeting, Message } from '@/types';
-import { Editor as EditorT } from '@/types';
 import type { MediaPlayerInstance } from '@vidstack/react';
 import type { JSONContent } from 'novel';
 import OpenAI from 'openai';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import useSWR from 'swr';
@@ -149,7 +148,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
 
       res = {
         data: {
-          response: result.choices[0]!.message.content || '',
+          response: result.choices[0].message.content || '',
         },
       };
 

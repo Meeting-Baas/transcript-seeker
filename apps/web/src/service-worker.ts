@@ -1,4 +1,3 @@
-import { getMeetings } from '@/queries';
 import { clientsClaim } from 'workbox-core';
 import {
   cleanupOutdatedCaches,

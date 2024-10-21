@@ -1,18 +1,17 @@
-import Footer from '@/components/footer';
 import ServerAlert from '@/components/server-alert';
 import { getAPIKey } from '@/queries'; // Assuming you already have this
 
 import { useServerAvailabilityStore } from '@/store';
-import { Info, Key, List, Mic, SettingsIcon, Upload } from 'lucide-react';
+import { Info, Key, List, Mic, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import useSWR from 'swr';
 
+import ServerAvailablity from '@/components/server-availablity';
 import type { SelectAPIKey } from '@meeting-baas/db/schema';
 import { cn } from '@meeting-baas/ui';
 import { buttonVariants } from '@meeting-baas/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@meeting-baas/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@meeting-baas/ui/tooltip';
-import ServerAvailablity from '@/components/server-availablity';
 
 const fetchAPIKey = async (type: SelectAPIKey['type']) => {
   const apiKey = await getAPIKey({ type });

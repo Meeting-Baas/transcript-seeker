@@ -7,9 +7,9 @@ import { getMeetings } from '@/queries';
 import { useServerAvailabilityStore } from '@/store';
 import useSWR from 'swr';
 
+import ServerAvailablity from '@/components/server-availablity';
 import { Separator } from '@meeting-baas/ui/separator';
 import { Skeleton } from '@meeting-baas/ui/skeleton';
-import ServerAvailablity from '@/components/server-availablity';
 
 const fetchMeetings = async () => {
   const meetings = await getMeetings();
