@@ -52,10 +52,13 @@
     "VITE_PROXY_URL",
     "VITE_CLIENT_PORT",
     "VITE_CLIENT_HOST",
+    "VITE_S3_PREFIX",
     "SW",
     "SW_DEV",
     "HOST",
-    "PORT"
+    "PORT",
+    "MEETINGBASS_API_URL",
+    "MEETINGBASS_S3_URL"
   ],
   "globalPassThroughEnv": [
     "NODE_ENV",

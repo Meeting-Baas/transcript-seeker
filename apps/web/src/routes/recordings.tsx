@@ -13,6 +13,7 @@ import useSWR from 'swr';
 import { SelectAPIKey } from '@meeting-baas/db/schema';
 import { Separator } from '@meeting-baas/ui/separator';
 import { Skeleton } from '@meeting-baas/ui/skeleton';
+import { differenceInHours, differenceInMinutes, differenceInSeconds, sub } from 'date-fns';
 
 const fetchMeetings = async () => {
   const meetings = await getMeetings();
@@ -48,6 +49,27 @@ function RecordingsPage() {
         if (!data) return;
         await updateMeeting({ id: meeting.id, values: data });
         mutate();
+      }
+
+      // todo: comment the code out later
+      if (meeting.status === 'loaded' && meeting.type == 'meetingbaas') {
+        if (!meeting.updatedAt) return;
+        const now = new Date()
+        if (differenceInHours(now, meeting.updatedAt) > 1) {
+          const data = await fetchBotDetails({
+            botId: meeting.botId,
+            apiKey: baasApiKey,
+          });
+          if (!data) return;
+
+          await updateMeeting({
+            id: meeting.id,
+            values: {
+              assets: data?.assets,
+            },
+          });
+          mutate();
+        }
       }
     });
   }, [meetings, isLoading, isBaasApiKeyLoading]);

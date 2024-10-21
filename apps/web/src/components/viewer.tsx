@@ -28,6 +28,8 @@ import { cn } from '@meeting-baas/ui';
 import { buttonVariants } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
 
+import { VITE_PROXY_URL, VITE_S3_PREFIX } from "@/lib/constants";
+
 interface ViewerProps {
   botId: string;
   isLoading: boolean;
@@ -184,7 +186,8 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   React.useEffect(() => {
     if (data.type === 'meetingbaas') {
       if (!data.assets.video_url) return;
-      setVideo(data.assets.video_url);
+      const url = data.assets.video_url.replace(VITE_S3_PREFIX, '');
+      setVideo(`${VITE_PROXY_URL}/api/s3${url}`);
     }
     if (data.type === 'local') {
       if (!data.assets.video_blob) return;
@@ -237,7 +240,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
           <div className="absolute right-4">
             <Link
               to={`/share/${botId}`}
-              className={cn(buttonVariants({ variant: 'outline' }), 'ml-2')}
+              className={cn(buttonVariants({ variant: 'outline' }), 'pointer-events-none opacity-50', 'ml-2')}
             >
               Share
             </Link>
