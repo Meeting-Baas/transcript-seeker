@@ -35,6 +35,7 @@ function MeetingPage() {
     mutate,
   } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId));
   if (!meeting) {
+    if (isLoading) return <>Fetching the data.</>
     return <NotFoundPage />;
   }
   return <Viewer botId={botId!} isLoading={isLoading} meeting={meeting} />;

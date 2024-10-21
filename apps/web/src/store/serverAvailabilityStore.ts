@@ -7,6 +7,6 @@ interface ServerAvailabilityState {
 }
 
 export const useServerAvailabilityStore = create<ServerAvailabilityState>()((set) => ({
-  serverAvailability: 'error',
+  serverAvailability: 'loading',
   setServerAvailability: (availability) => set({ serverAvailability: availability }),
 }));
