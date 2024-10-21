@@ -3,7 +3,7 @@ import { Header } from '@/components/header';
 import LanguageCombobox from '@/components/language-select';
 import ServerAvailablity from '@/components/server-availablity';
 import ProvidersForm from '@/components/upload/providers-form';
-import { Provider } from '@/components/upload/types';
+import type { Provider } from '@/components/upload/types';
 // import { useProviderOptionsStore } from '@/store';
 
 import { UploadForm } from '@/components/upload/upload-form';
@@ -128,7 +128,7 @@ export default function UploadPage() {
 
   // todo: fix provider options so that it is stored like it was prev
   const handleProviderSubmit = useCallback(
-    (values: { [key: string]: unknown }) => {
+    (values: Record<string, unknown>) => {
       // setProviderOptions(options.provider, values);
     },
     // [options, setProviderOptions],
@@ -195,9 +195,9 @@ export default function UploadPage() {
             <SidebarGroupLabel className="px-0">Select additional capabilities</SidebarGroupLabel>
 
             <SidebarGroupContent>
-              {options?.provider && (
+              {options.provider && (
                 <ProvidersForm
-                  defaultValues={defaultValues!}
+                  defaultValues={defaultValues}
                   schema={providerSchema!}
                   onSubmit={handleProviderSubmit}
                 />

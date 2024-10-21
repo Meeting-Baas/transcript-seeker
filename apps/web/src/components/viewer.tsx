@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Header } from '@/components/header';
 import Chat from '@/components/viewer/chat';
-import { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
+import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
 import Editor from '@/components/viewer/editor';
 import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
@@ -14,25 +14,26 @@ import {
   setChat,
   setEditor as setEditorDB,
 } from '@/queries';
-import { Editor as EditorT, Meeting, Message } from '@/types';
-import { MediaPlayerInstance } from '@vidstack/react';
-import { JSONContent } from 'novel';
+import type { Meeting, Message } from '@/types';
+import { Editor as EditorT } from '@/types';
+import type { MediaPlayerInstance } from '@vidstack/react';
+import type { JSONContent } from 'novel';
 import OpenAI from 'openai';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import useSWR from 'swr';
-import { z } from 'zod';
+import type { z } from 'zod';
 
 import type { SelectAPIKey, SelectEditor } from '@meeting-baas/db/schema';
 import { cn } from '@meeting-baas/ui';
 import { buttonVariants } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
 
-type ViewerProps = {
+interface ViewerProps {
   botId: string;
   isLoading: boolean;
   meeting: Meeting;
-};
+}
 
 const fetchAPIKey = async (type: SelectAPIKey['type']) => {
   const apiKey = await getAPIKey({ type });
@@ -42,7 +43,7 @@ const fetchAPIKey = async (type: SelectAPIKey['type']) => {
 
 const fetchEditorContentByMeetingId = async (meetingId: SelectEditor['meetingId']) => {
   const editor = await getEditorByMeetingId({ meetingId });
-  if (editor) return editor?.content;
+  if (editor) return editor.content;
   return null;
 };
 
@@ -111,10 +112,10 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
     setMessages((prev) => [...prev, { content: message, role: 'user' }]);
 
     try {
-      let messagesList: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];
+      const messagesList: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];
 
       transcripts.forEach((transcript) => {
-        let text: string = '';
+        let text = '';
         transcript.words.forEach((word: { text: string }) => {
           text += word.text + ' ';
         });
@@ -148,7 +149,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
 
       res = {
         data: {
-          response: result.choices[0]!.message?.content || '',
+          response: result.choices[0]!.message.content || '',
         },
       };
 
@@ -182,18 +183,18 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   }, []);
 
   React.useEffect(() => {
-    if (data?.type === 'meetingbaas') {
+    if (data.type === 'meetingbaas') {
       if (!data.assets.video_url) return;
       setVideo(data.assets.video_url);
     }
-    if (data?.type === 'local') {
+    if (data.type === 'local') {
       if (!data.assets.video_blob) return;
       setVideo(data.assets.video_blob);
     }
   }, [data]);
 
   React.useEffect(() => {
-    if (data?.transcripts) {
+    if (data.transcripts) {
       const transcripts: Meeting['transcripts'] = data.transcripts;
       console.log('parsed transcript:', transcripts);
       setTranscripts(transcripts);
@@ -257,7 +258,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
                     // @ts-ignore
                     src={{
                       src: video,
-                      type: data?.type === 'meetingbaas' ? 'video/mp4' : 'video/object',
+                      type: data.type === 'meetingbaas' ? 'video/mp4' : 'video/object',
                     }}
                     onTimeUpdate={handleTimeUpdate}
                     setPlayer={setPlayerRef}

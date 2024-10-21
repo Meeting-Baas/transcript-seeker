@@ -1,8 +1,9 @@
-import { Transcript } from '@/types';
-import { AssemblyAI, TranscriptUtterance as AssemblyAIUtterance } from 'assemblyai';
+import type { Transcript } from '@/types';
+import type { TranscriptUtterance as AssemblyAIUtterance } from 'assemblyai';
+import { AssemblyAI } from 'assemblyai';
 
 export function groupUtterancesBySpeaker(utterances: AssemblyAIUtterance[]): Transcript[] {
-  let groupedTranscripts: Transcript[] = [];
+  const groupedTranscripts: Transcript[] = [];
   let currentSpeaker: string | null = null;
   let currentWords: Transcript['words'] = [];
   let currentWordCount = 0;
@@ -43,9 +44,7 @@ export function groupUtterancesBySpeaker(utterances: AssemblyAIUtterance[]): Tra
 const transcribe = async (
   blob: Blob,
   apiKey: string,
-  options?: {
-    [key: string]: unknown;
-  },
+  options?: Record<string, unknown>,
 ) => {
   const client = new AssemblyAI({
     apiKey,
@@ -65,7 +64,7 @@ const transcribe = async (
   const transcription = await client.transcripts.transcribe(params);
   if (!transcription) console.error('Oops, something went wrong!', transcription);
 
-  let transcripts = groupUtterancesBySpeaker(
+  const transcripts = groupUtterancesBySpeaker(
     transcription.utterances
       ? transcription.utterances
       : [

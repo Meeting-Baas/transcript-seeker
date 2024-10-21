@@ -3,7 +3,7 @@
 import ServerAlert from '@/components/server-alert';
 import { joinMeetingWrapper as joinMeeting } from '@/lib/axios';
 import { createMeeting, getAPIKey, getMeetings } from '@/queries';
-import { Meeting } from '@/types';
+import type { Meeting } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';

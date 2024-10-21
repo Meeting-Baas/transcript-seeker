@@ -24,7 +24,7 @@ function ReloadPrompt() {
             r.update();
           }, 20000 /* 20s for testing purposes */);
       } else {
-        // eslint-disable-next-line prefer-template
+         
         console.log('SW Registered: ' + r);
       }
     },
@@ -45,7 +45,7 @@ function ReloadPrompt() {
           <div>
             <AlertTitle className="mb-0 text-sm font-normal">
               {offlineReady ? (
-                <>App ready to work offline</>
+                <>Service worker has been installed on this device.</>
               ) : (
                 <>New content available, click on reload button to update.</>
               )}

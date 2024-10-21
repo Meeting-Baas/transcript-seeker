@@ -12,17 +12,18 @@ import {
   TextIcon,
   TextQuote,
 } from 'lucide-react';
-import { EditorBubbleItem, EditorInstance, useEditor } from 'novel';
+import type { EditorInstance} from 'novel';
+import { EditorBubbleItem, useEditor } from 'novel';
 
 import { Button } from '@meeting-baas/ui/button';
 import { PopoverContent, PopoverTrigger } from '@meeting-baas/ui/popover';
 
-export type SelectorItem = {
+export interface SelectorItem {
   name: string;
   icon: LucideIcon;
   command: (editor: EditorInstance) => void;
   isActive: (editor: EditorInstance) => boolean;
-};
+}
 
 const items: SelectorItem[] = [
   {

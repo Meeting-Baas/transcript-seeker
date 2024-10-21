@@ -1,7 +1,7 @@
 'use client';
 
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import { Row } from '@tanstack/react-table';
+import type { Row } from '@tanstack/react-table';
 
 import { Button } from '@meeting-baas/ui/button';
 import {
@@ -11,7 +11,8 @@ import {
   DropdownMenuTrigger,
 } from '@meeting-baas/ui/dropdown-menu';
 
-import RenameModal, { formSchema as renameSchema } from './rename-modal';
+import type { formSchema as renameSchema } from './rename-modal';
+import RenameModal from './rename-modal';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 
 import {

@@ -1,6 +1,7 @@
 import { VITE_PROXY_URL } from '@/lib/constants';
 
-import { joinMeeting, JoinMeetingParams } from '@meeting-baas/shared';
+import type { JoinMeetingParams } from '@meeting-baas/shared';
+import { joinMeeting } from '@meeting-baas/shared';
 
 interface JoinMeetingWrapperProps {
   baasApiKey: string;

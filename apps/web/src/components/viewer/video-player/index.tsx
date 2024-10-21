@@ -18,7 +18,7 @@ interface PlayerProps {
 }
 
 export function Player({ setPlayer, src, onTimeUpdate, assetTitle }: PlayerProps) {
-  let player = useRef<MediaPlayerInstance>(null);
+  const player = useRef<MediaPlayerInstance>(null);
 
   useEffect(() => {
     // Subscribe to state updates.

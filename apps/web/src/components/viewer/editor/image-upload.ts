@@ -6,8 +6,8 @@ const onUpload = (file: File) => {
   const promise = fetch(VITE_PROXY_URL.concat('/upload'), {
     method: 'POST',
     headers: {
-      'content-type': file?.type || 'application/octet-stream',
-      'x-vercel-filename': file?.name || 'image.png',
+      'content-type': file.type || 'application/octet-stream',
+      'x-vercel-filename': file.name || 'image.png',
     },
     body: file,
   });
@@ -17,9 +17,9 @@ const onUpload = (file: File) => {
       promise.then(async (res) => {
         // Successfully uploaded image
         if (res.status === 200) {
-          const { url } = (await res.json()) as any;
+          const { url } = (await res.json());
           // preload the image
-          let image = new Image();
+          const image = new Image();
           image.src = url;
           image.onload = () => {
             resolve(url);

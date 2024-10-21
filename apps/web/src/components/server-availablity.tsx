@@ -3,7 +3,7 @@ import { getAPIKey } from '@/queries';
 import { useServerAvailabilityStore } from '@/store';
 import useSWR from 'swr';
 
-import { SelectAPIKey } from '@meeting-baas/db/schema';
+import type { SelectAPIKey } from '@meeting-baas/db/schema';
 import { cn } from '@meeting-baas/ui';
 
 // Custom fetcher for SWR to use getAPIKey

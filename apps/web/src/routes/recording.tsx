@@ -39,7 +39,7 @@ function MeetingPage() {
     if (isLoading) return <FullSpinner />
     return <NotFoundPage />;
   }
-  return <Viewer botId={botId!} isLoading={isLoading} meeting={meeting} />;
+  return <Viewer botId={botId} isLoading={isLoading} meeting={meeting} />;
 }
 
 export default MeetingPage;

@@ -75,9 +75,8 @@ export default defineConfig(() => {
     base: './',
     plugins: [
       react(),
-      // todo: reenable ts
       checker({
-        typescript: false,
+        typescript: true,
       }),
       VitePWA(pwaOptions),
       replace(replaceOptions),

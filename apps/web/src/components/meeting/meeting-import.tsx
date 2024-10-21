@@ -40,7 +40,7 @@ export function ImportMeeting() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    let { botId: botId } = values;
+    const { botId: botId } = values;
     if (meetings?.some((meeting) => meeting.botId === botId)) {
       toast.error('This meeting has already been imported');
       return;

@@ -1,19 +1,20 @@
 import { eq } from 'drizzle-orm';
 
 import { db } from '@meeting-baas/db/client';
-import {
-  apiKeysTable,
-  chatsTable,
-  editorsTable,
+import type {
   InsertAPIKey,
   InsertChat,
   InsertEditor,
   InsertMeeting,
-  meetingsTable,
   SelectAPIKey,
   SelectChat,
   SelectEditor,
-  SelectMeeting,
+  SelectMeeting} from '@meeting-baas/db/schema';
+import {
+  apiKeysTable,
+  chatsTable,
+  editorsTable,
+  meetingsTable
 } from '@meeting-baas/db/schema';
 
 export async function getAPIKey({ type }: { type: SelectAPIKey['type'] }) {

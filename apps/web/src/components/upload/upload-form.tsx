@@ -3,7 +3,7 @@ import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import * as assemblyai from '@/lib/transcription/assemblyai';
 import * as gladia from '@/lib/transcription/gladia';
 import { createMeeting, getAPIKey, getEditors, getMeetings, setEditor } from '@/queries';
-import { Meeting, Transcript as TranscriptT } from '@/types';
+import type { Meeting, Transcript as TranscriptT } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadCloudIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -25,7 +25,7 @@ import {
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
 
-import { Provider } from './types';
+import type { Provider } from './types';
 
 const MAX_FILE_SIZE = 3000 * 1024 * 1024; // 1000 MB (100 * 1024 KB * 1024 bytes)
 const ACCEPTED_FILE_TYPES = [
@@ -50,7 +50,7 @@ const formSchema = z.object({
       message: `Sorry, max file is set to ${MAX_FILE_SIZE / (1024 * 1024)}MB.`,
     })
     .refine(
-      (file) => ACCEPTED_FILE_TYPES.includes(file?.type),
+      (file) => ACCEPTED_FILE_TYPES.includes(file.type),
       'Only .mp4, .avi, .mkv, .mov, .wmv, .webm, .mpeg, .mp3, .wav, .ogg, .aac, and .flac formats are supported.',
     ),
 });
@@ -58,9 +58,7 @@ const formSchema = z.object({
 interface UploadProps {
   provider: Provider;
   language: string;
-  options: {
-    [key: string]: any;
-  };
+  options: Record<string, any>;
 }
 
 const fetchAPIKey = async (type: SelectAPIKey['type']) => {
@@ -147,7 +145,7 @@ export function UploadForm({ provider, options }: UploadProps) {
                 {
                   type: 'text',
                   text:
-                    data.summarization?.results ||
+                    data.summarization.results ||
                     'Oops! Something went wrong while trying to load summarization data!',
                 },
               ],
@@ -185,7 +183,7 @@ export function UploadForm({ provider, options }: UploadProps) {
                   {...fieldProps}
                   type="file"
                   accept="audio/*,video/*"
-                  onChange={(event) => onChange(event.target.files && event.target.files[0])}
+                  onChange={(event) => onChange(event.target.files?.[0])}
                 />
               </FormControl>
               <FormMessage />

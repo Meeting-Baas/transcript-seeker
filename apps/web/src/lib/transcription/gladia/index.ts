@@ -1,4 +1,4 @@
-import { Transcript } from '@/types';
+import type { Transcript } from '@/types';
 
 export async function makeFetchRequest(url: string, options: any) {
   const response = await fetch(url, options);
@@ -45,9 +45,7 @@ export async function uploadFile(blob: Blob, apiKey: string) {
 export async function startTranscription(
   audio_url: string,
   gladiaKey: string,
-  options?: {
-    [key: string]: unknown;
-  },
+  options?: Record<string, unknown>,
 ) {
   const requestData = {
     audio_url: audio_url,
@@ -84,7 +82,7 @@ export interface GladiaUtterance {
 }
 
 export function groupUtterancesBySpeaker(utterances: GladiaUtterance[]): Transcript[] {
-  let groupedTranscripts: Transcript[] = [];
+  const groupedTranscripts: Transcript[] = [];
   let currentSpeaker: number | null = null;
   let currentWords: Transcript['words'] = [];
   let currentWordCount = 0;
@@ -97,7 +95,7 @@ export function groupUtterancesBySpeaker(utterances: GladiaUtterance[]): Transcr
           words: currentWords,
         });
       }
-      currentSpeaker = utterance?.speaker || 0;
+      currentSpeaker = utterance.speaker || 0;
       currentWords = [];
       currentWordCount = 0;
     }
@@ -135,9 +133,7 @@ export function groupUtterancesBySpeaker(utterances: GladiaUtterance[]): Transcr
 export async function transcribe(
   blob: Blob,
   apiKey: string,
-  options?: {
-    [key: string]: unknown;
-  },
+  options?: Record<string, unknown>,
 ) {
   const uploadURL = await uploadFile(blob, apiKey);
   const data = await startTranscription(uploadURL.audio_url, apiKey, options);
@@ -145,7 +141,7 @@ export async function transcribe(
   const transcription: {
     utterances: GladiaUtterance[];
   } = data.transcription;
-  let transcripts = groupUtterancesBySpeaker(transcription.utterances);
+  const transcripts = groupUtterancesBySpeaker(transcription.utterances);
 
   return { data, transcripts };
 }

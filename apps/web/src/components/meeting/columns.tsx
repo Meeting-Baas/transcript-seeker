@@ -3,7 +3,7 @@
 import type { Meeting } from '@/types';
 import { Badge } from '@meeting-baas/ui/badge';
 import { Checkbox } from '@meeting-baas/ui/checkbox';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from "./data-table-row-actions"
@@ -54,7 +54,7 @@ export const columns: ColumnDef<Meeting>[] = [
     accessorKey: 'attendees',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Attendees" />,
     cell: ({ row }) => {
-      let attendees: string[] = row.getValue('attendees') || [];
+      const attendees: string[] = row.getValue('attendees') || [];
 
       return (
         <div className="flex gap-2 text-right font-medium">

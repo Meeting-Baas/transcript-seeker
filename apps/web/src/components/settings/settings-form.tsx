@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import useSWR from 'swr';
 import { z } from 'zod';
 
-import { SelectAPIKey } from '@meeting-baas/db/schema';
+import type { SelectAPIKey } from '@meeting-baas/db/schema';
 import {
   Accordion,
   AccordionContent,

@@ -1,4 +1,4 @@
-import { ServerAvailability } from '@/types';
+import type { ServerAvailability } from '@/types';
 import { create } from 'zustand';
 
 interface ServerAvailabilityState {

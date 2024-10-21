@@ -1,9 +1,9 @@
-export type Message = {
+export interface Message {
   content: string;
   role: 'assistant' | 'user' | 'system';
 }
 
-export type Chat = {
+export interface Chat {
   id: string;
   messages?: Message[];
-};
+}

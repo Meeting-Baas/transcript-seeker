@@ -1,6 +1,6 @@
-import { JSONContent } from 'novel';
+import type { JSONContent } from 'novel';
 
-export type Editor = {
+export interface Editor {
   id: string;
   content?: JSONContent;
-};
+}

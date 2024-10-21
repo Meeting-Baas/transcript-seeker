@@ -1,8 +1,8 @@
 // import type { JSONContent } from 'novel';
 
-import { Transcript } from '.';
+import type { Transcript } from '.';
 
-export type Meeting = {
+export interface Meeting {
   id: number;
   name: string;
   botId: string;
@@ -16,4 +16,4 @@ export type Meeting = {
   createdAt: Date;
   status: 'loaded' | 'loading' | 'error';
   type: 'meetingbaas' | 'local';
-};
+}

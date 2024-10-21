@@ -1,6 +1,7 @@
 'use client';
 
-import type { JSONContent } from 'novel';
+import type { JSONContent ,
+  EditorInstance} from 'novel';
 import React from 'react'; // useState
 import {
   EditorBubble,
@@ -9,7 +10,6 @@ import {
   EditorCommandItem,
   EditorCommandList,
   EditorContent,
-  EditorInstance,
   EditorRoot,
 } from 'novel';
 import { handleCommandNavigation, ImageResizer } from 'novel/extensions';

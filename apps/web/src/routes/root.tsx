@@ -7,7 +7,7 @@ import { Info, Key, List, Mic, SettingsIcon, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import useSWR from 'swr';
 
-import { SelectAPIKey } from '@meeting-baas/db/schema';
+import type { SelectAPIKey } from '@meeting-baas/db/schema';
 import { cn } from '@meeting-baas/ui';
 import { buttonVariants } from '@meeting-baas/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@meeting-baas/ui/card';
