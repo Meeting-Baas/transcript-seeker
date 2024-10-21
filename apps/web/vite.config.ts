@@ -67,6 +67,7 @@ if (reload) {
 
 if (selfDestroying) pwaOptions.selfDestroying = selfDestroying;
 
+// @ts-ignore
 export default defineConfig(() => {
   const CLIENT_PORT: number = Number(process.env.VITE_CLIENT_PORT) || 5173;
   const CLIENT_HOST: string = process.env.VITE_CLIENT_HOST || 'localhost';
@@ -79,7 +80,7 @@ export default defineConfig(() => {
         typescript: true,
       }),
       VitePWA(pwaOptions),
-      replace(replaceOptions),
+      replace({ preventAssignment: true, values: replaceOptions }),
     ],
     server: {
       port: CLIENT_PORT,
