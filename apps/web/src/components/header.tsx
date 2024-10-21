@@ -23,10 +23,9 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ path, border = true }) => {
   return (
     <header
-      className={cn(
-        'sticky top-0 flex h-16 shrink-0 items-center gap-2 bg-background px-4',
-        { 'border-b': border },
-      )}
+      className={cn('sticky top-0 flex h-16 shrink-0 items-center gap-2 bg-background px-4', {
+        'border-b': border,
+      })}
     >
       <Breadcrumb>
         <BreadcrumbList>

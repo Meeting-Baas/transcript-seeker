@@ -1,11 +1,12 @@
+import type { Meeting, Transcript as TranscriptT } from '@/types';
+import type { JSONContent } from 'novel';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
+import { fetchAPIKey } from '@/lib/swr';
 import * as assemblyai from '@/lib/transcription/assemblyai';
 import * as gladia from '@/lib/transcription/gladia';
 import { createMeeting, getAPIKey, setEditor } from '@/queries';
-import type { Meeting, Transcript as TranscriptT } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadCloudIcon } from 'lucide-react';
-import type { JSONContent } from 'novel';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -13,7 +14,6 @@ import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 
-import type { SelectAPIKey } from '@meeting-baas/db/schema';
 import { Button } from '@meeting-baas/ui/button';
 import {
   Form,
@@ -61,16 +61,10 @@ interface UploadProps {
   options: Record<string, any>;
 }
 
-const fetchAPIKey = async (type: SelectAPIKey['type']) => {
-  const apiKey = await getAPIKey({ type });
-  if (apiKey) return apiKey.content;
-  return null;
-};
-
 interface TranscriptionFunctionResponse {
   summarization?: {
-    results: string,
-  }
+    results: string;
+  };
 }
 
 export function UploadForm({ provider, options }: UploadProps) {
@@ -115,7 +109,7 @@ export function UploadForm({ provider, options }: UploadProps) {
       console.log('transcripts', transcripts);
 
       const botId = uuidv4();
-  
+
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
       await storageAPI.set(`${botId}.mp4`, file);

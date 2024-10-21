@@ -41,11 +41,7 @@ export function groupUtterancesBySpeaker(utterances: AssemblyAIUtterance[]): Tra
   return groupedTranscripts;
 }
 
-const transcribe = async (
-  blob: Blob,
-  apiKey: string,
-  options?: Record<string, unknown>,
-) => {
+const transcribe = async (blob: Blob, apiKey: string, options?: Record<string, unknown>) => {
   const client = new AssemblyAI({
     apiKey,
   });

@@ -1,7 +1,7 @@
+import ServerAvailablity from '@/components/server-availablity';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@meeting-baas/ui/button';
-import ServerAvailablity from '@/components/server-availablity';
 
 function NotFoundPage() {
   return (
@@ -13,7 +13,7 @@ function NotFoundPage() {
           <Link to="/">Back To Home</Link>
         </Button>
       </div>
-      <div className="fixed bottom-4 left-4 text-sm text-muted-foreground flex items-center gap-2">
+      <div className="fixed bottom-4 left-4 flex items-center gap-2 text-sm text-muted-foreground">
         <ServerAvailablity />
       </div>
     </div>

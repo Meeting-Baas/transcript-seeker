@@ -1,34 +1,19 @@
+import { useEffect } from 'react';
 import { Header } from '@/components/header';
 import { columns } from '@/components/meeting/columns';
 import { DataTable } from '@/components/meeting/data-table';
 import { ImportMeeting } from '@/components/meeting/meeting-import';
 import ServerAlert from '@/components/server-alert';
 import ServerAvailablity from '@/components/server-availablity';
-import { fetchBotDetails } from '@/lib/axios';
-import { getAPIKey, getMeetings, updateMeeting } from '@/queries';
+import { fetchBotDetails } from '@/lib/meetingbaas';
+import { fetchAPIKey, fetchMeetings } from '@/lib/swr';
+import { updateMeeting } from '@/queries';
 import { useServerAvailabilityStore } from '@/store';
-import { useEffect } from 'react';
+import { differenceInHours } from 'date-fns';
 import useSWR from 'swr';
 
-import { SelectAPIKey } from '@meeting-baas/db/schema';
 import { Separator } from '@meeting-baas/ui/separator';
 import { Skeleton } from '@meeting-baas/ui/skeleton';
-import { differenceInHours } from 'date-fns';
-
-const fetchMeetings = async () => {
-  const meetings = await getMeetings();
-  if (!meetings) return [];
-  if (Array.isArray(meetings)) {
-    return meetings;
-  }
-  return [];
-};
-
-const fetchAPIKey = async (type: SelectAPIKey['type']) => {
-  const apiKey = await getAPIKey({ type });
-  if (apiKey) return apiKey.content;
-  return null;
-};
 
 function RecordingsPage() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
@@ -54,7 +39,7 @@ function RecordingsPage() {
       // todo: comment the code out later
       if (meeting.status === 'loaded' && meeting.type == 'meetingbaas') {
         if (!meeting.updatedAt) return;
-        const now = new Date()
+        const now = new Date();
         if (differenceInHours(now, meeting.updatedAt) > 1) {
           const data = await fetchBotDetails({
             botId: meeting.botId,

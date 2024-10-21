@@ -1,23 +1,15 @@
 import ServerAlert from '@/components/server-alert';
-import { getAPIKey } from '@/queries'; // Assuming you already have this
-
+import ServerAvailablity from '@/components/server-availablity';
+import { fetchAPIKey } from '@/lib/swr';
 import { useServerAvailabilityStore } from '@/store';
 import { Info, Key, List, Mic, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import useSWR from 'swr';
 
-import ServerAvailablity from '@/components/server-availablity';
-import type { SelectAPIKey } from '@meeting-baas/db/schema';
 import { cn } from '@meeting-baas/ui';
 import { buttonVariants } from '@meeting-baas/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@meeting-baas/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@meeting-baas/ui/tooltip';
-
-const fetchAPIKey = async (type: SelectAPIKey['type']) => {
-  const apiKey = await getAPIKey({ type });
-  if (apiKey) return apiKey.content;
-  return null;
-};
 
 function RootPage() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
@@ -104,7 +96,7 @@ function RootPage() {
           </div>
         </CardContent>
       </Card>
-      <div className="fixed bottom-4 left-4 text-sm text-muted-foreground flex items-center gap-2">
+      <div className="fixed bottom-4 left-4 flex items-center gap-2 text-sm text-muted-foreground">
         <ServerAvailablity />
       </div>
     </div>

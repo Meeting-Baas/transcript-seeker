@@ -31,7 +31,7 @@ function JoinPage() {
         </div>
         <MeetingForm />
       </div>
-      <div className="fixed bottom-4 left-4 text-sm text-muted-foreground flex items-center gap-2">
+      <div className="fixed bottom-4 left-4 flex items-center gap-2 text-sm text-muted-foreground">
         <ServerAvailablity />
       </div>
     </div>

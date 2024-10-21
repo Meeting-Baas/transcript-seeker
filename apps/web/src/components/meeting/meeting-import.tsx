@@ -1,4 +1,5 @@
-import { createMeeting, getMeetings } from '@/queries';
+import { fetchMeetings } from '@/lib/swr';
+import { createMeeting } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -16,15 +17,6 @@ const formSchema = z.object({
     message: 'Bot ID must be at least 2 characters.',
   }),
 });
-
-const fetchMeetings = async () => {
-  const meetings = await getMeetings();
-  if (!meetings) return [];
-  if (Array.isArray(meetings)) {
-    return meetings;
-  }
-  return [];
-};
 
 export function ImportMeeting() {
   // const navigate = useNavigate();

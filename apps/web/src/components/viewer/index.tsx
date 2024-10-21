@@ -16,20 +16,14 @@ import {
   VITE_PROXY_URL,
   VITE_S3_PREFIX,
 } from '@/lib/constants';
-import {
-  getAPIKey,
-  getChatByMeetingId,
-  getEditorByMeetingId,
-  setChat,
-  setEditor as setEditorDB,
-} from '@/queries';
+import { fetchAPIKey, fetchChatByMeetingId, fetchEditorContentByMeetingId } from '@/lib/swr';
+import { setChat, setEditor as setEditorDB } from '@/queries';
 import { DownloadIcon } from 'lucide-react';
 import OpenAI from 'openai';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import useSWR from 'swr';
 
-import type { SelectAPIKey, SelectEditor } from '@meeting-baas/db/schema';
 import { cn } from '@meeting-baas/ui';
 import { Button, buttonVariants } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
@@ -39,24 +33,6 @@ interface ViewerProps {
   isLoading: boolean;
   meeting: Meeting;
 }
-
-const fetchAPIKey = async (type: SelectAPIKey['type']) => {
-  const apiKey = await getAPIKey({ type });
-  if (apiKey) return apiKey.content;
-  return null;
-};
-
-const fetchEditorContentByMeetingId = async (meetingId: SelectEditor['meetingId']) => {
-  const editor = await getEditorByMeetingId({ meetingId });
-  if (editor) return editor.content;
-  return null;
-};
-
-const fetchChatByMeetingId = async (meetingId: SelectEditor['meetingId']) => {
-  const chat = await getChatByMeetingId({ meetingId });
-  if (chat) return chat;
-  return null;
-};
 
 export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const [data] = React.useState<Meeting>(meeting);
@@ -282,7 +258,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
               <div className="h-full max-h-full flex-1 space-y-2 overflow-auto rounded-t-none border-0 border-x bg-background p-4 md:p-6 lg:border-0 lg:border-b lg:border-l">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h2 className="px-0.5 text-2xl font-bold md:text-3xl">Transcript</h2>
-                  <div className='flex gap-2'>
+                  <div className="flex gap-2">
                     <Button className="h-8" size="sm">
                       <DownloadIcon className="h-4 w-4" /> Download JSON
                     </Button>

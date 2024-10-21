@@ -1,7 +1,21 @@
 'use client';
 
-import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import type { Row } from '@tanstack/react-table';
+import { useState } from 'react';
+import { StorageBucketAPI } from '@/lib/storage-bucket-api';
+import { fetchMeetings } from '@/lib/swr';
+import {
+  deleteMeeting as deleteMeetingDb,
+  getMeetings,
+  renameMeeting as renameMeetingDb,
+} from '@/queries';
+import { Meeting } from '@/types';
+import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { CopyIcon, EyeIcon, LoaderCircle, PencilIcon, TrashIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
+import useSWR from 'swr';
+import { z } from 'zod';
 
 import { Button } from '@meeting-baas/ui/button';
 import {
@@ -13,33 +27,10 @@ import {
 
 import type { formSchema as renameSchema } from './rename-modal';
 import RenameModal from './rename-modal';
-import { StorageBucketAPI } from '@/lib/storage-bucket-api';
-
-import {
-  deleteMeeting as deleteMeetingDb,
-  getMeetings,
-  renameMeeting as renameMeetingDb,
-} from '@/queries';
-import { toast } from 'sonner';
-import useSWR from 'swr';
-import { useState } from 'react';
-import { CopyIcon, EyeIcon, LoaderCircle, PencilIcon, TrashIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { Meeting } from '@/types';
-import { z } from 'zod';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
-
-const fetchMeetings = async () => {
-  const meetings = await getMeetings();
-  if (!meetings) return [];
-  if (Array.isArray(meetings)) {
-    return meetings;
-  }
-  return [];
-};
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps<Meeting>) {
   const meeting = row.original;
@@ -97,7 +88,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps<Meeting>) 
             <DotsHorizontalIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="space-y-1 w-[160px]">
+        <DropdownMenuContent align="end" className="w-[160px] space-y-1">
           {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
           <DropdownMenuItem onClick={() => navigator.clipboard.writeText(meeting.botId)}>
             <CopyIcon className="mr-0.5 h-4 w-4" />

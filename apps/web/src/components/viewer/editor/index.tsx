@@ -1,7 +1,6 @@
 'use client';
 
-import type { JSONContent ,
-  EditorInstance} from 'novel';
+import type { EditorInstance, JSONContent } from 'novel';
 import React from 'react'; // useState
 import {
   EditorBubble,
@@ -27,13 +26,13 @@ import { slashCommand, suggestionItems } from './slash-command';
 
 const extensions = [...defaultExtensions, slashCommand];
 
-interface EditorProp {
+interface EditorProps {
   initialValue?: JSONContent;
   onCreate?: (props: { editor: EditorInstance }) => void;
   onChange: (value: JSONContent) => void;
 }
 
-const Editor = ({ initialValue, onCreate, onChange }: EditorProp) => {
+const Editor = ({ initialValue, onCreate, onChange }: EditorProps) => {
   const [openNode, setOpenNode] = React.useState(false);
   const [openColor, setOpenColor] = React.useState(false);
   const [openLink, setOpenLink] = React.useState(false);

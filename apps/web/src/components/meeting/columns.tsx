@@ -1,12 +1,13 @@
 'use client';
 
 import type { Meeting } from '@/types';
-import { Badge } from '@meeting-baas/ui/badge';
-import { Checkbox } from '@meeting-baas/ui/checkbox';
 import type { ColumnDef } from '@tanstack/react-table';
 
+import { Badge } from '@meeting-baas/ui/badge';
+import { Checkbox } from '@meeting-baas/ui/checkbox';
+
 import { DataTableColumnHeader } from './data-table-column-header';
-import { DataTableRowActions } from "./data-table-row-actions"
+import { DataTableRowActions } from './data-table-row-actions';
 
 export const columns: ColumnDef<Meeting>[] = [
   {
@@ -87,15 +88,15 @@ export const columns: ColumnDef<Meeting>[] = [
     },
   },
 
-//   {
-//     id: 'actions',
-//     enableHiding: false,
-//     cell: (props) => (
-//       <RowActions row={props.row} deleteMeeting={deleteMeeting} renameMeeting={renameMeeting} />
-//     ),
-//   },
+  //   {
+  //     id: 'actions',
+  //     enableHiding: false,
+  //     cell: (props) => (
+  //       <RowActions row={props.row} deleteMeeting={deleteMeeting} renameMeeting={renameMeeting} />
+  //     ),
+  //   },
   {
-    id: "actions",
+    id: 'actions',
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

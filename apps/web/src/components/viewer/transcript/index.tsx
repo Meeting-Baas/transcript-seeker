@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Transcript as TranscriptT, Word } from '@/types';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import { ChevronDown, Search } from 'lucide-react';
 
@@ -6,19 +7,8 @@ import { cn } from '@meeting-baas/ui';
 import { Button } from '@meeting-baas/ui/button';
 import { Input } from '@meeting-baas/ui/input';
 
-export interface Word {
-  start_time: number;
-  end_time: number;
-  text: string;
-}
-
-export interface TranscriptEntry {
-  speaker: string;
-  words: Word[];
-}
-
 interface TranscriptProps {
-  transcript: TranscriptEntry[];
+  transcript: TranscriptT[];
   currentTime: number;
   onWordClick: (time: number) => void;
 }
@@ -153,7 +143,9 @@ const Transcript: React.FC<TranscriptProps> = ({ transcript, currentTime, onWord
                     {highlightSearchTerm(word.text)}{' '}
                   </p>
                 ))}
-                {entry.words.length === 0 && <p className='text-sm px-0.5'>No transcript available</p>}
+                {entry.words.length === 0 && (
+                  <p className="px-0.5 text-sm">No transcript available</p>
+                )}
               </div>
             </div>
           ))}

@@ -1,11 +1,11 @@
+import type { Meeting as MeetingT } from '@/types';
+import FullSpinner from '@/components/loader';
 import { Viewer } from '@/components/viewer';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import { getMeetingByBotId } from '@/queries';
-import type { Meeting as MeetingT } from '@/types';
 import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
 
-import FullSpinner from '@/components/loader';
 import NotFoundPage from './not-found';
 
 const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
@@ -30,12 +30,9 @@ function MeetingPage() {
   if (!botId) {
     return <NotFoundPage />;
   }
-  const {
-    data: meeting,
-    isLoading,
-  } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId));
+  const { data: meeting, isLoading } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId));
   if (!meeting) {
-    if (isLoading) return <FullSpinner />
+    if (isLoading) return <FullSpinner />;
     return <NotFoundPage />;
   }
   return <Viewer botId={botId} isLoading={isLoading} meeting={meeting} />;

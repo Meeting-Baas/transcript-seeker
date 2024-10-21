@@ -1,9 +1,9 @@
 'use client';
 
 import type { formSchema } from '@/routes/upload';
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import type { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import type { z } from 'zod';
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 
 import { cn } from '@meeting-baas/ui';
 import { Button } from '@meeting-baas/ui/button';
@@ -46,7 +46,7 @@ export default function LanguageCombobox({ form, field }: ComboboxProps) {
             variant="outline"
             role="combobox"
             className={cn(
-              'w-full bg-transparent justify-between px-3 py-2 font-normal',
+              'w-full justify-between bg-transparent px-3 py-2 font-normal',
               !field.value && 'text-muted-foreground',
             )}
           >

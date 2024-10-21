@@ -1,3 +1,4 @@
+// This is where we convert the meetingbaas data to our data type
 import { VITE_PROXY_URL } from '@/lib/constants';
 import { Meeting } from '@/types';
 
@@ -40,8 +41,8 @@ export const fetchBotDetails = async ({ ...params }: FetchBotDetailsProps) => {
     transcripts: transcripts,
     assets: {
       video_url: data.mp4,
-      video_blob: null
+      video_blob: null,
     },
     createdAt: new Date(bot.created_at + 'Z'),
-  } as Omit<Meeting, "id">;
+  } as Omit<Meeting, 'id'>;
 };

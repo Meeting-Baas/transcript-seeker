@@ -51,7 +51,13 @@ export async function createMeeting(values: InsertMeeting) {
   return await db.insert(meetingsTable).values(values).returning();
 }
 
-export async function updateMeeting({ id, values }: { id: SelectMeeting['id']; values: Partial<InsertMeeting> }) {
+export async function updateMeeting({
+  id,
+  values,
+}: {
+  id: SelectMeeting['id'];
+  values: Partial<InsertMeeting>;
+}) {
   if (!id) return;
   return await db
     .update(meetingsTable)

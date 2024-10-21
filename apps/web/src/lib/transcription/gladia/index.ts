@@ -130,11 +130,7 @@ export function groupUtterancesBySpeaker(utterances: GladiaUtterance[]): Transcr
   return groupedTranscripts;
 }
 
-export async function transcribe(
-  blob: Blob,
-  apiKey: string,
-  options?: Record<string, unknown>,
-) {
+export async function transcribe(blob: Blob, apiKey: string, options?: Record<string, unknown>) {
   const uploadURL = await uploadFile(blob, apiKey);
   const data = await startTranscription(uploadURL.audio_url, apiKey, options);
 

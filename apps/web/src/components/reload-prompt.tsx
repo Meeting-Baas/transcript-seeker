@@ -24,7 +24,6 @@ function ReloadPrompt() {
             r.update();
           }, 20000 /* 20s for testing purposes */);
       } else {
-         
         console.log('SW Registered: ' + r);
       }
     },

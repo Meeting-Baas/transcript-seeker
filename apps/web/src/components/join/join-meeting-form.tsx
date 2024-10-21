@@ -1,19 +1,15 @@
 'use client';
 
-import { joinMeeting } from '@/lib/axios';
-import { createMeeting, getAPIKey } from '@/queries';
+import { joinMeeting } from '@/lib/meetingbaas';
+import { fetchAPIKey } from '@/lib/swr';
+import { createMeeting } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import useSWR from 'swr';
 import { z } from 'zod';
 
-import type { SelectAPIKey } from '@meeting-baas/db/schema';
-import {
-  DEFAULT_BOT_IMAGE,
-  DEFAULT_BOT_NAME,
-  DEFAULT_ENTRY_MESSAGE
-} from '@meeting-baas/shared';
+import { DEFAULT_BOT_IMAGE, DEFAULT_BOT_NAME, DEFAULT_ENTRY_MESSAGE } from '@meeting-baas/shared';
 // Remove the axios import
 
 import { Button } from '@meeting-baas/ui/button';
@@ -26,20 +22,6 @@ import {
   FormMessage,
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
-
-// const fetchMeetings = async () => {
-//   const meetings = await getMeetings();
-//   if (!meetings) return [];
-//   if (Array.isArray(meetings)) {
-//     return meetings;
-//   }
-//   return [];
-// };
-const fetchAPIKey = async (type: SelectAPIKey['type']) => {
-  const apiKey = await getAPIKey({ type });
-  if (apiKey) return apiKey.content;
-  return null;
-};
 
 const formSchema = z.object({
   meetingURL: z.string().url().min(1, 'Meeting URL is required'),

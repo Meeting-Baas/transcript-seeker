@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { fetchAPIKey } from '@/lib/swr';
 import { getAPIKey, setAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
@@ -7,7 +8,6 @@ import { toast } from 'sonner';
 import useSWR from 'swr';
 import { z } from 'zod';
 
-import type { SelectAPIKey } from '@meeting-baas/db/schema';
 import {
   Accordion,
   AccordionContent,
@@ -25,13 +25,6 @@ import {
   FormMessage,
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
-import { Separator } from '@meeting-baas/ui/separator';
-
-const fetchAPIKey = async (type: SelectAPIKey['type']) => {
-  const apiKey = await getAPIKey({ type });
-  if (apiKey) return apiKey.content;
-  return null;
-};
 
 const formSchema = z.object({
   baasApiKey: z.string().optional(),
@@ -107,8 +100,9 @@ export function SettingsForm() {
   const { data: gladiaApiKey, mutate: mutateGladiaApiKey } = useSWR('gladiaApiKey', () =>
     fetchAPIKey('gladia'),
   );
-  const { data: assemblyAIApiKey, mutate: mutateAssemblyAIApiKey } = useSWR('assemblyAIApiKey', () =>
-    fetchAPIKey('assemblyai'),
+  const { data: assemblyAIApiKey, mutate: mutateAssemblyAIApiKey } = useSWR(
+    'assemblyAIApiKey',
+    () => fetchAPIKey('assemblyai'),
   );
 
   const form = useForm<FormSchema>({
@@ -203,8 +197,8 @@ export function SettingsForm() {
                   label="API Key"
                   description={
                     <>
-                      Use this key to chat with your meeting. Get your OpenAI API key by
-                      visiting {renderLink('OpenAI', 'https://platform.openai.com/')}.
+                      Use this key to chat with your meeting. Get your OpenAI API key by visiting{' '}
+                      {renderLink('OpenAI', 'https://platform.openai.com/')}.
                     </>
                   }
                   control={form.control}
