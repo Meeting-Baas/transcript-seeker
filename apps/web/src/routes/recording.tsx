@@ -33,7 +33,6 @@ function MeetingPage() {
   const {
     data: meeting,
     isLoading,
-    mutate,
   } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId));
   if (!meeting) {
     if (isLoading) return <FullSpinner />

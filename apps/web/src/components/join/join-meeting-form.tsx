@@ -1,9 +1,7 @@
 'use client';
 
-import type { Meeting } from '@/types';
-import ServerAlert from '@/components/server-alert';
 import { joinMeeting } from '@/lib/axios';
-import { createMeeting, getAPIKey, getMeetings } from '@/queries';
+import { createMeeting, getAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -14,8 +12,7 @@ import type { SelectAPIKey } from '@meeting-baas/db/schema';
 import {
   DEFAULT_BOT_IMAGE,
   DEFAULT_BOT_NAME,
-  DEFAULT_ENTRY_MESSAGE,
-  DEFAULT_SPEECH_TO_TEXT,
+  DEFAULT_ENTRY_MESSAGE
 } from '@meeting-baas/shared';
 // Remove the axios import
 

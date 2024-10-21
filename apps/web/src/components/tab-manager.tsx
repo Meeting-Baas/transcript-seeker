@@ -14,7 +14,7 @@ import { Button } from '@meeting-baas/ui/button';
 
 export default function TabManager() {
   const [isActive, setIsActive] = useState(true);
-  const [channel, setChannel] = useState<BroadcastChannel | null>(null);
+  const [, setChannel] = useState<BroadcastChannel | null>(null);
 
   useEffect(() => {
     const broadcastChannel = new BroadcastChannel('tab_manager');

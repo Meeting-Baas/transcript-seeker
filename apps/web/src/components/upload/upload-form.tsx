@@ -135,6 +135,7 @@ export function UploadForm({ provider, options }: UploadProps) {
       };
 
       const { id } = await createMeeting(newMeeting);
+      // todo: check if this wokrs
       if (data.summarization) {
         const content: JSONContent = {
           type: 'doc',
