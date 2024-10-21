@@ -47,7 +47,7 @@ const fetchEditorByMeetingId = async (meetingId: SelectEditor['meetingId']) => {
 };
 
 export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
-  const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
+  // const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
 
   const [data] = React.useState<Meeting>(meeting);
   const [transcripts, setTranscripts] = React.useState<any[]>([
@@ -71,10 +71,14 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const [video, setVideo] = React.useState<string | Blob>();
 
   // todo: add tests
-  const { data: baasApiKey } = useSWR('baasApiKey', () => fetchAPIKey('meetingbaas'));
+  // const { data: baasApiKey } = useSWR('baasApiKey', () => fetchAPIKey('meetingbaas'));
   const { data: openAIApiKey } = useSWR('openAIApiKey', () => fetchAPIKey('openai'));
 
-  const { data: editorContent, mutate: mutateEditorContent, isLoading: isEditorContentLoading } = useSWR(`editorContent_${meeting.id}`, () => fetchEditorByMeetingId(meeting.id));
+  const {
+    data: editorContent,
+    mutate: mutateEditorContent,
+    isLoading: isEditorContentLoading,
+  } = useSWR(`editorContent_${meeting.id}`, () => fetchEditorByMeetingId(meeting.id));
 
   // const chats = useChatsStore((state) => state.chats);
   // const setChats = useChatsStore((state) => state.setChats);
@@ -84,7 +88,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
 
   const handleEditorChange = async (content: JSONContent) => {
     if (!botId) return;
-    console.log(editorContent)
+    console.log(editorContent);
     await setEditorDB({ meetingId: meeting.id, content: content });
     mutateEditorContent();
   };
@@ -104,9 +108,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const handleChatSubmit = async (values: z.infer<typeof chatSchema>) => {
     const message = values.message;
     setMessages((prev) => [...prev, { content: message, role: 'user' }]);
-    // setIsLoading(true);
 
-    // axios handling
     try {
       let messagesList: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];
 
@@ -127,43 +129,26 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
         };
       };
 
-      if (false) {
-        res = await axios.post(VITE_PROXY_URL.concat('/chat'), {
-          messages: messagesList,
-        });
-      } else {
-        // todo: create a proxy openai server instead idk
-        // todo: allow options for the proxy server to include api keys so no need for clients
-        if (!openAIApiKey) {
-          toast.error('No OpenAI API Key found!');
-          res = {
-            data: {
-              response: 'No OpenAI API Key found!',
-            },
-          };
-          setMessages((prev) => [...prev, { content: res.data.response, role: 'assistant' }]);
-          return;
-        }
+      // todo: create a proxy openai server instead idk
+      // todo: allow options for the proxy server to include api keys so no need for clients
+      const openai = new OpenAI({
+        apiKey: openAIApiKey,
+        dangerouslyAllowBrowser: true,
+        // https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety
+      });
 
-        const openai = new OpenAI({
-          apiKey: openAIApiKey,
-          dangerouslyAllowBrowser: true,
-          // https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety
-        });
+      const systemPrompt =
+        'You are a helpful assistant named AI Meeting Bot. You will be given a context of a meeting and some meeting notes, you will answer questions based on the context.';
+      const result = await openai.chat.completions.create({
+        messages: [{ role: 'system', content: systemPrompt }, ...messagesList],
+        model: 'gpt-4o-mini',
+      });
 
-        const systemPrompt =
-          'You are a helpful assistant named AI Meeting Bot. You will be given a context of a meeting and some meeting notes, you will answer questions based on the context.';
-        const result = await openai.chat.completions.create({
-          messages: [{ role: 'system', content: systemPrompt }, ...messagesList],
-          model: 'gpt-4o-mini',
-        });
-
-        res = {
-          data: {
-            response: result.choices[0]!.message?.content || '',
-          },
-        };
-      }
+      res = {
+        data: {
+          response: result.choices[0]!.message?.content || '',
+        },
+      };
 
       setMessages((prev) => [...prev, { content: res.data.response, role: 'assistant' }]);
     } catch (error) {
@@ -190,11 +175,11 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   }, []);
 
   React.useEffect(() => {
-    if (data?.type === "meetingbaas") {
+    if (data?.type === 'meetingbaas') {
       if (!data.assets.video_url) return;
       setVideo(data.assets.video_url);
     }
-    if (data?.type === "local") {
+    if (data?.type === 'local') {
       if (!data.assets.video_blob) return;
       setVideo(data.assets.video_blob);
     }
@@ -235,7 +220,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   return (
     <div className="min-h-svh">
       <div className="w-full">
-        <div className="relative flex items-center justify-center h-16">
+        <div className="relative flex h-16 items-center justify-center">
           <div className="absolute left-4">
             <Header
               path={[
@@ -317,7 +302,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={33} minSize={25}>
-              <Chat messages={messages} handleSubmit={handleChatSubmit} />
+              <Chat messages={messages} handleSubmit={handleChatSubmit} disabled={!openAIApiKey} />
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>

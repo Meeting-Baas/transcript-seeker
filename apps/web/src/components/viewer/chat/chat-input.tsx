@@ -29,9 +29,10 @@ export const formSchema = z.object({
 
 interface ChatInputProps {
   handleSubmit: (values: z.infer<typeof formSchema>) => void;
+  disabled: boolean;
 }
 
-function ChatInput({ handleSubmit }: ChatInputProps) {
+function ChatInput({ handleSubmit, disabled }: ChatInputProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -75,7 +76,7 @@ function ChatInput({ handleSubmit }: ChatInputProps) {
                       (e.target.form as HTMLFormElement).requestSubmit();
                     }
                   }}
-                  disabled={isLoading}
+                  disabled={isLoading || disabled}
                   {...field}
                 />
               </FormControl>
@@ -87,7 +88,7 @@ function ChatInput({ handleSubmit }: ChatInputProps) {
           type="submit"
           size="icon"
           className="absolute right-3 top-2.5 h-8 w-8"
-          disabled={isLoading}
+          disabled={isLoading || disabled}
         >
           {isLoading ? (
             <LoaderCircleIcon className="h-4 w-4 animate-spin" />
