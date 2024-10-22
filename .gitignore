@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+core
 
 # Runtime data
 pids
@@ -129,3 +130,8 @@ dist
 **/.yarn/install-state.gz
 .pnp.*
 .vercel
+
+dev-dist
+
+# turbo
+.turbo
