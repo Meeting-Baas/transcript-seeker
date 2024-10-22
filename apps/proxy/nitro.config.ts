@@ -16,6 +16,7 @@ export default defineNitroConfig({
     // '/proxy/**': { proxy: '/api/**' },
   },
   firebase: {
-    gen: 2
+    gen: 2,
+    nodeVersion: "20"
   }
 });
