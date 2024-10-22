@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { cn } from '@meeting-baas/ui';
 import {
@@ -9,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@meeting-baas/ui/breadcrumb';
+
 import { ModeToggle } from './mode-toggle';
 
 interface PathItem {
@@ -24,21 +26,28 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ path, border = true }) => {
   return (
     <header
-      className={cn('sticky top-0 flex justify-between h-16 shrink-0 items-center gap-2 bg-background px-4', {
-        'border-b': border,
-      })}
+      className={cn(
+        'sticky top-0 flex h-16 shrink-0 items-center justify-between gap-2 bg-background px-4',
+        {
+          'border-b': border,
+        },
+      )}
     >
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink asChild>
+              <Link to="/">Home</Link>
+            </BreadcrumbLink>
           </BreadcrumbItem>
           {path.map((item, index) => (
             <React.Fragment key={`brd_container-${index}`}>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 {item.href ? (
-                  <BreadcrumbLink href={item.href}>{item.name}</BreadcrumbLink>
+                  <BreadcrumbLink asChild>
+                    <Link to={item.href}>{item.name}</Link>
+                  </BreadcrumbLink>
                 ) : (
                   <BreadcrumbPage>{item.name}</BreadcrumbPage>
                 )}
