@@ -3,10 +3,8 @@
 import type { Row } from '@tanstack/react-table';
 import { useState } from 'react';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
-import { fetchMeetings } from '@/lib/swr';
 import {
   deleteMeeting as deleteMeetingDb,
-  getMeetings,
   renameMeeting as renameMeetingDb,
 } from '@/queries';
 import { Meeting } from '@/types';
@@ -14,7 +12,7 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { CopyIcon, EyeIcon, LoaderCircle, PencilIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import useSWR from 'swr';
+import { mutate } from 'swr';
 import { z } from 'zod';
 
 import { Button } from '@meeting-baas/ui/button';
@@ -27,6 +25,7 @@ import {
 
 import type { formSchema as renameSchema } from './rename-modal';
 import RenameModal from './rename-modal';
+import { useMeetings } from '@/hooks/use-meetings';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -35,7 +34,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions({ row }: DataTableRowActionsProps<Meeting>) {
   const meeting = row.original;
   const [showRename, setShowRename] = useState(false);
-  const { data: meetings, mutate } = useSWR('meetings', () => fetchMeetings());
+  const { meetings } = useMeetings();
 
   async function deleteMeeting(id: number, botId: string) {
     try {
@@ -45,7 +44,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps<Meeting>) 
       // todo: see if this uses botId or id storageAPI
       await deleteMeetingDb({ id: id });
       if (await storageAPI.get(`${botId}.mp4`)) await storageAPI.del(`${botId}.mp4`);
-      mutate();
+      mutate("meetings");
 
       console.log('updated meetings:', meetings);
       toast.success('Successfully deleted meeting.');

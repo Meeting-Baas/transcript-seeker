@@ -1,16 +1,14 @@
 import type { Meeting, Transcript as TranscriptT } from '@/types';
 import type { JSONContent } from 'novel';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
-import { fetchAPIKey } from '@/lib/swr';
 import * as assemblyai from '@/lib/transcription/assemblyai';
 import * as gladia from '@/lib/transcription/gladia';
-import { createMeeting, getAPIKey, setEditor } from '@/queries';
+import { createMeeting, setEditor } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadCloudIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 
@@ -26,6 +24,7 @@ import {
 import { Input } from '@meeting-baas/ui/input';
 
 import type { Provider } from './types';
+import { useApiKey } from '@/hooks/use-api-key';
 
 const MAX_FILE_SIZE = 3000 * 1024 * 1024; // 1000 MB (100 * 1024 KB * 1024 bytes)
 const ACCEPTED_FILE_TYPES = [
@@ -68,8 +67,8 @@ interface TranscriptionFunctionResponse {
 }
 
 export function UploadForm({ provider, options }: UploadProps) {
-  const { data: gladiaApiKey } = useSWR('gladiaApiKey', () => fetchAPIKey('gladia'));
-  const { data: assemblyAIApiKey } = useSWR('assemblyAIApiKey', () => fetchAPIKey('assemblyai'));
+  const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' })
+  const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' })
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({

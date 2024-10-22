@@ -1,24 +1,16 @@
 import { useEffect } from 'react';
-import { fetchAPIKey } from '@/lib/swr';
 import { useServerAvailabilityStore } from '@/store';
-import useSWR from 'swr';
 
 import { cn } from '@meeting-baas/ui';
+import { useApiKey } from '@/hooks/use-api-key';
 
 function ServerAvailablity() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
   const setServerAvailability = useServerAvailabilityStore((state) => state.setServerAvailability);
 
-  const { data: baasApiKey, isLoading: isBaasApiKeyLoading } = useSWR('baasApiKey', () =>
-    fetchAPIKey('meetingbaas'),
-  );
-  const { data: gladiaApiKey, isLoading: isGladiaApiKeyLoading } = useSWR('gladiaApiKey', () =>
-    fetchAPIKey('gladia'),
-  );
-  const { data: assemblyAIApiKey, isLoading: isAssemblyAIApiKeyLoading } = useSWR(
-    'assemblyAIApiKey',
-    () => fetchAPIKey('assemblyai'),
-  );
+  const { apiKey: baasApiKey, isLoading: isBaasApiKeyLoading } = useApiKey({ type: 'meetingbaas' });
+  const { apiKey: gladiaApiKey, isLoading: isGladiaApiKeyLoading } = useApiKey({ type: 'gladia' });
+  const { apiKey: assemblyAIApiKey, isLoading: isAssemblyAIApiKeyLoading } = useApiKey({ type: 'assemblyai' });
 
   useEffect(() => {
     if (isBaasApiKeyLoading || isGladiaApiKeyLoading || isAssemblyAIApiKeyLoading) {

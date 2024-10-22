@@ -1,12 +1,10 @@
 'use client';
 
 import { joinMeeting } from '@/lib/meetingbaas';
-import { fetchAPIKey } from '@/lib/swr';
 import { createMeeting } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import useSWR from 'swr';
 import { z } from 'zod';
 
 import { DEFAULT_BOT_IMAGE, DEFAULT_BOT_NAME, DEFAULT_ENTRY_MESSAGE } from '@meeting-baas/shared';
@@ -22,6 +20,7 @@ import {
   FormMessage,
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
+import { useApiKey } from '@/hooks/use-api-key';
 
 const formSchema = z.object({
   meetingURL: z.string().url().min(1, 'Meeting URL is required'),
@@ -31,8 +30,7 @@ const formSchema = z.object({
 });
 
 export function MeetingForm() {
-  const { data: baasApiKey } = useSWR('baasApiKey', () => fetchAPIKey('meetingbaas'));
-  // const { data: meetings } = useSWR('meetings', () => fetchMeetings());
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

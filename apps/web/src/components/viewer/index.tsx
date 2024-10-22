@@ -1,7 +1,7 @@
 import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
 import type { Meeting, Message } from '@/types';
 import type { MediaPlayerInstance } from '@vidstack/react';
-import type { JSONContent } from 'novel';
+import { useEditor, type JSONContent } from 'novel';
 import type { z } from 'zod';
 import * as React from 'react';
 import { Header } from '@/components/header';
@@ -16,17 +16,19 @@ import {
   VITE_PROXY_URL,
   VITE_S3_PREFIX,
 } from '@/lib/constants';
-import { fetchAPIKey, fetchChatByMeetingId, fetchEditorContentByMeetingId } from '@/lib/swr';
 import { setChat, setEditor as setEditorDB } from '@/queries';
 import { DownloadIcon } from 'lucide-react';
 import OpenAI from 'openai';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import useSWR from 'swr';
+import { mutate } from 'swr';
 
 import { cn } from '@meeting-baas/ui';
 import { Button, buttonVariants } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
+import { useChat } from '@/hooks/use-chat';
+import { useApiKey } from '@/hooks/use-api-key';
+import { useEditor as useEditorDB } from "@/hooks/use-editor";
 
 interface ViewerProps {
   botId: string;
@@ -56,19 +58,13 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
 
   const [video, setVideo] = React.useState<string | Blob>();
 
-  const { data: openAIApiKey } = useSWR('openAIApiKey', () => fetchAPIKey('openai'));
+  const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
+  const { editor: editorDB, isLoading: isEditorLoading } = useEditorDB({ meetingId: meeting.id });
 
   const {
-    data: editorContent,
-    mutate: mutateEditorContent,
-    isLoading: isEditorContentLoading,
-  } = useSWR(`editorContent_${meeting.id}`, () => fetchEditorContentByMeetingId(meeting.id));
-
-  const {
-    data: chat,
-    mutate: mutateChat,
+    chat,
     isLoading: isChatLoading,
-  } = useSWR(`chat_${meeting.id}`, () => fetchChatByMeetingId(meeting.id));
+  } = useChat({ meetingId: meeting.id })
 
   const [messages, setMessages] = React.useState<Message[]>([]);
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -76,7 +72,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const handleEditorChange = async (content: JSONContent) => {
     if (!meeting) return;
     await setEditorDB({ meetingId: meeting.id, content: content });
-    mutateEditorContent();
+    mutate(["editor", meeting.id]);
   };
 
   const handleMessageChange = async (messages: Message[]) => {
@@ -85,7 +81,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
       meetingId: meeting.id,
       messages,
     });
-    mutateChat();
+    mutate(["chat", meeting.id]);
   };
 
   const handleChatSubmit = async (values: z.infer<typeof chatSchema>) => {
@@ -184,12 +180,12 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   }, [data]);
 
   React.useEffect(() => {
-    if (editorContent) {
-      editor?.commands.setContent(editorContent);
+    if (editorDB?.content) {
+      editor?.commands.setContent(editorDB.content);
     } else {
       editor?.commands.setContent(BLANK_EDITOR_DATA);
     }
-  }, [isEditorContentLoading]);
+  }, [isEditorLoading]);
 
   React.useEffect(() => {
     if (messages.length > 0) {

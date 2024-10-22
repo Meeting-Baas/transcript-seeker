@@ -1,16 +1,16 @@
 import type { Meeting as MeetingT } from '@/types';
 import FullSpinner from '@/components/loader';
 import { Viewer } from '@/components/viewer';
+import { useApiKey } from '@/hooks/use-api-key';
+import { fetchBotDetails } from '@/lib/meetingbaas';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import { getMeetingByBotId } from '@/queries';
 import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
 
 import NotFoundPage from './not-found';
-import { fetchAPIKey } from '@/lib/swr';
-import { fetchBotDetails } from '@/lib/meetingbaas';
 
-const fetchMeeting = async (botId: string, baasApiKey: string): Promise<MeetingT | null> => {
+const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
   // todo: make this function fetch data from baas directly and then pull
   if (!botId) throw new Error('No bot ID provided');
 
@@ -26,17 +26,17 @@ const fetchMeeting = async (botId: string, baasApiKey: string): Promise<MeetingT
   }
 
   // refreshing the data
-  if (meeting.type === 'meetingbaas') {
-    const data = await fetchBotDetails({
-      botId,
-      apiKey: baasApiKey,
-    });
-    if (!data) return meeting;
-    return {
-      id: meeting.id,
-      ...data
-    }
-  }
+  // if (meeting.type === 'meetingbaas') {
+  //   const data = await fetchBotDetails({
+  //     botId,
+  //     apiKey: baasApiKey,
+  //   });
+  //   if (!data) return meeting;
+  //   return {
+  //     id: meeting.id,
+  //     ...data,
+  //   };
+  // }
 
   return meeting || null;
 };
@@ -47,8 +47,11 @@ function MeetingPage() {
     return <NotFoundPage />;
   }
   // https://swr.vercel.app/docs/revalidation
-  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'))
-  const { data: meeting, isLoading } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId, baasApiKey), { refreshInterval: 5000 });
+  const { data: meeting, isLoading } = useSWR(
+    `meeting_${botId}`,
+    () => fetchMeeting(botId),
+    { refreshInterval: 5000 },
+  );
 
   if (!meeting) {
     if (isLoading) return <FullSpinner />;

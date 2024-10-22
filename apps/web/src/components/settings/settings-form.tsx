@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { fetchAPIKey } from '@/lib/swr';
-import { getAPIKey, setAPIKey } from '@/queries';
+import { setAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useForm, useFormState } from 'react-hook-form';
 import { toast } from 'sonner';
-import useSWR from 'swr';
+import { mutate } from 'swr';
 import { z } from 'zod';
 
 import {
@@ -25,6 +24,7 @@ import {
   FormMessage,
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
+import { useApiKey } from '@/hooks/use-api-key';
 
 const formSchema = z.object({
   baasApiKey: z.string().optional(),
@@ -91,19 +91,10 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({
 };
 
 export function SettingsForm() {
-  const { data: baasApiKey, mutate: mutateBaasApiKey } = useSWR('baasApiKey', () =>
-    fetchAPIKey('meetingbaas'),
-  );
-  const { data: openAIApiKey, mutate: mutateOpenAIApiKey } = useSWR('openAIApiKey', () =>
-    fetchAPIKey('openai'),
-  );
-  const { data: gladiaApiKey, mutate: mutateGladiaApiKey } = useSWR('gladiaApiKey', () =>
-    fetchAPIKey('gladia'),
-  );
-  const { data: assemblyAIApiKey, mutate: mutateAssemblyAIApiKey } = useSWR(
-    'assemblyAIApiKey',
-    () => fetchAPIKey('assemblyai'),
-  );
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' })
+  const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' })
+  const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' })
+  const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' })
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -123,10 +114,10 @@ export function SettingsForm() {
     await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
     await setAPIKey({ type: 'assemblyai', content: values.assemblyAIApiKey! });
 
-    mutateBaasApiKey();
-    mutateOpenAIApiKey();
-    mutateGladiaApiKey();
-    mutateAssemblyAIApiKey();
+    mutate(["apiKey", "meetingbaas"]);
+    mutate(["apiKey", "openai"]);
+    mutate(["apiKey", "gladia"]);
+    mutate(["apiKey", "assemblyai"]);
 
     toast.success('API keys updated successfully');
     form.reset(values);

@@ -1,14 +1,14 @@
-import { fetchMeetings } from '@/lib/swr';
 import { createMeeting } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import useSWR from 'swr';
+import { mutate } from 'swr';
 import { z } from 'zod';
 
 import { Button } from '@meeting-baas/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
+import { useMeetings } from '@/hooks/use-meetings';
 
 // import { useNavigate } from "react-router-dom";
 
@@ -20,7 +20,7 @@ const formSchema = z.object({
 
 export function ImportMeeting() {
   // const navigate = useNavigate();
-  const { data: meetings, mutate } = useSWR('meetings', () => fetchMeetings());
+  const { meetings } = useMeetings();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,7 +50,7 @@ export function ImportMeeting() {
       },
       status: 'loading',
     });
-    mutate();
+    mutate("meetings");
 
     toast.success('Meeting imported successfully');
     // navigate(`/meeting/${botId}`)
