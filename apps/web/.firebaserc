@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "meeting-baas"
+  },
+  "targets": {
+    "meeting-baas": {
+      "hosting": {
+        "transcriptseeker": [
+          "transcriptseeker"
+        ]
+      }
+    }
+  }
+}
