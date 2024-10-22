@@ -1,6 +1,7 @@
 import type { Provider } from '@/components/upload/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import LanguageCombobox from '@/components/language-select';
+import { ModeToggle } from '@/components/mode-toggle';
 import ServerAvailablity from '@/components/server-availablity';
 import ProvidersForm from '@/components/upload/providers-form';
 // import { useProviderOptionsStore } from '@/store';
@@ -220,6 +221,9 @@ export default function UploadPage() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
+          <div className="flex flex-1 justify-end">
+            <ModeToggle />
+          </div>
         </header>
 
         <div className="p-4">

@@ -11,8 +11,6 @@ import {
   BreadcrumbSeparator,
 } from '@meeting-baas/ui/breadcrumb';
 
-import { ModeToggle } from './mode-toggle';
-
 interface PathItem {
   href?: string;
   name: string;
@@ -20,17 +18,13 @@ interface PathItem {
 
 interface HeaderProps {
   path: PathItem[];
-  border?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ path, border = true }) => {
+const Header: React.FC<HeaderProps> = ({ path }) => {
   return (
     <header
       className={cn(
-        'sticky top-0 flex h-16 shrink-0 items-center justify-between gap-2 bg-background px-4',
-        {
-          'border-b': border,
-        },
+        'sticky top-0 flex h-16 shrink-0 items-center justify-between gap-2 bg-background px-4 border-b'
       )}
     >
       <Breadcrumb>
@@ -56,7 +50,6 @@ const Header: React.FC<HeaderProps> = ({ path, border = true }) => {
           ))}
         </BreadcrumbList>
       </Breadcrumb>
-      <ModeToggle />
     </header>
   );
 };
