@@ -5,19 +5,20 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "pnpm with-env node dist/index.js",
     "build": "tsc",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "nodemon --exec tsx src/index.ts",
+    "dev": "pnpm with-env nodemon --exec tsx src/index.ts",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@meeting-baas/shared": "workspace:*",
     "axios": "catalog:",
     "cors": "^2.8.5",
-    "dotenv": "catalog:",
+    "dotenv-cli": "catalog:",
     "express": "^4.19.2",
     "zod": "catalog:"
   },

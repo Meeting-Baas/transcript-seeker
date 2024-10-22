@@ -4,14 +4,15 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "pnpm with-env vite",
+    "build": "pnpm with-env vite build",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "check-types": "tsc --noEmit",
     "pwa:generate": "pwa-assets-generator --preset minimal-2023 public/logo.svg",
     "lint": "eslint --fix  .",
     "format": "prettier --write \"{,!(node_modules|venv)/**/}*.{js,jsx,ts,tsx}\"",
-    "preview": "vite preview"
+    "preview": "pnpm with-env vite preview",
+    "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -22,7 +23,7 @@
     "@vidstack/react": "^1.11.24",
     "assemblyai": "^4.6.1",
     "date-fns": "^3.6.0",
-    "dotenv": "catalog:",
+    "dotenv-cli": "catalog:",
     "hls.js": "^1.5.13",
     "idb": "^8.0.0",
     "idb-keyval": "^6.2.1",

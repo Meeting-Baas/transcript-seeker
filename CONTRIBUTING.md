@@ -45,10 +45,10 @@ Ready to jump into the code? Awesome! Here’s how to get set up locally:
    cd transcript-seeker
    ```
 
-3. **Create your environment file** by copying `.env.example` to `.env.local`. Not all features are enabled by default, so this allows you to configure your setup.
+3. **Create your environment file** by copying `.env.example` to `.env`. This allows you to configure your setup.
 
    ```bash
-   cp .env.example .env.local
+   cp .env.example .env
    ```
 
 4. **Install dependencies**:

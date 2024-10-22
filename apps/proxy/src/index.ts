@@ -1,13 +1,3 @@
-import dotenv from "dotenv";
-import path from "path";
-
-var root: string;
-
-var root = path.resolve(__dirname, "..", "..", "..");
-dotenv.config({
-  path: path.resolve(root, ".env"),
-});
-
 import type { Express, Request, Response } from "express";
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";

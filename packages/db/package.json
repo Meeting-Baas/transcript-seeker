@@ -40,7 +40,7 @@
     "@meeting-baas/eslint-config": "workspace:*",
     "@meeting-baas/prettier-config": "workspace:*",
     "@meeting-baas/tsconfig": "workspace:*",
-    "dotenv-cli": "^7.4.2",
+    "dotenv-cli": "catalog:",
     "drizzle-kit": "^0.26.2",
     "eslint": "catalog:",
     "prettier": "catalog:",

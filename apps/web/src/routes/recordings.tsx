@@ -35,25 +35,26 @@ function RecordingsPage() {
         mutate('meetings');
       }
 
-      // if (meeting.status === 'loaded' && meeting.type == 'meetingbaas') {
-      //   if (!meeting.updatedAt) return;
-      //   const now = new Date();
-      //   if (differenceInHours(now, meeting.updatedAt) > 1) {
-      //     const data = await fetchBotDetails({
-      //       botId: meeting.botId,
-      //       apiKey: baasApiKey,
-      //     });
-      //     if (!data) return;
+      // todo: comment this out and replace with auto-refreshing meeting with swr revalidate
+      if (meeting.status === 'loaded' && meeting.type == 'meetingbaas') {
+        if (!meeting.updatedAt) return;
+        const now = new Date();
+        if (differenceInHours(now, meeting.updatedAt) >= 1) {
+          const data = await fetchBotDetails({
+            botId: meeting.botId,
+            apiKey: baasApiKey,
+          });
+          if (!data) return;
 
-      //     await updateMeeting({
-      //       id: meeting.id,
-      //       values: {
-      //         assets: data?.assets,
-      //       },
-      //     });
-      //     mutate();
-      //   }
-      // }
+          await updateMeeting({
+            id: meeting.id,
+            values: {
+              assets: data?.assets,
+            },
+          });
+          mutate();
+        }
+      }
     });
   }, [meetings, isLoading, isBaasApiKeyLoading]);
 

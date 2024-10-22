@@ -1,13 +1,10 @@
-import path, { resolve } from 'path';
+import path from 'path';
 import type { VitePWAOptions } from 'vite-plugin-pwa';
 import { defineConfig } from 'vite';
 import replace from '@rollup/plugin-replace';
 import react from '@vitejs/plugin-react-swc';
-import dotenv from 'dotenv';
 import checker from 'vite-plugin-checker';
 import { VitePWA } from 'vite-plugin-pwa';
-
-dotenv.config({ path: resolve(__dirname, '../../.env') });
 
 const pwaOptions: Partial<VitePWAOptions> = {
   mode: 'development',
