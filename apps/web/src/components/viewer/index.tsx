@@ -123,7 +123,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
 
       res = {
         data: {
-          response: result.choices[0].message.content || '',
+          response: result.choices[0]?.message.content || '',
         },
       };
 

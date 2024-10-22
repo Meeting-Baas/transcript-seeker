@@ -7,7 +7,7 @@
     "dev": "pnpm with-env vite",
     "build": "pnpm with-env vite build",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "check-types": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "pwa:generate": "pwa-assets-generator --preset minimal-2023 public/logo.svg",
     "lint": "eslint --fix  .",
     "format": "prettier --write \"{,!(node_modules|venv)/**/}*.{js,jsx,ts,tsx}\"",
