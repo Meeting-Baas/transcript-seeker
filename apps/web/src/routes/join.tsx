@@ -26,7 +26,7 @@ function JoinPage() {
           </p>
         </div>
         <Separator className="my-4" />
-        <div className="my-2 bg-white">
+        <div className="my-2 bg-background">
           <ServerAlert mode={serverAvailability} />
         </div>
         <MeetingForm />

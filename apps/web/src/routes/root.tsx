@@ -1,3 +1,4 @@
+import { ModeToggle } from '@/components/mode-toggle';
 import ServerAlert from '@/components/server-alert';
 import ServerAvailablity from '@/components/server-availablity';
 import { useApiKey } from '@/hooks/use-api-key';
@@ -19,10 +20,13 @@ function RootPage() {
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-gradient-to-br from-muted/20 to-muted/40 p-4">
-      <div className="fixed left-0 right-0 top-4 z-50 mx-4 flex justify-center">
+      <div className="fixed left-0 right-0 top-0 z-50 m-4 flex justify-center">
         <div className="max-w-md">
           <ServerAlert mode={serverAvailability} contrast="bright" />
         </div>
+      </div>
+      <div className="fixed right-0 top-0 z-50 m-4 flex justify-center">
+        <ModeToggle />
       </div>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
