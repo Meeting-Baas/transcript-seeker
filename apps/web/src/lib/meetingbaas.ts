@@ -36,13 +36,13 @@ export const fetchBotDetails = async ({ ...params }: FetchBotDetailsProps) => {
 
   return {
     botId: bot.uuid,
-    status: 'loaded',
     attendees: Array.from(speakers),
     transcripts: transcripts,
     assets: {
       video_url: data.mp4,
       video_blob: null,
     },
+    endedAt: bot.ended_at ? new Date(bot.ended_at + 'Z') : null,
     createdAt: new Date(bot.created_at + 'Z'),
   } as Omit<Meeting, 'id'>;
 };

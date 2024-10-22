@@ -1,15 +1,16 @@
 import type { Meeting as MeetingT } from '@/types';
 import FullSpinner from '@/components/loader';
 import { Viewer } from '@/components/viewer';
+import { useApiKey } from '@/hooks/use-api-key';
+import { fetchBotDetails } from '@/lib/meetingbaas';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
-import { getMeetingByBotId } from '@/queries';
+import { getMeetingByBotId, updateMeeting } from '@/queries';
 import { useParams } from 'react-router-dom';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
 import NotFoundPage from './not-found';
 
-const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
-  // todo: make this function fetch data from baas directly and then pull
+const fetchMeeting = async (botId: string, baasApiKey: string | null | undefined): Promise<MeetingT | null> => {
   if (!botId) throw new Error('No bot ID provided');
 
   const meeting: MeetingT | null | undefined = await getMeetingByBotId({ botId });
@@ -24,19 +25,23 @@ const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
   }
 
   // refreshing the data
-  // if (meeting.type === 'meetingbaas') {
-  //   const data = await fetchBotDetails({
-  //     botId,
-  //     apiKey: baasApiKey,
-  //   });
-  //   if (!data) return meeting;
-  //   return {
-  //     id: meeting.id,
-  //     ...data,
-  //   };
-  // }
+  if (meeting.type === 'meetingbaas' && !meeting.endedAt && baasApiKey) {
+    const data = await fetchBotDetails({
+      botId,
+      apiKey: baasApiKey,
+    });
 
-  return meeting || null;
+    if (!data) return meeting;
+
+    await updateMeeting({ id: meeting.id, values: { ...data } });
+    // await mutate(['meeting', botId, baasApiKey],)
+    return {
+      ...meeting,
+      ...data,
+    };
+  }
+
+  return meeting;
 };
 
 function MeetingPage() {
@@ -44,10 +49,14 @@ function MeetingPage() {
   if (!botId) {
     return <NotFoundPage />;
   }
-  // https://swr.vercel.app/docs/revalidation
-  const { data: meeting, isLoading } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId), {
-    refreshInterval: 5000,
-  });
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
+  const { data: meeting, isLoading } = useSWR(
+    ['meeting', botId, baasApiKey],
+    ([key, botId, baasApiKey]) => fetchMeeting(botId, baasApiKey),
+    {
+      refreshInterval: 5000,
+    },
+  );
 
   if (!meeting) {
     if (isLoading) return <FullSpinner />;

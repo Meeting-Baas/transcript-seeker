@@ -47,6 +47,10 @@ export const meetingsTable = pgTable('meetings', {
       video_url: null,
       video_blob: null,
     }),
+  endedAt: timestamp('ended_at', {
+    mode: 'date',
+    withTimezone: true,
+  }),
   createdAt: timestamp('created_at', {
     mode: 'date',
     withTimezone: true,
