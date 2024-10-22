@@ -2,6 +2,7 @@
   "name": "@meeting-baas/proxy",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "build": "nitro build",
     "dev": "nitro dev",
