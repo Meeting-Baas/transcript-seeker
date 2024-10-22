@@ -38,7 +38,6 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps<Meeting>) 
       const storageAPI = new StorageBucketAPI('local_files');
       await storageAPI.init();
 
-      // todo: see if this uses botId or id storageAPI
       await deleteMeetingDb({ id: id });
       if (await storageAPI.get(`${botId}.mp4`)) await storageAPI.del(`${botId}.mp4`);
       mutate('meetings');
@@ -54,7 +53,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps<Meeting>) 
     try {
       console.log(id);
       await renameMeetingDb({ id, name: newName });
-      mutate();
+      mutate('meetings');
 
       console.log('updated meetings:', meetings);
       toast.success('Successfully renamed meeting.');

@@ -7,9 +7,9 @@
 Open-source transcription playground powered by transcription APIs and meeting bot API technology. <br/>
 Upload and store recordings, or use our meeting bot transcription API to record Google Meet, Microsoft Teams and Zoom: <br/>
 
-- Transcribe recordings with our meeting transcription API.
+- Transcribe recordings.
 - Chat with transcripts using LLMs.
-- Annotate recordings.
+- Create notes for recordings.
 - And more.
 
 Running directly in your browser using [PGLite](https://pglite.dev/).
@@ -33,7 +33,7 @@ Running directly in your browser using [PGLite](https://pglite.dev/).
 1. Clone the repo:
 
    ```
-   npx create-turbo@latest -e https://github.com/techwithanirudh/transcript-seeker/tree/pglite
+   npx create-turbo@latest -e https://github.com/Meeting-Baas/transcript-seeker
    ```
 
 2. Copy the .env.example to .env
@@ -62,5 +62,6 @@ Open an issue or join our [Discord](https://discord.com/invite/dsvFgDTr6c).
 ## Acknowledgements
 
 - [Meeting Baas API](https://meetingbaas.com/) - Our meeting bot API and meeting transcription API provider
-- [Vidstack](https://www.vidstack.io/)
-- [PGLite](https://pglite.dev/)
+- [Vidstack](https://www.vidstack.io/) - UI components and hooks for building media players on the web. 
+- [PGLite](https://pglite.dev/) - A fullly fledged Postgres database locally in WASM with reactivity and live sync.
+- [Drizzle ORM](https://orm.drizzle.team) - An ORM for you to ship

@@ -9,7 +9,6 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { DEFAULT_BOT_IMAGE, DEFAULT_BOT_NAME, DEFAULT_ENTRY_MESSAGE } from '@meeting-baas/shared';
-// Remove the axios import
 
 import { Button } from '@meeting-baas/ui/button';
 import {

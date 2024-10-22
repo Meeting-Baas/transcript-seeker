@@ -11,7 +11,7 @@ import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
 import { useApiKey } from '@/hooks/use-api-key';
 import { useChat } from '@/hooks/use-chat';
-import { useEditor as useEditorDB } from '@/hooks/use-editor';
+import { useEditor } from '@/hooks/use-editor';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import {
   BLANK_EDITOR_DATA,
@@ -21,7 +21,6 @@ import {
 } from '@/lib/constants';
 import { setChat, setEditor as setEditorDB } from '@/queries';
 import { DownloadIcon } from 'lucide-react';
-import { useEditor } from 'novel';
 import OpenAI from 'openai';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -60,7 +59,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const [video, setVideo] = React.useState<string | Blob>();
 
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
-  const { editor: editorDB, isLoading: isEditorLoading } = useEditorDB({ meetingId: meeting.id });
+  const { editor: editorDB, isLoading: isEditorLoading } = useEditor({ meetingId: meeting.id });
 
   const { chat, isLoading: isChatLoading } = useChat({ meetingId: meeting.id });
 

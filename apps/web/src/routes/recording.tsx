@@ -1,8 +1,6 @@
 import type { Meeting as MeetingT } from '@/types';
 import FullSpinner from '@/components/loader';
 import { Viewer } from '@/components/viewer';
-import { useApiKey } from '@/hooks/use-api-key';
-import { fetchBotDetails } from '@/lib/meetingbaas';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import { getMeetingByBotId } from '@/queries';
 import { useParams } from 'react-router-dom';
