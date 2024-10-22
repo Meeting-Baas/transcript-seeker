@@ -7,8 +7,11 @@ import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
 
 import NotFoundPage from './not-found';
+import { fetchAPIKey } from '@/lib/swr';
+import { fetchBotDetails } from '@/lib/meetingbaas';
 
-const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
+const fetchMeeting = async (botId: string, baasApiKey: string): Promise<MeetingT | null> => {
+  // todo: make this function fetch data from baas directly and then pull
   if (!botId) throw new Error('No bot ID provided');
 
   const meeting: MeetingT | null | undefined = await getMeetingByBotId({ botId });
@@ -22,6 +25,19 @@ const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
     if (videoContent && meeting.assets) meeting.assets.video_blob = videoContent;
   }
 
+  // refreshing the data
+  if (meeting.type === 'meetingbaas') {
+    const data = await fetchBotDetails({
+      botId,
+      apiKey: baasApiKey,
+    });
+    if (!data) return meeting;
+    return {
+      id: meeting.id,
+      ...data
+    }
+  }
+
   return meeting || null;
 };
 
@@ -30,7 +46,10 @@ function MeetingPage() {
   if (!botId) {
     return <NotFoundPage />;
   }
-  const { data: meeting, isLoading } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId));
+  // https://swr.vercel.app/docs/revalidation
+  const { data: baasApiKey } = useSWR('meetingbaas', () => fetchAPIKey('meetingbaas'))
+  const { data: meeting, isLoading } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId, baasApiKey), { refreshInterval: 5000 });
+
   if (!meeting) {
     if (isLoading) return <FullSpinner />;
     return <NotFoundPage />;

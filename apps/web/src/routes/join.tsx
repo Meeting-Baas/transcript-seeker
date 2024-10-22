@@ -18,7 +18,7 @@ function JoinPage() {
           },
         ]}
       />
-      <div className="p-4">
+      <div className="p-4 container">
         <div className="space-y-0.5">
           <h2 className="text-2xl font-bold tracking-tight">Record Meeting</h2>
           <p className="text-muted-foreground">
