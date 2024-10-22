@@ -15,4 +15,7 @@ export default defineNitroConfig({
     '/api/s3/**': { proxy: `${MEETINGBAAS_S3_URL}/**` },
     // '/proxy/**': { proxy: '/api/**' },
   },
+  firebase: {
+    gen: 2
+  }
 });
