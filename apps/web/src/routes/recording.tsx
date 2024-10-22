@@ -47,11 +47,9 @@ function MeetingPage() {
     return <NotFoundPage />;
   }
   // https://swr.vercel.app/docs/revalidation
-  const { data: meeting, isLoading } = useSWR(
-    `meeting_${botId}`,
-    () => fetchMeeting(botId),
-    { refreshInterval: 5000 },
-  );
+  const { data: meeting, isLoading } = useSWR(`meeting_${botId}`, () => fetchMeeting(botId), {
+    refreshInterval: 5000,
+  });
 
   if (!meeting) {
     if (isLoading) return <FullSpinner />;

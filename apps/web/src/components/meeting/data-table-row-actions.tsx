@@ -2,11 +2,9 @@
 
 import type { Row } from '@tanstack/react-table';
 import { useState } from 'react';
+import { useMeetings } from '@/hooks/use-meetings';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
-import {
-  deleteMeeting as deleteMeetingDb,
-  renameMeeting as renameMeetingDb,
-} from '@/queries';
+import { deleteMeeting as deleteMeetingDb, renameMeeting as renameMeetingDb } from '@/queries';
 import { Meeting } from '@/types';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { CopyIcon, EyeIcon, LoaderCircle, PencilIcon, TrashIcon } from 'lucide-react';
@@ -25,7 +23,6 @@ import {
 
 import type { formSchema as renameSchema } from './rename-modal';
 import RenameModal from './rename-modal';
-import { useMeetings } from '@/hooks/use-meetings';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -44,7 +41,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps<Meeting>) 
       // todo: see if this uses botId or id storageAPI
       await deleteMeetingDb({ id: id });
       if (await storageAPI.get(`${botId}.mp4`)) await storageAPI.del(`${botId}.mp4`);
-      mutate("meetings");
+      mutate('meetings');
 
       console.log('updated meetings:', meetings);
       toast.success('Successfully deleted meeting.');

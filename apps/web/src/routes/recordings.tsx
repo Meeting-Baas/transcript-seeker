@@ -5,6 +5,8 @@ import { DataTable } from '@/components/meeting/data-table';
 import { ImportMeeting } from '@/components/meeting/meeting-import';
 import ServerAlert from '@/components/server-alert';
 import ServerAvailablity from '@/components/server-availablity';
+import { useApiKey } from '@/hooks/use-api-key';
+import { useMeetings } from '@/hooks/use-meetings';
 import { fetchBotDetails } from '@/lib/meetingbaas';
 import { updateMeeting } from '@/queries';
 import { useServerAvailabilityStore } from '@/store';
@@ -13,13 +15,11 @@ import { mutate } from 'swr';
 
 import { Separator } from '@meeting-baas/ui/separator';
 import { Skeleton } from '@meeting-baas/ui/skeleton';
-import { useMeetings } from '@/hooks/use-meetings';
-import { useApiKey } from '@/hooks/use-api-key';
 
 function RecordingsPage() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
 
-  const { apiKey: baasApiKey, isLoading: isBaasApiKeyLoading } = useApiKey({ type: 'meetingbaas' })
+  const { apiKey: baasApiKey, isLoading: isBaasApiKeyLoading } = useApiKey({ type: 'meetingbaas' });
   const { meetings, isLoading } = useMeetings();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function RecordingsPage() {
         });
         if (!data) return;
         await updateMeeting({ id: meeting.id, values: data });
-        mutate("meetings");
+        mutate('meetings');
       }
 
       // if (meeting.status === 'loaded' && meeting.type == 'meetingbaas') {

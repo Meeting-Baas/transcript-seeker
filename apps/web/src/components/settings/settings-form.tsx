@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useApiKey } from '@/hooks/use-api-key';
 import { setAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
@@ -24,7 +25,6 @@ import {
   FormMessage,
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
-import { useApiKey } from '@/hooks/use-api-key';
 
 const formSchema = z.object({
   baasApiKey: z.string().optional(),
@@ -91,10 +91,10 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({
 };
 
 export function SettingsForm() {
-  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' })
-  const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' })
-  const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' })
-  const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' })
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
+  const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
+  const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
+  const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -114,10 +114,10 @@ export function SettingsForm() {
     await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
     await setAPIKey({ type: 'assemblyai', content: values.assemblyAIApiKey! });
 
-    mutate(["apiKey", "meetingbaas"]);
-    mutate(["apiKey", "openai"]);
-    mutate(["apiKey", "gladia"]);
-    mutate(["apiKey", "assemblyai"]);
+    mutate(['apiKey', 'meetingbaas']);
+    mutate(['apiKey', 'openai']);
+    mutate(['apiKey', 'gladia']);
+    mutate(['apiKey', 'assemblyai']);
 
     toast.success('API keys updated successfully');
     form.reset(values);

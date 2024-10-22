@@ -1,3 +1,4 @@
+import { useMeetings } from '@/hooks/use-meetings';
 import { createMeeting } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -8,7 +9,6 @@ import { z } from 'zod';
 import { Button } from '@meeting-baas/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
-import { useMeetings } from '@/hooks/use-meetings';
 
 // import { useNavigate } from "react-router-dom";
 
@@ -50,7 +50,7 @@ export function ImportMeeting() {
       },
       status: 'loading',
     });
-    mutate("meetings");
+    mutate('meetings');
 
     toast.success('Meeting imported successfully');
     // navigate(`/meeting/${botId}`)

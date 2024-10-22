@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
+import { useApiKey } from '@/hooks/use-api-key';
 import { useServerAvailabilityStore } from '@/store';
 
 import { cn } from '@meeting-baas/ui';
-import { useApiKey } from '@/hooks/use-api-key';
 
 function ServerAvailablity() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
@@ -10,7 +10,9 @@ function ServerAvailablity() {
 
   const { apiKey: baasApiKey, isLoading: isBaasApiKeyLoading } = useApiKey({ type: 'meetingbaas' });
   const { apiKey: gladiaApiKey, isLoading: isGladiaApiKeyLoading } = useApiKey({ type: 'gladia' });
-  const { apiKey: assemblyAIApiKey, isLoading: isAssemblyAIApiKeyLoading } = useApiKey({ type: 'assemblyai' });
+  const { apiKey: assemblyAIApiKey, isLoading: isAssemblyAIApiKeyLoading } = useApiKey({
+    type: 'assemblyai',
+  });
 
   useEffect(() => {
     if (isBaasApiKeyLoading || isGladiaApiKeyLoading || isAssemblyAIApiKeyLoading) {

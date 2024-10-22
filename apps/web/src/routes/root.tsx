@@ -1,5 +1,6 @@
 import ServerAlert from '@/components/server-alert';
 import ServerAvailablity from '@/components/server-availablity';
+import { useApiKey } from '@/hooks/use-api-key';
 import { useServerAvailabilityStore } from '@/store';
 import { Info, Key, List, Mic, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -8,13 +9,12 @@ import { cn } from '@meeting-baas/ui';
 import { buttonVariants } from '@meeting-baas/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@meeting-baas/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@meeting-baas/ui/tooltip';
-import { useApiKey } from '@/hooks/use-api-key';
 
 function RootPage() {
   const serverAvailability = useServerAvailabilityStore((state) => state.serverAvailability);
-  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' })
-  const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' })
-  const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' })
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
+  const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
+  const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
   const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAIApiKey;
 
   return (

@@ -1,7 +1,7 @@
 import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
 import type { Meeting, Message } from '@/types';
 import type { MediaPlayerInstance } from '@vidstack/react';
-import { useEditor, type JSONContent } from 'novel';
+import type { JSONContent } from 'novel';
 import type { z } from 'zod';
 import * as React from 'react';
 import { Header } from '@/components/header';
@@ -9,6 +9,9 @@ import Chat from '@/components/viewer/chat';
 import Editor from '@/components/viewer/editor';
 import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
+import { useApiKey } from '@/hooks/use-api-key';
+import { useChat } from '@/hooks/use-chat';
+import { useEditor as useEditorDB } from '@/hooks/use-editor';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import {
   BLANK_EDITOR_DATA,
@@ -18,6 +21,7 @@ import {
 } from '@/lib/constants';
 import { setChat, setEditor as setEditorDB } from '@/queries';
 import { DownloadIcon } from 'lucide-react';
+import { useEditor } from 'novel';
 import OpenAI from 'openai';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -26,9 +30,6 @@ import { mutate } from 'swr';
 import { cn } from '@meeting-baas/ui';
 import { Button, buttonVariants } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
-import { useChat } from '@/hooks/use-chat';
-import { useApiKey } from '@/hooks/use-api-key';
-import { useEditor as useEditorDB } from "@/hooks/use-editor";
 
 interface ViewerProps {
   botId: string;
@@ -61,10 +62,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
   const { editor: editorDB, isLoading: isEditorLoading } = useEditorDB({ meetingId: meeting.id });
 
-  const {
-    chat,
-    isLoading: isChatLoading,
-  } = useChat({ meetingId: meeting.id })
+  const { chat, isLoading: isChatLoading } = useChat({ meetingId: meeting.id });
 
   const [messages, setMessages] = React.useState<Message[]>([]);
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -72,7 +70,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const handleEditorChange = async (content: JSONContent) => {
     if (!meeting) return;
     await setEditorDB({ meetingId: meeting.id, content: content });
-    mutate(["editor", meeting.id]);
+    mutate(['editor', meeting.id]);
   };
 
   const handleMessageChange = async (messages: Message[]) => {
@@ -81,7 +79,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
       meetingId: meeting.id,
       messages,
     });
-    mutate(["chat", meeting.id]);
+    mutate(['chat', meeting.id]);
   };
 
   const handleChatSubmit = async (values: z.infer<typeof chatSchema>) => {

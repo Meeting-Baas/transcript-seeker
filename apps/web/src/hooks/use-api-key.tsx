@@ -1,6 +1,7 @@
-import { getAPIKey } from "@/queries";
-import { SelectAPIKey } from "@meeting-baas/db/schema";
-import useSWR from "swr";
+import { getAPIKey } from '@/queries';
+import useSWR from 'swr';
+
+import { SelectAPIKey } from '@meeting-baas/db/schema';
 
 const fetcher = async (type: SelectAPIKey['type']) => {
   const apiKey = await getAPIKey({ type });
