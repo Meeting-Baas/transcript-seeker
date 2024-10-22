@@ -63,5 +63,5 @@ Open an issue or join our [Discord](https://discord.com/invite/dsvFgDTr6c).
 
 - [Meeting Baas API](https://meetingbaas.com/) - Our meeting bot API and meeting transcription API provider
 - [Vidstack](https://www.vidstack.io/) - UI components and hooks for building media players on the web. 
-- [PGLite](https://pglite.dev/) - A fullly fledged Postgres database locally in WASM with reactivity and live sync.
+- [PGLite](https://pglite.dev/) - A Postgres database locally in WASM with reactivity and live sync.
 - [Drizzle ORM](https://orm.drizzle.team) - An ORM for you to ship
