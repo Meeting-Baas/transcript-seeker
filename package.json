@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "homepage": "https://meetingbaas.com/",
-  "engines": { "node": "^22" }, 
+  "engines": { "node": ">=20" }, 
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Meeting-Baas/transcript-seeker"
