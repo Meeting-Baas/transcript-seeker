@@ -4,7 +4,6 @@ import type { MediaPlayerInstance } from '@vidstack/react';
 import type { JSONContent } from 'novel';
 import type { z } from 'zod';
 import * as React from 'react';
-import { Header } from '@/components/header';
 import Chat from '@/components/viewer/chat';
 import Editor from '@/components/viewer/editor';
 import Transcript from '@/components/viewer/transcript';
@@ -27,8 +26,18 @@ import { toast } from 'sonner';
 import { mutate } from 'swr';
 
 import { cn } from '@meeting-baas/ui';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@meeting-baas/ui/breadcrumb';
 import { Button, buttonVariants } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
+
+import { ModeToggle } from '../mode-toggle';
 
 interface ViewerProps {
   botId: string;
@@ -196,33 +205,38 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   return (
     <div className="min-h-svh">
       <div className="w-full">
-        <div className="relative flex h-16 items-center justify-center">
-          <div className="absolute left-4">
-            <Header
-              path={[
-                {
-                  name: 'Recordings',
-                },
-              ]}
-              border={false}
-            />
-          </div>
+        <header className="sticky top-0 flex h-16 shrink-0 items-center justify-between gap-2 bg-background px-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/">Home</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Recording</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
           <div className="flex-grow text-center">
             <h1 className="text-xl font-semibold">{meeting.name}</h1>
           </div>
-          <div className="absolute right-4">
+          <div className='flex gap-2'>
             <Link
               to={`/share/${botId}`}
               className={cn(
                 buttonVariants({ variant: 'outline' }),
                 'pointer-events-none opacity-50',
-                'ml-2',
+                '',
               )}
             >
               Share
             </Link>
+            <ModeToggle />
           </div>
-        </div>
+        </header>
       </div>
       <ResizablePanelGroup
         className="flex min-h-[200dvh] lg:min-h-[calc(100svh-theme(spacing.16))]"

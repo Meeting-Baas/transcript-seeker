@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/components/theme-provider';
 import Join from '@/routes/join';
 import Layout from '@/routes/layout';
 import NotFound from '@/routes/not-found';
@@ -12,7 +13,7 @@ import { Toaster } from '@meeting-baas/ui/sonner';
 
 export default function App() {
   return (
-    <>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
       <Toaster />
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -25,6 +26,6 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }

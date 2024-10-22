@@ -74,7 +74,7 @@ function RecordingsPage() {
         </div>
         <Separator className="my-4" />
 
-        <div className="my-4 bg-white">
+        <div className="my-4 bg-background">
           <ServerAlert mode={serverAvailability} />
         </div>
         <ImportMeeting />
