@@ -1,11 +1,11 @@
-import * as z from 'zod';
+import type * as z from 'zod';
 
 import { FormControl, FormItem, FormLabel, FormMessage } from '@meeting-baas/ui/form';
 import { RadioGroup, RadioGroupItem } from '@meeting-baas/ui/radio-group';
 
+import type { AutoFormInputComponentProps } from '../types';
 import AutoFormLabel from '../common/label';
 import AutoFormTooltip from '../common/tooltip';
-import { AutoFormInputComponentProps } from '../types';
 import { getBaseSchema } from '../utils';
 
 export default function AutoFormRadioGroup({
@@ -28,10 +28,10 @@ export default function AutoFormRadioGroup({
   return (
     <div>
       <FormItem>
-        <AutoFormLabel label={fieldConfigItem?.label || label} isRequired={isRequired} />
+        <AutoFormLabel label={fieldConfigItem.label || label} isRequired={isRequired} />
         <FormControl>
           <RadioGroup onValueChange={field.onChange} defaultValue={field.value} {...fieldProps}>
-            {values?.map((value: any) => (
+            {values.map((value: any) => (
               <FormItem key={value} className="mb-2 flex items-center gap-3 space-y-0">
                 <FormControl>
                   <RadioGroupItem value={value} />

@@ -1,5 +1,5 @@
+import type { Transcript as TranscriptT, Word } from '@/types';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Transcript as TranscriptT, Word } from '@/types';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import { ChevronDown, Search } from 'lucide-react';
 

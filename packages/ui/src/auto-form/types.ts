@@ -1,9 +1,9 @@
-import { ControllerRenderProps, FieldValues } from 'react-hook-form';
-import * as z from 'zod';
+import type { ControllerRenderProps, FieldValues } from 'react-hook-form';
+import type * as z from 'zod';
 
-import { INPUT_COMPONENTS } from './config';
+import type { INPUT_COMPONENTS } from './config';
 
-export type FieldConfigItem = {
+export interface FieldConfigItem {
   description?: React.ReactNode;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> & {
     showLabel?: boolean;
@@ -12,7 +12,7 @@ export type FieldConfigItem = {
   fieldType?: keyof typeof INPUT_COMPONENTS | React.FC<AutoFormInputComponentProps>;
 
   renderParent?: (props: { children: React.ReactNode }) => React.ReactElement | null;
-};
+}
 
 export type FieldConfig<SchemaType extends z.infer<z.ZodObject<any, any>>> = {
   // If SchemaType.key is an object, create a nested FieldConfig, otherwise FieldConfigItem
@@ -28,12 +28,12 @@ export enum DependencyType {
   SETS_OPTIONS,
 }
 
-type BaseDependency<SchemaType extends z.infer<z.ZodObject<any, any>>> = {
+interface BaseDependency<SchemaType extends z.infer<z.ZodObject<any, any>>> {
   sourceField: keyof SchemaType;
   type: DependencyType;
   targetField: keyof SchemaType;
   when: (sourceFieldValue: any, targetFieldValue: any) => boolean;
-};
+}
 
 export type ValueDependency<SchemaType extends z.infer<z.ZodObject<any, any>>> =
   BaseDependency<SchemaType> & {
@@ -57,7 +57,7 @@ export type Dependency<SchemaType extends z.infer<z.ZodObject<any, any>>> =
 /**
  * A FormInput component can handle a specific Zod type (e.g. "ZodBoolean")
  */
-export type AutoFormInputComponentProps = {
+export interface AutoFormInputComponentProps {
   zodInputProps: React.InputHTMLAttributes<HTMLInputElement>;
   field: ControllerRenderProps<FieldValues, any>;
   fieldConfigItem: FieldConfigItem;
@@ -66,4 +66,4 @@ export type AutoFormInputComponentProps = {
   fieldProps: any;
   zodItem: z.ZodAny;
   className?: string;
-};
+}

@@ -1,9 +1,9 @@
 import { Checkbox } from '@meeting-baas/ui/checkbox';
 import { FormControl, FormItem } from '@meeting-baas/ui/form';
 
+import type { AutoFormInputComponentProps } from '../types';
 import AutoFormLabel from '../common/label';
 import AutoFormTooltip from '../common/tooltip';
-import { AutoFormInputComponentProps } from '../types';
 
 export default function AutoFormCheckbox({
   label,
@@ -19,7 +19,7 @@ export default function AutoFormCheckbox({
           <FormControl>
             <Checkbox checked={field.value} onCheckedChange={field.onChange} {...fieldProps} />
           </FormControl>
-          <AutoFormLabel label={fieldConfigItem?.label || label} isRequired={isRequired} />
+          <AutoFormLabel label={fieldConfigItem.label || label} isRequired={isRequired} />
         </div>
       </FormItem>
       <AutoFormTooltip fieldConfigItem={fieldConfigItem} />

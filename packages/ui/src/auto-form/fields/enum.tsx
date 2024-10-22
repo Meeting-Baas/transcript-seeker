@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import type * as z from 'zod';
 
 import { FormControl, FormItem, FormMessage } from '@meeting-baas/ui/form';
 import {
@@ -9,9 +9,9 @@ import {
   SelectValue,
 } from '@meeting-baas/ui/select';
 
+import type { AutoFormInputComponentProps } from '../types';
 import AutoFormLabel from '../common/label';
 import AutoFormTooltip from '../common/tooltip';
-import { AutoFormInputComponentProps } from '../types';
 import { getBaseSchema } from '../utils';
 
 export default function AutoFormEnum({
@@ -37,7 +37,7 @@ export default function AutoFormEnum({
 
   return (
     <FormItem>
-      <AutoFormLabel label={fieldConfigItem?.label || label} isRequired={isRequired} />
+      <AutoFormLabel label={fieldConfigItem.label || label} isRequired={isRequired} />
       <FormControl>
         <Select onValueChange={field.onChange} defaultValue={field.value} {...fieldProps}>
           <SelectTrigger className={fieldProps.className}>

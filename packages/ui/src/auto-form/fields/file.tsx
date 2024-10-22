@@ -1,12 +1,13 @@
-import { ChangeEvent, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
 
 import { FormControl, FormItem, FormMessage } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
 
+import type { AutoFormInputComponentProps } from '../types';
 import AutoFormLabel from '../common/label';
 import AutoFormTooltip from '../common/tooltip';
-import { AutoFormInputComponentProps } from '../types';
 
 export default function AutoFormFile({
   label,
@@ -40,7 +41,7 @@ export default function AutoFormFile({
   return (
     <FormItem>
       {showLabel && (
-        <AutoFormLabel label={fieldConfigItem?.label || label} isRequired={isRequired} />
+        <AutoFormLabel label={fieldConfigItem.label || label} isRequired={isRequired} />
       )}
       {!file && (
         <FormControl>

@@ -1,6 +1,6 @@
 // This is where we convert the meetingbaas data to our data type
+import type { Meeting } from '@/types';
 import { VITE_PROXY_URL } from '@/lib/constants';
-import { Meeting } from '@/types';
 
 import type { BotDetailsParams, JoinMeetingParams, MeetingData } from '@meeting-baas/shared';
 import * as MeetingBaas from '@meeting-baas/shared';
@@ -24,7 +24,7 @@ export const fetchBotDetails = async ({ ...params }: FetchBotDetailsProps) => {
 
   const data: MeetingData = response.data;
 
-  if (!data?.bot_data.bot?.id) return null;
+  if (!data.bot_data.bot?.id) return null;
 
   const bot = data.bot_data.bot;
   const transcripts = data.bot_data.transcripts;

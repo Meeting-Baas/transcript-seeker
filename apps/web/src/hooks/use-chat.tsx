@@ -1,7 +1,7 @@
 import { getChatByMeetingId } from '@/queries';
 import useSWR from 'swr';
 
-import { SelectChat } from '@meeting-baas/db/schema';
+import type { SelectChat } from '@meeting-baas/db/schema';
 
 const fetcher = async (meetingId: SelectChat['meetingId']) => {
   const chat = await getChatByMeetingId({ meetingId });

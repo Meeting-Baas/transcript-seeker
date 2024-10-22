@@ -2,9 +2,9 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface ProviderOptionsState {
-  providerOptions: { [provider: string]: { [key: string]: unknown } };
-  setProviderOptions: (provider: string, options: { [key: string]: unknown }) => void;
-  getProviderOptions: (provider: string) => { [key: string]: unknown } | undefined;
+  providerOptions: Record<string, Record<string, unknown>>;
+  setProviderOptions: (provider: string, options: Record<string, unknown>) => void;
+  getProviderOptions: (provider: string) => Record<string, unknown> | undefined;
 }
 
 export const useProviderOptionsStore = create<ProviderOptionsState>()(

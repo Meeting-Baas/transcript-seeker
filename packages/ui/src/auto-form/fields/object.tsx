@@ -1,4 +1,5 @@
-import { useForm, useFormContext } from 'react-hook-form';
+import type { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import * as z from 'zod';
 
 import {
@@ -9,9 +10,9 @@ import {
 } from '@meeting-baas/ui/accordion';
 import { FormField } from '@meeting-baas/ui/form';
 
+import type { Dependency, FieldConfig, FieldConfigItem } from '../types';
 import { DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS } from '../config';
 import resolveDependencies from '../dependencies';
-import { Dependency, FieldConfig, FieldConfigItem } from '../types';
 import { beautifyObjectName, getBaseSchema, getBaseType, zodToHtmlInputProps } from '../utils';
 import AutoFormArray from './array';
 
@@ -60,7 +61,7 @@ export default function AutoFormObject<SchemaType extends z.ZodObject<any, any>>
     <Accordion type="multiple" className="space-y-5 border-none">
       {Object.keys(shape).map((name) => {
         let item = shape[name] as z.ZodAny;
-        item = handleIfZodNumber(item) as z.ZodAny;
+        item = handleIfZodNumber(item);
         const zodBaseType = getBaseType(item);
         const itemName = item._def.description ?? beautifyObjectName(name);
         const key = [...path, name].join('.');

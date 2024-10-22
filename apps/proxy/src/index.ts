@@ -8,7 +8,8 @@ dotenv.config({
   path: path.resolve(root, ".env"),
 });
 
-import express, { Express, Request, Response } from "express";
+import type { Express, Request, Response } from "express";
+import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 import cors from "cors";

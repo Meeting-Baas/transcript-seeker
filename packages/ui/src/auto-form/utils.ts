@@ -1,8 +1,8 @@
-import React from 'react';
-import { DefaultValues } from 'react-hook-form';
-import { z } from 'zod';
+import type React from 'react';
+import type { DefaultValues } from 'react-hook-form';
+import type { z } from 'zod';
 
-import { FieldConfig } from './types';
+import type { FieldConfig } from './types';
 
 // TODO: This should support recursive ZodEffects but TypeScript doesn't allow circular type definitions.
 export type ZodObjectOrWrapped = z.ZodObject<any, any> | z.ZodEffects<z.ZodObject<any, any>>;
@@ -30,7 +30,7 @@ export function getBaseSchema<ChildType extends z.ZodAny | z.AnyZodObject = z.Zo
     return getBaseSchema(schema._def.innerType as ChildType);
   }
   if ('schema' in schema._def) {
-    return getBaseSchema(schema._def.schema as ChildType);
+    return getBaseSchema(schema._def.schema);
   }
 
   return schema as ChildType;
@@ -96,7 +96,7 @@ export function getDefaultValues<Schema extends z.ZodObject<any, any>>(
     } else {
       let defaultValue = getDefaultValueInZodStack(item);
       if ((defaultValue === null || defaultValue === '') && fieldConfig?.[key]?.inputProps) {
-        defaultValue = (fieldConfig?.[key]?.inputProps as unknown as any).defaultValue;
+        defaultValue = (fieldConfig[key].inputProps as unknown as any).defaultValue;
       }
       if (defaultValue !== undefined) {
         defaultValues[key as keyof DefaultValuesType] = defaultValue;
@@ -108,7 +108,7 @@ export function getDefaultValues<Schema extends z.ZodObject<any, any>>(
 }
 
 export function getObjectFormSchema(schema: ZodObjectOrWrapped): z.ZodObject<any, any> {
-  if (schema?._def.typeName === 'ZodEffects') {
+  if (schema._def.typeName === 'ZodEffects') {
     const typedSchema = schema as z.ZodEffects<z.ZodObject<any, any>>;
     return getObjectFormSchema(typedSchema._def.schema);
   }

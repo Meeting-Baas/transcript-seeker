@@ -1,7 +1,7 @@
 import { getEditorByMeetingId } from '@/queries';
 import useSWR from 'swr';
 
-import { SelectEditor } from '@meeting-baas/db/schema';
+import type { SelectEditor } from '@meeting-baas/db/schema';
 
 const fetcher = async (meetingId: SelectEditor['meetingId']) => {
   const editor = await getEditorByMeetingId({ meetingId });

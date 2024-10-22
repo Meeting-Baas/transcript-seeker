@@ -1,9 +1,9 @@
 import { FormControl, FormItem, FormMessage } from '@meeting-baas/ui/form';
 import { Textarea } from '@meeting-baas/ui/textarea';
 
+import type { AutoFormInputComponentProps } from '../types';
 import AutoFormLabel from '../common/label';
 import AutoFormTooltip from '../common/tooltip';
-import { AutoFormInputComponentProps } from '../types';
 
 export default function AutoFormTextarea({
   label,
@@ -16,7 +16,7 @@ export default function AutoFormTextarea({
   return (
     <FormItem>
       {showLabel && (
-        <AutoFormLabel label={fieldConfigItem?.label || label} isRequired={isRequired} />
+        <AutoFormLabel label={fieldConfigItem.label || label} isRequired={isRequired} />
       )}
       <FormControl>
         <Textarea {...fieldPropsWithoutShowLabel} />

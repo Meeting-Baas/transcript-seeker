@@ -41,7 +41,7 @@ export async function joinMeeting({
         },
         reserved: false,
         entry_message: meetingBotEntryMessage || constants.DEFAULT_ENTRY_MESSAGE,
-        recording_mode: 'speaker_view'
+        recording_mode: 'speaker_view',
       },
       {
         headers: {

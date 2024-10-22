@@ -1,23 +1,23 @@
-export type Transcript = {
+export interface Transcript {
   speaker: string;
   words: {
     start_time: number;
     end_time: number;
     text: string;
   }[];
-};
+}
 
-export type Message = {
+export interface Message {
   content: string;
   role: 'assistant' | 'user' | 'system';
-};
+}
 
-export type Chat = {
+export interface Chat {
   id: string;
   messages?: Message[];
-};
+}
 
-export type Bot = {
+export interface Bot {
   id: number;
   account_id: number;
   meeting_url: string;
@@ -37,15 +37,15 @@ export type Bot = {
   webhook_url: string;
   uuid: string;
   recording_mode: string;
-};
+}
 
-export type BotData = {
+export interface BotData {
   bot: Bot | null;
   transcripts: Transcript[];
-};
+}
 
-export type MeetingData = {
+export interface MeetingData {
   name: string;
   bot_data: BotData;
   mp4: string;
-};
+}

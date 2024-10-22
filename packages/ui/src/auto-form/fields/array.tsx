@@ -1,5 +1,6 @@
+import type { useForm } from 'react-hook-form';
 import { Plus, Trash } from 'lucide-react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 import * as z from 'zod';
 
 import { AccordionContent, AccordionItem, AccordionTrigger } from '@meeting-baas/ui/accordion';
