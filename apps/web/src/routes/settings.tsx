@@ -19,7 +19,7 @@ function SettingsPage() {
 
       <div className="container p-4">
         <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
+          <h2 className="text-2xl font-bold tracking-tight">API Keys and Settings</h2>
           <p className="text-muted-foreground">
             Store API keys in your browser to test immediately, or host yourself by using our{' '}
             <Button variant="link" asChild className="p-0">

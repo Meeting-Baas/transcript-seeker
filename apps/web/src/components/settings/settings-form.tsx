@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { useApiKey } from '@/hooks/use-api-key';
 import { setAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useForm, useFormState } from 'react-hook-form';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
@@ -147,7 +147,7 @@ export function SettingsForm() {
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
-                Meeting Baas API for video-meetings 🐟
+                Meeting Baas 🐟
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
                 <ApiKeyField
@@ -161,8 +161,7 @@ export function SettingsForm() {
                   }
                   control={form.control}
                 />
-
-                <ApiKeyField
+                {/* <ApiKeyField
                   name="baasPublicEncryptionKey"
                   label="Public Encryption Key"
                   description={
@@ -173,19 +172,19 @@ export function SettingsForm() {
                     </>
                   }
                   control={form.control}
-                />
+                /> */}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
-                Chat with your meetings using the OpenAI API
+                LLMs 
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
                 <ApiKeyField
                   name="openAIApiKey"
-                  label="API Key"
+                  label="OpenAI"
                   description={
                     <>
                       Use this key to chat with your meeting. Get your OpenAI API key by visiting{' '}
@@ -200,7 +199,7 @@ export function SettingsForm() {
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
-                Transcription API keys for local file uploads
+                Transcription Services
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
                 <ApiKeyField
