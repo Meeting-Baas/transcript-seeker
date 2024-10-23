@@ -9,11 +9,15 @@ const MEETINGBAAS_S3_URL =
 
 export default defineNitroConfig({
   srcDir: 'server',
-  devStorage: {
-    users: {
-      driver: 'fs',
-      base: './data/db'
+  database: {
+    default: {
+      connector: 'sqlite',
+      options: { name: 'db' }
     },
+    // users: {
+    //   connector: 'postgresql',
+    //   url: 'postgresql://username:password@hostname:port/database_name'
+    // }
   },
   runtimeConfig: {
     googleClientId: 'dev_token',
@@ -27,7 +31,7 @@ export default defineNitroConfig({
     // '/proxy/**': { proxy: '/api/**' },
   },
   experimental: {
-    websocket: true,
+    database: true
   },
   firebase: {
     gen: 2,

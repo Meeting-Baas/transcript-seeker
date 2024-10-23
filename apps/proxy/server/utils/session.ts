@@ -1,51 +1,65 @@
 import { encodeBase32, encodeHexLowerCase } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
-
+import { eq } from 'drizzle-orm';
+import { session, user } from '~/db/schema';
+import { db } from "~/db";
 import { H3Event } from "h3";
 import { User } from "./types/user";
 
-export function validateSessionToken(token: string): SessionValidationResult {
+export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const row = db.queryOne(
-		`
-SELECT session.id, session.user_id, session.expires_at, user.id, user.google_id, user.email, user.name, user.picture FROM session
-INNER JOIN user ON session.user_id = user.id
-WHERE session.id = ?
-`,
-		[sessionId]
-	);
+	
+	const result = await db.select({
+		sessionId: session.id,
+		sessionUserId: session.userId,
+		sessionExpiresAt: session.expiresAt,
+		userId: user.id,
+		userGoogleId: user.googleId,
+		userEmail: user.email,
+		userName: user.name,
+		userPicture: user.picture,
+	})
+	.from(session)
+	.innerJoin(user, eq(session.userId, user.id))
+	.where(eq(session.id, sessionId))
+	.get();
 
-	if (row === null) {
+	if (!result) {
 		return { session: null, user: null };
 	}
-	const session: Session = {
-		id: row.string(0),
-		userId: row.number(1),
-		expiresAt: new Date(row.number(2) * 1000)
+
+	const sessionData: Session = {
+		id: result.sessionId,
+		userId: result.sessionUserId,
+		expiresAt: new Date(result.sessionExpiresAt * 1000)
 	};
-	const user: User = {
-		id: row.number(3),
-		googleId: row.string(4),
-		email: row.string(5),
-		name: row.string(6),
-		picture: row.string(7)
+
+	const userData: User = {
+		id: result.userId,
+		googleId: result.userGoogleId,
+		email: result.userEmail,
+		name: result.userName,
+		picture: result.userPicture
 	};
-	if (Date.now() >= session.expiresAt.getTime()) {
-		db.execute("DELETE FROM session WHERE id = ?", [session.id]);
+
+	if (Date.now() >= sessionData.expiresAt.getTime()) {
+		await db.delete(session).where(eq(session.id, sessionData.id)).execute();
 		return { session: null, user: null };
 	}
-	if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
-		session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-		db.execute("UPDATE session SET expires_at = ? WHERE session.id = ?", [
-			Math.floor(session.expiresAt.getTime() / 1000),
-			session.id
-		]);
+
+	if (Date.now() >= sessionData.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
+		sessionData.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+		await db.update(session)
+			.set({ expiresAt: Math.floor(sessionData.expiresAt.getTime() / 1000) })
+			.where(eq(session.id, sessionData.id))
+			.execute();
 	}
-	return { session, user };
+
+	return { session: sessionData, user: userData };
 }
 
 export const getCurrentSession = (event: H3Event): SessionValidationResult => {
-    const token = getCookie(event, 'session')
+	const token = getCookie(event, 'session')
 
 	if (token === null) {
 		return { session: null, user: null };
@@ -54,13 +68,12 @@ export const getCurrentSession = (event: H3Event): SessionValidationResult => {
 	return result;
 };
 
-export function invalidateSession(sessionId: string): void {
-	db.execute("DELETE FROM session WHERE id = ?", [sessionId]);
-
+export async function invalidateSession(sessionId: string): Promise<void> {
+	await db.delete(session).where(eq(session.id, sessionId)).execute();
 }
 
-export function invalidateUserSessions(userId: number): void {
-	db.execute("DELETE FROM session WHERE user_id = ?", [userId]);
+export async function invalidateUserSessions(userId: number): Promise<void> {
+	await db.delete(session).where(eq(session.userId, userId)).execute();
 }
 
 export function setSessionTokenCookie(event: H3Event, token: string, expiresAt: Date): void {
@@ -90,19 +103,21 @@ export function generateSessionToken(): string {
 	return token;
 }
 
-export function createSession(token: string, userId: number): Session {
+export async function createSession(token: string, userId: number): Promise<Session> {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const session: Session = {
+	const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+	
+	await db.insert(session).values({
+		id: sessionId,
+		userId: userId,
+		expiresAt: Math.floor(expiresAt.getTime() / 1000)
+	}).execute();
+
+	return {
 		id: sessionId,
 		userId,
-		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+		expiresAt
 	};
-	db.execute("INSERT INTO session (id, user_id, expires_at) VALUES (?, ?, ?)", [
-		session.id,
-		session.userId,
-		Math.floor(session.expiresAt.getTime() / 1000)
-	]);
-	return session;
 }
 
 export interface Session {
