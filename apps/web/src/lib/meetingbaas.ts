@@ -2,7 +2,17 @@
 import type { Meeting } from '@/types';
 import { VITE_PROXY_URL } from '@/lib/constants';
 
-import type { BotDetailsParams, JoinMeetingParams, LeaveMeetingParams, FetchCalendarsParams, FetchCalendarEventsParams, CreateCalendarParams, CalendarBaasData, MeetingData } from '@meeting-baas/shared';
+import type {
+  BotDetailsParams,
+  CalendarBaasData,
+  CalendarBaasEvent,
+  CreateCalendarParams,
+  FetchCalendarEventsParams,
+  FetchCalendarsParams,
+  JoinMeetingParams,
+  LeaveMeetingParams,
+  MeetingData,
+} from '@meeting-baas/shared';
 import * as MeetingBaas from '@meeting-baas/shared';
 
 interface JoinMeetingProps extends Omit<JoinMeetingParams, 'proxyUrl'> {}
@@ -58,22 +68,31 @@ export const fetchBotDetails = async ({ ...params }: FetchBotDetailsProps) => {
 
 interface FetchCalendarsProps extends Omit<FetchCalendarsParams, 'proxyUrl'> {}
 
-export const fetchCalendars = async ({ ...params }: FetchCalendarsProps) => {
-  return await MeetingBaas.fetchCalendars({
+export const fetchCalendars = async ({
+  ...params
+}: FetchCalendarsProps): Promise<CalendarBaasData[] | null> => {
+  const response = await MeetingBaas.fetchCalendars({
     proxyUrl: VITE_PROXY_URL,
     ...params,
   });
+
+  const data: CalendarBaasData[] | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
 };
 
 interface CreateCalendarProps extends Omit<CreateCalendarParams, 'proxyUrl'> {}
 
-export const createCalendar = async ({ ...params }: CreateCalendarProps) => {
+export const createCalendar = async ({
+  ...params
+}: CreateCalendarProps): Promise<CalendarBaasData[] | null> => {
   const response = await MeetingBaas.createCalendar({
     proxyUrl: VITE_PROXY_URL,
     ...params,
   });
 
-  const data: { calendars: CalendarBaasData } | undefined | null = response.data;
+  const data: { calendars: CalendarBaasData[] } | undefined | null = response.data;
 
   if (!data?.calendars) return null;
   return data.calendars;
@@ -81,9 +100,16 @@ export const createCalendar = async ({ ...params }: CreateCalendarProps) => {
 
 interface FetchCalendarEventsProps extends Omit<FetchCalendarEventsParams, 'proxyUrl'> {}
 
-export const fetchCalendarEvents = async ({ ...params }: FetchCalendarEventsProps) => {
-  return await MeetingBaas.fetchCalendarEvents({
+export const fetchCalendarEvents = async ({
+  ...params
+}: FetchCalendarEventsProps): Promise<CalendarBaasEvent[] | null> => {
+  const response = await MeetingBaas.fetchCalendarEvents({
     proxyUrl: VITE_PROXY_URL,
     ...params,
   });
+
+  const data: CalendarBaasEvent[] | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
 };
