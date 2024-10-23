@@ -13,6 +13,8 @@ import type {
 import { db } from '@meeting-baas/db/client';
 import { apiKeysTable, chatsTable, editorsTable, meetingsTable } from '@meeting-baas/db/schema';
 
+import { Message } from './types';
+
 export async function getAPIKey({ type }: { type: SelectAPIKey['type'] }) {
   if (!type) return;
   return await db.query.apiKeysTable.findFirst({
@@ -134,24 +136,28 @@ export async function getChatByMeetingId({ meetingId }: { meetingId: SelectChat[
   return chat;
 }
 
-export async function setChat({
+export async function createMessage({
   meetingId,
-  messages,
+  message,
 }: {
   meetingId: InsertChat['meetingId'];
-  messages: InsertChat['messages'];
+  message: Message;
 }) {
   if (!meetingId) return;
   const chat = await db.query.chatsTable.findFirst({
     where: (chats, { eq }) => eq(chats.meetingId, meetingId),
   });
+
   if (chat) {
     return await db
       .update(chatsTable)
-      .set({ messages, updatedAt: new Date() })
+      .set({ messages: [...chat.messages, message], updatedAt: new Date() })
       .where(eq(chatsTable.meetingId, meetingId))
       .returning();
   } else {
-    return await db.insert(chatsTable).values({ meetingId: meetingId, messages }).returning();
+    return await db
+      .insert(chatsTable)
+      .values({ meetingId: meetingId, messages: [message] })
+      .returning();
   }
 }

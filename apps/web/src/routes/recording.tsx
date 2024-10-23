@@ -9,7 +9,7 @@ import { fetchBotDetails } from '@/lib/meetingbaas';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import { getMeetingByBotId, updateMeeting } from '@/queries';
 import { useParams } from 'react-router-dom';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
 import NotFoundPage from './not-found';
 
@@ -39,7 +39,9 @@ const updateMeetingData = async (meeting: MeetingT, baasApiKey: string): Promise
 
     if (data) {
       await updateMeeting({ id: meeting.id, values: { ...data } });
-      return { ...meeting, ...data };
+      const result = { ...meeting, ...data };
+      mutate(result);
+      return result;
     }
   }
 
@@ -55,17 +57,14 @@ export default function MeetingPage() {
     isLoading,
     error,
     mutate,
-  } = useSWR<MeetingT | null>(
-    ['meeting', botId, baasApiKey],
-    () => fetchMeeting(botId!),
-    { refreshInterval: 5000 },
-  );
+  } = useSWR<MeetingT | null>(['meeting', botId, baasApiKey], () => fetchMeeting(botId!));
 
   useEffect(() => {
-    const updateInterval = setInterval(() => {
-      if (meeting && baasApiKey) {
-        mutate(updateMeetingData(meeting, baasApiKey));
-      }
+    const updateInterval = setInterval(async () => {
+      if (!(meeting && baasApiKey)) return;
+      if (meeting.endedAt) return;
+      const data = await updateMeetingData(meeting, baasApiKey);
+      console.log('updating meeting', data);
     }, 5000);
 
     return () => clearInterval(updateInterval);
