@@ -10,6 +10,7 @@ import Upload from '@/routes/upload';
 import { Route, Routes } from 'react-router-dom';
 
 import { Toaster } from '@meeting-baas/ui/sonner';
+import Calendars from './routes/calendars';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Route index element={<Root />} />
           <Route path="settings" element={<Settings />} />
           <Route path="recordings" element={<Recordings />} />
+          <Route path="meetings" element={<Calendars />} />
           <Route path="join" element={<Join />} />
           <Route path="upload" element={<Upload />} />
           <Route path="/meeting/:botId" element={<Meeting />} />
