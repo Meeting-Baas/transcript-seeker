@@ -1,11 +1,10 @@
 {
   "functions": {
-    "source": ".output/server",
-    "runtime": "nodejs20"
+    "source": ".output/server"
   },
   "hosting": [
     {
-      "site": "meeting-baas",
+      "site": "<your_project_id>",
       "public": ".output/public",
       "cleanUrls": true,
       "rewrites": [

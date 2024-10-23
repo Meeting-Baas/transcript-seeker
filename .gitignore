@@ -141,3 +141,6 @@ dev-dist
 
 # turbo
 .turbo
+
+# firebase
+.firebase

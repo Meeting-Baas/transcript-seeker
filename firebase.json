@@ -1,0 +1,29 @@
+{
+  "functions": {
+    "source": "apps/proxy/.output/server",
+    "runtime": "nodejs20"
+  },
+  "hosting": [
+    {
+      "site": "meeting-baas",
+      "public": "apps/proxy/.output/public",
+      "cleanUrls": true,
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "server"
+        }
+      ]
+    },
+    {
+      "target": "transcriptseeker",
+      "public": "apps/web/dist",
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}
