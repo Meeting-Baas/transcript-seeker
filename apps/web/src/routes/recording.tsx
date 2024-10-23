@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import useSWR, { mutate } from 'swr';
 
 import NotFoundPage from './not-found';
+import ErrorPage from './error';
 
 const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
   if (!botId) throw new Error('No bot ID provided');
@@ -70,7 +71,7 @@ export default function MeetingPage() {
     return () => clearInterval(updateInterval);
   }, [meeting, baasApiKey, mutate]);
 
-  if (error) return <div>Error loading meeting</div>;
+  if (error) return <ErrorPage>Error loading meeting</ErrorPage>;
   if (!meeting) return isLoading ? <FullSpinner /> : <NotFoundPage />;
 
   return <Viewer botId={botId!} isLoading={!meeting} meeting={meeting} />;
