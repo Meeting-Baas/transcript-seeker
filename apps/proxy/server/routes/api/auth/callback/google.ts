@@ -1,43 +1,66 @@
-import { OAuth2Client } from 'google-auth-library';
-import { v4 as uuidv4 } from 'uuid';
+import { ObjectParser } from '@pilcrowjs/object-parser';
+import { decodeIdToken, OAuth2Tokens } from 'arctic';
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const oAuth2Client = new OAuth2Client(
-    useRuntimeConfig(event).googleClientId,
-    useRuntimeConfig(event).googleClientSecret,
-    useRuntimeConfig(event).googleRedirectUri,
-  );
+  const { code, state } = query;
+  const storedState = getCookie(event, 'google_oauth_state');
+  const codeVerifier = getCookie(event, 'google_code_verifier');
 
-  if (!query.code) return { error: 'Authorization failed: No authorization code received from Google' };
+  if (code === null || state === null || storedState === null || codeVerifier === null) {
+    return {
+      error: 'Please restart the process',
+      status: 400,
+    };
+  }
 
-  const { code } = query;
+  if (state !== storedState) {
+    return {
+      error: 'Please restart the process',
+      status: 400,
+    };
+  }
+
+  let tokens: OAuth2Tokens;
 
   try {
-    const response = await oAuth2Client.getToken(code as string);
-    oAuth2Client.setCredentials(response.tokens);
-
-    const sessionToken = uuidv4();
-    const usersStorage = useStorage('users');
-    await usersStorage.setItem(sessionToken, response.tokens)
-
-    setCookie(event, 'session', sessionToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-      sameSite: 'lax',
-      path: '/',
-    }); 
-
-    return { success: true, message: 'Authentication successful' };
-  } catch (err) {
-    if (err instanceof Error) {
-      // todo: check if it is safe to expose this data (it is but just in case)
-      console.error('Authorization error:', err.message);
-      return { error: `Failed to authorize: ${err.message}` };
-    } else {
-      console.error('Unknown authorization error:', err);
-      return { error: 'Failed to authorize due to an unknown error.' };
-    }
+    tokens = await google.validateAuthorizationCode(code as string, codeVerifier);
+  } catch {
+    return {
+      error: 'Please restart the process',
+      status: 400,
+    };
   }
+
+  const claims = decodeIdToken(tokens.idToken());
+  const claimsParser = new ObjectParser(claims);
+
+  const googleId = claimsParser.getString('sub');
+  const name = claimsParser.getString('name');
+  const picture = claimsParser.getString('picture');
+  const email = claimsParser.getString('email');
+
+  console.log(claims)
+
+  // todo: split to queries.ts
+  const existingUser = await getUserFromGoogleId(googleId);
+  if (existingUser !== null) {
+    console.log(existingUser)
+    const sessionToken = generateSessionToken();
+    const session = await createSession(sessionToken, existingUser.id);
+    await setSessionTokenCookie(event, sessionToken, session.expiresAt);
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: '/',
+      },
+    });
+  }
+
+  const user = await createUser(googleId, email, name, picture);
+  const sessionToken = generateSessionToken();
+  const session = await createSession(sessionToken, user.id);
+  await setSessionTokenCookie(event, sessionToken, session.expiresAt);
+
+  return sendRedirect(event, '/');
 });
