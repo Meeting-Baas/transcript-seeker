@@ -4,6 +4,7 @@ import { Separator } from '@meeting-baas/ui/separator';
 import { endOfMonth, startOfMonth } from 'date-fns';
 import { Calendar } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import ErrorPage from './error';
 
 function CalendarsPage() {
   const [date, setDate] = useState<Date>(new Date());
@@ -56,7 +57,7 @@ function CalendarsPage() {
   }, [selectedCalendar, date]);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (error) return <ErrorPage>{error}</ErrorPage>;
 
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
@@ -64,7 +65,7 @@ function CalendarsPage() {
         path={[
           {
             name: 'Calendars',
-          },
+        },
         ]}
       />
       <div className="container p-4">
