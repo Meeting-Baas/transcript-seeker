@@ -144,3 +144,6 @@ dev-dist
 
 # firebase
 .firebase
+
+# proxy
+**/data/db

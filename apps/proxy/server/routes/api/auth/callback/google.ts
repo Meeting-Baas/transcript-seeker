@@ -1,4 +1,5 @@
 import { OAuth2Client } from 'google-auth-library';
+import { v4 as uuidv4 } from 'uuid';
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -13,10 +14,21 @@ export default defineEventHandler(async (event) => {
   const { code } = query;
 
   try {
-    const response = await oAuth2Client.getToken(code.toString());
+    const response = await oAuth2Client.getToken(code as string);
     oAuth2Client.setCredentials(response.tokens);
 
-    return { data: response.tokens };
+    const sessionToken = uuidv4();
+    const usersStorage = useStorage('users');
+    await usersStorage.setItem(sessionToken, response.tokens)
+
+    setCookie(event, 'session_token', sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: '/',
+    }); 
+
+    return { success: true, message: 'Authentication successful' };
   } catch (err) {
     if (err instanceof Error) {
       // todo: check if it is safe to expose this data (it is but just in case)

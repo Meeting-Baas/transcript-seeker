@@ -9,10 +9,16 @@ const MEETINGBAAS_S3_URL =
 
 export default defineNitroConfig({
   srcDir: 'server',
+  devStorage: {
+    users: {
+      driver: 'fs',
+      base: './data/db'
+    },
+  },
   runtimeConfig: {
-    googleClientId: "dev_token", 
-    googleClientSecret: "dev_token",
-    googleRedirectUri: "dev_token",
+    googleClientId: 'dev_token',
+    googleClientSecret: 'dev_token',
+    googleRedirectUri: 'dev_token',
   },
   // https://github.com/unjs/rou3/tree/radix3#route-matcher
   routeRules: {
@@ -21,7 +27,7 @@ export default defineNitroConfig({
     // '/proxy/**': { proxy: '/api/**' },
   },
   experimental: {
-    websocket: true
+    websocket: true,
   },
   firebase: {
     gen: 2,
