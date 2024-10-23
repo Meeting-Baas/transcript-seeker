@@ -1,11 +1,8 @@
 - [ ] Re-add VTT subtitles on video
 - [ ] Add the ability to download SRT, Docx, MD directly in the front-end
-- [ ] Save Chat + Notes to Meeting object on modification
-- [ ] Add a search icon in the transcript.
 - [ ] Add the ability to correct the transcript + re-align the transcription once done
-- [ ] Switch the entire tool stack to yarn; remove npm
+- [ ] Switch the entire tool stack to yarn; remove pnpm
 - [ ] Add strong typing; improving tooling
-- [ ] Connect other transcription APIs than Gladia
 - [ ] Connect other LLM providers than OpenAI
-- [ ] Store chat convos & text notes in db (not useful now that we use IndexedDB?)
-- [ ] Implement transcript-wide search, with assistants rag
+- [ ] Implement transcript-wide search
+- [ ] Implement RAG for chat, with pgvector
