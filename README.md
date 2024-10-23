@@ -6,13 +6,17 @@
 
 **Transcript Seeker** is an open-source transcription playground powered by transcription APIs and meeting bot technology. With this app, you can easily upload and store recordings, transcribe them, chat with transcripts, generate notes, and more—all directly in your browser.
 
-### Key Features
+### Key Features 
 
-- **Upload and Transcribe**: Upload video or audio recordings and transcribe them.
-- **Interactive Transcripts**: Get transcripts synced with your recordings—click on a word to jump directly to that point in the recording.
-- **Meeting Bot Integration**: Join, record, and create transcriptions from Zoom, Google Meet, and Microsoft Teams using [Meeting Baas' 🐟](https://meetingbaas.com) API.
-- **Chat and Summarize**: Chat with your transcripts via OpenAI, or automatically generate summaries.
-- **Add Notes**: Create custom notes or let AI add summaries to your recordings.
+- **Upload and Transcribe**: Upload video or audio recordings, generate transcripts seamlessly using Gladia and AssemblyAI, and sync them with your recordings.
+- **Interactive Transcripts**: Experience live transcript seeking where the transcript scrolls in sync with video playback—click on a word to jump directly to that point in the recording.
+- **Meeting Bot Integration**: Use Meeting Baas' fleet of bots to join, record, and transcribe meetings from popular platforms like Zoom, Google Meet, and Microsoft Teams using [Meeting Baas' 🐟](https://meetingbaas.com) API. Bots can be removed from meetings whenever needed, giving you full control.
+- **Chat and Summarize**: Chat with your transcripts via OpenAI to gain deeper insights or generate automatic summaries for better understanding of the content.
+- **Add Notes**: Add custom notes to your recordings or leverage AI to add summaries, ensuring all important details are captured for future reference.
+- **Local Data Storage**: Minimal cloud integrations with data mostly stored locally using PGLite, ensuring privacy and control.
+- **Open-Source**: Fully open-source on GitHub for transparency and community contributions.
+- **Beginner-Friendly Setup**: Easy setup process, perfect for beginners wanting to explore Meeting Baas capabilities.
+- **Modern Tech Stack**: Built with cutting-edge technologies like Vite.js, React, Drizzle ORM, PGLite, Nitro, and Turborepo for a modern, scalable experience.
 
 ## Tech Stack
 
