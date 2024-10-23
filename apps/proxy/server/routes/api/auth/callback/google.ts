@@ -8,12 +8,16 @@ export default defineEventHandler(async (event) => {
     useRuntimeConfig(event).googleRedirectUri,
   );
 
-  if (!query.code) return { error: "Failed to authorize" }
+  if (!query.code) return { error: 'Failed to authorize' };
 
   const { code } = query;
-  console.log(code)
-  const response = await oAuth2Client.getToken(code);
-  oAuth2Client.setCredentials(response.tokens);
 
-  return { tokens: r.tokens }
+  try {
+    const response = await oAuth2Client.getToken(code.toString());
+    oAuth2Client.setCredentials(response.tokens);
+
+    return { tokens: response.tokens };
+  } catch {
+    return { error: 'Failed to authorize.' };
+  }
 });
