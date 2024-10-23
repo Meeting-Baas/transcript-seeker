@@ -9,6 +9,11 @@ const MEETINGBAAS_S3_URL =
 
 export default defineNitroConfig({
   srcDir: 'server',
+  runtimeConfig: {
+    googleClientId: "dev_token", 
+    googleClientSecret: "dev_token",
+    googleRedirectUri: "dev_token",
+  },
   // https://github.com/unjs/rou3/tree/radix3#route-matcher
   routeRules: {
     '/api/meetingbaas/**': { proxy: `${MEETINGBAAS_API_URL}/**`, cors: true },
