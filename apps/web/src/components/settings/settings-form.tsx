@@ -32,6 +32,7 @@ const formSchema = z.object({
   openAIApiKey: z.string().optional(),
   gladiaApiKey: z.string().optional(),
   assemblyAIApiKey: z.string().optional(),
+  baasCalendarApiKey: z.string().optional(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -95,7 +96,7 @@ export function SettingsForm() {
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
   const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
   const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
-
+  const { apiKey: baasCalendarApiKey } = useApiKey({ type: 'meetingbaas-calendar' });
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -103,6 +104,7 @@ export function SettingsForm() {
       openAIApiKey: openAIApiKey ?? '',
       gladiaApiKey: gladiaApiKey ?? '',
       assemblyAIApiKey: assemblyAIApiKey ?? '',
+      baasCalendarApiKey: baasCalendarApiKey ?? '',
     },
   });
   const { isDirty } = useFormState({ control: form.control });
@@ -113,8 +115,10 @@ export function SettingsForm() {
     await setAPIKey({ type: 'openai', content: values.openAIApiKey! });
     await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
     await setAPIKey({ type: 'assemblyai', content: values.assemblyAIApiKey! });
+    await setAPIKey({ type: 'meetingbaas-calendar', content: values.baasCalendarApiKey! });
 
     mutate(['apiKey', 'meetingbaas']);
+    mutate(['apiKey', 'meetingbaas-calendar']);
     mutate(['apiKey', 'openai']);
     mutate(['apiKey', 'gladia']);
     mutate(['apiKey', 'assemblyai']);
@@ -159,6 +163,12 @@ export function SettingsForm() {
                       visiting {renderLink('MeetingBaas', 'https://meetingbaas.com/login')}.
                     </>
                   }
+                  control={form.control}
+                />
+                <ApiKeyField
+                  name="baasCalendarApiKey"
+                  label="Meeting Baas Calendar API Key"
+                  description="Use this key for calendar integration with Meeting Baas."
                   control={form.control}
                 />
                 {/* <ApiKeyField
