@@ -18,9 +18,9 @@ function RootPage() {
   const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
   const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAIApiKey;
 
-  const { apiKey: googleClientId } = useApiKey({ type: 'google-oauth-client-id' });
-  const { apiKey: googleClientSecret } = useApiKey({ type: 'google-oauth-client-secret' });
-  const { apiKey: googleRefreshToken } = useApiKey({ type: 'google-oauth-refresh-token' });
+  const { apiKey: googleClientId } = useApiKey({ type: 'google-client-id' });
+  const { apiKey: googleClientSecret } = useApiKey({ type: 'google-client-secret' });
+  const { apiKey: googleRefreshToken } = useApiKey({ type: 'google-refresh-token' });
   const googleOAuthKeysExist = googleClientId && googleClientSecret && googleRefreshToken;
 
   return (
@@ -86,17 +86,6 @@ function RootPage() {
               Upload File
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-2">
-            <Link
-              to="/meetings"
-              className={cn(buttonVariants({ variant: 'default' }), 'gap-2', {
-                'pointer-events-none opacity-50': !googleOAuthKeysExist,
-              })}
-            >
-              <Calendar className="h-4 w-4" />
-              Upcoming Meetings
-            </Link>
-          </div>
           <div className="grid grid-cols-2 gap-2">
             <Link to="/recordings" className={cn(buttonVariants({ variant: 'default' }), 'gap-2')}>
               <List className="h-4 w-4" />
@@ -111,6 +100,17 @@ function RootPage() {
             >
               <Key className="h-4 w-4" />
               Manage API Keys
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-2">
+            <Link
+              to="/meetings"
+              className={cn(buttonVariants({ variant: 'default' }), 'gap-2', {
+                'pointer-events-none opacity-50': !googleOAuthKeysExist,
+              })}
+            >
+              <Calendar className="h-4 w-4" />
+              Upcoming Meetings
             </Link>
           </div>
         </CardContent>

@@ -61,7 +61,7 @@ export async function createCalendar(): Promise<CalendarBaas> {
 }
 
 export async function fetchCalendars(): Promise<CalendarBaas[]> {
-  const { apiKey: meetingbaasApiKey } = useApiKey({ type: 'meetingbaas-calendar' });
+  const { apiKey: meetingbaasApiKey } = useApiKey({ type: 'meetingbaas' });
 
   if (!meetingbaasApiKey) {
     throw new Error('Missing MeetingBaas API key');
@@ -81,7 +81,7 @@ export async function fetchCalendars(): Promise<CalendarBaas[]> {
 }
 
 export async function fetchCalendarEvents(calendarId: string, offset: number = 0, limit: number = 100): Promise<CalendarBaasEvent[]> {
-  const { apiKey: meetingbaasApiKey } = useApiKey({ type: 'meetingbaas-calendar' });
+  const { apiKey: meetingbaasApiKey } = useApiKey({ type: 'meetingbaas' });
 
   if (!meetingbaasApiKey) {
     throw new Error('Missing MeetingBaas API key');
