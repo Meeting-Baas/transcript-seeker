@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react';
 import { useApiKey } from '@/hooks/use-api-key';
 import { setAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { useForm, useFormState } from 'react-hook-form';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
@@ -98,9 +98,9 @@ export function SettingsForm() {
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
   const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
   const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
-  const { apiKey: googleClientId } = useApiKey({ type: 'google-oauth-client-id' });
-  const { apiKey: googleClientSecret } = useApiKey({ type: 'google-oauth-client-secret' });
-  const { apiKey: googleRefreshToken } = useApiKey({ type: 'google-oauth-refresh-token' });
+  const { apiKey: googleClientId } = useApiKey({ type: 'google-client-id' });
+  const { apiKey: googleClientSecret } = useApiKey({ type: 'google-client-secret' });
+  const { apiKey: googleRefreshToken } = useApiKey({ type: 'google-refresh-token' });
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -122,15 +122,17 @@ export function SettingsForm() {
     await setAPIKey({ type: 'openai', content: values.openAIApiKey! });
     await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
     await setAPIKey({ type: 'assemblyai', content: values.assemblyAIApiKey! });
-    console.log( values.googleClientId)
-    await setAPIKey({ type: 'google-oauth-client-id', content: values.googleClientId! });
-    await setAPIKey({ type: 'google-oauth-client-secret', content: values.googleClientSecret! });
-    await setAPIKey({ type: 'google-oauth-refresh-token', content: values.googleRefreshToken! });
+    await setAPIKey({ type: 'google-client-id', content: values.googleClientId! });
+    await setAPIKey({ type: 'google-client-secret', content: values.googleClientSecret! });
+    await setAPIKey({ type: 'google-refresh-token', content: values.googleRefreshToken! });
 
     mutate(['apiKey', 'meetingbaas']);
     mutate(['apiKey', 'openai']);
     mutate(['apiKey', 'gladia']);
     mutate(['apiKey', 'assemblyai']);
+    mutate(['apiKey', 'google-client-id']);
+    mutate(['apiKey', 'google-client-secret']);
+    mutate(['apiKey', 'google-refresh-token']);
 
     toast.success('API keys updated successfully');
     form.reset(values);
@@ -142,8 +144,19 @@ export function SettingsForm() {
       openAIApiKey: openAIApiKey ?? '',
       gladiaApiKey: gladiaApiKey ?? '',
       assemblyAIApiKey: assemblyAIApiKey ?? '',
+      googleClientId: googleClientId ?? '',
+      googleClientSecret: googleClientSecret ?? '',
+      googleRefreshToken: googleRefreshToken ?? '',
     });
-  }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey]);
+  }, [
+    baasApiKey,
+    openAIApiKey,
+    gladiaApiKey,
+    assemblyAIApiKey,
+    googleClientId,
+    googleClientSecret,
+    googleRefreshToken,
+  ]);
 
   const renderLink = (text: string, href: string) => (
     <Button variant="link" asChild className="h-min w-min p-0">
@@ -174,6 +187,28 @@ export function SettingsForm() {
                   }
                   control={form.control}
                 />
+                {/* <ApiKeyField
+                  name="baasPublicEncryptionKey"
+                  label="Public Encryption Key"
+                  description={
+                    <>
+                      This key is used to encrypt your API keys when sharing recordings with others.
+                      Get your Public Encryption Key by visiting{' '}
+                      {renderLink('MeetingBaas', 'https://meetingbaas.com/login')}.
+                    </>
+                  }
+                  control={form.control}
+                /> */}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
+                MeetingBaas Calendars
+              </AccordionTrigger>
+              <AccordionContent className="space-y-6 px-1">
                 <ApiKeyField
                   name="googleClientId"
                   label="Google Client ID"
@@ -192,25 +227,14 @@ export function SettingsForm() {
                   description="Use this key for Google OAuth integration."
                   control={form.control}
                 />
-                {/* <ApiKeyField
-                  name="baasPublicEncryptionKey"
-                  label="Public Encryption Key"
-                  description={
-                    <>
-                      This key is used to encrypt your API keys when sharing recordings with others.
-                      Get your Public Encryption Key by visiting{' '}
-                      {renderLink('MeetingBaas', 'https://meetingbaas.com/login')}.
-                    </>
-                  }
-                  control={form.control}
-                /> */}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
-                LLMs 
+                LLMs
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
                 <ApiKeyField

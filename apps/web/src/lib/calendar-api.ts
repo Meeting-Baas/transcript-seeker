@@ -29,19 +29,19 @@ export type CalendarBaasEvent = {
 };
 
 export async function createCalendar(): Promise<CalendarBaas> {
-  const { apiKey: clientId } = useApiKey({ type: 'google-oauth-client-id' });
-  const { apiKey: clientSecret } = useApiKey({ type: 'google-oauth-client-secret' });
-  const { apiKey: refreshToken } = useApiKey({ type: 'google-oauth-refresh-token' });
-  const { apiKey: meetingbaasApiKey } = useApiKey({ type: 'meetingbaas-calendar' });
+  const { apiKey: clientId } = useApiKey({ type: 'google-client-id' });
+  const { apiKey: clientSecret } = useApiKey({ type: 'google-client-secret' });
+  const { apiKey: refreshToken } = useApiKey({ type: 'google-refresh-token' });
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
 
-  if (!clientId || !clientSecret || !refreshToken || !meetingbaasApiKey) {
+  if (!clientId || !clientSecret || !refreshToken || !baasApiKey) {
     throw new Error('Missing required OAuth credentials');
   }
 
   const response = await fetch('https://api.meetingbaas.com/calendars', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${meetingbaasApiKey}`,
+      'x-spoke-api-key': `Bearer ${baasApiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({

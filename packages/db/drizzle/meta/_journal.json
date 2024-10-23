@@ -36,6 +36,13 @@
       "when": 1729681825517,
       "tag": "0004_magenta_patch",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1729682842710,
+      "tag": "0005_simple_sumo",
+      "breakpoints": true
     }
   ]
 }

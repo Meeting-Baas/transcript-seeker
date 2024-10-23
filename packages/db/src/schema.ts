@@ -5,9 +5,9 @@ import type { Message, Transcript } from '@meeting-baas/shared';
 
 export const apiKeyTypeEnum = pgEnum('api_key_type', [
   'meetingbaas',
-  'google-oauth-client-id',
-  'google-oauth-client-secret',
-  'google-oauth-refresh-token',
+  'google-client-id',
+  'google-client-secret',
+  'google-refresh-token',
   'gladia',
   'openai',
   'assemblyai',
