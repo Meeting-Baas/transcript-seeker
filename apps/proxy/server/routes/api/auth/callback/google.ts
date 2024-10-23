@@ -21,10 +21,11 @@ export default defineEventHandler(async (event) => {
     const usersStorage = useStorage('users');
     await usersStorage.setItem(sessionToken, response.tokens)
 
-    setCookie(event, 'session_token', sessionToken, {
+    setCookie(event, 'session', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 60 * 24 * 7, // 1 week
+      sameSite: 'lax',
       path: '/',
     }); 
 

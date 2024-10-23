@@ -1,7 +1,7 @@
 import { H3Event, use } from 'h3'
 
 export default defineEventHandler(async (event: H3Event) => {
-  const sessionToken = getCookie(event, 'session_token')
+  const sessionToken = getCookie(event, 'session')
 
   if (!sessionToken) {
     throw createError({
