@@ -2,7 +2,7 @@
 import type { Meeting } from '@/types';
 import { VITE_PROXY_URL } from '@/lib/constants';
 
-import type { BotDetailsParams, JoinMeetingParams, LeaveMeetingParams, MeetingData } from '@meeting-baas/shared';
+import type { BotDetailsParams, JoinMeetingParams, LeaveMeetingParams, FetchCalendarsParams, FetchCalendarEventsParams, CreateCalendarParams, CalendarBaasData, MeetingData } from '@meeting-baas/shared';
 import * as MeetingBaas from '@meeting-baas/shared';
 
 interface JoinMeetingProps extends Omit<JoinMeetingParams, 'proxyUrl'> {}
@@ -54,4 +54,36 @@ export const fetchBotDetails = async ({ ...params }: FetchBotDetailsProps) => {
     endedAt: bot.ended_at ? new Date(bot.ended_at + 'Z') : null,
     createdAt: new Date(bot.created_at + 'Z'),
   } as Omit<Meeting, 'id'>;
+};
+
+interface FetchCalendarsProps extends Omit<FetchCalendarsParams, 'proxyUrl'> {}
+
+export const fetchCalendars = async ({ ...params }: FetchCalendarsProps) => {
+  return await MeetingBaas.fetchCalendars({
+    proxyUrl: VITE_PROXY_URL,
+    ...params,
+  });
+};
+
+interface CreateCalendarProps extends Omit<CreateCalendarParams, 'proxyUrl'> {}
+
+export const createCalendar = async ({ ...params }: CreateCalendarProps) => {
+  const response = await MeetingBaas.createCalendar({
+    proxyUrl: VITE_PROXY_URL,
+    ...params,
+  });
+
+  const data: { calendars: CalendarBaasData } | undefined | null = response.data;
+
+  if (!data?.calendars) return null;
+  return data.calendars;
+};
+
+interface FetchCalendarEventsProps extends Omit<FetchCalendarEventsParams, 'proxyUrl'> {}
+
+export const fetchCalendarEvents = async ({ ...params }: FetchCalendarEventsProps) => {
+  return await MeetingBaas.fetchCalendarEvents({
+    proxyUrl: VITE_PROXY_URL,
+    ...params,
+  });
 };
