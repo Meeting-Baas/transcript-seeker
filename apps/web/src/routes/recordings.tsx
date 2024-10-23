@@ -98,7 +98,7 @@ function RecordingsPage() {
           </>
         )}
       </div>
-      <div className="fixed bottom-4 left-4 flex items-center gap-2 text-sm text-muted-foreground">
+      <div className="fixed bottom-4 left-4 flex items-center gap-2 text-sm text-muted-foreground flex w-full justify-center">
         <ServerAvailablity />
       </div>
     </div>
