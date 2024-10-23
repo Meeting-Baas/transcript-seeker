@@ -122,6 +122,7 @@ export function SettingsForm() {
     await setAPIKey({ type: 'openai', content: values.openAIApiKey! });
     await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
     await setAPIKey({ type: 'assemblyai', content: values.assemblyAIApiKey! });
+    console.log( values.googleClientId)
     await setAPIKey({ type: 'google-oauth-client-id', content: values.googleClientId! });
     await setAPIKey({ type: 'google-oauth-client-secret', content: values.googleClientSecret! });
     await setAPIKey({ type: 'google-oauth-refresh-token', content: values.googleRefreshToken! });

@@ -33,22 +33,8 @@
     {
       "idx": 4,
       "version": "7",
-      "when": 1729668777269,
-      "tag": "0004_hard_ender_wiggin",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1729671612613,
-      "tag": "0005_naive_katie_power",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1729673449554,
-      "tag": "0006_tricky_sauron",
+      "when": 1729681825517,
+      "tag": "0004_magenta_patch",
       "breakpoints": true
     }
   ]

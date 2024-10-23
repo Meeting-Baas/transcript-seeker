@@ -40,34 +40,12 @@
   },
   {
     "sql": [
-      "ALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'meetingbaas-calendar' BEFORE 'gladia';"
+      "ALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'google-oauth-client-id' BEFORE 'gladia';",
+      "\nALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'google-oauth-client-secret' BEFORE 'gladia';",
+      "\nALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'google-oauth-refresh-token' BEFORE 'gladia';"
     ],
     "bps": true,
-    "folderMillis": 1729668777269,
-    "hash": "7a19ba661d88a570efb238b9c92134f4f0f4461df3ade83f8bda0e27432d49b4"
-  },
-  {
-    "sql": [
-      "DROP TABLE \"calendar_events\";",
-      "\nDROP TABLE \"calendars\";",
-      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE text;",
-      "\nDROP TYPE \"public\".\"api_key_type\";",
-      "\nCREATE TYPE \"public\".\"api_key_type\" AS ENUM('meetingbaas', 'meetingbaas-calendar', 'gladia', 'openai', 'assemblyai');",
-      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"api_key_type\" USING \"type\"::\"public\".\"api_key_type\";"
-    ],
-    "bps": true,
-    "folderMillis": 1729671612613,
-    "hash": "7d0008fe7dfbd0198e5b923912236224dd8e1e62ac43d0a0519adde104a0c569"
-  },
-  {
-    "sql": [
-      "ALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE text;",
-      "\nDROP TYPE \"public\".\"api_key_type\";",
-      "\nCREATE TYPE \"public\".\"api_key_type\" AS ENUM('meetingbaas', 'google-oauth-client-id', 'google-oauth-client-secret', 'google-oauth-refresh-token', 'gladia', 'openai', 'assemblyai');",
-      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"api_key_type\" USING \"type\"::\"public\".\"api_key_type\";"
-    ],
-    "bps": true,
-    "folderMillis": 1729673449554,
-    "hash": "d36911b009519b5c7d412eaf1bdb6a2419bd542040a02c6804dc2eb1f9c958d8"
+    "folderMillis": 1729681825517,
+    "hash": "7123c43ca0f1f99629b788d4015b29392b263826eb1b74e9dea9eaef5b39bbfa"
   }
 ]
