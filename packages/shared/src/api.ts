@@ -146,7 +146,7 @@ export interface CreateCalendarParams {
 }
 
 export interface CreateCalendarResponse {
-  data?: { calendars: CalendarBaasData };
+  data?: { calendars: CalendarBaasData[] };
   error?: string;
 }
 
