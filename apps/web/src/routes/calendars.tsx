@@ -4,7 +4,8 @@ import { Separator } from '@meeting-baas/ui/separator';
 import { endOfMonth, startOfMonth } from 'date-fns';
 import { Calendar } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import ErrorPage from './error';
+
+import ErrorPage from '@/routes/error';
 
 function CalendarsPage() {
   const [date, setDate] = useState<Date>(new Date());

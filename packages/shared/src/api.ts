@@ -1,6 +1,7 @@
 // shared/src/api.ts
 import axios from 'axios';
 
+import type { CalendarBaasData, CalendarBaasEvent } from './types';
 import * as constants from './constants';
 
 export interface JoinMeetingParams {
@@ -66,14 +67,11 @@ export async function leaveMeeting({ botId, apiKey, proxyUrl }: LeaveMeetingPara
   try {
     const url = `${proxyUrl}/api/meetingbaas/bots/${botId}`;
 
-    const response = await axios.delete(
-      url,
-      {
-        headers: {
-          'x-spoke-api-key': apiKey,
-        },
+    const response = await axios.delete(url, {
+      headers: {
+        'x-spoke-api-key': apiKey,
       },
-    );
+    });
 
     return { data: response.data };
   } catch (error: any) {
@@ -99,6 +97,131 @@ export async function fetchBotDetails({ botId, apiKey, proxyUrl }: BotDetailsPar
         'x-spoke-api-key': apiKey,
       },
     });
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface FetchCalendarsParams {
+  apiKey: string;
+  proxyUrl?: string;
+}
+
+export interface FetchCalendarsResponse {
+  data?: CalendarBaasData[];
+  error?: string;
+}
+
+export async function fetchCalendars({
+  apiKey,
+  proxyUrl,
+}: FetchCalendarsParams): Promise<FetchCalendarsResponse> {
+  try {
+    const url = `${proxyUrl}/api/meetingbaas/calendars`;
+
+    const response = await axios.get(url, {
+      headers: {
+        'x-spoke-api-key': apiKey,
+      },
+    });
+
+    if (response.status != 200) {
+      throw new Error('Failed to fetch calendar');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface CreateCalendarParams {
+  googleClientId: string;
+  googleClientSecret: string;
+  googleRefreshToken: string;
+  apiKey: string;
+  proxyUrl?: string;
+}
+
+export interface CreateCalendarResponse {
+  data?: { calendars: CalendarBaasData };
+  error?: string;
+}
+
+export async function createCalendar({
+  googleClientId,
+  googleClientSecret,
+  googleRefreshToken,
+  apiKey,
+  proxyUrl,
+}: CreateCalendarParams): Promise<CreateCalendarResponse> {
+  try {
+    const url = `${proxyUrl}/api/meetingbaas/calendars`;
+
+    const response = await axios.post(
+      url,
+      {
+        oauth_client_id: googleClientId,
+        oauth_client_secret: googleClientSecret,
+        oauth_refresh_token: googleRefreshToken,
+        platform: 'Google',
+      },
+      {
+        headers: {
+          'x-spoke-api-key': apiKey,
+        },
+      },
+    );
+
+    if (response.status != 200) {
+      throw new Error('Failed to create calendar');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface FetchCalendarEventsParams {
+  calendarId: string;
+  offset: number;
+  limit: number;
+  apiKey: string;
+  proxyUrl?: string;
+}
+
+export interface FetchCalendarEventsResponse {
+  data?: CalendarBaasEvent[];
+  error?: string;
+}
+
+export async function fetchCalendarEvents({
+  calendarId,
+  offset = 0,
+  limit = 100,
+  apiKey,
+  proxyUrl,
+}: FetchCalendarEventsParams): Promise<FetchCalendarEventsResponse> {
+  try {
+    const url = `${proxyUrl}/api/meetingbaas/calendar_events`;
+
+    const response = await axios.get(url, {
+      params: {
+        calendar_id: calendarId,
+        offset,
+        limit
+      },
+      headers: {
+        'x-spoke-api-key': apiKey,
+      },
+    });
+
+    if (response.status != 200) {
+      throw new Error('Failed to fetch calendar events');
+    }
 
     return { data: response.data };
   } catch (error: any) {
