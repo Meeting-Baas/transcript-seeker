@@ -105,7 +105,7 @@ function RootPage() {
             <Link
               to="/meetings"
               className={cn(buttonVariants({ variant: 'default' }), 'gap-2', {
-                'pointer-events-none opacity-50': !googleOAuthKeysExist,
+                'pointer-events-none opacity-50': !googleRefreshToken,
               })}
             >
               <Calendar className="h-4 w-4" />
