@@ -29,6 +29,13 @@
       "when": 1729608302746,
       "tag": "0003_sturdy_ego",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1729668777269,
+      "tag": "0004_hard_ender_wiggin",
+      "breakpoints": true
     }
   ]
 }
