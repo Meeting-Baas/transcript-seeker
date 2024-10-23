@@ -10,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@meeting-baas/ui/breadcrumb';
+import { ModeToggle } from './mode-toggle';
 
 interface PathItem {
   href?: string;
@@ -50,6 +51,7 @@ const Header: React.FC<HeaderProps> = ({ path }) => {
           ))}
         </BreadcrumbList>
       </Breadcrumb>
+      <ModeToggle />
     </header>
   );
 };
