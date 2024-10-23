@@ -11,6 +11,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { Toaster } from '@meeting-baas/ui/sonner';
 import Calendars from './routes/calendars';
+import { WebSocketDemo } from './routes/ws';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="meetings" element={<Calendars />} />
           <Route path="join" element={<Join />} />
           <Route path="upload" element={<Upload />} />
+          <Route path="ws" element={<WebSocketDemo />} />
           <Route path="/meeting/:botId" element={<Meeting />} />
           <Route path="*" element={<NotFound />} />
         </Route>
