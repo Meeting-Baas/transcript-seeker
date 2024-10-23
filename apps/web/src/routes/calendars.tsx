@@ -2,12 +2,19 @@ import { Header } from '@/components/header';
 import { fetchCalendarEvents } from '@/lib/calendar-api';
 import { Calendar } from '@meeting-baas/ui/calendar';
 import { Separator } from '@meeting-baas/ui/separator';
+import { endOfMonth, format, startOfMonth } from 'date-fns';
 import { useState } from 'react';
 import useSWR from 'swr';
 
 function CalendarsPage() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const { data: events, error } = useSWR('/api/calendar', fetchCalendarEvents);
+  const [date, setDate] = useState<Date>(new Date());
+  const startDate = format(startOfMonth(date), 'yyyy-MM-dd');
+  const endDate = format(endOfMonth(date), 'yyyy-MM-dd');
+
+  const { data: events, error } = useSWR(
+    [`/api/calendar`, startDate, endDate],
+    () => fetchCalendarEvents(startDate, endDate)
+  );
 
   if (error) return <div>Failed to load calendar events</div>;
   if (!events) return <div>Loading...</div>;
@@ -32,14 +39,16 @@ function CalendarsPage() {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={(newDate) => setDate(newDate)}
+          onSelect={(newDate) => newDate && setDate(newDate)}
           className="rounded-md border"
         />
         <div className="mt-4">
           <h3 className="text-lg font-semibold">Events:</h3>
           <ul>
             {events.map((event) => (
-              <li key={event.id}>{event.title} - {new Date(event.start).toLocaleString()}</li>
+              <li key={event.id}>
+                {event.summary} - {new Date(event.start.dateTime).toLocaleString()}
+              </li>
             ))}
           </ul>
         </div>
