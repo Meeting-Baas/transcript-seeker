@@ -5,6 +5,7 @@ import type { Message, Transcript } from '@meeting-baas/shared';
 
 export const apiKeyTypeEnum = pgEnum('api_key_type', [
   'meetingbaas',
+  'meetingbaas-calendar',
   'gladia',
   'openai',
   'assemblyai',
