@@ -7,6 +7,9 @@
       "hosting": {
         "transcriptseeker": [
           "transcriptseeker"
+        ],
+        "transcript-seeker-api": [
+          "transcript-seeker-api"
         ]
       }
     }

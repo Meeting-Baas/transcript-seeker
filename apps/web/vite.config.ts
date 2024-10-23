@@ -10,7 +10,7 @@ export default defineConfig(() => {
   const CLIENT_HOST: string = process.env.VITE_CLIENT_HOST || 'localhost';
 
   return {
-    base: './',
+    // fix: https://answers.netlify.com/t/failed-to-load-module-script-expected-a-javascript-module-script-but-the-server-responded-with-a-mime-type-of-text-html-strict-mime-type-checking-is-enforced-for-module-scripts-per-html-spec/122743/8
     plugins: [
       react(),
       checker({

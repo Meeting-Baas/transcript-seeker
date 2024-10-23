@@ -5,7 +5,7 @@
   },
   "hosting": [
     {
-      "site": "meeting-baas",
+      "target": "transcript-seeker-api",
       "public": "apps/proxy/.output/public",
       "cleanUrls": true,
       "rewrites": [
