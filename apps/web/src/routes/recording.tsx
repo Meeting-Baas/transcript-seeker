@@ -1,4 +1,7 @@
+'use client';
+
 import type { Meeting as MeetingT } from '@/types';
+import { useEffect } from 'react';
 import FullSpinner from '@/components/loader';
 import { Viewer } from '@/components/viewer';
 import { useApiKey } from '@/hooks/use-api-key';
@@ -6,11 +9,11 @@ import { fetchBotDetails } from '@/lib/meetingbaas';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import { getMeetingByBotId, updateMeeting } from '@/queries';
 import { useParams } from 'react-router-dom';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 
 import NotFoundPage from './not-found';
 
-const fetchMeeting = async (botId: string, baasApiKey: string | null | undefined): Promise<MeetingT | null> => {
+const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
   if (!botId) throw new Error('No bot ID provided');
 
   const meeting: MeetingT | null | undefined = await getMeetingByBotId({ botId });
@@ -24,45 +27,52 @@ const fetchMeeting = async (botId: string, baasApiKey: string | null | undefined
     if (videoContent && meeting.assets) meeting.assets.video_blob = videoContent;
   }
 
-  // refreshing the data
-  if (meeting.type === 'meetingbaas' && !meeting.endedAt && baasApiKey) {
+  return meeting;
+};
+
+const updateMeetingData = async (meeting: MeetingT, baasApiKey: string): Promise<MeetingT> => {
+  if (meeting.type === 'meetingbaas' && !meeting.endedAt) {
     const data = await fetchBotDetails({
-      botId,
+      botId: meeting.botId,
       apiKey: baasApiKey,
     });
 
-    if (!data) return meeting;
-
-    await updateMeeting({ id: meeting.id, values: { ...data } });
-    // await mutate(['meeting', botId, baasApiKey],)
-    return {
-      ...meeting,
-      ...data,
-    };
+    if (data) {
+      await updateMeeting({ id: meeting.id, values: { ...data } });
+      return { ...meeting, ...data };
+    }
   }
 
   return meeting;
 };
 
-function MeetingPage() {
-  const { botId } = useParams();
-  if (!botId) {
-    return <NotFoundPage />;
-  }
+export default function MeetingPage() {
+  const { botId } = useParams<{ botId: string }>();
   const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
-  const { data: meeting, isLoading } = useSWR(
+
+  const {
+    data: meeting,
+    isLoading,
+    error,
+    mutate,
+  } = useSWR<MeetingT | null>(
     ['meeting', botId, baasApiKey],
-    ([key, botId, baasApiKey]) => fetchMeeting(botId, baasApiKey),
-    {
-      refreshInterval: 5000,
-    },
+    () => fetchMeeting(botId!),
+    { refreshInterval: 5000 },
   );
 
-  if (!meeting) {
-    if (isLoading) return <FullSpinner />;
-    return <NotFoundPage />;
-  }
-  return <Viewer botId={botId} isLoading={isLoading} meeting={meeting} />;
-}
+  useEffect(() => {
+    const updateInterval = setInterval(() => {
+      if (meeting && baasApiKey) {
+        mutate(updateMeetingData(meeting, baasApiKey));
+      }
+    }, 5000);
 
-export default MeetingPage;
+    return () => clearInterval(updateInterval);
+  }, [meeting, baasApiKey, mutate]);
+
+  if (error) return <div>Error loading meeting</div>;
+  if (!meeting) return isLoading ? <FullSpinner /> : <NotFoundPage />;
+
+  return <Viewer botId={botId!} isLoading={!meeting} meeting={meeting} />;
+}

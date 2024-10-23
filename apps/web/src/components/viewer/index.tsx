@@ -45,8 +45,7 @@ interface ViewerProps {
   meeting: Meeting;
 }
 
-export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
-  const [data] = React.useState<Meeting>(meeting);
+export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
   const [transcripts, setTranscripts] = React.useState<any[]>([
     {
       speaker: '',
@@ -68,26 +67,26 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   const [video, setVideo] = React.useState<string | Blob>();
 
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
-  const { editor: editorDB, isLoading: isEditorLoading } = useEditor({ meetingId: meeting.id });
+  const { editor: editorDB, isLoading: isEditorLoading } = useEditor({ meetingId: data.id });
 
-  const { chat, isLoading: isChatLoading } = useChat({ meetingId: meeting.id });
+  const { chat, isLoading: isChatLoading } = useChat({ meetingId: data.id });
 
   const [messages, setMessages] = React.useState<Message[]>([]);
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const handleEditorChange = async (content: JSONContent) => {
-    if (!meeting) return;
-    await setEditorDB({ meetingId: meeting.id, content: content });
-    mutate(['editor', meeting.id]);
+    if (!data) return;
+    await setEditorDB({ meetingId: data.id, content: content });
+    mutate(['editor', data.id]);
   };
 
   const handleMessageChange = async (messages: Message[]) => {
-    if (!meeting) return;
+    if (!data) return;
     await setChat({
-      meetingId: meeting.id,
+      meetingId: data.id,
       messages,
     });
-    mutate(['chat', meeting.id]);
+    mutate(['chat', data.id]);
   };
 
   const handleChatSubmit = async (values: z.infer<typeof chatSchema>) => {
@@ -221,7 +220,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
             </BreadcrumbList>
           </Breadcrumb>
           <div className="flex-grow text-center">
-            <h1 className="text-xl font-semibold">{meeting.name}</h1>
+            <h1 className="text-xl font-semibold">{data.name}</h1>
           </div>
           <div className='flex gap-2'>
             <Link
@@ -255,7 +254,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
                     }}
                     onTimeUpdate={handleTimeUpdate}
                     setPlayer={setPlayerRef}
-                    assetTitle={meeting.name}
+                    assetTitle={data.name}
                   />
                 )}
               </div>
