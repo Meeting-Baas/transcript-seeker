@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { useNavigate } from 'react-router-dom';
 
 import { DEFAULT_BOT_IMAGE, DEFAULT_BOT_NAME, DEFAULT_ENTRY_MESSAGE } from '@meeting-baas/shared';
 import { Button } from '@meeting-baas/ui/button';
@@ -29,6 +30,7 @@ const formSchema = z.object({
 
 export function MeetingForm() {
   const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,7 +70,9 @@ export function MeetingForm() {
         createdAt: new Date(),
         status: 'loading',
       });
+
       toast.success(`Meeting bot created successfully!`);
+      navigate(`/meeting/${result.data?.bot_id}`);
     } catch (error) {
       console.error('Error adding meeting bot:', error);
       toast.error('Failed to create meeting bot');

@@ -2,13 +2,22 @@
 import type { Meeting } from '@/types';
 import { VITE_PROXY_URL } from '@/lib/constants';
 
-import type { BotDetailsParams, JoinMeetingParams, MeetingData } from '@meeting-baas/shared';
+import type { BotDetailsParams, JoinMeetingParams, LeaveMeetingParams, MeetingData } from '@meeting-baas/shared';
 import * as MeetingBaas from '@meeting-baas/shared';
 
 interface JoinMeetingProps extends Omit<JoinMeetingParams, 'proxyUrl'> {}
 
 export const joinMeeting = async ({ ...params }: JoinMeetingProps) => {
   return await MeetingBaas.joinMeeting({
+    proxyUrl: VITE_PROXY_URL,
+    ...params,
+  });
+};
+
+interface LeaveMeetingProps extends Omit<LeaveMeetingParams, 'proxyUrl'> {}
+
+export const leaveMeeting = async ({ ...params }: LeaveMeetingProps) => {
+  return await MeetingBaas.leaveMeeting({
     proxyUrl: VITE_PROXY_URL,
     ...params,
   });

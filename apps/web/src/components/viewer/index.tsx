@@ -18,12 +18,14 @@ import {
   VITE_PROXY_URL,
   VITE_S3_PREFIX,
 } from '@/lib/constants';
+import { leaveMeeting as leaveMeetingQuery } from '@/lib/meetingbaas';
 import { setChat, setEditor as setEditorDB } from '@/queries';
 import { DownloadIcon } from 'lucide-react';
 import OpenAI from 'openai';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
+import useSWRMutation from 'swr/mutation';
 
 import { cn } from '@meeting-baas/ui';
 import {
@@ -66,10 +68,16 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
 
   const [video, setVideo] = React.useState<string | Blob>();
 
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
-  const { editor: editorDB, isLoading: isEditorLoading } = useEditor({ meetingId: data.id });
 
+  const { editor: editorDB, isLoading: isEditorLoading } = useEditor({ meetingId: data.id });
   const { chat, isLoading: isChatLoading } = useChat({ meetingId: data.id });
+
+  const { trigger: leaveMeeting, isMutating: isLeavingMeeting } = useSWRMutation(
+    ['leaveMeeting', botId, baasApiKey],
+    ([key, botId, baasApiKey]) => leaveMeetingQuery({ botId, apiKey: baasApiKey! }),
+  );
 
   const [messages, setMessages] = React.useState<Message[]>([]);
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -147,6 +155,11 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
     }
   };
 
+  const handleQuit = () => {
+    if (!baasApiKey) return;
+    leaveMeeting();
+  };
+
   const handleTimeUpdate = React.useCallback((time: number) => {
     setCurrentTime(time);
   }, []);
@@ -222,8 +235,8 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
           <div className="flex-grow text-center">
             <h1 className="text-xl font-semibold">{data.name}</h1>
           </div>
-          <div className='flex gap-2'>
-            <Link
+          <div className="flex gap-2">
+            {/* <Link
               to={`/share/${botId}`}
               className={cn(
                 buttonVariants({ variant: 'outline' }),
@@ -232,7 +245,14 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
               )}
             >
               Share
-            </Link>
+            </Link> */}
+            <Button
+              variant="destructive"
+              onClick={handleQuit}
+              disabled={!!data.endedAt || isLeavingMeeting}
+            >
+              Quit
+            </Button>
             <ModeToggle />
           </div>
         </header>

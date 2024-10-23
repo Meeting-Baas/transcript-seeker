@@ -50,10 +50,33 @@ export async function joinMeeting({
       },
     );
 
-    // console.log(`New bot created, with id: ${response.data?.bot_id}`);
     return { data: response.data };
   } catch (error: any) {
-    // console.error("Error joining meeting:", error);
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface LeaveMeetingParams {
+  botId: string;
+  apiKey: string;
+  proxyUrl?: string;
+}
+
+export async function leaveMeeting({ botId, apiKey, proxyUrl }: LeaveMeetingParams) {
+  try {
+    const url = `${proxyUrl}/api/meetingbaas/bots/${botId}`;
+
+    const response = await axios.delete(
+      url,
+      {
+        headers: {
+          'x-spoke-api-key': apiKey,
+        },
+      },
+    );
+
+    return { data: response.data };
+  } catch (error: any) {
     return { error: error.message || 'Unknown error' };
   }
 }
@@ -77,10 +100,8 @@ export async function fetchBotDetails({ botId, apiKey, proxyUrl }: BotDetailsPar
       },
     });
 
-    // console.log(`bot details fetched, with id: ${response.data?.id}`);
     return { data: response.data };
   } catch (error: any) {
-    // console.error("Error fetching meeting:", error);
     return { error: error.message || 'Unknown error' };
   }
 }
