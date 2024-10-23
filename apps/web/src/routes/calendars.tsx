@@ -1,23 +1,62 @@
 import { Header } from '@/components/header';
-import { fetchCalendarEvents } from '@/lib/calendar-api';
-import { Calendar } from '@meeting-baas/ui/calendar';
+import { CalendarBaas, CalendarBaasEvent, createCalendar, fetchCalendarEvents, fetchCalendars } from '@/lib/calendar-api';
 import { Separator } from '@meeting-baas/ui/separator';
-import { endOfMonth, format, startOfMonth } from 'date-fns';
-import { useState } from 'react';
-import useSWR from 'swr';
+import { endOfMonth, startOfMonth } from 'date-fns';
+import { Calendar } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 function CalendarsPage() {
   const [date, setDate] = useState<Date>(new Date());
-  const startDate = format(startOfMonth(date), 'yyyy-MM-dd');
-  const endDate = format(endOfMonth(date), 'yyyy-MM-dd');
+  const [calendars, setCalendars] = useState<CalendarBaas[]>([]);
+  const [selectedCalendar, setSelectedCalendar] = useState<string | null>(null);
+  const [events, setEvents] = useState<CalendarBaasEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const { data: events, error } = useSWR(
-    [`/api/calendar`, startDate, endDate],
-    () => fetchCalendarEvents(startDate, endDate)
-  );
+  useEffect(() => {
+    async function initializeCalendars() {
+      try {
+        const fetchedCalendars = await fetchCalendars();
+        if (fetchedCalendars.length === 0) {
+          const newCalendar = await createCalendar();
+          setCalendars([newCalendar]);
+          setSelectedCalendar(newCalendar.uuid);
+        } else {
+          setCalendars(fetchedCalendars);
+          setSelectedCalendar(fetchedCalendars[0].uuid);
+        }
+      } catch (err) {
+        setError('Failed to initialize calendars');
+      } finally {
+        setLoading(false);
+      }
+    }
 
-  if (error) return <div>Failed to load calendar events</div>;
-  if (!events) return <div>Loading...</div>;
+    initializeCalendars();
+  }, []);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      if (selectedCalendar) {
+        try {
+          const startDate = startOfMonth(date);
+          const endDate = endOfMonth(date);
+          const fetchedEvents = await fetchCalendarEvents(selectedCalendar, 0, 100);
+          setEvents(fetchedEvents.filter(event => 
+            new Date(event.start_time.secs_since_epoch * 1000) >= startDate &&
+            new Date(event.end_time.secs_since_epoch * 1000) <= endDate
+          ));
+        } catch (err) {
+          setError('Failed to fetch calendar events');
+        }
+      }
+    }
+
+    fetchEvents();
+  }, [selectedCalendar, date]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
@@ -36,6 +75,17 @@ function CalendarsPage() {
           </p>
         </div>
         <Separator className="my-4" />
+        <select
+          value={selectedCalendar || ''}
+          onChange={(e) => setSelectedCalendar(e.target.value)}
+          className="mb-4 p-2 border rounded"
+        >
+          {calendars.map((calendar) => (
+            <option key={calendar.uuid} value={calendar.uuid}>
+              {calendar.name}
+            </option>
+          ))}
+        </select>
         <Calendar
           mode="single"
           selected={date}
@@ -46,8 +96,8 @@ function CalendarsPage() {
           <h3 className="text-lg font-semibold">Events:</h3>
           <ul>
             {events.map((event) => (
-              <li key={event.id}>
-                {event.summary} - {new Date(event.start.dateTime).toLocaleString()}
+              <li key={event.uuid}>
+                {event.name} - {new Date(event.start_time.secs_since_epoch * 1000).toLocaleString()}
               </li>
             ))}
           </ul>

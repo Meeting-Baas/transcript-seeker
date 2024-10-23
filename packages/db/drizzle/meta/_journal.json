@@ -36,6 +36,13 @@
       "when": 1729668777269,
       "tag": "0004_hard_ender_wiggin",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1729671612613,
+      "tag": "0005_naive_katie_power",
+      "breakpoints": true
     }
   ]
 }

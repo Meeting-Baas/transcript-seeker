@@ -45,5 +45,18 @@
     "bps": true,
     "folderMillis": 1729668777269,
     "hash": "7a19ba661d88a570efb238b9c92134f4f0f4461df3ade83f8bda0e27432d49b4"
+  },
+  {
+    "sql": [
+      "DROP TABLE \"calendar_events\";",
+      "\nDROP TABLE \"calendars\";",
+      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE text;",
+      "\nDROP TYPE \"public\".\"api_key_type\";",
+      "\nCREATE TYPE \"public\".\"api_key_type\" AS ENUM('meetingbaas', 'meetingbaas-calendar', 'gladia', 'openai', 'assemblyai');",
+      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"api_key_type\" USING \"type\"::\"public\".\"api_key_type\";"
+    ],
+    "bps": true,
+    "folderMillis": 1729671612613,
+    "hash": "7d0008fe7dfbd0198e5b923912236224dd8e1e62ac43d0a0519adde104a0c569"
   }
 ]
