@@ -38,7 +38,7 @@ function SettingsPage() {
 
         <SettingsForm />
       </div>
-      <div className="fixed bottom-4 left-4 flex items-center gap-2 text-sm text-muted-foreground flex w-full justify-center">
+      <div className="fixed left-0 right-0 bottom-4 flex items-center gap-2 text-sm text-muted-foreground flex w-full justify-center">
         <ServerAvailablity />
       </div>
     </div>
