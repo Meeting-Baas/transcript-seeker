@@ -58,5 +58,16 @@
     "bps": true,
     "folderMillis": 1729671612613,
     "hash": "7d0008fe7dfbd0198e5b923912236224dd8e1e62ac43d0a0519adde104a0c569"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE text;",
+      "\nDROP TYPE \"public\".\"api_key_type\";",
+      "\nCREATE TYPE \"public\".\"api_key_type\" AS ENUM('meetingbaas', 'google-oauth-client-id', 'google-oauth-client-secret', 'google-oauth-refresh-token', 'gladia', 'openai', 'assemblyai');",
+      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"api_key_type\" USING \"type\"::\"public\".\"api_key_type\";"
+    ],
+    "bps": true,
+    "folderMillis": 1729673449554,
+    "hash": "d36911b009519b5c7d412eaf1bdb6a2419bd542040a02c6804dc2eb1f9c958d8"
   }
 ]

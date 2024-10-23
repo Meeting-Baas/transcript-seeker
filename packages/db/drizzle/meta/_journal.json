@@ -43,6 +43,13 @@
       "when": 1729671612613,
       "tag": "0005_naive_katie_power",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1729673449554,
+      "tag": "0006_tricky_sauron",
+      "breakpoints": true
     }
   ]
 }
