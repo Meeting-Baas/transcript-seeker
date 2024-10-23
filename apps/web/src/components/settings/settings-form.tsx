@@ -32,8 +32,6 @@ const formSchema = z.object({
   openAIApiKey: z.string().optional(),
   gladiaApiKey: z.string().optional(),
   assemblyAIApiKey: z.string().optional(),
-  googleClientId: z.string().optional(),
-  googleClientSecret: z.string().optional(),
   googleRefreshToken: z.string().optional(),
 });
 
@@ -98,8 +96,6 @@ export function SettingsForm() {
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
   const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
   const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
-  const { apiKey: googleClientId } = useApiKey({ type: 'google-client-id' });
-  const { apiKey: googleClientSecret } = useApiKey({ type: 'google-client-secret' });
   const { apiKey: googleRefreshToken } = useApiKey({ type: 'google-refresh-token' });
 
   const form = useForm<FormSchema>({
@@ -109,8 +105,6 @@ export function SettingsForm() {
       openAIApiKey: openAIApiKey ?? '',
       gladiaApiKey: gladiaApiKey ?? '',
       assemblyAIApiKey: assemblyAIApiKey ?? '',
-      googleClientId: googleClientId ?? '',
-      googleClientSecret: googleClientSecret ?? '',
       googleRefreshToken: googleRefreshToken ?? '',
     },
   });
@@ -122,16 +116,12 @@ export function SettingsForm() {
     await setAPIKey({ type: 'openai', content: values.openAIApiKey! });
     await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
     await setAPIKey({ type: 'assemblyai', content: values.assemblyAIApiKey! });
-    await setAPIKey({ type: 'google-client-id', content: values.googleClientId! });
-    await setAPIKey({ type: 'google-client-secret', content: values.googleClientSecret! });
     await setAPIKey({ type: 'google-refresh-token', content: values.googleRefreshToken! });
 
     mutate(['apiKey', 'meetingbaas']);
     mutate(['apiKey', 'openai']);
     mutate(['apiKey', 'gladia']);
     mutate(['apiKey', 'assemblyai']);
-    mutate(['apiKey', 'google-client-id']);
-    mutate(['apiKey', 'google-client-secret']);
     mutate(['apiKey', 'google-refresh-token']);
 
     toast.success('API keys updated successfully');
@@ -144,19 +134,9 @@ export function SettingsForm() {
       openAIApiKey: openAIApiKey ?? '',
       gladiaApiKey: gladiaApiKey ?? '',
       assemblyAIApiKey: assemblyAIApiKey ?? '',
-      googleClientId: googleClientId ?? '',
-      googleClientSecret: googleClientSecret ?? '',
       googleRefreshToken: googleRefreshToken ?? '',
     });
-  }, [
-    baasApiKey,
-    openAIApiKey,
-    gladiaApiKey,
-    assemblyAIApiKey,
-    googleClientId,
-    googleClientSecret,
-    googleRefreshToken,
-  ]);
+  }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey, googleRefreshToken]);
 
   const renderLink = (text: string, href: string) => (
     <Button variant="link" asChild className="h-min w-min p-0">
@@ -209,18 +189,6 @@ export function SettingsForm() {
                 MeetingBaas Calendars
               </AccordionTrigger>
               <AccordionContent className="space-y-6 px-1">
-                <ApiKeyField
-                  name="googleClientId"
-                  label="Google Client ID"
-                  description="Use this key for Google OAuth integration."
-                  control={form.control}
-                />
-                <ApiKeyField
-                  name="googleClientSecret"
-                  label="Google Client Secret"
-                  description="Use this key for Google OAuth integration."
-                  control={form.control}
-                />
                 <ApiKeyField
                   name="googleRefreshToken"
                   label="Google Refresh Token"

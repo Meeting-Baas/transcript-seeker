@@ -18,12 +18,9 @@ function RootPage() {
   const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
   
-  const { apiKey: googleClientId } = useApiKey({ type: 'google-client-id' });
-  const { apiKey: googleClientSecret } = useApiKey({ type: 'google-client-secret' });
   const { apiKey: googleRefreshToken } = useApiKey({ type: 'google-refresh-token' });
 
-  const googleOAuthKeysExist = googleClientId && googleClientSecret && googleRefreshToken;
-  const apiKeysExist = baasApiKey && gladiaApiKey && assemblyAIApiKey && openAIApiKey && googleOAuthKeysExist;
+  const apiKeysExist = baasApiKey && gladiaApiKey && assemblyAIApiKey && openAIApiKey && googleRefreshToken;
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-gradient-to-br from-muted/20 to-muted/40 p-4">

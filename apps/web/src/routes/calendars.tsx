@@ -1,26 +1,34 @@
+import { useEffect, useState } from 'react';
 import { Header } from '@/components/header';
-import { CalendarBaas, CalendarBaasEvent, createCalendar, fetchCalendarEvents, fetchCalendars } from '@/lib/calendar-api';
-import { Separator } from '@meeting-baas/ui/separator';
+import { useApiKey } from '@/hooks/use-api-key';
+import { createCalendar, fetchCalendarEvents, fetchCalendars } from '@/lib/meetingbaas';
+import ErrorPage from '@/routes/error';
 import { endOfMonth, startOfMonth } from 'date-fns';
 import { Calendar } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
-import ErrorPage from '@/routes/error';
+import { CalendarBaasData, CalendarBaasEvent } from '@meeting-baas/shared';
+import { Separator } from '@meeting-baas/ui/separator';
 
 function CalendarsPage() {
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
+  const { apiKey: googleRefreshToken } = useApiKey({ type: 'google-refresh-token' });
+
   const [date, setDate] = useState<Date>(new Date());
-  const [calendars, setCalendars] = useState<CalendarBaas[]>([]);
+  const [calendars, setCalendars] = useState<CalendarBaasData[]>([]);
   const [selectedCalendar, setSelectedCalendar] = useState<string | null>(null);
   const [events, setEvents] = useState<CalendarBaasEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!baasApiKey) return;
+    if (!googleRefreshToken) return;
+
     async function initializeCalendars() {
       try {
-        const fetchedCalendars = await fetchCalendars();
-        if (fetchedCalendars.length === 0) {
-          const newCalendar = await createCalendar();
+        const fetchedCalendars = await fetchCalendars({ apiKey: baasApiKey });
+        if (fetchedCalendars?.length === 0) {
+          const newCalendar = await createCalendar({ googleClientId, googleClientSecret, googleRefreshToken });
           setCalendars([newCalendar]);
           setSelectedCalendar(newCalendar.uuid);
         } else {
@@ -35,7 +43,7 @@ function CalendarsPage() {
     }
 
     initializeCalendars();
-  }, []);
+  }, [baasApiKey]);
 
   useEffect(() => {
     async function fetchEvents() {
@@ -44,10 +52,13 @@ function CalendarsPage() {
           const startDate = startOfMonth(date);
           const endDate = endOfMonth(date);
           const fetchedEvents = await fetchCalendarEvents(selectedCalendar, 0, 100);
-          setEvents(fetchedEvents.filter(event => 
-            new Date(event.start_time.secs_since_epoch * 1000) >= startDate &&
-            new Date(event.end_time.secs_since_epoch * 1000) <= endDate
-          ));
+          setEvents(
+            fetchedEvents.filter(
+              (event) =>
+                new Date(event.start_time.secs_since_epoch * 1000) >= startDate &&
+                new Date(event.end_time.secs_since_epoch * 1000) <= endDate,
+            ),
+          );
         } catch (err) {
           setError('Failed to fetch calendar events');
         }
@@ -66,21 +77,19 @@ function CalendarsPage() {
         path={[
           {
             name: 'Calendars',
-        },
+          },
         ]}
       />
       <div className="container p-4">
         <div className="space-y-0.5">
           <h2 className="text-2xl font-bold tracking-tight">Calendars</h2>
-          <p className="text-muted-foreground">
-            View and manage your calendar events.
-          </p>
+          <p className="text-muted-foreground">View and manage your calendar events.</p>
         </div>
         <Separator className="my-4" />
         <select
           value={selectedCalendar || ''}
           onChange={(e) => setSelectedCalendar(e.target.value)}
-          className="mb-4 p-2 border rounded"
+          className="mb-4 rounded border p-2"
         >
           {calendars.map((calendar) => (
             <option key={calendar.uuid} value={calendar.uuid}>
