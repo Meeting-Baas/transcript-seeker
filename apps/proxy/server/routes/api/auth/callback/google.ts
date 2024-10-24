@@ -39,22 +39,16 @@ export default defineEventHandler(async (event) => {
   const name = claimsParser.getString('name');
   const picture = claimsParser.getString('picture');
   const email = claimsParser.getString('email');
-
-  console.log(claims)
+  const refreshToken = tokens.refreshToken();
 
   // todo: split to queries.ts
   const existingUser = await getUserFromGoogleId(googleId);
   if (existingUser !== null) {
-    console.log(existingUser)
     const sessionToken = generateSessionToken();
     const session = await createSession(sessionToken, existingUser.id);
     setSessionTokenCookie(event, sessionToken, session.expiresAt);
-    return new Response(null, {
-      status: 302,
-      headers: {
-        Location: '/',
-      },
-    });
+  
+    return sendRedirect(event, '/');
   }
 
   const user = await createUser(googleId, email, name, picture);

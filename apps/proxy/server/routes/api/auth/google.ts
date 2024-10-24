@@ -4,6 +4,8 @@ export default eventHandler((event) => {
   const state = generateState();
   const codeVerifier = generateCodeVerifier();
   const url = google.createAuthorizationURL(state, codeVerifier, ['openid', 'profile', 'email']);
+  url.searchParams.set("access_type", "offline");
+  url.searchParams.set("prompt", "consent");
 
   setCookie(event, 'google_oauth_state', state, {
     path: '/',
