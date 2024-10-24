@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   default:
-    axios:
-      specifier: ^1.7.2
-      version: 1.7.7
     dotenv-cli:
       specifier: ^7.4.2
       version: 7.4.2
@@ -18,25 +15,9 @@ catalogs:
     prettier:
       specifier: ^3.3.3
       version: 3.3.3
-    tailwindcss:
-      specifier: ^3.4.14
-      version: 3.4.14
     typescript:
       specifier: ^5.6.3
       version: 5.6.3
-    zod:
-      specifier: ^3.23.8
-      version: 3.23.8
-  react18:
-    '@types/react':
-      specifier: ^18.3.11
-      version: 18.3.11
-    '@types/react-dom':
-      specifier: ^18.3.1
-      version: 18.3.1
-    react:
-      specifier: 18.3.1
-      version: 18.3.1
 
 overrides:
   '@meeting-baas/shared': workspace:*
@@ -93,9 +74,6 @@ importers:
       nanoid:
         specifier: ^5.0.7
         version: 5.0.7
-      server-destroy:
-        specifier: ^1.0.1
-        version: 1.0.1
     devDependencies:
       '@meeting-baas/eslint-config':
         specifier: workspace:*
@@ -6978,9 +6956,6 @@ packages:
   serve-static@1.16.2:
     resolution: {integrity: sha512-VqpjJZKadQB/PEbEwvFdO43Ax5dFBZ2UECszz8bQ7pi7wt//PWe1P6MN7eCnjsatYtBT6EuiClbjSWP2WrIoTw==}
     engines: {node: '>= 0.8.0'}
-
-  server-destroy@1.0.1:
-    resolution: {integrity: sha512-rb+9B5YBIEzYcD6x2VKidaa+cqYBJQKnU4oe4E3ANwRRN56yk/ua1YCJT1n21NTS8w6CcOclAKNP3PhdCXKYtQ==}
 
   set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
@@ -15000,8 +14975,6 @@ snapshots:
       send: 0.19.0
     transitivePeerDependencies:
       - supports-color
-
-  server-destroy@1.0.1: {}
 
   set-blocking@2.0.0: {}
 
