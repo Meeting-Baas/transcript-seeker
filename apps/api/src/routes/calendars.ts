@@ -36,11 +36,11 @@ calendars.get("/", async (c) => {
     method: "GET",
     headers: {
       "x-spoke-api-key": baasApiKey,
-    }
+    },
   });
 
   if (response.status != 200) {
-    console.log("error, failed to get calendars:", await response.text())
+    console.log("error, failed to get calendars:", await response.text());
     return c.body(null, 500);
   }
 
@@ -63,31 +63,28 @@ calendars.post("/", async (c) => {
   });
   if (!userAccount) return c.body(null, 401);
 
-  const body = c.req.parseBody();  
-  console.log(`${process.env.MEETINGBAAS_API_URL}/calendars`)
-
+  const body = await c.req.json();
   const response = await fetch(`${process.env.MEETINGBAAS_API_URL}/calendars`, {
     method: "POST",
     headers: {
       "x-spoke-api-key": baasApiKey,
-      'Content-Type': 'application/json'
-
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       ...body,
       oauth_client_id: process.env.GOOGLE_CLIENT_ID!,
       oauth_client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-      oauth_refresh_token: userAccount.refreshToken,
+      oauth_refresh_token: userAccount.refreshToken
     }),
   });
 
   if (response.status != 200) {
-    console.log("error, failed to create calendar:", await response.text())
+    console.log("error, failed to create calendar:", await response.text());
     return c.body(null, 500);
   }
 
   const calendars = await response.json();
-  console.log(calendars)
+  console.log(calendars);
   return c.body(null, 200);
 });
 

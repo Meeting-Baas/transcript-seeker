@@ -15,13 +15,13 @@ function CalendarsPage() {
 
   const {
     data: session,
-    isPending: isSessionLoading, //loading state
-    error: sessionError, //error object
+    isPending: isSessionLoading,
+    // error: sessionError,
   } = useSession();
 
   if (isSessionLoading || isBaasApiKeyLoading) return <FullSpinner />;
 
-  if (sessionError) return <ErrorPage>{sessionError?.message}</ErrorPage>;
+  // if (sessionError) return <ErrorPage>{sessionError?.message}</ErrorPage>;
   if (!session && !isSessionLoading) {
     navigate('/login');
     return;
