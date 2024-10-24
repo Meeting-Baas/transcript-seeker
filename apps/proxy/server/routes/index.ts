@@ -1,5 +1,5 @@
-import { db } from "~/db";
+export default defineEventHandler(async (event) => {
+  const { user } = await getCurrentSession(event);
 
-export default eventHandler((event) => {
-  return "Hello World";
+  return { user };
 });

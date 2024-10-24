@@ -3,7 +3,7 @@ import { encodeBase32, encodeHexLowerCase } from '@oslojs/encoding';
 import { eq } from 'drizzle-orm';
 import { H3Event } from 'h3';
 
-import { db } from '~/db';
+import { db } from '~/db/client';
 import { sessionsTable, usersTable } from '~/db/schema';
 import { Session, SessionValidationResult } from './types/session';
 import { User } from './types/user';
@@ -62,13 +62,14 @@ export async function validateSessionToken(token: string): Promise<SessionValida
   return { session: sessionData, user: userData };
 }
 
-export const getCurrentSession = (event: H3Event): SessionValidationResult => {
+export const getCurrentSession = async (event: H3Event): Promise<SessionValidationResult> => {
   const token = getCookie(event, 'session');
 
   if (token === null) {
     return { session: null, user: null };
   }
-  const result = validateSessionToken(token);
+
+  const result = await validateSessionToken(token);
   return result;
 };
 

@@ -32,6 +32,7 @@
   },
   "prettier": "@meeting-baas/prettier-config",
   "dependencies": {
+    "@libsql/client": "^0.14.0",
     "@pilcrowjs/object-parser": "^0.0.4",
     "arctic": "^2.0.1",
     "db0": "^0.2.1",
