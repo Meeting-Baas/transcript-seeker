@@ -17,7 +17,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
       sessionUserId: sessionsTable.userId,
       sessionExpiresAt: sessionsTable.expiresAt,
       userId: usersTable.id,
-      userGoogleId: usersTable.google_id,
+      userGoogleId: usersTable.googleId,
       userEmail: usersTable.email,
       userName: usersTable.name,
       userPicture: usersTable.picture,

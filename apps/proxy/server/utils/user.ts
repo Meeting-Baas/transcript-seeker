@@ -4,7 +4,7 @@ import { usersTable } from "~/db/schema";
 
 export async function createUser(googleId: string, email: string, name: string, picture: string): Promise<User> {
   const row = await db.insert(usersTable).values({
-    google_id: googleId,
+    googleId: googleId,
     email,
     name,
     picture
@@ -27,7 +27,7 @@ export async function createUser(googleId: string, email: string, name: string, 
 }
 
 export async function getUserFromGoogleId(googleId: string): Promise<User | null> {
-  const result = await db.select().from(usersTable).where(eq(usersTable.google_id, googleId))
+  const result = await db.select().from(usersTable).where(eq(usersTable.googleId, googleId))
   const row = result[0];
 
   if (!row) {
@@ -36,7 +36,7 @@ export async function getUserFromGoogleId(googleId: string): Promise<User | null
 
   const user: User = {
     id: row.id,
-    googleId: row.google_id,
+    googleId: row.googleId,
     email: row.email,
     name: row.name,
     picture: row.picture,
