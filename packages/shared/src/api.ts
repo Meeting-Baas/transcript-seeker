@@ -138,9 +138,7 @@ export async function fetchCalendars({
 }
 
 export interface CreateCalendarParams {
-  googleClientId: string;
-  googleClientSecret: string;
-  googleRefreshToken: string;
+  platform: 'Google';
   apiKey: string;
   proxyUrl?: string;
 }
@@ -151,22 +149,17 @@ export interface CreateCalendarResponse {
 }
 
 export async function createCalendar({
-  googleClientId,
-  googleClientSecret,
-  googleRefreshToken,
+  platform,
   apiKey,
   proxyUrl,
 }: CreateCalendarParams): Promise<CreateCalendarResponse> {
   try {
-    const url = `${proxyUrl}/api/meetingbaas/calendars`;
+    const url = `${proxyUrl}/api/calendars`;
 
     const response = await axios.post(
       url,
       {
-        oauth_client_id: googleClientId,
-        oauth_client_secret: googleClientSecret,
-        oauth_refresh_token: googleRefreshToken,
-        platform: 'Google',
+        platform: platform,
       },
       {
         headers: {

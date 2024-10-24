@@ -108,8 +108,8 @@ function RootPage() {
           <div className="grid grid-cols-1 gap-2">
             <Link
               to="/meetings"
-              className={cn(buttonVariants({ variant: 'default' }), 'gap-2', {
-                'pointer-events-none opacity-50': !session,
+              className={cn(buttonVariants({ variant: session ? 'secondary' : 'default' }), 'gap-2', {
+                'pointer-events-none opacity-50': !baasApiKey,
               })}
             >
               <Calendar className="h-4 w-4" />

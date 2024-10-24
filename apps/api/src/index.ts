@@ -1,13 +1,13 @@
 import "dotenv/config";
 
 import { Hono } from "hono";
-import { onRequest } from "firebase-functions/v2/https";
-import { getRequestListener, serve } from "@hono/node-server";
+import { serve } from "@hono/node-server";
 
 import meetingbaas from "@/routes/meetingbaas";
 import authRouter from "@/routes/auth";
-import { auth } from "@/lib/auth";
+import calendars from "@/routes/calendars";
 
+import { auth } from "@/lib/auth";
 import type { Bindings } from "@/types";
 
 const app = new Hono<Bindings>();
@@ -26,8 +26,9 @@ app.use("*", async (c, next) => {
   return next();
 });
 
-app.route('/api/meetingbaas', meetingbaas)
 app.route('/api/auth', authRouter)
+app.route('/api/meetingbaas', meetingbaas)
+app.route('/api/calendars', calendars)
 
 const port = 3001;
 console.log(`Hono Server is running on port ${port}`);

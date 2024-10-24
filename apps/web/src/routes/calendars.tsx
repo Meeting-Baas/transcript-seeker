@@ -1,21 +1,43 @@
 import { Header } from '@/components/header';
+import FullSpinner from '@/components/loader';
 import { useApiKey } from '@/hooks/use-api-key';
 import { useSession } from '@/lib/auth';
+import { createCalendar } from '@/lib/meetingbaas';
 import { useNavigate } from 'react-router-dom';
 
 import { Separator } from '@meeting-baas/ui/separator';
 
+import ErrorPage from './error';
+
 function CalendarsPage() {
   const navigate = useNavigate();
-  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
+  const { apiKey: baasApiKey, isLoading: isBaasApiKeyLoading } = useApiKey({ type: 'meetingbaas' });
 
   const {
     data: session,
-    isPending, //loading state
-    error, //error object
+    isPending: isSessionLoading, //loading state
+    error: sessionError, //error object
   } = useSession();
-  console.log(session);
-  if (!session) navigate('/login');
+
+  if (isSessionLoading || isBaasApiKeyLoading) return <FullSpinner />;
+
+  if (sessionError) return <ErrorPage>{sessionError?.message}</ErrorPage>;
+  if (!session && !isSessionLoading) {
+    navigate('/login');
+    return;
+  }
+
+  if (!baasApiKey)
+    return (
+      <ErrorPage>
+        The MeetingBaas API Key is not configured. Please set it up and try again.
+      </ErrorPage>
+    );
+
+  createCalendar({
+    platform: 'Google',
+    apiKey: baasApiKey,
+  });
 
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
