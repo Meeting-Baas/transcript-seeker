@@ -48,6 +48,7 @@ export async function joinMeeting({
         headers: {
           'x-spoke-api-key': apiKey,
         },
+        withCredentials: true,
       },
     );
 
@@ -71,6 +72,7 @@ export async function leaveMeeting({ botId, apiKey, proxyUrl }: LeaveMeetingPara
       headers: {
         'x-spoke-api-key': apiKey,
       },
+      withCredentials: true,
     });
 
     return { data: response.data };
@@ -96,6 +98,7 @@ export async function fetchBotDetails({ botId, apiKey, proxyUrl }: BotDetailsPar
       headers: {
         'x-spoke-api-key': apiKey,
       },
+      withCredentials: true,
     });
 
     return { data: response.data };
@@ -125,6 +128,7 @@ export async function fetchCalendars({
       headers: {
         'x-spoke-api-key': apiKey,
       },
+      withCredentials: true,
     });
 
     if (response.status != 200) {
@@ -165,6 +169,7 @@ export async function createCalendar({
         headers: {
           'x-spoke-api-key': apiKey,
         },
+        withCredentials: true,
       },
     );
 
@@ -205,11 +210,12 @@ export async function fetchCalendarEvents({
       params: {
         calendar_id: calendarId,
         offset,
-        limit
+        limit,
       },
       headers: {
         'x-spoke-api-key': apiKey,
       },
+      withCredentials: true
     });
 
     if (response.status != 200) {

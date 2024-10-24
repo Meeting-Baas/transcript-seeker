@@ -14,7 +14,6 @@ const app = new Hono<Bindings>();
 
 app.use("*", async (c, next) => {
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
-
   if (!session) {
     c.set("user", null);
     c.set("session", null);
@@ -26,9 +25,9 @@ app.use("*", async (c, next) => {
   return next();
 });
 
-app.route('/api/auth', authRouter)
-app.route('/api/meetingbaas', meetingbaas)
-app.route('/api/calendars', calendars)
+app.route("/api/auth", authRouter);
+app.route("/api/meetingbaas", meetingbaas);
+app.route("/api/calendars", calendars);
 
 const port = 3001;
 console.log(`Hono Server is running on port ${port}`);
