@@ -20,6 +20,42 @@ calendars.use(
   })
 );
 
+calendars.get("/", async (c) => {
+  const baasApiKey = c.req.header("x-spoke-api-key");
+  if (!baasApiKey) return c.body(null, 401);
+
+  const user = c.get("user");
+  if (!user) return c.body(null, 401);
+
+  const userAccount = await db.query.account.findFirst({
+    where: eq(account.userId, user.id),
+  });
+  if (!userAccount) return c.body(null, 401);
+
+  const body = c.req.parseBody();
+  const response = await fetch(`${process.env.MEETINGBAAS_API_URL}/calendars`, {
+    method: "GET",
+    headers: {
+      "x-spoke-api-key": baasApiKey,
+    },
+    body: {
+      ...body,
+      oauth_client_id: process.env.GOOGLE_OAUTH_CLIENT_ID!,
+      oauth_client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!,
+      oauth_refresh_token: userAccount.refreshToken,
+    },
+  });
+
+  if (response.status != 200) {
+    console.log("error, failed to get calendars:", await response.text())
+    return c.body(null, 500);
+  }
+
+  const calendars = await response.json();
+  console.log(calendars)
+  return c.body(calendars, 200);
+});
+
 // todo: do only pass the parsed data do not pass everything
 // todo: this is bcs that we have client_id and secret in baas apis
 
@@ -35,8 +71,10 @@ calendars.post("/", async (c) => {
   });
   if (!userAccount) return c.body(null, 401);
 
-  const body = c.req.parseBody();
-  const response = await fetch(`${process.env.MEETINGBASS_API_URL}/calendars`, {
+  const body = c.req.parseBody();  
+  console.log(`${process.env.MEETINGBAAS_API_URL}/calendars`)
+
+  const response = await fetch(`${process.env.MEETINGBAAS_API_URL}/calendars`, {
     method: "POST",
     headers: {
       "x-spoke-api-key": baasApiKey,

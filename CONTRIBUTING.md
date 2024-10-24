@@ -84,8 +84,8 @@ To configure the environment properly, here are some key environment variables u
 
 - `HOST`: Set the host address for the proxy server. Default is `0.0.0.0`.
 - `PORT`: Define the port where the proxy server will run. Default is `3000`.
-- `MEETINGBASS_API_URL`: URL for the MeetingBaas API, e.g., `https://api.meetingbaas.com`.
-- `MEETINGBASS_S3_URL`: URL for accessing MeetingBaas S3 resources, e.g., `https://s3.eu-west-3.amazonaws.com/meeting-baas-video`.
+- `MEETINGBAAS_API_URL`: URL for the MeetingBaas API, e.g., `https://api.meetingbaas.com`.
+- `MEETINGBAAS_S3_URL`: URL for accessing MeetingBaas S3 resources, e.g., `https://s3.eu-west-3.amazonaws.com/meeting-baas-video`.
 
 ### Client Configuration
 

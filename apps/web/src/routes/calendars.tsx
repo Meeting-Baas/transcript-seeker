@@ -2,7 +2,7 @@ import { Header } from '@/components/header';
 import FullSpinner from '@/components/loader';
 import { useApiKey } from '@/hooks/use-api-key';
 import { useSession } from '@/lib/auth';
-import { createCalendar } from '@/lib/meetingbaas';
+import { createCalendar, fetchCalendars } from '@/lib/meetingbaas';
 import { useNavigate } from 'react-router-dom';
 
 import { Separator } from '@meeting-baas/ui/separator';
@@ -38,6 +38,9 @@ function CalendarsPage() {
     platform: 'Google',
     apiKey: baasApiKey,
   });
+  // fetchCalendars({
+  //   apiKey: baasApiKey
+  // });
 
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
