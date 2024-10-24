@@ -92,10 +92,10 @@ export const createCalendar = async ({
     ...params,
   });
 
-  const data: { calendars: CalendarBaasData[] } | undefined | null = response.data;
+  const data: CalendarBaasData[] | undefined | null = response.data;
 
-  if (!data?.calendars) return null;
-  return data.calendars;
+  if (!data) return null;
+  return data;
 };
 
 interface FetchCalendarEventsProps extends Omit<FetchCalendarEventsParams, 'proxyUrl'> {}

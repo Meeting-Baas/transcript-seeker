@@ -148,7 +148,7 @@ export interface CreateCalendarParams {
 }
 
 export interface CreateCalendarResponse {
-  data?: { calendars: CalendarBaasData[] };
+  data?: CalendarBaasData[];
   error?: string;
 }
 
@@ -204,7 +204,7 @@ export async function fetchCalendarEvents({
   proxyUrl,
 }: FetchCalendarEventsParams): Promise<FetchCalendarEventsResponse> {
   try {
-    const url = `${proxyUrl}/api/meetingbaas/calendar_events`;
+    const url = `${proxyUrl}/api/meetingbaas/calendars/calendar_events`;
 
     const response = await axios.get(url, {
       params: {
