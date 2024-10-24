@@ -21,14 +21,10 @@ calendars.use(
 );
 
 // todo: do only pass the parsed data do not pass everything
-// tod: this is bcs that we have client_id and secret in baas apis
-// todo: think about if we should use /api/meetingbaas or custom routes
-// todo: i think 2nd option is better
-// todo: use routes to seperate auth with calendars
+// todo: this is bcs that we have client_id and secret in baas apis
+
 calendars.post("/", async (c) => {
   const baasApiKey = c.req.header("x-spoke-api-key");
-  const body = c.req.parseBody();
-
   if (!baasApiKey) return c.body(null, 401);
 
   const user = c.get("user");
@@ -39,6 +35,7 @@ calendars.post("/", async (c) => {
   });
   if (!userAccount) return c.body(null, 401);
 
+  const body = c.req.parseBody();
   const response = await fetch(`${process.env.MEETINGBASS_API_URL}/calendars`, {
     method: "POST",
     headers: {
