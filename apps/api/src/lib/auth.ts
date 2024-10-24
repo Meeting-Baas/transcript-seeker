@@ -10,7 +10,7 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      redirectURI: process.env.GOOGLE_REDIRECT_URI!,
+      // redirectURI: process.env.GOOGLE_REDIRECT_URI!,
       scope: [
         "https://www.googleapis.com/auth/userinfo.email",
         "https://www.googleapis.com/auth/userinfo.profile",

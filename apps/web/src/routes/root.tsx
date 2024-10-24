@@ -2,6 +2,7 @@ import { ModeToggle } from '@/components/mode-toggle';
 import ServerAlert from '@/components/server-alert';
 import ServerAvailablity from '@/components/server-availablity';
 import { useApiKey } from '@/hooks/use-api-key';
+import { useSession } from '@/lib/auth';
 import { useServerAvailabilityStore } from '@/store';
 import { Calendar, Info, Key, List, Mic, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -17,10 +18,13 @@ function RootPage() {
   const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
   const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
-  
-  const { apiKey: googleRefreshToken } = useApiKey({ type: 'google-refresh-token' });
 
-  const apiKeysExist = baasApiKey && gladiaApiKey && assemblyAIApiKey && openAIApiKey && googleRefreshToken;
+  const {
+    data: session,
+    isPending, //loading state
+    error, //error object
+  } = useSession();
+  const apiKeysExist = baasApiKey && gladiaApiKey && assemblyAIApiKey && openAIApiKey;
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-gradient-to-br from-muted/20 to-muted/40 p-4">
@@ -105,7 +109,7 @@ function RootPage() {
             <Link
               to="/meetings"
               className={cn(buttonVariants({ variant: 'default' }), 'gap-2', {
-                'pointer-events-none opacity-50': !googleRefreshToken,
+                'pointer-events-none opacity-50': !session,
               })}
             >
               <Calendar className="h-4 w-4" />
@@ -114,7 +118,7 @@ function RootPage() {
           </div>
         </CardContent>
       </Card>
-      <div className="fixed left-0 right-0 bottom-4 flex items-center gap-2 text-sm text-muted-foreground flex w-full justify-center flex w-full justify-center">
+      <div className="fixed bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2 text-sm text-muted-foreground">
         <ServerAvailablity />
       </div>
     </div>

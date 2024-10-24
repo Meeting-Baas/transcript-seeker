@@ -32,7 +32,6 @@ const formSchema = z.object({
   openAIApiKey: z.string().optional(),
   gladiaApiKey: z.string().optional(),
   assemblyAIApiKey: z.string().optional(),
-  googleRefreshToken: z.string().optional(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -96,7 +95,6 @@ export function SettingsForm() {
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
   const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
   const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
-  const { apiKey: googleRefreshToken } = useApiKey({ type: 'google-refresh-token' });
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -105,7 +103,6 @@ export function SettingsForm() {
       openAIApiKey: openAIApiKey ?? '',
       gladiaApiKey: gladiaApiKey ?? '',
       assemblyAIApiKey: assemblyAIApiKey ?? '',
-      googleRefreshToken: googleRefreshToken ?? '',
     },
   });
   const { isDirty } = useFormState({ control: form.control });
@@ -116,13 +113,11 @@ export function SettingsForm() {
     await setAPIKey({ type: 'openai', content: values.openAIApiKey! });
     await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
     await setAPIKey({ type: 'assemblyai', content: values.assemblyAIApiKey! });
-    await setAPIKey({ type: 'google-refresh-token', content: values.googleRefreshToken! });
 
     mutate(['apiKey', 'meetingbaas']);
     mutate(['apiKey', 'openai']);
     mutate(['apiKey', 'gladia']);
     mutate(['apiKey', 'assemblyai']);
-    mutate(['apiKey', 'google-refresh-token']);
 
     toast.success('API keys updated successfully');
     form.reset(values);
@@ -134,9 +129,8 @@ export function SettingsForm() {
       openAIApiKey: openAIApiKey ?? '',
       gladiaApiKey: gladiaApiKey ?? '',
       assemblyAIApiKey: assemblyAIApiKey ?? '',
-      googleRefreshToken: googleRefreshToken ?? '',
     });
-  }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey, googleRefreshToken]);
+  }, [baasApiKey, openAIApiKey, gladiaApiKey, assemblyAIApiKey]);
 
   const renderLink = (text: string, href: string) => (
     <Button variant="link" asChild className="h-min w-min p-0">
@@ -179,22 +173,6 @@ export function SettingsForm() {
                   }
                   control={form.control}
                 /> */}
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
-                MeetingBaas Calendars
-              </AccordionTrigger>
-              <AccordionContent className="space-y-6 px-1">
-                <ApiKeyField
-                  name="googleRefreshToken"
-                  label="Google Refresh Token"
-                  description="Use this key for Google OAuth integration."
-                  control={form.control}
-                />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
