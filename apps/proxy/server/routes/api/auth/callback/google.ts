@@ -48,7 +48,7 @@ export default defineEventHandler(async (event) => {
     console.log(existingUser)
     const sessionToken = generateSessionToken();
     const session = await createSession(sessionToken, existingUser.id);
-    await setSessionTokenCookie(event, sessionToken, session.expiresAt);
+    setSessionTokenCookie(event, sessionToken, session.expiresAt);
     return new Response(null, {
       status: 302,
       headers: {
@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
   const user = await createUser(googleId, email, name, picture);
   const sessionToken = generateSessionToken();
   const session = await createSession(sessionToken, user.id);
-  await setSessionTokenCookie(event, sessionToken, session.expiresAt);
+  setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
   return sendRedirect(event, '/');
 });
