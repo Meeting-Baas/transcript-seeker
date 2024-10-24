@@ -70,13 +70,15 @@ calendars.post("/", async (c) => {
     method: "POST",
     headers: {
       "x-spoke-api-key": baasApiKey,
+      'Content-Type': 'application/json'
+
     },
-    body: {
+    body: JSON.stringify({
       ...body,
-      oauth_client_id: process.env.GOOGLE_OAUTH_CLIENT_ID!,
-      oauth_client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!,
+      oauth_client_id: process.env.GOOGLE_CLIENT_ID!,
+      oauth_client_secret: process.env.GOOGLE_CLIENT_SECRET!,
       oauth_refresh_token: userAccount.refreshToken,
-    },
+    }),
   });
 
   if (response.status != 200) {
