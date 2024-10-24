@@ -32,18 +32,11 @@ calendars.get("/", async (c) => {
   });
   if (!userAccount) return c.body(null, 401);
 
-  const body = c.req.parseBody();
   const response = await fetch(`${process.env.MEETINGBAAS_API_URL}/calendars`, {
     method: "GET",
     headers: {
       "x-spoke-api-key": baasApiKey,
-    },
-    body: {
-      ...body,
-      oauth_client_id: process.env.GOOGLE_OAUTH_CLIENT_ID!,
-      oauth_client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!,
-      oauth_refresh_token: userAccount.refreshToken,
-    },
+    }
   });
 
   if (response.status != 200) {
@@ -52,7 +45,6 @@ calendars.get("/", async (c) => {
   }
 
   const calendars = await response.json();
-  console.log(calendars)
   return c.body(calendars, 200);
 });
 
@@ -92,7 +84,8 @@ calendars.post("/", async (c) => {
     return c.body(null, 500);
   }
 
-  console.log(await response.json())
+  const calendars = await response.json();
+  console.log(calendars)
   return c.body(null, 200);
 });
 
