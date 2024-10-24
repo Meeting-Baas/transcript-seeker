@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Separator } from '@meeting-baas/ui/separator';
 
 import ErrorPage from './error';
+import { useCalendars } from '@/hooks/use-calendars';
 
 function CalendarsPage() {
   const navigate = useNavigate();
@@ -34,13 +35,7 @@ function CalendarsPage() {
       </ErrorPage>
     );
 
-  createCalendar({
-    platform: 'Google',
-    apiKey: baasApiKey,
-  });
-  // fetchCalendars({
-  //   apiKey: baasApiKey
-  // });
+  const { calendars } = useCalendars({ baasApiKey });
 
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
@@ -75,13 +70,13 @@ function CalendarsPage() {
           className="rounded-md border"
         /> */}
         <div className="mt-4">
-          <h3 className="text-lg font-semibold">Events:</h3>
+          <h3 className="text-lg font-semibold">Calendars:</h3>
           <ul>
-            {/* {events.map((event) => (
-              <li key={event.uuid}>
-                {event.name} - {new Date(event.start_time.secs_since_epoch * 1000).toLocaleString()}
+            {calendars?.map((calendar) => (
+              <li key={calendar.uuid}> 
+                {calendar.name} - {calendar.uuid}
               </li>
-            ))} */}
+            ))}
           </ul>
         </div>
       </div>
