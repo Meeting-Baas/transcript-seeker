@@ -3,7 +3,15 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "clean": "git clean -xdf .cache .turbo .vercel node_modules"
+    "clean": "git clean -xdf .cache .turbo .vercel node_modules",
+    "lint": "eslint",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "typecheck": "tsc --noEmit",
+    "with-env": "dotenv -e ./.env --",
+    "db:push": "pnpm with-env drizzle-kit push",
+    "db:studio": "pnpm with-env drizzle-kit studio",
+    "db:generate": "pnpm with-env drizzle-kit generate",
+    "db:migrate": "pnpm with-env drizzle-kit migrate"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.2",

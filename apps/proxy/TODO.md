@@ -1,2 +1,0 @@
-- Follow the lucia auth guide to create a secure auth system (https://lucia-next.pages.dev/sessions/overview) (https://lucia-next.pages.dev/sessions/basic-api/redis)
-- The code currently in this directory is not properly typed / configured, re-organize the files by movies the queries into a queries.ts and adding proper types

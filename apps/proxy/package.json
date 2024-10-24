@@ -20,26 +20,18 @@
     "@meeting-baas/tailwind-config": "workspace:*",
     "@meeting-baas/tsconfig": "workspace:*",
     "@types/node": "^20.16.11",
-    "better-sqlite3": "^11.5.0",
     "dotenv-cli": "catalog:",
     "drizzle-kit": "^0.26.2",
     "eslint": "catalog:",
     "h3": "^1.13.0",
-    "http-proxy-middleware": "^3.0.3",
     "nitropack": "^2.9.7",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },
   "prettier": "@meeting-baas/prettier-config",
   "dependencies": {
-    "@libsql/client": "^0.14.0",
-    "@pilcrowjs/object-parser": "^0.0.4",
-    "arctic": "^2.0.1",
-    "db0": "^0.2.1",
-    "drizzle-orm": "^0.35.2",
     "firebase-admin": "^12.6.0",
     "firebase-functions": "^6.0.1",
-    "firebase-functions-test": "^3.3.0",
-    "nanoid": "^5.0.7"
+    "firebase-functions-test": "^3.3.0"
   }
 }

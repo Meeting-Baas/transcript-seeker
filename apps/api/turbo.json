@@ -9,7 +9,8 @@
                 "^build"
             ],
             "outputs": [
-                ".nitro/**",
+                ".hono/**",
+                "dist/**",
                 ".output/**",
                 ".vercel/**"
             ]

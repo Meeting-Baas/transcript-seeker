@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   default:
-    axios:
-      specifier: ^1.7.2
-      version: 1.7.7
     dotenv-cli:
       specifier: ^7.4.2
       version: 7.4.2
@@ -18,25 +15,9 @@ catalogs:
     prettier:
       specifier: ^3.3.3
       version: 3.3.3
-    tailwindcss:
-      specifier: ^3.4.14
-      version: 3.4.14
     typescript:
       specifier: ^5.6.3
       version: 5.6.3
-    zod:
-      specifier: ^3.23.8
-      version: 3.23.8
-  react18:
-    '@types/react':
-      specifier: ^18.3.11
-      version: 18.3.11
-    '@types/react-dom':
-      specifier: ^18.3.1
-      version: 18.3.1
-    react:
-      specifier: 18.3.1
-      version: 18.3.1
 
 overrides:
   '@meeting-baas/shared': workspace:*
@@ -118,21 +99,6 @@ importers:
 
   apps/proxy:
     dependencies:
-      '@libsql/client':
-        specifier: ^0.14.0
-        version: 0.14.0
-      '@pilcrowjs/object-parser':
-        specifier: ^0.0.4
-        version: 0.0.4
-      arctic:
-        specifier: ^2.0.1
-        version: 2.0.1
-      db0:
-        specifier: ^0.2.1
-        version: 0.2.1(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(better-sqlite3@11.5.0)(drizzle-orm@0.35.2(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@11.5.0)(kysely@0.27.4)(react@18.3.1))
-      drizzle-orm:
-        specifier: ^0.35.2
-        version: 0.35.2(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@11.5.0)(kysely@0.27.4)(react@18.3.1)
       firebase-admin:
         specifier: ^12.6.0
         version: 12.6.0
@@ -142,9 +108,6 @@ importers:
       firebase-functions-test:
         specifier: ^3.3.0
         version: 3.3.0(firebase-admin@12.6.0)(firebase-functions@6.0.1(firebase-admin@12.6.0))(jest@29.7.0(@types/node@20.16.13)(ts-node@10.9.2(@swc/core@1.7.36(@swc/helpers@0.5.13))(@types/node@20.16.13)(typescript@5.6.3)))
-      nanoid:
-        specifier: ^5.0.7
-        version: 5.0.7
     devDependencies:
       '@meeting-baas/eslint-config':
         specifier: workspace:*
@@ -161,9 +124,6 @@ importers:
       '@types/node':
         specifier: ^20.16.11
         version: 20.16.13
-      better-sqlite3:
-        specifier: ^11.5.0
-        version: 11.5.0
       dotenv-cli:
         specifier: 'catalog:'
         version: 7.4.2
@@ -176,12 +136,9 @@ importers:
       h3:
         specifier: ^1.13.0
         version: 1.13.0
-      http-proxy-middleware:
-        specifier: ^3.0.3
-        version: 3.0.3
       nitropack:
         specifier: ^2.9.7
-        version: 2.9.7(@libsql/client@0.14.0)(better-sqlite3@11.5.0)(drizzle-orm@0.35.2(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@11.5.0)(kysely@0.27.4)(react@18.3.1))(idb-keyval@6.2.1)
+        version: 2.9.7(idb-keyval@6.2.1)
       prettier:
         specifier: 'catalog:'
         version: 3.3.3
@@ -2169,24 +2126,6 @@ packages:
     resolution: {integrity: sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg==}
     engines: {node: '>=8.0.0'}
 
-  '@oslojs/asn1@1.0.0':
-    resolution: {integrity: sha512-zw/wn0sj0j0QKbIXfIlnEcTviaCzYOY3V5rAyjR6YtOByFtJiT574+8p9Wlach0lZH9fddD4yb9laEAIl4vXQA==}
-
-  '@oslojs/binary@1.0.0':
-    resolution: {integrity: sha512-9RCU6OwXU6p67H4NODbuxv2S3eenuQ4/WFLrsq+K/k682xrznH5EVWA7N4VFk9VYVcbFtKqur5YQQZc0ySGhsQ==}
-
-  '@oslojs/crypto@1.0.1':
-    resolution: {integrity: sha512-7n08G8nWjAr/Yu3vu9zzrd0L9XnrJfpMioQcvCMxBIiF5orECHe5/3J0jmXRVvgfqMm/+4oxlQ+Sq39COYLcNQ==}
-
-  '@oslojs/encoding@0.4.1':
-    resolution: {integrity: sha512-hkjo6MuIK/kQR5CrGNdAPZhS01ZCXuWDRJ187zh6qqF2+yMHZpD9fAYpX8q2bOO6Ryhl3XpCT6kUX76N8hhm4Q==}
-
-  '@oslojs/encoding@1.1.0':
-    resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
-
-  '@oslojs/jwt@0.2.0':
-    resolution: {integrity: sha512-bLE7BtHrURedCn4Mco3ma9L4Y1GR2SMBuIvjWr7rmQ4/W/4Jy70TIAgZ+0nIlk0xHz1vNP8x8DCns45Sb2XRbg==}
-
   '@parcel/watcher-android-arm64@2.4.1':
     resolution: {integrity: sha512-LOi/WTbbh3aTn2RYddrO8pnapixAziFl6SMxHM69r3tvdSm94JtCenaKgk1GRg5FJ5wpMCpHeW+7yqPlvZv7kg==}
     engines: {node: '>= 10.0.0'}
@@ -2283,9 +2222,6 @@ packages:
 
   '@peculiar/asn1-x509@2.3.13':
     resolution: {integrity: sha512-PfeLQl2skXmxX2/AFFCVaWU8U6FKW1Db43mgBhShCOFS1bVxqtvusq1hVjfuEcuSQGedrLdCSvTgabluwN/M9A==}
-
-  '@pilcrowjs/object-parser@0.0.4':
-    resolution: {integrity: sha512-mBy3FMv2lvl/sZX/q03wvl3Km8FWg7kbrqQ/qMxK49uZcBssD76Js5k+o7VuCDJI8SNvsrbIX8y6vclx7bWeSg==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -3993,9 +3929,6 @@ packages:
     resolution: {integrity: sha512-ZcbTaIqJOfCc03QwD468Unz/5Ir8ATtvAHsK+FdXbDIbGfihqh9mrvdcYunQzqn4HrvWWaFyaxJhGZagaJJpPQ==}
     engines: {node: '>= 14'}
 
-  arctic@2.0.1:
-    resolution: {integrity: sha512-2UxVMEGtBkWf5GkriStLuJ+YnkBQZ5V/PapL6nCUOySxxUPgaXt8VSauzrzQZpaoP0kEHV5lk5CsdzX4/eqnZg==}
-
   are-we-there-yet@2.0.0:
     resolution: {integrity: sha512-Ci/qENmwHnsYo9xKIcUJN5LeDKdJ6R1Z1j9V/J5wyq8nh/mYPEpIKJbBZXtZjG04HiK7zV/p6Vs9952MrMeUIw==}
     engines: {node: '>=10'}
@@ -4530,26 +4463,6 @@ packages:
       drizzle-orm:
         optional: true
 
-  db0@0.2.1:
-    resolution: {integrity: sha512-BWSFmLaCkfyqbSEZBQINMVNjCVfrogi7GQ2RSy1tmtfK9OXlsup6lUMwLsqSD7FbAjD04eWFdXowSHHUp6SE/Q==}
-    peerDependencies:
-      '@electric-sql/pglite': '*'
-      '@libsql/client': '*'
-      better-sqlite3: '*'
-      drizzle-orm: '*'
-      mysql2: '*'
-    peerDependenciesMeta:
-      '@electric-sql/pglite':
-        optional: true
-      '@libsql/client':
-        optional: true
-      better-sqlite3:
-        optional: true
-      drizzle-orm:
-        optional: true
-      mysql2:
-        optional: true
-
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -5077,9 +4990,6 @@ packages:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
     engines: {node: '>=6'}
 
-  eventemitter3@4.0.7:
-    resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
-
   events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
@@ -5486,14 +5396,6 @@ packages:
     resolution: {integrity: sha512-n2hY8YdoRE1i7r6M0w9DIw5GgZN0G25P8zLCRQ8rjXtTU3vsNFBI/vWK/UIeE6g5MUUz6avwAPXmL6Fy9D/90w==}
     engines: {node: '>= 6'}
 
-  http-proxy-middleware@3.0.3:
-    resolution: {integrity: sha512-usY0HG5nyDUwtqpiZdETNbmKtw3QQ1jwYFZ9wi5iHzX2BcILwQKtYDJPo7XHTsu5Z0B2Hj3W9NNnbd+AjFWjqg==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  http-proxy@1.18.1:
-    resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==}
-    engines: {node: '>=8.0.0'}
-
   http-shutdown@1.2.2:
     resolution: {integrity: sha512-S9wWkJ/VSY9/k4qcjG318bqJNruzE4HySUhFYknwmu6LBP97KLLfwNf+n4V1BHurvFNkSKLFnK/RsuUnRTf9Vw==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
@@ -5706,10 +5608,6 @@ packages:
   is-plain-obj@4.1.0:
     resolution: {integrity: sha512-+Pgi+vMuUNkJyExiMBt5IlFoMyKnr5zhJ4Uspz58WOhBF5QoIZkFyNHIbBAtHwzVAgk5RtndVNsDRN61/mmDqg==}
     engines: {node: '>=12'}
-
-  is-plain-object@5.0.0:
-    resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==}
-    engines: {node: '>=0.10.0'}
 
   is-reference@1.2.1:
     resolution: {integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==}
@@ -7235,9 +7133,6 @@ packages:
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
-
-  requires-port@1.0.0:
-    resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
   resolve-cwd@3.0.0:
     resolution: {integrity: sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==}
@@ -9597,25 +9492,6 @@ snapshots:
   '@opentelemetry/api@1.9.0':
     optional: true
 
-  '@oslojs/asn1@1.0.0':
-    dependencies:
-      '@oslojs/binary': 1.0.0
-
-  '@oslojs/binary@1.0.0': {}
-
-  '@oslojs/crypto@1.0.1':
-    dependencies:
-      '@oslojs/asn1': 1.0.0
-      '@oslojs/binary': 1.0.0
-
-  '@oslojs/encoding@0.4.1': {}
-
-  '@oslojs/encoding@1.1.0': {}
-
-  '@oslojs/jwt@0.2.0':
-    dependencies:
-      '@oslojs/encoding': 0.4.1
-
   '@parcel/watcher-android-arm64@2.4.1':
     optional: true
 
@@ -9710,8 +9586,6 @@ snapshots:
       ipaddr.js: 2.2.0
       pvtsutils: 1.3.5
       tslib: 2.8.0
-
-  '@pilcrowjs/object-parser@0.0.4': {}
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -11533,12 +11407,6 @@ snapshots:
       tar-stream: 3.1.7
       zip-stream: 6.0.1
 
-  arctic@2.0.1:
-    dependencies:
-      '@oslojs/crypto': 1.0.1
-      '@oslojs/encoding': 1.1.0
-      '@oslojs/jwt': 0.2.0
-
   are-we-there-yet@2.0.0:
     dependencies:
       delegates: 1.0.0
@@ -11811,6 +11679,7 @@ snapshots:
     dependencies:
       bindings: 1.5.0
       prebuild-install: 7.1.2
+    optional: true
 
   bignumber.js@9.1.2:
     optional: true
@@ -12173,18 +12042,7 @@ snapshots:
 
   date-fns@3.6.0: {}
 
-  db0@0.1.4(@libsql/client@0.14.0)(better-sqlite3@11.5.0)(drizzle-orm@0.35.2(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@11.5.0)(kysely@0.27.4)(react@18.3.1)):
-    optionalDependencies:
-      '@libsql/client': 0.14.0
-      better-sqlite3: 11.5.0
-      drizzle-orm: 0.35.2(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@11.5.0)(kysely@0.27.4)(react@18.3.1)
-
-  db0@0.2.1(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(better-sqlite3@11.5.0)(drizzle-orm@0.35.2(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@11.5.0)(kysely@0.27.4)(react@18.3.1)):
-    optionalDependencies:
-      '@electric-sql/pglite': 0.2.12
-      '@libsql/client': 0.14.0
-      better-sqlite3: 11.5.0
-      drizzle-orm: 0.35.2(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@11.5.0)(kysely@0.27.4)(react@18.3.1)
+  db0@0.1.4: {}
 
   debug@2.6.9:
     dependencies:
@@ -12825,8 +12683,6 @@ snapshots:
 
   event-target-shim@5.0.1: {}
 
-  eventemitter3@4.0.7: {}
-
   events@3.3.0: {}
 
   execa@5.1.1:
@@ -13368,25 +13224,6 @@ snapshots:
       - supports-color
     optional: true
 
-  http-proxy-middleware@3.0.3:
-    dependencies:
-      '@types/http-proxy': 1.17.15
-      debug: 4.3.7
-      http-proxy: 1.18.1(debug@4.3.7)
-      is-glob: 4.0.3
-      is-plain-object: 5.0.0
-      micromatch: 4.0.8
-    transitivePeerDependencies:
-      - supports-color
-
-  http-proxy@1.18.1(debug@4.3.7):
-    dependencies:
-      eventemitter3: 4.0.7
-      follow-redirects: 1.15.9(debug@4.3.7)
-      requires-port: 1.0.0
-    transitivePeerDependencies:
-      - debug
-
   http-shutdown@1.2.2: {}
 
   https-proxy-agent@5.0.1:
@@ -13573,8 +13410,6 @@ snapshots:
   is-number@7.0.0: {}
 
   is-plain-obj@4.1.0: {}
-
-  is-plain-object@5.0.0: {}
 
   is-reference@1.2.1:
     dependencies:
@@ -14628,7 +14463,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  nitropack@2.9.7(@libsql/client@0.14.0)(better-sqlite3@11.5.0)(drizzle-orm@0.35.2(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@11.5.0)(kysely@0.27.4)(react@18.3.1))(idb-keyval@6.2.1):
+  nitropack@2.9.7(idb-keyval@6.2.1):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@netlify/functions': 2.8.2
@@ -14651,7 +14486,7 @@ snapshots:
       cookie-es: 1.2.2
       croner: 8.1.2
       crossws: 0.2.4
-      db0: 0.1.4(@libsql/client@0.14.0)(better-sqlite3@11.5.0)(drizzle-orm@0.35.2(@electric-sql/pglite@0.2.12)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@11.5.0)(kysely@0.27.4)(react@18.3.1))
+      db0: 0.1.4
       defu: 6.1.4
       destr: 2.0.3
       dot-prop: 8.0.2
@@ -15565,8 +15400,6 @@ snapshots:
   remove-accents@0.5.0: {}
 
   require-directory@2.1.1: {}
-
-  requires-port@1.0.0: {}
 
   resolve-cwd@3.0.0:
     dependencies:

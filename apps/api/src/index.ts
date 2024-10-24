@@ -10,8 +10,8 @@ const app = new Hono();
 app.get('/api/auth/*', (c) => auth.handler(c.req.raw));
 app.post('/api/auth/*', (c) => auth.handler(c.req.raw));
 
-const port = 3000
-console.log(`Server is running on port ${port}`)
+const port = 3001;
+console.log(`Hono Server is running on port ${port}`)
 
 serve({
   fetch: app.fetch,

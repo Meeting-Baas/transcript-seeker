@@ -6,11 +6,9 @@ import { Button } from '@meeting-baas/ui/button';
 
 function LoginPage() {
   async function authorize() {
-    const response = await signIn.social({
+    await signIn.social({
       provider: 'google',
     });
-
-    console.log(response);
   }
 
   return (
