@@ -1,6 +1,6 @@
 // This is where we convert the meetingbaas data to our data type
 import type { Meeting } from '@/types';
-import { VITE_PROXY_URL } from '@/lib/constants';
+import { VITE_API_URL, VITE_PROXY_URL } from '@/lib/constants';
 
 import type {
   BotDetailsParams,
@@ -88,7 +88,7 @@ export const createCalendar = async ({
   ...params
 }: CreateCalendarProps): Promise<CalendarBaasData[] | null> => {
   const response = await MeetingBaas.createCalendar({
-    proxyUrl: VITE_PROXY_URL,
+    proxyUrl: VITE_API_URL,
     ...params,
   });
 
