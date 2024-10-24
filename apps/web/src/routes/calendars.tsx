@@ -1,41 +1,71 @@
-import { Header } from '@/components/header';
-import FullSpinner from '@/components/loader';
-import { useApiKey } from '@/hooks/use-api-key';
-import { useSession } from '@/lib/auth';
-import { createCalendar, fetchCalendars } from '@/lib/meetingbaas';
-import { useNavigate } from 'react-router-dom';
+'use client'
 
-import { Separator } from '@meeting-baas/ui/separator';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Header } from '@/components/header'
+import FullSpinner from '@/components/loader'
+import { useApiKey } from '@/hooks/use-api-key'
+import { useCalendars } from '@/hooks/use-calendars'
+import { useSession } from '@/lib/auth'
+import { fetchCalendarEvents } from '@/lib/meetingbaas'
+import { Separator } from '@meeting-baas/ui/separator'
 
-import ErrorPage from './error';
-import { useCalendars } from '@/hooks/use-calendars';
+export default function CalendarsPage() {
+  const navigate = useNavigate()
+  const [calendarEvents, setCalendarEvents] = useState([])
+  const [isEventsLoading, setIsEventsLoading] = useState(false)
 
-function CalendarsPage() {
-  const navigate = useNavigate();
-  const { apiKey: baasApiKey, isLoading: isBaasApiKeyLoading } = useApiKey({ type: 'meetingbaas' });
+  const { data: session, isPending: isSessionLoading } = useSession()
+  const { apiKey: baasApiKey, isLoading: isBaasApiKeyLoading } = useApiKey({ type: 'meetingbaas' })
+  const { calendars, isLoading: isCalendarsLoading } = useCalendars({
+    baasApiKey: baasApiKey ?? '',
+    enabled: !!baasApiKey,
+  })
 
-  const {
-    data: session,
-    isPending: isSessionLoading,
-    // error: sessionError,
-  } = useSession();
+  const isLoading = isSessionLoading || isBaasApiKeyLoading || isCalendarsLoading
 
-  if (isSessionLoading || isBaasApiKeyLoading) return <FullSpinner />;
 
-  // if (sessionError) return <ErrorPage>{sessionError?.message}</ErrorPage>;
-  if (!session && !isSessionLoading) {
-    navigate('/login');
-    return;
+  useEffect(() => {
+    async function fetchEvents() {
+      if (calendars && calendars.length > 0 && baasApiKey) {
+        setIsEventsLoading(true)
+        try {
+          calendars.forEach(async cal => {
+            // todo: don't send a lot of requests to the api lol, wait some time
+            // also, save in db once data is there, then save the offset then repull data
+            // when deleting and adding handle the same
+            const events = await fetchCalendarEvents({
+              apiKey: baasApiKey,
+              calendarId: cal.uuid,
+              limit: 100,
+              offset: 0
+            })
+            console.log(events)
+          })
+        } catch (error) {
+          console.error('Error fetching calendar events:', error)
+        } finally {
+          setIsEventsLoading(false)
+        }
+      }
+    }
+
+    fetchEvents()
+  }, [calendars, baasApiKey])
+
+  if (isLoading || isEventsLoading) {
+    return <FullSpinner />
   }
 
-  if (!baasApiKey)
+  if (!baasApiKey) {
     return (
-      <ErrorPage>
-        The MeetingBaas API Key is not configured. Please set it up and try again.
-      </ErrorPage>
-    );
-
-  const { calendars } = useCalendars({ baasApiKey });
+      <div className="container p-4">
+        <p className="text-red-500">
+          The MeetingBaas API Key is not configured. Please set it up and try again.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div className="h-full min-h-[calc(100dvh-81px)]">
@@ -52,36 +82,25 @@ function CalendarsPage() {
           <p className="text-muted-foreground">View and manage your calendar events.</p>
         </div>
         <Separator className="my-4" />
-        {/* <select
-          value={selectedCalendar || ''}
-          onChange={(e) => setSelectedCalendar(e.target.value)}
-          className="mb-4 rounded border p-2"
-        >
-          {calendars.map((calendar) => (
-            <option key={calendar.uuid} value={calendar.uuid}>
-              {calendar.name}
-            </option>
-          ))}
-        </select>
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={(newDate) => newDate && setDate(newDate)}
-          className="rounded-md border"
-        /> */}
         <div className="mt-4">
           <h3 className="text-lg font-semibold">Calendars:</h3>
           <ul>
             {calendars?.map((calendar) => (
-              <li key={calendar.uuid}> 
+              <li key={calendar.uuid}>
                 {calendar.name} - {calendar.uuid}
               </li>
             ))}
           </ul>
         </div>
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold">Events:</h3>
+          <ul>
+            {calendarEvents?.map((event) => (
+              <li key={event.id}>{event.title}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
-  );
+  )
 }
-
-export default CalendarsPage;

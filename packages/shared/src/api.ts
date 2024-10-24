@@ -46,7 +46,7 @@ export async function joinMeeting({
       },
       {
         headers: {
-          'x-spoke-api-key': apiKey,
+          'x-meeting-baas-api-key': apiKey,
         },
         withCredentials: true,
       },
@@ -70,7 +70,7 @@ export async function leaveMeeting({ botId, apiKey, proxyUrl }: LeaveMeetingPara
 
     const response = await axios.delete(url, {
       headers: {
-        'x-spoke-api-key': apiKey,
+        'x-meeting-baas-api-key': apiKey,
       },
       withCredentials: true,
     });
@@ -96,7 +96,7 @@ export async function fetchBotDetails({ botId, apiKey, proxyUrl }: BotDetailsPar
         bot_id: botId,
       },
       headers: {
-        'x-spoke-api-key': apiKey,
+        'x-meeting-baas-api-key': apiKey,
       },
       withCredentials: true,
     });
@@ -122,11 +122,11 @@ export async function fetchCalendars({
   proxyUrl,
 }: FetchCalendarsParams): Promise<FetchCalendarsResponse> {
   try {
-    const url = `${proxyUrl}/api/meetingbaas/calendars`;
+    const url = `${proxyUrl}/api/calendars`;
 
     const response = await axios.get(url, {
       headers: {
-        'x-spoke-api-key': apiKey,
+        'x-meeting-baas-api-key': apiKey,
       },
       withCredentials: true,
     });
@@ -167,7 +167,7 @@ export async function createCalendar({
       },
       {
         headers: {
-          'x-spoke-api-key': apiKey,
+          'x-meeting-baas-api-key': apiKey,
         },
         withCredentials: true,
       },
@@ -204,16 +204,16 @@ export async function fetchCalendarEvents({
   proxyUrl,
 }: FetchCalendarEventsParams): Promise<FetchCalendarEventsResponse> {
   try {
-    const url = `${proxyUrl}/api/meetingbaas/calendars/calendar_events`;
+    const url = `${proxyUrl}/api/calendars/calendar_events`;
 
     const response = await axios.get(url, {
       params: {
-        calendar_id: calendarId,
+        calendarId: calendarId,
         offset,
         limit,
       },
       headers: {
-        'x-spoke-api-key': apiKey,
+        'x-meeting-baas-api-key': apiKey,
       },
       withCredentials: true
     });

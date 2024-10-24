@@ -72,7 +72,7 @@ export const fetchCalendars = async ({
   ...params
 }: FetchCalendarsProps): Promise<CalendarBaasData[] | null> => {
   const response = await MeetingBaas.fetchCalendars({
-    proxyUrl: VITE_PROXY_URL,
+    proxyUrl: VITE_API_URL,
     ...params,
   });
 
@@ -104,7 +104,7 @@ export const fetchCalendarEvents = async ({
   ...params
 }: FetchCalendarEventsProps): Promise<CalendarBaasEvent[] | null> => {
   const response = await MeetingBaas.fetchCalendarEvents({
-    proxyUrl: VITE_PROXY_URL,
+    proxyUrl: VITE_API_URL,
     ...params,
   });
 
