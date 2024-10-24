@@ -8,7 +8,7 @@
   "dependencies": {
     "@hono/node-server": "^1.13.2",
     "@libsql/client": "^0.14.0",
-    "better-auth": "0.5.4-beta.3",
+    "better-auth": "0.5.4-beta.5",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.35.2",
     "firebase-admin": "^12.6.0",

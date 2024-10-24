@@ -7,10 +7,11 @@ import Recordings from '@/routes/recordings';
 import Root from '@/routes/root';
 import Settings from '@/routes/settings';
 import Upload from '@/routes/upload';
-import { Route, Routes } from 'react-router-dom';
+import Calendars from '@/routes/calendars';
+import Login from '@/routes/login';
 
+import { Route, Routes } from 'react-router-dom';
 import { Toaster } from '@meeting-baas/ui/sonner';
-import Calendars from './routes/calendars';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Root />} />
+          <Route path="login" element={<Login />} />
           <Route path="settings" element={<Settings />} />
           <Route path="recordings" element={<Recordings />} />
           <Route path="meetings" element={<Calendars />} />
