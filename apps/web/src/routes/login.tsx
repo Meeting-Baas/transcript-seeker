@@ -28,7 +28,7 @@ function LoginPage() {
           }}
           disabled={isPending}
         >
-          {isPending && <LoaderIcon className="size-4" />}
+          {isPending && <LoaderIcon className="size-4 animate-spin" />}
           Login With Google
         </Button>
         <div className="fixed bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2 text-sm text-muted-foreground">

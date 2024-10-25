@@ -17,7 +17,7 @@ function SignOut() {
       }}
       disabled={isPending}
     >
-      {isPending && <LoaderIcon className="size-4" />}
+      {isPending && <LoaderIcon className="size-4 animate-spin" />}
       Sign Out
     </Button>
   );
