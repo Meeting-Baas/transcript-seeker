@@ -183,6 +183,49 @@ export async function createCalendar({
   }
 }
 
+export interface DeleteCalendarParams {
+  calendarId: string;
+  apiKey: string;
+  proxyUrl?: string;
+}
+
+export interface DeleteCalendarResponse {
+  data?: { statusCode: number };
+  error?: string;
+}
+
+export async function deleteCalendar({
+  calendarId,
+  apiKey,
+  proxyUrl,
+}: DeleteCalendarParams): Promise<DeleteCalendarResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars`;
+
+    const response = await axios.delete(url, {
+      params: {
+        calendarId: calendarId,
+      },
+      headers: {
+        'x-meeting-baas-api-key': apiKey,
+      },
+      withCredentials: true,
+    });
+
+    if (response.status != 200) {
+      throw new Error('Failed to delete calendar');
+    }
+
+    return {
+      data: {
+        statusCode: response.status,
+      },
+    };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
 export interface FetchCalendarEventsParams {
   calendarId: string;
   offset: number;
@@ -215,7 +258,7 @@ export async function fetchCalendarEvents({
       headers: {
         'x-meeting-baas-api-key': apiKey,
       },
-      withCredentials: true
+      withCredentials: true,
     });
 
     if (response.status != 200) {

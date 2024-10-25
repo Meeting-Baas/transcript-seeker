@@ -98,6 +98,22 @@ export const createCalendar = async ({
   return data;
 };
 
+interface DeleteCalendarProps extends Omit<MeetingBaas.DeleteCalendarParams, 'proxyUrl'> {}
+
+export const deleteCalendar = async ({
+  ...params
+}: DeleteCalendarProps): Promise<{ statusCode: number } | null> => {
+  const response = await MeetingBaas.deleteCalendar({
+    proxyUrl: VITE_API_URL,
+    ...params,
+  });
+
+  const data: { statusCode: number } | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
+};
+
 interface FetchCalendarEventsProps extends Omit<FetchCalendarEventsParams, 'proxyUrl'> {}
 
 export const fetchCalendarEvents = async ({

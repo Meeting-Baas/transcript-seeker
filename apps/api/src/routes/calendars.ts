@@ -81,6 +81,33 @@ calendars.post("/", async (c) => {
   return c.body(null, 200);
 });
 
+calendars.delete("/", async (c) => {
+  const baasApiKey = c.req.header("x-meeting-baas-api-key");
+  if (!baasApiKey) return c.body(null, 401);
+
+  const calendarId = c.req.query("calendarId");
+  if (!calendarId ) return c.body(null, 400);
+
+  const user = c.get("user");
+  if (!user) return c.body(null, 401);
+
+  const response = await fetch(`${process.env.MEETINGBAAS_API_URL}/calendars/${calendarId}`, {
+    method: "DELETE",
+    headers: {
+      "x-meeting-baas-api-key": baasApiKey,
+      "Content-Type": "application/json",
+    }
+  });
+
+  if (response.status != 200) {
+    console.log("error, failed to delete calendar:", await response.text());
+    return c.body(null, response.status);
+  }
+
+  return c.body(null, 200);
+});
+
+
 calendars.get("/calendar_events", async (c) => {
   const baasApiKey = c.req.header("x-meeting-baas-api-key");
   if (!baasApiKey) return c.body(null, 401);

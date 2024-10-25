@@ -1,6 +1,14 @@
-import { Command } from 'lucide-react';
+import { CheckIcon, Command, DeleteIcon, MoreHorizontal, TrashIcon } from 'lucide-react';
 
+import { CalendarBaasData } from '@meeting-baas/shared';
 import { Button } from '@meeting-baas/ui/button';
+import { Checkbox } from '@meeting-baas/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@meeting-baas/ui/dropdown-menu';
 import {
   Sidebar,
   SidebarContent,
@@ -10,12 +18,19 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@meeting-baas/ui/sidebar';
+
 import ServerAvailablity from '../server-availablity';
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  calendars: CalendarBaasData[];
+  deleteCalendar: (id: string) => void;
+}
+
+export function AppSidebar({ calendars, deleteCalendar }: AppSidebarProps) {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
@@ -39,19 +54,37 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="px-0">Calendars</SidebarGroupLabel>
           <SidebarGroupContent>
-            {/* <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+            <SidebarMenu>
+              {calendars.map((calendar) => (
+                <SidebarMenuItem key={calendar.uuid}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
+                    <div className="cursor-pointer">
+                      <Checkbox checked={true} />
+                      <span>{calendar.name}</span>
+                    </div>
                   </SidebarMenuButton>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <SidebarMenuAction>
+                        <MoreHorizontal />
+                      </SidebarMenuAction>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side="right" align="start">
+                      <DropdownMenuItem className='group'>
+                        <div className='rounded-md border size-4 inline-flex items-center justify-center group-hover:border-background'>
+                          <CheckIcon className='size-3' />
+                        </div>
+                        <span>Select Calendar</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <TrashIcon />
+                        <span>Delete Calendar</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </SidebarMenuItem>
               ))}
-            </SidebarMenu> */}
-            TODO: WIP
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

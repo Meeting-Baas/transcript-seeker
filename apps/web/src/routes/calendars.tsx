@@ -56,7 +56,7 @@ export default function CalendarsPage() {
 
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar calendars={calendars} />
       <SidebarInset className="w-full">
         <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
