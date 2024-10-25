@@ -5,8 +5,8 @@ import Calendar from '@/components/calendars/calendar';
 import FullSpinner from '@/components/loader';
 import { ModeToggle } from '@/components/mode-toggle';
 import { useApiKey } from '@/hooks/use-api-key';
-import { useCalendars } from '@/hooks/use-calendars';
 import { useCalendarEvents } from '@/hooks/use-calendar-events';
+import { useCalendars } from '@/hooks/use-calendars';
 import { useSession } from '@/lib/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,6 +21,8 @@ import {
 import { Separator } from '@meeting-baas/ui/separator';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@meeting-baas/ui/sidebar';
 
+import ErrorPage from '@/routes/error';
+
 export default function CalendarsPage() {
   const navigate = useNavigate();
   const { data: session, isPending: isSessionLoading } = useSession();
@@ -28,10 +30,15 @@ export default function CalendarsPage() {
   const { calendars, isLoading: isCalendarsLoading } = useCalendars({
     key: baasApiKey ? ['calendars', baasApiKey] : null,
   });
-  const { events, isLoading: isEventsLoading } = useCalendarEvents({ calendars, apiKey: baasApiKey });
+  const { events, isLoading: isEventsLoading } = useCalendarEvents({
+    calendars,
+    apiKey: baasApiKey,
+  });
 
-  const isLoading = isSessionLoading || isBaasApiKeyLoading || isCalendarsLoading || isEventsLoading;
+  const isLoading =
+    isSessionLoading || isBaasApiKeyLoading || isCalendarsLoading || isEventsLoading;
 
+    // todo: create calendar
   if (isLoading) {
     return <FullSpinner />;
   }
@@ -43,11 +50,9 @@ export default function CalendarsPage() {
 
   if (!baasApiKey) {
     return (
-      <div className="container p-4">
-        <p className="text-red-500">
-          The MeetingBaas API Key is not configured. Please set it up and try again.
-        </p>
-      </div>
+      <ErrorPage>
+        The MeetingBaas API Key is not configured. Please set it up and try again.
+      </ErrorPage>
     );
   }
 
@@ -74,7 +79,7 @@ export default function CalendarsPage() {
           </div>
         </header>
         <div className="flex flex-1 flex-col">
-          {JSON.stringify(events)}
+          {/* {JSON.stringify(events)} */}
           <div className="h-full w-full flex-1 overflow-hidden">
             <Calendar calendars={undefined} events={[]} />
           </div>
