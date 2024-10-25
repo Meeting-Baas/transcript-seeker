@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useApiKey } from '@/hooks/use-api-key';
+import { signOut } from '@/lib/auth';
 import { setAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
@@ -237,6 +238,8 @@ export function SettingsForm() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+
+          <Button type="button" onClick={() => signOut()}>Logout</Button>
 
           {isDirty && (
             <Button className="mt-8" type="submit" variant="default">
