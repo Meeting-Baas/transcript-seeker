@@ -19,6 +19,7 @@
     "@meeting-baas/db": "workspace:*",
     "@meeting-baas/shared": "workspace:*",
     "@meeting-baas/ui": "workspace:*",
+    "@schedule-x/current-time": "^2.4.1",
     "@schedule-x/event-modal": "^2.4.1",
     "@schedule-x/events-service": "^2.4.1",
     "@schedule-x/react": "^2.4.1",

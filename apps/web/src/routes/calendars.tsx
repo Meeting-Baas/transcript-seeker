@@ -38,7 +38,7 @@ export default function CalendarsPage() {
   const isLoading =
     isSessionLoading || isBaasApiKeyLoading || isCalendarsLoading || isEventsLoading;
 
-    // todo: create cal
+  // todo: create cal
   if (isLoading) {
     return <FullSpinner />;
   }

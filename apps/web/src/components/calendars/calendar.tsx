@@ -7,8 +7,10 @@ import {
 } from '@schedule-x/calendar';
 
 import { createEventModalPlugin } from '@schedule-x/event-modal'
+import { createCurrentTimePlugin } from '@schedule-x/current-time'
 import { createEventsServicePlugin } from '@schedule-x/events-service';
 import { ScheduleXCalendar, useCalendarApp } from '@schedule-x/react';
+import { format } from 'date-fns';
 
 import '@schedule-x/theme-default/dist/index.css';
 import '@/styles/schedulex.css';
@@ -44,20 +46,25 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
   console.log(calendars)
 
   const events: CalendarEvent[] = useMemo(() => {
-    return eventsData.map(event => ({
-      id: event.google_id,
-      start: new Date(event.start_time.secs_since_epoch * 1000).toISOString(),
-      end: new Date(event.end_time.secs_since_epoch * 1000).toISOString(),
-      title: event.name,
-      location: event.meeting_url,
-      // todo: type raw data
-      description: event.raw?.description,
-      people: event.raw?.attendees.map((attendee: { email?: string }) => attendee?.email),
-      calendarId: event.uuid,
-    }));
+    return eventsData.map(event => {
+      const startDate = new Date(event.start_time.secs_since_epoch * 1000);
+      const endDate = new Date(event.end_time.secs_since_epoch * 1000);
+      
+      return {
+        id: event.google_id,
+        start: format(startDate, "yyyy-MM-dd HH:mm"),
+        end: format(endDate, "yyyy-MM-dd HH:mm"),
+        title: event.name,
+        location: event.meeting_url,
+        // todo: type the raw data
+        description: event.raw?.description,
+        people: event.raw?.attendees.map((attendee: { email?: string }) => attendee?.email),
+        calendarId: event.uuid,
+      };
+    });
   }, [eventsData]);
 
-  const plugins = [createEventsServicePlugin(), createEventModalPlugin()];
+  const plugins = [createEventsServicePlugin(), createEventModalPlugin(), createCurrentTimePlugin()];
   const calendar = useCalendarApp(
     {
       views: [createViewDay(), createViewWeek(), createViewMonthGrid(), createViewMonthAgenda()],
@@ -75,7 +82,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
   // Example of how you might use raw event data
   // useEffect(() => {
   //   if (eventsData.length > 0) {
-  //     console.log('Raw event data:', events);
+  //     console.log('Raw event data:', eventsData);
   //     // You can perform any additional processing or use raw data here
   //   }
   // }, [eventsData]);

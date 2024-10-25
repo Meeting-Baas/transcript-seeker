@@ -75,6 +75,8 @@ export interface CalendarBaasEvent {
   recurring_event_id: string | null;
   is_recurring: boolean;
   uuid: string;
-  raw: any;
+  raw: {
+    
+  };
   bot_param: any | null;
 };
