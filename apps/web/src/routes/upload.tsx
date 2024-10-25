@@ -38,6 +38,7 @@ import {
   SelectValue,
 } from '@meeting-baas/ui/select';
 import { Separator } from '@meeting-baas/ui/separator';
+
 import {
   Sidebar,
   SidebarContent,
@@ -45,10 +46,15 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarInset,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
   SidebarProvider,
-  SidebarTrigger,
+  SidebarInset,
+  SidebarTrigger
 } from '@meeting-baas/ui/sidebar';
+import { Button } from '@meeting-baas/ui/button';
 
 export const formSchema = z.object({
   provider: z.string().min(1, {
@@ -137,7 +143,24 @@ export default function UploadPage() {
 
   return (
     <SidebarProvider>
-      <Sidebar>
+      <Sidebar  variant="inset">
+        <SidebarHeader>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton size="lg" asChild>
+                <Button variant={'ghost'}>
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                    <img src={'/logo.svg'} className="size-6" />
+                  </div>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">MeetingBaas</span>
+                    <span className="truncate text-xs">Transcript Seeker</span>
+                  </div>
+                </Button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel className="px-0">Settings</SidebarGroupLabel>
@@ -207,7 +230,7 @@ export default function UploadPage() {
       </Sidebar>
 
       <SidebarInset>
-        <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b bg-background px-4">
+        <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb>

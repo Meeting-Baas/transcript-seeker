@@ -59,18 +59,29 @@
 }
 
 .sx__calendar {
-    border: none;
-
+  border: none;
 }
 
 .sx__view-selection-items {
-    border-radius: var(--sx-rounding-small);
-    overflow: hidden;
-    margin-top: 10px;
+  border-radius: var(--sx-rounding-small);
+  overflow: hidden;
+  margin-top: 10px;
 }
 
 .sx__date-picker-popup {
-    border-radius: var(--sx-rounding-small);
-    overflow: hidden;
-    margin-top: 10px;
+  border-radius: var(--sx-rounding-small);
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.sx__chevron.sx__chevron--next {
+  border-width: 0.1rem 0.1rem 0 0;
+}
+
+.sx__chevron.sx__chevron--previous {
+  border-width: 0.1rem 0.1rem 0 0;
+}
+
+.sx__date-input-chevron {
+  content: url("data:image/svg+xml,%3c%3fxml version='1.0' encoding='utf-8'%3f%3e%3c!-- Uploaded to: SVG Repo%2c www.svgrepo.com%2c Generator: SVG Repo Mixer Tools --%3e%3csvg width='800px' height='800px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M6 9L12 15L18 9' stroke='%23DED8E1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
 }

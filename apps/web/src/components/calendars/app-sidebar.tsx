@@ -1,3 +1,6 @@
+import { Command } from 'lucide-react';
+
+import { Button } from '@meeting-baas/ui/button';
 import {
   Sidebar,
   SidebarContent,
@@ -7,10 +10,10 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuButton
 } from '@meeting-baas/ui/sidebar';
-import { Command } from 'lucide-react';
+import ServerAvailablity from '../server-availablity';
 
 export function AppSidebar() {
   return (
@@ -19,22 +22,22 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Button variant={'ghost'}>
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+                  <img src={'/logo.svg'} className="size-6" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate font-semibold">MeetingBaas</span>
+                  <span className="truncate text-xs">Transcript Seeker</span>
                 </div>
-              </a>
+              </Button>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Calendars</SidebarGroupLabel>
+          <SidebarGroupLabel className="px-0">Calendars</SidebarGroupLabel>
           <SidebarGroupContent>
             {/* <SidebarMenu>
               {items.map((item) => (
@@ -52,7 +55,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <ServerAvailablity />
+      </SidebarFooter>
     </Sidebar>
   );
 }
