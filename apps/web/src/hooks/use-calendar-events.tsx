@@ -1,7 +1,7 @@
 import { fetchCalendarEvents } from '@/lib/meetingbaas';
 import useSWR from 'swr';
 
-import { CalendarBaasData } from '@meeting-baas/shared';
+import { CalendarBaasData, CalendarBaasEvent } from '@meeting-baas/shared';
 
 interface UseCalendarEventsProps {
   calendars?: CalendarBaasData[] | null;
@@ -17,16 +17,13 @@ const fetcher = async (calendars: CalendarBaasData[], apiKey: string) => {
 };
 
 export function useCalendarEvents({ calendars, apiKey }: UseCalendarEventsProps) {
-  const {
-    data: events,
-    error,
-    isLoading,
-  } = useSWR(calendars && apiKey ? [calendars, apiKey] : null, ([calendarsArg, apiKeyArg]) =>
-    fetcher(calendarsArg, apiKeyArg),
+  const { data, error, isLoading } = useSWR(
+    calendars && apiKey ? [calendars, apiKey] : null,
+    ([calendarsArg, apiKeyArg]) => fetcher(calendarsArg, apiKeyArg),
   );
 
   return {
-    events,
+    events: data,
     isLoading,
     isError: !!error,
   };

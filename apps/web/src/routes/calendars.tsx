@@ -38,7 +38,7 @@ export default function CalendarsPage() {
   const isLoading =
     isSessionLoading || isBaasApiKeyLoading || isCalendarsLoading || isEventsLoading;
 
-    // todo: create calendar
+    // todo: create cal
   if (isLoading) {
     return <FullSpinner />;
   }
@@ -79,9 +79,8 @@ export default function CalendarsPage() {
           </div>
         </header>
         <div className="flex flex-1 flex-col">
-          {/* {JSON.stringify(events)} */}
           <div className="h-full w-full flex-1 overflow-hidden">
-            <Calendar calendars={undefined} events={[]} />
+            <Calendar calendarsData={calendars ?? []} eventsData={events ?? []} />
           </div>
         </div>
       </SidebarInset>
