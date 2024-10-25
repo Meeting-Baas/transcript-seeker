@@ -1,33 +1,28 @@
-import { fetchCalendars } from '@/lib/meetingbaas'
-import { CalendarBaasData } from '@meeting-baas/shared'
-import useSWR from 'swr'
+import { fetchCalendars } from '@/lib/meetingbaas';
+import useSWR from 'swr';
+
+import { CalendarBaasData } from '@meeting-baas/shared';
 
 interface UseCalendarsOptions {
-  baasApiKey: string
-  enabled?: boolean
+  key: [string, string] | null;
+  enabled?: boolean;
 }
 
-const fetcher = async (apiKey: string): Promise<CalendarBaasData[]> => {
-  if (!apiKey) {
-    throw new Error('API key is required')
-  }
-  const calendars = await fetchCalendars({ apiKey })
-  return calendars || []
-}
+const fetcher = async (apiKey: string): Promise<CalendarBaasData[] | null> => {
+  if (!apiKey) return null;
+  const calendars = await fetchCalendars({ apiKey });
+  return calendars || [];
+};
 
-export function useCalendars({ baasApiKey, enabled = true }: UseCalendarsOptions) {
+export function useCalendars({ key }: UseCalendarsOptions) {
   const { data, error, isLoading } = useSWR(
-    enabled ? ['calendars', baasApiKey] : null,
+    key,
     ([, apiKey]) => fetcher(apiKey),
-    {
-      revalidateOnFocus: false,
-      shouldRetryOnError: false,
-    }
-  )
+  );
 
   return {
     calendars: data,
     isLoading,
     isError: error,
-  }
+  };
 }
