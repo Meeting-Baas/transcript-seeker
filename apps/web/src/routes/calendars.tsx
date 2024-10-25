@@ -1,7 +1,6 @@
-'use client';
-
 import { AppSidebar } from '@/components/calendars/app-sidebar';
 import Calendar from '@/components/calendars/calendar';
+import { NoCalendars } from '@/components/calendars/no-calendars';
 import FullSpinner from '@/components/loader';
 import { ModeToggle } from '@/components/mode-toggle';
 import { useApiKey } from '@/hooks/use-api-key';
@@ -38,7 +37,6 @@ export default function CalendarsPage() {
   const isLoading =
     isSessionLoading || isBaasApiKeyLoading || isCalendarsLoading || isEventsLoading;
 
-  // todo: create cal
   if (isLoading) {
     return <FullSpinner />;
   }
@@ -80,7 +78,11 @@ export default function CalendarsPage() {
         </header>
         <div className="flex flex-1 flex-col">
           <div className="h-full w-full flex-1 overflow-hidden">
-            <Calendar calendarsData={calendars ?? []} eventsData={events ?? []} />
+            {calendars && calendars.length > 0 ? (
+              <Calendar calendarsData={calendars} eventsData={events ?? []} />
+            ) : (
+              <NoCalendars />
+            )}
           </div>
         </div>
       </SidebarInset>
