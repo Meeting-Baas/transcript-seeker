@@ -4,7 +4,7 @@ import ServerAvailablity from '@/components/server-availablity';
 import { useApiKey } from '@/hooks/use-api-key';
 import { useSession } from '@/lib/auth';
 import { useServerAvailabilityStore } from '@/store';
-import { Calendar, Info, Key, List, Mic, Upload } from 'lucide-react';
+import { Calendar, Cog, Info, Key, List, Mic, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { cn } from '@meeting-baas/ui';
@@ -101,8 +101,8 @@ function RootPage() {
                 'gap-2',
               )}
             >
-              <Key className="h-4 w-4" />
-              Manage API Keys
+              <Cog className="h-4 w-4" />
+              Settings
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-2">

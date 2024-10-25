@@ -1,21 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useApiKey } from '@/hooks/use-api-key';
-import { signOut } from '@/lib/auth';
+import { signOut, useSession } from '@/lib/auth';
 import { setAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, LoaderIcon } from 'lucide-react';
 import { useForm, useFormState } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
 import { z } from 'zod';
 
+import { cn } from '@meeting-baas/ui';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@meeting-baas/ui/accordion';
-import { Button } from '@meeting-baas/ui/button';
+import { Button, buttonVariants } from '@meeting-baas/ui/button';
 import {
   Form,
   FormControl,
@@ -26,6 +28,8 @@ import {
   FormMessage,
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
+
+import SignOut from '@/components/sign-out';
 
 const formSchema = z.object({
   baasApiKey: z.string().optional(),
@@ -92,6 +96,8 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({
 };
 
 export function SettingsForm() {
+  const { data: session, isPending: isSessionLoading } = useSession();
+
   const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
   const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
@@ -109,7 +115,6 @@ export function SettingsForm() {
   const { isDirty } = useFormState({ control: form.control });
 
   const onSubmit = async (values: FormSchema) => {
-    // console.log('Submitted values:', values);
     await setAPIKey({ type: 'meetingbaas', content: values.baasApiKey! });
     await setAPIKey({ type: 'openai', content: values.openAIApiKey! });
     await setAPIKey({ type: 'gladia', content: values.gladiaApiKey! });
@@ -198,6 +203,7 @@ export function SettingsForm() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
@@ -239,7 +245,30 @@ export function SettingsForm() {
             </AccordionItem>
           </Accordion>
 
-          <Button type="button" onClick={() => signOut()}>Logout</Button>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="py-0 pb-4 text-xl hover:no-underline [&>svg]:size-6">
+                Authentication
+              </AccordionTrigger>
+              <AccordionContent className="flex flex-col space-y-6 px-1">
+                <code className="h-128 w-full rounded-md bg-muted p-4">
+                  {session?.user
+                    ? JSON.stringify(session?.user)
+                    : isSessionLoading
+                      ? 'loading...'
+                      : 'not authenticated'}
+                </code>
+
+                {session?.user && <SignOut />}
+
+                {!session?.user && (
+                  <Link to="/login" className={cn(buttonVariants({ variant: 'default' }))}>
+                    Login
+                  </Link>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
           {isDirty && (
             <Button className="mt-8" type="submit" variant="default">

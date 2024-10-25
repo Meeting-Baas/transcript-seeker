@@ -1,15 +1,12 @@
+import { useTransition } from 'react';
 import ServerAvailablity from '@/components/server-availablity';
 import { signIn } from '@/lib/auth';
-import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@meeting-baas/ui/button';
+import { LoaderIcon } from 'lucide-react';
 
 function LoginPage() {
-  async function authorize() {
-    await signIn.social({
-      provider: 'google',
-    });
-  }
+  const [isPending, startTransition] = useTransition();
 
   return (
     <div className="flex h-full min-h-svh flex-col items-center justify-center">
@@ -19,7 +16,19 @@ function LoginPage() {
           The calendar extension for Transcript Seeker, needs you to login to Google Calendar.
         </p>
 
-        <Button className="w-full" onClick={authorize}>
+        <Button
+          className="w-full"
+          onClick={() => {
+            startTransition(async () => {
+              await signIn.social({
+                provider: 'google',
+                callbackURL: '/meetings'
+              });
+            });
+          }}
+          disabled={isPending}
+        >
+          {isPending && <LoaderIcon className="size-4" />}
           Login With Google
         </Button>
         <div className="fixed bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2 text-sm text-muted-foreground">

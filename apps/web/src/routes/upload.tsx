@@ -12,6 +12,7 @@ import * as gladia from '@/lib/transcription/gladia/options';
 import { useProviderOptionsStore } from '@/store/providerOptionsStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
 import {
@@ -22,6 +23,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@meeting-baas/ui/breadcrumb';
+import { Button } from '@meeting-baas/ui/button';
 import {
   Form,
   FormControl,
@@ -38,7 +40,6 @@ import {
   SelectValue,
 } from '@meeting-baas/ui/select';
 import { Separator } from '@meeting-baas/ui/separator';
-
 import {
   Sidebar,
   SidebarContent,
@@ -47,14 +48,13 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarProvider,
   SidebarInset,
-  SidebarTrigger
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
 } from '@meeting-baas/ui/sidebar';
-import { Button } from '@meeting-baas/ui/button';
 
 export const formSchema = z.object({
   provider: z.string().min(1, {
@@ -143,12 +143,12 @@ export default function UploadPage() {
 
   return (
     <SidebarProvider>
-      <Sidebar  variant="inset">
+      <Sidebar variant="inset">
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild>
-                <Button variant={'ghost'}>
+                <Link to={'/'}>
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                     <img src={'/logo.svg'} className="size-6" />
                   </div>
@@ -156,7 +156,7 @@ export default function UploadPage() {
                     <span className="truncate font-semibold">MeetingBaas</span>
                     <span className="truncate text-xs">Transcript Seeker</span>
                   </div>
-                </Button>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
