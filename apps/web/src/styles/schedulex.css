@@ -45,9 +45,18 @@
   --sx-internal-color-light-gray: hsl(var(--muted));
   --sx-internal-color-text: hsl(var(--foreground));
 
+  /* Radius */
   --sx-rounding-extra-small: 0.5rem;
   --sx-rounding-small: 0.75rem;
   --sx-rounding-extra-large: 1rem;
+
+  /* Padding */
+  --sx-spacing-padding1: 2px;
+  --sx-spacing-padding2: 4px;
+  --sx-spacing-padding3: 8px;
+  --sx-spacing-padding4: 10px;
+  --sx-spacing-padding6: 12px;
+  --sx-spacing-modal-padding: 14px;
 }
 
 .sx-react-calendar-wrapper {
@@ -66,12 +75,32 @@
   border-radius: var(--sx-rounding-small);
   overflow: hidden;
   margin-top: 10px;
+  box-shadow: none;
+  border-width: 1px;
+  border-color: hsl(var(--border));
 }
 
 .sx__date-picker-popup {
   border-radius: var(--sx-rounding-small);
   overflow: hidden;
   margin-top: 10px;
+  box-shadow: none;
+  border-width: 1px;
+  border-color: hsl(var(--border));
+}
+
+.sx__forward-backward-navigation {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  gap: 6px;
+}
+
+.sx__chevron-wrapper {
+  /* height: 100%;
+  width: 100%; */
+  min-width: 36px;
+  min-height: 36px;
 }
 
 .sx__chevron.sx__chevron--next {
@@ -83,5 +112,14 @@
 }
 
 .sx__date-input-chevron {
-  content: url("data:image/svg+xml,%3c%3fxml version='1.0' encoding='utf-8'%3f%3e%3c!-- Uploaded to: SVG Repo%2c www.svgrepo.com%2c Generator: SVG Repo Mixer Tools --%3e%3csvg width='800px' height='800px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M6 9L12 15L18 9' stroke='%23DED8E1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+  content: url("data:image/svg+xml,%3c%3fxml version='1.0' encoding='utf-8'%3f%3e%3c!-- Uploaded to: SVG Repo%2c www.svgrepo.com%2c Generator: SVG Repo Mixer Tools --%3e%3csvg width='800px' height='800px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M6 9L12 15L18 9' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+}
+
+.dark .sx__date-input-chevron {
+  content: url("data:image/svg+xml,%3c%3fxml version='1.0' encoding='utf-8'%3f%3e%3c!-- Uploaded to: SVG Repo%2c www.svgrepo.com%2c Generator: SVG Repo Mixer Tools --%3e%3csvg width='800px' height='800px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M6 9L12 15L18 9' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+}
+
+.sx__ripple::before,
+.sx__ripple::after {
+  all: unset !important;
 }

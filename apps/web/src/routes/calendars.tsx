@@ -72,23 +72,7 @@ export default function CalendarsPage() {
         </header>
         <div className="flex flex-1 flex-col">
           <div className="h-full w-full flex-1 overflow-hidden">
-            {/* {calendars?.length > 0 ? (
-              <>
-                <h3 className="text-lg font-semibold">Calendars:</h3>
-                <ul>
-                  {calendars.map((calendar) => (
-                    <li key={calendar.uuid}>
-                      {calendar.name} - {calendar.uuid}
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <>
-                Nothing here yet...
-              </>
-            )} */}
-            <Calendar events={[]} />
+            <Calendar calendars={null} events={[]} />
           </div>
         </div>
       </SidebarInset>
