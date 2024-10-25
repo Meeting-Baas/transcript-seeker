@@ -1,4 +1,8 @@
+'use client';
+
+import { useCallback } from 'react';
 import { CheckIcon, Command, DeleteIcon, MoreHorizontal, TrashIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { CalendarBaasData } from '@meeting-baas/shared';
 import { Button } from '@meeting-baas/ui/button';
@@ -21,31 +25,33 @@ import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSkeleton,
 } from '@meeting-baas/ui/sidebar';
 
 import ServerAvailablity from '../server-availablity';
 
 interface AppSidebarProps {
-  calendars: CalendarBaasData[];
+  calendars?: CalendarBaasData[] | null;
+  isLoading: boolean;
   deleteCalendar: (id: string) => void;
 }
 
-export function AppSidebar({ calendars, deleteCalendar }: AppSidebarProps) {
+export function AppSidebar({ calendars, isLoading, deleteCalendar }: AppSidebarProps) {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Button variant={'ghost'}>
+              <Link to={'/'}>
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <img src={'/logo.svg'} className="size-6" />
+                  <img src={'/logo.svg'} className="size-6" alt="MeetingBaas logo" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">MeetingBaas</span>
                   <span className="truncate text-xs">Transcript Seeker</span>
                 </div>
-              </Button>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -55,11 +61,18 @@ export function AppSidebar({ calendars, deleteCalendar }: AppSidebarProps) {
           <SidebarGroupLabel className="px-0">Calendars</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {calendars.map((calendar) => (
+              {calendars?.map((calendar) => (
                 <SidebarMenuItem key={calendar.uuid}>
                   <SidebarMenuButton asChild>
-                    <div className="cursor-pointer">
-                      <Checkbox checked={true} />
+                    <div
+                      className="flex cursor-pointer items-center gap-2"
+                      // onClick={() => toggleCalendarVisibility(calendar.uuid)}
+                    >
+                      <Checkbox
+                        // checked={visibleCalendarIds.includes(calendar.uuid)}
+                        // onCheckedChange={() => toggleCalendarVisibility(calendar.uuid)}
+                        className="pointer-events-none"
+                      />
                       <span>{calendar.name}</span>
                     </div>
                   </SidebarMenuButton>
@@ -70,13 +83,18 @@ export function AppSidebar({ calendars, deleteCalendar }: AppSidebarProps) {
                       </SidebarMenuAction>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side="right" align="start">
-                      <DropdownMenuItem className='group'>
-                        <div className='rounded-md border size-4 inline-flex items-center justify-center group-hover:border-background'>
-                          <CheckIcon className='size-3' />
+                      <DropdownMenuItem
+                        className="group"
+                        // onClick={() => toggleCalendarVisibility(calendar.uuid)}
+                      >
+                        <div className="inline-flex size-4 items-center justify-center rounded-md border group-hover:border-background">
+                          <CheckIcon className="size-3" />
                         </div>
-                        <span>Select Calendar</span>
+                        <span>
+                          {/* {visibleCalendarIds.includes(calendar.uuid) ? 'Hide' : 'Show'} Calendar */}
+                        </span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => deleteCalendar(calendar.uuid)}>
                         <TrashIcon />
                         <span>Delete Calendar</span>
                       </DropdownMenuItem>
@@ -84,6 +102,12 @@ export function AppSidebar({ calendars, deleteCalendar }: AppSidebarProps) {
                   </DropdownMenu>
                 </SidebarMenuItem>
               ))}
+              {isLoading &&
+                Array.from({ length: 5 }).map((_, index) => (
+                  <SidebarMenuItem key={index}>
+                    <SidebarMenuSkeleton />
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

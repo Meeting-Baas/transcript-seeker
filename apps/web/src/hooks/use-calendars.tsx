@@ -4,8 +4,7 @@ import useSWR from 'swr';
 import { CalendarBaasData } from '@meeting-baas/shared';
 
 interface UseCalendarsOptions {
-  key: [string, string] | null;
-  enabled?: boolean;
+  apiKey?: string | null;
 }
 
 const fetcher = async (apiKey: string): Promise<CalendarBaasData[] | null> => {
@@ -14,9 +13,9 @@ const fetcher = async (apiKey: string): Promise<CalendarBaasData[] | null> => {
   return calendars || [];
 };
 
-export function useCalendars({ key }: UseCalendarsOptions) {
-  const { data, error, isLoading } = useSWR(
-    key,
+export function useCalendars({ apiKey }: UseCalendarsOptions) {
+  const { data, error, isLoading, mutate } = useSWR(
+    apiKey ? ["calendars", apiKey] : null,
     ([, apiKey]) => fetcher(apiKey),
   );
 
@@ -24,5 +23,6 @@ export function useCalendars({ key }: UseCalendarsOptions) {
     calendars: data,
     isLoading,
     isError: error,
+    mutate
   };
 }

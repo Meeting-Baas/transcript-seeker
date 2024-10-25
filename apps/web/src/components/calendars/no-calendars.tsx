@@ -38,7 +38,7 @@ export function NoCalendars() {
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-center">
+    <div className="flex flex-1 h-full flex-col items-center justify-center">
       <h2 className="mb-4 text-2xl font-bold">You don't have any calendars yet</h2>
       <p className="mb-6 text-muted-foreground">Create a calendar to get started</p>
       <Button onClick={handleCreateCalendar} disabled={isPending}>

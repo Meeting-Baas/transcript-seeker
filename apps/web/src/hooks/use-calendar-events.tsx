@@ -1,30 +1,54 @@
 import { fetchCalendarEvents } from '@/lib/meetingbaas';
+import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import useSWR from 'swr';
 
-import { CalendarBaasData, CalendarBaasEvent } from '@meeting-baas/shared';
+import { CalendarBaasData } from '@meeting-baas/shared';
 
 interface UseCalendarEventsProps {
   calendars?: CalendarBaasData[] | null;
   apiKey?: string | null;
 }
 
-const fetcher = async (calendars: CalendarBaasData[], apiKey: string) => {
-  const eventsPromises = calendars.map((calendar) =>
-    fetchCalendarEvents({ calendarId: calendar.uuid, offset: 0, limit: 100, apiKey }),
+const fetcher = async (
+  calendars: CalendarBaasData[],
+  apiKey: string,
+): Promise<ExtendedCalendarBaasEvent[]> => {
+  const eventsPromises = calendars.map(
+    (calendar) =>
+      new Promise(async (resolve, reject) => {
+        try {
+          const events = (await fetchCalendarEvents({
+            calendarId: calendar.uuid,
+            offset: 0,
+            limit: 100,
+            apiKey,
+          })) as ExtendedCalendarBaasEvent[] | null;
+
+          events?.forEach((event) => {
+            event['calendarId'] = calendar.uuid;
+          });
+
+          resolve(events);
+        } catch (error) {
+          reject(error);
+        }
+      }),
   );
-  const eventsResults = await Promise.all(eventsPromises);
+
+  const eventsResults: ExtendedCalendarBaasEvent[] = await Promise.all(eventsPromises);
   return eventsResults.flat();
 };
 
 export function useCalendarEvents({ calendars, apiKey }: UseCalendarEventsProps) {
-  const { data, error, isLoading } = useSWR(
-    calendars && apiKey ? [calendars, apiKey] : null,
-    ([calendarsArg, apiKeyArg]) => fetcher(calendarsArg, apiKeyArg),
+  const { data, error, isLoading, mutate } = useSWR(
+    calendars && apiKey ? ['calendar-events', calendars, apiKey] : null,
+    ([, calendarsArg, apiKeyArg]) => fetcher(calendarsArg, apiKeyArg),
   );
 
   return {
     events: data,
     isLoading,
     isError: !!error,
+    mutate,
   };
 }
