@@ -1,14 +1,25 @@
 'use client';
 
+import { AppSidebar } from '@/components/calendars/app-sidebar';
+import Calendar from '@/components/calendars/calendar';
 import { Header } from '@/components/header';
 import FullSpinner from '@/components/loader';
+import { ModeToggle } from '@/components/mode-toggle';
 import { useApiKey } from '@/hooks/use-api-key';
 import { useCalendars } from '@/hooks/use-calendars';
 import { useSession } from '@/lib/auth';
 import { useNavigate } from 'react-router-dom';
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@meeting-baas/ui/breadcrumb';
 import { Separator } from '@meeting-baas/ui/separator';
-import Calendar from '@/components/calendar';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@meeting-baas/ui/sidebar';
 
 export default function CalendarsPage() {
   const navigate = useNavigate();
@@ -38,40 +49,49 @@ export default function CalendarsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-[calc(100dvh-81px)]">
-      <Header
-        path={[
-          {
-            name: 'Calendars',
-          },
-        ]}
-      />
-      <div className="p-4 flex flex-col flex-1">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Calendars</h2>
-          <p className="text-muted-foreground">View and manage your calendar events.</p>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset className="w-full">
+        <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Calendars</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <div className="flex flex-1 justify-end">
+            <ModeToggle />
+          </div>
+        </header>
+        <div className="flex flex-1 flex-col">
+          <div className="h-full w-full flex-1 overflow-hidden">
+            {/* {calendars?.length > 0 ? (
+              <>
+                <h3 className="text-lg font-semibold">Calendars:</h3>
+                <ul>
+                  {calendars.map((calendar) => (
+                    <li key={calendar.uuid}>
+                      {calendar.name} - {calendar.uuid}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <>
+                Nothing here yet...
+              </>
+            )} */}
+            <Calendar events={[]} />
+          </div>
         </div>
-        <Separator className="my-4" />
-        <div className="mt-4 w-full h-full flex-1 overflow-hidden">
-          {/* {calendars?.length > 0 ? (
-            <>
-              <h3 className="text-lg font-semibold">Calendars:</h3>
-              <ul>
-                {calendars.map((calendar) => (
-                  <li key={calendar.uuid}>
-                    {calendar.name} - {calendar.uuid}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <>
-              Nothing here yet...
-            </>
-          )} */}
-          <Calendar events={[]} />
-        </div>
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
