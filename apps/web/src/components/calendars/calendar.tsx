@@ -46,7 +46,9 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
       end: new Date(event.end_time.secs_since_epoch * 1000).toISOString(),
       title: event.name,
       location: event.meeting_url,
+      // todo: type raw data
       description: event.raw?.description,
+      people: event.raw?.attendees.map((attendee: { email?: string }) => attendee?.email),
       calendarId: event.uuid,
     }));
   }, [eventsData]);
@@ -69,7 +71,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
   // Example of how you might use raw event data
   useEffect(() => {
     if (eventsData.length > 0) {
-      console.log('Raw event data:', eventsData[0]);
+      console.log('Raw event data:', events);
       // You can perform any additional processing or use raw data here
     }
   }, [eventsData]);
