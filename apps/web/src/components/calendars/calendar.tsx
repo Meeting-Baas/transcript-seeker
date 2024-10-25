@@ -23,25 +23,29 @@ interface CalendarProps {
 
 function Calendar({ calendarsData, eventsData }: CalendarProps) {
   const calendars: Calendars = useMemo(() => {
-    const colorMap: { [key: string]: string } = {
-      'Calendar 1': 'red',
-      'Calendar 2': 'blue',
-      'Calendar 3': 'green',
-      // Add more mappings as needed
-    };
-
     return calendarsData.reduce((acc, calendar) => {
       acc[calendar.uuid] = {
-        colorName: colorMap[calendar.name] || 'gray',
+        colorName: calendar.name,
+        lightColors: {
+          main: '#f9d71c',
+          container: '#fff5aa',
+          onContainer: '#594800',
+        },
+        darkColors: {
+          main: '#fff5c0',
+          onContainer: '#fff5de',
+          container: '#a29742',
+        },
         label: calendar.name,
       };
       return acc;
     }, {} as Calendars);
   }, [calendarsData]);
+  console.log(calendars)
 
   const events: CalendarEvent[] = useMemo(() => {
     return eventsData.map(event => ({
-      id: parseInt(event.google_id, 10) || Math.random(),
+      id: event.google_id,
       start: new Date(event.start_time.secs_since_epoch * 1000).toISOString(),
       end: new Date(event.end_time.secs_since_epoch * 1000).toISOString(),
       title: event.name,
@@ -69,12 +73,12 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
   }, [calendar.eventsService]);
 
   // Example of how you might use raw event data
-  useEffect(() => {
-    if (eventsData.length > 0) {
-      console.log('Raw event data:', events);
-      // You can perform any additional processing or use raw data here
-    }
-  }, [eventsData]);
+  // useEffect(() => {
+  //   if (eventsData.length > 0) {
+  //     console.log('Raw event data:', events);
+  //     // You can perform any additional processing or use raw data here
+  //   }
+  // }, [eventsData]);
 
   return <ScheduleXCalendar calendarApp={calendar} />;
 }
