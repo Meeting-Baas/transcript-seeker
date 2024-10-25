@@ -12,7 +12,7 @@ import '@schedule-x/theme-default/dist/index.css';
 import '@/styles/schedulex.css';
 
 import { CalendarEvent as CalendarEventT, Calendars as CalendarsT } from '@/types/schedulex';
-import { useTheme } from 'next-themes';
+// import { useTheme } from 'next-themes';
 
 interface CalendarProps {
   calendars?: CalendarsT;
