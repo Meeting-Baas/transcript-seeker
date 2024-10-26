@@ -1,3 +1,5 @@
+import { createCalendarControlsPlugin } from '@schedule-x/calendar-controls';
+
 export interface CalendarEvent {
   id: string;
   start: string;
@@ -25,3 +27,5 @@ export type Calendar = {
 export type Calendars = {
   [key: string]: Calendar
 };
+
+export type CalendarControlsPluginType = ReturnType<typeof createCalendarControlsPlugin>;

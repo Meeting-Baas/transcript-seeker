@@ -5,6 +5,7 @@ import {
   createViewMonthGrid,
   createViewWeek,
 } from '@schedule-x/calendar';
+import { createCalendarControlsPlugin } from '@schedule-x/calendar-controls';
 import { createCurrentTimePlugin } from '@schedule-x/current-time';
 import { createEventModalPlugin } from '@schedule-x/event-modal';
 import { createEventsServicePlugin } from '@schedule-x/events-service';
@@ -18,6 +19,7 @@ import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { CalendarEvent, Calendars } from '@/types/schedulex';
 
 import { CalendarBaasData } from '@meeting-baas/shared';
+import CalendarToolbar from './calendar-toolbar';
 
 interface CalendarProps {
   calendarsData: CalendarBaasData[];
@@ -25,6 +27,13 @@ interface CalendarProps {
 }
 
 function Calendar({ calendarsData, eventsData }: CalendarProps) {
+  const calendarControls = createCalendarControlsPlugin();
+  const plugins = [
+    createEventsServicePlugin(),
+    createCurrentTimePlugin({ fullWeekWidth: true }),
+    calendarControls,
+  ];
+
   const calendars: Calendars = useMemo(() => {
     return calendarsData.reduce((acc, calendar) => {
       acc[calendar.uuid] = {
@@ -69,24 +78,26 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
       .filter(Boolean);
   }, [eventsData]);
 
-  const plugins = [
-    createEventsServicePlugin(),
-    createEventModalPlugin(),
-    createCurrentTimePlugin(),
-  ];
   const calendar = useCalendarApp(
     {
       views: [createViewDay(), createViewWeek(), createViewMonthGrid(), createViewMonthAgenda()],
       calendars: calendars,
       events: events,
+      callbacks: {
+        onEventClick(calendarEvent) {
+          console.log('onEventClick', calendarEvent) 
+        },
+      },
+      isResponsive: false
     },
     plugins,
   );
 
-  // useEffect(() => {
-  //   // get all events
-  //   calendar.eventsService.getAll();
-  // }, [calendar.eventsService]);
+  useEffect(() => {
+    // get all events
+    const events = calendar.eventsService.getAll();
+    console.log(calendar.calendarControls.getViews());
+  }, [calendar.eventsService]);
 
   // Example of how you might use raw event data
   // useEffect(() => {
@@ -96,7 +107,12 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
   //   }
   // }, [eventsData]);
 
-  return <ScheduleXCalendar calendarApp={calendar} />;
+  return (
+    <div className="flex h-full w-full flex-col">
+      <CalendarToolbar calendarApp={calendar} />
+      <ScheduleXCalendar calendarApp={calendar} />
+    </div>
+  );
 }
 
 export default Calendar;
