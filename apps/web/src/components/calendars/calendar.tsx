@@ -81,9 +81,15 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
       .filter((event): event is CalendarEvent => event !== null);
   }, [eventsData]);
 
+  const dayView = createViewDay();
+  const weekView = createViewWeek();
+  const monthGridView =  createViewMonthGrid();
+  const monthAgendaView = createViewMonthAgenda();
+
   const calendar = useCalendarApp(
     {
-      views: [createViewDay(), createViewWeek(), createViewMonthGrid(), createViewMonthAgenda()],
+      views: [dayView, weekView, monthGridView, monthAgendaView],
+      defaultView: monthGridView.name,
       calendars: calendars,
       events: events,
       callbacks: {
