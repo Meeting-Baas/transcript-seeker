@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import '@/styles/globals.css';
+import '@/styles/schedulex.css';
 import '@/styles/prosemirror.css';
 
 import App from './App';
