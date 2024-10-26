@@ -71,10 +71,23 @@
   border: none;
 }
 
+.sx__month-grid-day__events-more {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  border: 1px solid hsl(var(--border))!important;
+  margin: 2px;
+}
+
 .sx__ripple::before,
 .sx__ripple::after {
   all: unset !important;
 }
+
+.sx__ripple--wide::before,
+.sx__ripple--wide::after {
+  all: unset !important;
+} 
 
 .sx__calendar-header {
   display: none;
