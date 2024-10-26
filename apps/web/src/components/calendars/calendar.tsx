@@ -13,9 +13,10 @@ import { createEventsServicePlugin } from '@schedule-x/events-service';
 import { ScheduleXCalendar, useCalendarApp } from '@schedule-x/react';
 import { format } from 'date-fns';
 
-// dont' format for now
+// prettier-ignore-start
 import '@schedule-x/theme-default/dist/index.css';
 import '@/styles/schedulex.css';
+// prettier-ignore-end
 
 import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { CalendarEvent, Calendars } from '@/types/schedulex';
@@ -65,8 +66,8 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
       .map((event): CalendarEvent | null => {
         if (!event) return null;
 
-        const startDate = new Date(event.start_time.secs_since_epoch * 1000);
-        const endDate = new Date(event.end_time.secs_since_epoch * 1000);
+        const startDate = new Date(event.start_time);
+        const endDate = new Date(event.end_time);
         const attendees = event.raw?.attendees?.map((attendee) => attendee?.email ?? '') ?? [];
 
         return {

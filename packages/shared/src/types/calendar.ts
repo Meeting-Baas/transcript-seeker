@@ -4,14 +4,8 @@ export interface CalendarBaasEvent {
   google_id: string;
   name: string;
   meeting_url: string;
-  start_time: {
-    secs_since_epoch: number;
-    nanos_since_epoch: number;
-  };
-  end_time: {
-    secs_since_epoch: number;
-    nanos_since_epoch: number;
-  };
+  start_time: string;
+  end_time: string;
   is_organizer: boolean;
   recurring_event_id: string | null;
   is_recurring: boolean;
