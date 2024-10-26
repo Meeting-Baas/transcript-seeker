@@ -1,11 +1,19 @@
 {
-  "functions": {
-    "source": "apps/proxy/.output/server",
-    "runtime": "nodejs20"
-  },
+  "functions": [
+    {
+      "codebase": "nitro",
+      "source": "apps/proxy/.output/server",
+      "runtime": "nodejs20"
+    },
+    {
+      "codebase": "hono",
+      "source": "apps/api/dist",
+      "runtime": "nodejs20"
+    }
+  ],
   "hosting": [
     {
-      "target": "transcript-seeker-api",
+      "site": "transcript-seeker-proxy",
       "public": "apps/proxy/.output/public",
       "cleanUrls": true,
       "rewrites": [
@@ -16,7 +24,18 @@
       ]
     },
     {
-      "target": "transcriptseeker",
+      "site": "transcript-seeker-api-c8419",
+      "public": "apps/api/dist",
+      "cleanUrls": true,
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "server"
+        }
+      ]
+    },
+    {
+      "target": "transcript-seeker-bdc29",
       "public": "apps/web/dist",
       "rewrites": [
         {

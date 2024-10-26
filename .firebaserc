@@ -1,17 +1,21 @@
 {
   "projects": {
-    "default": "meeting-baas"
+    "default": "transcript-seeker-bdc29"
   },
   "targets": {
-    "meeting-baas": {
+    "transcript-seeker-bdc29": {
       "hosting": {
-        "transcriptseeker": [
-          "transcriptseeker"
+        "transcript-seeker-bdc29": [
+          "transcript-seeker-bdc29"
         ],
-        "transcript-seeker-api": [
-          "transcript-seeker-api"
+        "transcript-seeker-api-c8419": [
+          "transcript-seeker-api-c8419"
+        ],
+        "transcript-seeker-proxy": [
+          "transcript-seeker-proxy"
         ]
       }
     }
-  }
+  },
+  "etags": {}
 }

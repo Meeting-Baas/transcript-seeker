@@ -7,6 +7,7 @@ import { account } from "@/db/schema";
 import { eq } from "@/db";
 
 import type { Bindings } from "@/types";
+import { StatusCode } from "hono/utils/http-status";
 
 const calendars = new Hono<Bindings>();
 calendars.use(
@@ -101,7 +102,7 @@ calendars.delete("/", async (c) => {
 
   if (response.status != 200) {
     console.log("error, failed to delete calendar:", await response.text());
-    return c.body(null, response.status);
+    return c.body(null, response.status as StatusCode);
   }
 
   return c.body(null, 200);
