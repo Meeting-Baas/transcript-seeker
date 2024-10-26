@@ -1,7 +1,7 @@
 import type { CalendarApp } from '@schedule-x/calendar';
 import React, { useMemo } from 'react';
 import { CalendarControlsPluginType } from '@/types/schedulex';
-import { format, isAfter, isBefore, parseISO } from 'date-fns';
+import { format, isAfter, isBefore, isValid, parseISO } from 'date-fns';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
 import { Button } from '@meeting-baas/ui/button';
@@ -18,16 +18,22 @@ export default function CalendarNavigation({ calendar, date, setDate }: Calendar
   const minDate = calendar.calendarControls.getMinDate();
   const maxDate = calendar.calendarControls.getMaxDate();
 
-//   const { isBackwardsDisabled, isForwardsDisabled } = useMemo(() => {
-//     const currentDate = parseISO(calendar.calendarControls.getDate());
-//     const parsedMinDate = parseISO(minDate);
-//     const parsedMaxDate = parseISO(maxDate);
+  const { isBackwardsDisabled, isForwardsDisabled } = useMemo(() => {
+    const currentDate = parseISO(calendar.calendarControls.getDate());
 
-//     return {
-//       isBackwardsDisabled: isBefore(currentDate, parsedMinDate),
-//       isForwardsDisabled: isAfter(currentDate, parsedMaxDate),
-//     };
-//   }, [calendar.calendarControls, minDate, maxDate]);
+    if (!isValid(currentDate)) {
+      console.error('Invalid current date');
+      return { isBackwardsDisabled: false, isForwardsDisabled: false };
+    }
+
+    const parsedMinDate = minDate ? parseISO(minDate) : null;
+    const parsedMaxDate = maxDate ? parseISO(maxDate) : null;
+
+    return {
+      isBackwardsDisabled: parsedMinDate ? isBefore(currentDate, parsedMinDate) : false,
+      isForwardsDisabled: parsedMaxDate ? isAfter(currentDate, parsedMaxDate) : false,
+    };
+  }, [calendar.calendarControls, minDate, maxDate]);
 
   const navigate = (direction: 'forwards' | 'backwards') => {
     const views = calendar.calendarControls.getViews();
@@ -51,7 +57,7 @@ export default function CalendarNavigation({ calendar, date, setDate }: Calendar
         variant="outline"
         size="icon"
         onClick={() => navigate('backwards')}
-        // disabled={isBackwardsDisabled}
+        disabled={isBackwardsDisabled}
       >
         <ArrowLeftIcon className="size-6" />
       </Button>
@@ -59,7 +65,7 @@ export default function CalendarNavigation({ calendar, date, setDate }: Calendar
         variant="outline"
         size="icon"
         onClick={() => navigate('forwards')}
-        // disabled={isForwardsDisabled}
+        disabled={isForwardsDisabled}
       >
         <ArrowRightIcon className="size-6" />
       </Button>

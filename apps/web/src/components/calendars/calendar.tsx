@@ -56,12 +56,11 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
 
   const events: CalendarEvent[] = useMemo(() => {
     return eventsData
-      .map((event) => {
+      .map((event): CalendarEvent | null => {
         if (!event) return null;
 
         const startDate = new Date(event.start_time.secs_since_epoch * 1000);
         const endDate = new Date(event.end_time.secs_since_epoch * 1000);
-
         const attendees = event.raw?.attendees?.map((attendee) => attendee?.email ?? '') ?? [];
 
         return {
@@ -75,7 +74,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
           calendarId: event.calendarId,
         };
       })
-      .filter(Boolean);
+      .filter((event): event is CalendarEvent => event !== null);
   }, [eventsData]);
 
   const calendar = useCalendarApp(
@@ -95,8 +94,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
 
   useEffect(() => {
     // get all events
-    const events = calendar.eventsService.getAll();
-    console.log(calendar.calendarControls.getViews());
+    calendar.eventsService.getAll();
   }, [calendar.eventsService]);
 
   // Example of how you might use raw event data
