@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "transcript-seeker-bdc29"
+  },
+  "targets": {
+    "transcript-seeker-bdc29": {
+      "hosting": {
+        "web": [
+          "transcript-seeker-bdc29"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

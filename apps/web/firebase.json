@@ -1,0 +1,14 @@
+{
+  "hosting": [
+    {
+      "target": "transcript-seeker-bdc29",
+      "public": "dist",
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

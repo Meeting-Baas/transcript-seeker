@@ -1,19 +1,19 @@
 {
   "functions": {
-    "source": ".output/server",
-    "codebase": "nitro",
+    "source": "dist",
+    "codebase": "hono",
     "runtime": "nodejs20"
   },
   "hosting": [
     {
-      "site": "transcript-seeker-proxy",
-      "public": ".output/public",
+      "site": "transcript-seeker-api-c8419",
+      "public": "dist",
       "cleanUrls": true,
       "rewrites": [
         {
           "source": "**",
           "function": "server",
-          "codebase": "nitro"
+          "codebase": "hono"
         }
       ]
     }

@@ -1,0 +1,11 @@
+{
+  "projects": {
+    "default": "transcript-seeker-bdc29"
+  },
+  "targets": {
+    "transcript-seeker-proxy": [
+      "transcript-seeker-proxy"
+    ]
+  },
+  "etags": {}
+}
