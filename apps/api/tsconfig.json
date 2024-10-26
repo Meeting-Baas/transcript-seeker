@@ -1,5 +1,5 @@
 {
-  "extends": "@meeting-baas/tsconfig/internal-package.json",
+  // "extends": "@meeting-baas/tsconfig/base.json",
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
@@ -13,7 +13,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+
   },
   "include": ["src"],
   "exclude": ["node_modules", "build", "dist"]
