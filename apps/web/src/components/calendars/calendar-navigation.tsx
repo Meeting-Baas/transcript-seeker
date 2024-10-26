@@ -14,9 +14,10 @@ interface CalendarNavigationProps {
   };
   date: Date;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
+  view: string;
 }
 
-export default function CalendarNavigation({ calendar, date, setDate }: CalendarNavigationProps) {
+export default function CalendarNavigation({ calendar, date, setDate, view }: CalendarNavigationProps) {
   const minDate = calendar.calendarControls.getMinDate();
   const maxDate = calendar.calendarControls.getMaxDate();
 
@@ -84,7 +85,7 @@ export default function CalendarNavigation({ calendar, date, setDate }: Calendar
       >
         <ArrowRightIcon className="size-6" />
       </Button>
-      <RangeHeading calendar={calendar} date={date} setDate={setDate} />
+      <RangeHeading calendar={calendar} date={date} view={view} />
     </div>
   );
 }

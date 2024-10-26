@@ -1,5 +1,5 @@
 import type { CalendarApp } from '@schedule-x/calendar';
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 import { CalendarControlsPluginType } from '@/types/schedulex';
 
 import {
@@ -18,29 +18,39 @@ interface CalendarControlsProps {
   };
   date: Date;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
+  view: string;
+  setView: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function CalendarControls({ calendar, date, setDate }: CalendarControlsProps) {
+export default function CalendarControls({
+  date,
+  setDate,
+  view,
+  setView,
+}: CalendarControlsProps) {
   return (
     <div className="flex gap-2">
-      <CalendarSelect calendar={calendar} />
+      <CalendarSelect view={view} setView={setView} />
       <CalendarDatePicker className="w-[200px]" date={date} setDate={setDate} />
     </div>
   );
 }
 
 interface CalendarSelectProps {
-  calendar: CalendarApp & {
-    calendarControls: CalendarControlsPluginType;
-  };
+  view: string;
+  setView: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function CalendarSelect({ calendar }: CalendarSelectProps) {
+function CalendarSelect({ view, setView }: CalendarSelectProps) {
+  const handleViewChange = useCallback(
+    (newView: string) => {
+      setView(newView);
+    },
+    [setView],
+  );
+
   return (
-    <Select
-      defaultValue={calendar.calendarControls.getView()}
-      onValueChange={(v) => calendar.calendarControls.setView(v)}
-    >
+    <Select value={view} onValueChange={handleViewChange}>
       <SelectTrigger className="w-[100px]">
         <SelectValue placeholder="View" />
       </SelectTrigger>

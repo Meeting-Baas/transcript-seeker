@@ -8,12 +8,10 @@ interface RangeHeadingProps {
     calendarControls: CalendarControlsPluginType;
   };
   date: Date;
-  setDate: React.Dispatch<React.SetStateAction<Date>>;
+  view: string;
 }
 
-function RangeHeading({ calendar, date }: RangeHeadingProps) {
-  const view = calendar.calendarControls.getView();
-
+function RangeHeading({ calendar, date, view }: RangeHeadingProps) {
   const getMonthAndYearForSelectedDate = useCallback((selectedDate: Date) => {
     return format(selectedDate, 'MMMM yyyy');
   }, []);
