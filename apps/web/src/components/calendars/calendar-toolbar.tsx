@@ -14,6 +14,7 @@ interface CalendarToolbarProps {
 }
 
 function CalendarToolbar({ calendarApp }: CalendarToolbarProps) {
+  const [view, setView] = useState<string>(calendarApp.calendarControls.getView());
   const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -23,7 +24,7 @@ function CalendarToolbar({ calendarApp }: CalendarToolbarProps) {
   }, [date]);
 
   return (
-    <header className="flex h-16 w-full shrink-0 items-center justify-between gap-2 border-b px-4">
+    <header className="flex h-16 w-full shrink-0 items-center justify-between gap-2 border-b px-4 overflow-auto">
       <CalendarNavigation calendar={calendarApp} date={date} setDate={setDate} />
       <CalendarControls calendar={calendarApp} date={date} setDate={setDate} />
     </header>

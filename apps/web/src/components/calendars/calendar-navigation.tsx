@@ -1,9 +1,12 @@
 import type { CalendarApp } from '@schedule-x/calendar';
 import React, { useCallback, useMemo } from 'react';
 import { CalendarControlsPluginType } from '@/types/schedulex';
-import { format, isAfter, isBefore, isValid, parseISO, startOfDay, isSameDay } from 'date-fns';
+import { format, isAfter, isBefore, isSameDay, isValid, parseISO, startOfDay } from 'date-fns';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
+
 import { Button } from '@meeting-baas/ui/button';
+
+import RangeHeading from './range-heading';
 
 interface CalendarNavigationProps {
   calendar: CalendarApp & {
@@ -35,21 +38,24 @@ export default function CalendarNavigation({ calendar, date, setDate }: Calendar
     };
   }, [calendar.calendarControls, date, minDate, maxDate]);
 
-  const navigate = useCallback((direction: 'forwards' | 'backwards') => {
-    const views = calendar.calendarControls.getViews();
-    const currentView = views.find((view) => view.name === calendar.calendarControls.getView());
+  const navigate = useCallback(
+    (direction: 'forwards' | 'backwards') => {
+      const views = calendar.calendarControls.getViews();
+      const currentView = views.find((view) => view.name === calendar.calendarControls.getView());
 
-    if (!currentView) return;
+      if (!currentView) return;
 
-    const stringDate = format(date, 'yyyy-MM-dd');
-    const res = currentView.backwardForwardFn(
-      stringDate,
-      direction === 'forwards'
-        ? currentView.backwardForwardUnits
-        : -currentView.backwardForwardUnits,
-    );
-    setDate(new Date(res));
-  }, [calendar.calendarControls, date, setDate]);
+      const stringDate = format(date, 'yyyy-MM-dd');
+      const res = currentView.backwardForwardFn(
+        stringDate,
+        direction === 'forwards'
+          ? currentView.backwardForwardUnits
+          : -currentView.backwardForwardUnits,
+      );
+      setDate(new Date(res));
+    },
+    [calendar.calendarControls, date, setDate],
+  );
 
   const goToToday = useCallback(() => {
     const today = startOfDay(new Date());
@@ -58,12 +64,8 @@ export default function CalendarNavigation({ calendar, date, setDate }: Calendar
   }, [calendar.calendarControls, setDate]);
 
   return (
-    <div className="flex gap-2">
-      <Button 
-        variant="outline" 
-        onClick={goToToday}
-        disabled={isTodayDisabled}
-      >
+    <div className="flex gap-2 items-center">
+      <Button variant="outline" onClick={goToToday} disabled={isTodayDisabled}>
         Today
       </Button>
       <Button
@@ -82,6 +84,7 @@ export default function CalendarNavigation({ calendar, date, setDate }: Calendar
       >
         <ArrowRightIcon className="size-6" />
       </Button>
+      <RangeHeading calendar={calendar} date={date} setDate={setDate} />
     </div>
   );
 }
