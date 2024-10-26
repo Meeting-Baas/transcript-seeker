@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "pnpm with-env esbuild src/index.ts --platform=node --bundle --outdir=dist",
+    "build:firebase": "pnpm pack && tar -xzf meeting-baas-api-*.tgz && pnpm with-env esbuild package/src/deployment/firebase.ts --platform=node --bundle --outfile=dist/index.cjs && cp package/package.json dist/package.json && rm -rf package meeting-baas-api-*.tgz",
     "dev": "pnpm with-env tsx watch src/index.ts",
     "clean": "git clean -xdf .cache .turbo .vercel node_modules",
     "lint": "eslint",
