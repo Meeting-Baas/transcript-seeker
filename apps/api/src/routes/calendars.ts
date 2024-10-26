@@ -107,7 +107,6 @@ calendars.delete("/", async (c) => {
   return c.body(null, 200);
 });
 
-
 calendars.get("/calendar_events", async (c) => {
   const baasApiKey = c.req.header("x-meeting-baas-api-key");
   if (!baasApiKey) return c.body(null, 401);
@@ -144,3 +143,13 @@ calendars.get("/calendar_events", async (c) => {
 });
 
 export default calendars;
+
+// const calendar = google.calendar({version: 'v3', auth});
+//   const res = await calendar.events.list({
+//     calendarId: 'primary',
+//     timeMin: new Date().toISOString(),
+//     maxResults: 10,
+//     singleEvents: true,
+//     orderBy: 'startTime',
+//   });
+//   const events = res.data.items;

@@ -1,9 +1,8 @@
 import type { CalendarApp } from '@schedule-x/calendar';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { CalendarControlsPluginType } from '@/types/schedulex';
-import { format, isAfter, isBefore, isValid, parseISO } from 'date-fns';
+import { format, isAfter, isBefore, isValid, parseISO, startOfDay, isSameDay } from 'date-fns';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
-
 import { Button } from '@meeting-baas/ui/button';
 
 interface CalendarNavigationProps {
@@ -18,24 +17,25 @@ export default function CalendarNavigation({ calendar, date, setDate }: Calendar
   const minDate = calendar.calendarControls.getMinDate();
   const maxDate = calendar.calendarControls.getMaxDate();
 
-  const { isBackwardsDisabled, isForwardsDisabled } = useMemo(() => {
-    const currentDate = parseISO(calendar.calendarControls.getDate());
+  const { isBackwardsDisabled, isForwardsDisabled, isTodayDisabled } = useMemo(() => {
+    const today = startOfDay(new Date());
 
-    if (!isValid(currentDate)) {
+    if (!isValid(date)) {
       console.error('Invalid current date');
-      return { isBackwardsDisabled: false, isForwardsDisabled: false };
+      return { isBackwardsDisabled: false, isForwardsDisabled: false, isTodayDisabled: false };
     }
 
     const parsedMinDate = minDate ? parseISO(minDate) : null;
     const parsedMaxDate = maxDate ? parseISO(maxDate) : null;
 
     return {
-      isBackwardsDisabled: parsedMinDate ? isBefore(currentDate, parsedMinDate) : false,
-      isForwardsDisabled: parsedMaxDate ? isAfter(currentDate, parsedMaxDate) : false,
+      isBackwardsDisabled: parsedMinDate ? isBefore(date, parsedMinDate) : false,
+      isForwardsDisabled: parsedMaxDate ? isAfter(date, parsedMaxDate) : false,
+      isTodayDisabled: isSameDay(date, today),
     };
-  }, [calendar.calendarControls, minDate, maxDate]);
+  }, [calendar.calendarControls, date, minDate, maxDate]);
 
-  const navigate = (direction: 'forwards' | 'backwards') => {
+  const navigate = useCallback((direction: 'forwards' | 'backwards') => {
     const views = calendar.calendarControls.getViews();
     const currentView = views.find((view) => view.name === calendar.calendarControls.getView());
 
@@ -49,10 +49,23 @@ export default function CalendarNavigation({ calendar, date, setDate }: Calendar
         : -currentView.backwardForwardUnits,
     );
     setDate(new Date(res));
-  };
+  }, [calendar.calendarControls, date, setDate]);
+
+  const goToToday = useCallback(() => {
+    const today = startOfDay(new Date());
+    setDate(today);
+    calendar.calendarControls.setDate(format(today, 'yyyy-MM-dd'));
+  }, [calendar.calendarControls, setDate]);
 
   return (
     <div className="flex gap-2">
+      <Button 
+        variant="outline" 
+        onClick={goToToday}
+        disabled={isTodayDisabled}
+      >
+        Today
+      </Button>
       <Button
         variant="outline"
         size="icon"
