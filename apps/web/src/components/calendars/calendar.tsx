@@ -1,4 +1,6 @@
-import { useEffect, useMemo } from 'react';
+'use client'
+
+import { useEffect, useMemo, useState } from 'react';
 import {
   createViewDay,
   createViewMonthAgenda,
@@ -7,7 +9,6 @@ import {
 } from '@schedule-x/calendar';
 import { createCalendarControlsPlugin } from '@schedule-x/calendar-controls';
 import { createCurrentTimePlugin } from '@schedule-x/current-time';
-import { createEventModalPlugin } from '@schedule-x/event-modal';
 import { createEventsServicePlugin } from '@schedule-x/events-service';
 import { ScheduleXCalendar, useCalendarApp } from '@schedule-x/react';
 import { format } from 'date-fns';
@@ -20,6 +21,7 @@ import { CalendarEvent, Calendars } from '@/types/schedulex';
 
 import { CalendarBaasData } from '@meeting-baas/shared';
 import CalendarToolbar from './calendar-toolbar';
+import { EventModal } from './event-modal';
 
 interface CalendarProps {
   calendarsData: CalendarBaasData[];
@@ -27,6 +29,9 @@ interface CalendarProps {
 }
 
 function Calendar({ calendarsData, eventsData }: CalendarProps) {
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const calendarControls = createCalendarControlsPlugin();
   const plugins = [
     createEventsServicePlugin(),
@@ -84,7 +89,8 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
       events: events,
       callbacks: {
         onEventClick(calendarEvent) {
-          console.log('onEventClick', calendarEvent) 
+          setSelectedEvent(calendarEvent);
+          setIsModalOpen(true);
         },
       },
       isResponsive: false
@@ -93,22 +99,23 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
   );
 
   useEffect(() => {
-    // get all events
     calendar.eventsService.getAll();
   }, [calendar.eventsService]);
 
-  // Example of how you might use raw event data
-  // useEffect(() => {
-  //   if (eventsData.length > 0) {
-  //     console.log('Raw event data:', eventsData);
-  //     // You can perform any additional processing or use raw data here
-  //   }
-  // }, [eventsData]);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
 
   return (
     <div className="flex h-full w-full flex-col">
       <CalendarToolbar calendarApp={calendar} />
       <ScheduleXCalendar calendarApp={calendar} />
+      <EventModal 
+        event={selectedEvent} 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { createCalendarControlsPlugin } from '@schedule-x/calendar-controls';
 
 export interface CalendarEvent {
-  id: string;
+  id: string | number;
   start: string;
   end: string;
   title?: string;
