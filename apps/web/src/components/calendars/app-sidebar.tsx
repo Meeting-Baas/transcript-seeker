@@ -29,6 +29,7 @@ import {
 } from '@meeting-baas/ui/sidebar';
 
 import ServerAvailablity from '../server-availablity';
+import { CreateCalendar } from './create-calendar';
 
 interface AppSidebarProps {
   calendars?: CalendarBaasData[] | null;
@@ -113,6 +114,7 @@ export function AppSidebar({ calendars, isLoading, deleteCalendar }: AppSidebarP
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        <CreateCalendar />
         <ServerAvailablity />
       </SidebarFooter>
     </Sidebar>
