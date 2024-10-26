@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "pnpm with-env tsc",
+    "build": "pnpm with-env tsc && echo Manually go and fix the imports and fix the package.json for now!",
     "dev": "pnpm with-env tsx watch src/index.ts",
     "clean": "git clean -xdf .cache .turbo .vercel node_modules",
     "lint": "eslint",

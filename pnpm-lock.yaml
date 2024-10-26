@@ -6,40 +6,12 @@ settings:
 
 catalogs:
   default:
-    axios:
-      specifier: ^1.7.2
-      version: 1.7.7
-    dotenv-cli:
-      specifier: ^7.4.2
-      version: 7.4.2
-    eslint:
-      specifier: ^9.12.0
-      version: 9.13.0
     prettier:
       specifier: ^3.3.3
       version: 3.3.3
-    tailwindcss:
-      specifier: ^3.4.14
-      version: 3.4.14
     typescript:
       specifier: ^5.6.3
       version: 5.6.3
-    zod:
-      specifier: ^3.23.8
-      version: 3.23.8
-  react18:
-    '@types/react':
-      specifier: ^18.3.11
-      version: 18.3.11
-    '@types/react-dom':
-      specifier: ^18.3.1
-      version: 18.3.1
-    react:
-      specifier: rc
-      version: 19.0.0-rc-cae764ce-20241025
-    react-dom:
-      specifier: rc
-      version: 19.0.0-rc-cae764ce-20241025
 
 overrides:
   '@meeting-baas/shared': workspace:*
@@ -560,7 +532,7 @@ importers:
         version: 1.2.1(eslint@9.13.0(jiti@2.3.3))
       eslint-plugin-import:
         specifier: ^2.31.0
-        version: 2.31.0(eslint@9.13.0(jiti@2.3.3))
+        version: 2.31.0(@typescript-eslint/parser@8.10.0(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3))(eslint@9.13.0(jiti@2.3.3))
       eslint-plugin-jsx-a11y:
         specifier: ^6.10.0
         version: 6.10.0(eslint@9.13.0(jiti@2.3.3))
@@ -12485,16 +12457,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(eslint-import-resolver-node@0.3.9)(eslint@9.13.0(jiti@2.3.3)):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.10.0(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint@9.13.0(jiti@2.3.3)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
+      '@typescript-eslint/parser': 8.10.0(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3)
       eslint: 9.13.0(jiti@2.3.3)
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.31.0(eslint@9.13.0(jiti@2.3.3)):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.10.0(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3))(eslint@9.13.0(jiti@2.3.3)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -12505,7 +12478,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.13.0(jiti@2.3.3)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(eslint-import-resolver-node@0.3.9)(eslint@9.13.0(jiti@2.3.3))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.10.0(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint@9.13.0(jiti@2.3.3))
       hasown: 2.0.2
       is-core-module: 2.15.1
       is-glob: 4.0.3
@@ -12516,6 +12489,8 @@ snapshots:
       semver: 6.3.1
       string.prototype.trimend: 1.0.8
       tsconfig-paths: 3.15.0
+    optionalDependencies:
+      '@typescript-eslint/parser': 8.10.0(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3)
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
