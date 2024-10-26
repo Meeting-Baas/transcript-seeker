@@ -1,4 +1,5 @@
 import { useEffect, useState, useTransition } from 'react';
+import SignOut from '@/components/sign-out';
 import { useApiKey } from '@/hooks/use-api-key';
 import { signOut, useSession } from '@/lib/auth';
 import { setAPIKey } from '@/queries';
@@ -28,8 +29,6 @@ import {
   FormMessage,
 } from '@meeting-baas/ui/form';
 import { Input } from '@meeting-baas/ui/input';
-
-import SignOut from '@/components/sign-out';
 
 const formSchema = z.object({
   baasApiKey: z.string().optional(),
