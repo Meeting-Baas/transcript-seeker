@@ -5,7 +5,7 @@
   "type": "commonjs",
   "main": "index.mjs",
   "scripts": {
-    "build": "tsup",
+    "build": "unbuild",
     "dev": "pnpm with-env tsx watch src/deployment/node.ts"
   },
   "dependencies": {
