@@ -15,10 +15,10 @@ import {
   VITE_S3_PREFIX,
 } from '@/lib/constants';
 import { leaveMeeting as leaveMeetingQuery } from '@/lib/meetingbaas';
-import { createMessage, setEditor as setEditorDB } from '@/queries';
+import { createMessage, renameMeeting as renameMeetingDb, setEditor as setEditorDB } from '@/queries';
 import type { Meeting, Message } from '@/types';
 import type { MediaPlayerInstance } from '@vidstack/react';
-import { DownloadIcon } from 'lucide-react';
+import { DownloadIcon, PencilIcon } from 'lucide-react';
 import type { JSONContent } from 'novel';
 import OpenAI from 'openai';
 import * as React from 'react';
@@ -41,6 +41,7 @@ import {
 import { Button } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
 import { Switch } from '@meeting-baas/ui/switch';
+import RenameModal from '../meeting/rename-modal';
 
 interface ViewerProps {
   botId: string;
@@ -63,6 +64,7 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
   ]);
 
   const [editor, setEditor] = React.useState<JSONContent | undefined>(undefined);
+  const [showRename, setShowRename] = React.useState(false);
   const [player, setPlayer] = React.useState<MediaPlayerInstance>();
   const [currentTime, setCurrentTime] = React.useState(0);
 
@@ -102,6 +104,21 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
     },
     [data],
   );
+
+  const [localMeetingName, setLocalMeetingName] = React.useState(data.name);
+
+  const handleRename = async (newName: string) => {
+    try {
+      await renameMeetingDb({ id: data.id, name: newName });
+      mutate(['meeting', data.id]);
+      setLocalMeetingName(newName); // Update local state
+      toast.success('Successfully renamed meeting.');
+      setShowRename(false);
+    } catch (error) {
+      console.error('Error renaming meeting:', error);
+      toast.error('Failed to rename meeting.');
+    }
+  };
 
   const handleChatSubmit = useCallback(
     async (values: z.infer<typeof chatSchema>) => {
@@ -211,9 +228,20 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-          <div className="flex-grow text-center">
+          {/* <div className="flex-grow text-center">
             <h1 className="text-xl font-semibold">{data.name}</h1>
-          </div>
+          </div> */}
+<div className="flex-grow text-center flex items-center justify-center">
+  <h1 className="text-xl font-semibold">{localMeetingName}</h1>
+  <Button
+    variant="ghost"
+    size="icon"
+    className="ml-2"
+    onClick={() => setShowRename(true)}
+  >
+    <PencilIcon className="h-4 w-4" />
+  </Button>
+</div>
           <div className="flex gap-2">
             <Button
               variant="destructive"
@@ -310,6 +338,14 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
           )}
         </ResizablePanelGroup>
       </div>
+      <RenameModal
+        open={showRename}
+        onOpenChange={setShowRename}
+        defaultValues={{
+          name: localMeetingName,
+        }}
+        onSubmit={(values) => handleRename(values.name)}
+      />
     </div>
   );
 }
