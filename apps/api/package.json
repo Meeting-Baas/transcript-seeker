@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "pnpm with-env esbuild src/deployment/node.ts --platform=node --bundle --outfile=.output/server/index.js",
-    "build:firebase": "pnpm pack && tar -xzf meeting-baas-api-*.tgz && pnpm with-env esbuild package/src/deployment/firebase.ts --platform=node --format=esm --packages=external --bundle --outfile=.output/server/index.js && cp package/package.json .output/server/package.json && rm -rf package meeting-baas-api-*.tgz && mkdir .output/public",
+    "build": "unbuild",
+    "prepack": "unbuild",
     "dev": "pnpm with-env tsx watch src/deployment/node.ts",
     "clean": "git clean -xdf .cache .turbo .vercel node_modules",
     "lint": "eslint",
@@ -39,6 +39,7 @@
     "esbuild": "0.24.0",
     "prettier": "catalog:",
     "tsx": "^4.19.1",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "unbuild": "^2.0.0"
   }
 }
