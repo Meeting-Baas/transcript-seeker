@@ -21,7 +21,7 @@ const copyFiles = async () => {
 };
 
 export default defineConfig({
-  entry: ["src/index.ts"],
+  entry: ["src/deployment/firebase.ts"],
   splitting: true,
   bundle: true,
   // minify: true,
