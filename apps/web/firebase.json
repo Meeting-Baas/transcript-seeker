@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "target": "transcript-seeker-bdc29",
+      "site": "transcript-seeker-bdc29",
       "public": "dist",
       "rewrites": [
         {

@@ -12,7 +12,7 @@
     "lint": "eslint --fix  .",
     "format": "prettier --write \"{,!(node_modules|venv)/**/}*.{js,jsx,ts,tsx}\"",
     "preview": "pnpm with-env vite preview",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../.env.${NODE_ENV}.local --"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
