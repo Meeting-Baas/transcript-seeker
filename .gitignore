@@ -147,3 +147,7 @@ dev-dist
 
 # proxy
 **/data/db
+
+# firebase functions
+**/functions/*
+!**/functions/package.json
