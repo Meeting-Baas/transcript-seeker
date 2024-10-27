@@ -12,7 +12,7 @@
       "rewrites": [
         {
           "source": "**",
-          "function": "server",
+          "function": "web",
           "codebase": "hono"
         }
       ]
