@@ -2,10 +2,10 @@
   "name": "@meeting-baas/api",
   "private": true,
   "version": "1.0.0",
-  "type": "commonjs",
-  "main": "index.mjs",
+  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "build": "unbuild",
+    "build": "tsup",
     "dev": "pnpm with-env tsx watch src/deployment/node.ts"
   },
   "dependencies": {
