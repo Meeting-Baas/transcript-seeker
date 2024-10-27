@@ -65,7 +65,8 @@ calendars.post("/", async (c) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      ...body,
+      platform: body.platform,
+      raw_calendar_id: body.calendarId,
       oauth_client_id: process.env.GOOGLE_CLIENT_ID!,
       oauth_client_secret: process.env.GOOGLE_CLIENT_SECRET!,
       oauth_refresh_token: userAccount.refreshToken
@@ -77,9 +78,8 @@ calendars.post("/", async (c) => {
     return c.body(null, 500);
   }
 
-  const calendars = await response.json();
-  console.log(calendars);
-  return c.body(null, 200);
+  const calendars = await response.json() as JSON;
+  return c.json(calendars);
 });
 
 calendars.delete("/", async (c) => {
@@ -92,6 +92,7 @@ calendars.delete("/", async (c) => {
   const user = c.get("user");
   if (!user) return c.body(null, 401);
 
+  console.log(baasApiKey, `${process.env.MEETINGBAAS_API_URL}/calendars/${calendarId}`)
   const response = await fetch(`${process.env.MEETINGBAAS_API_URL}/calendars/${calendarId}`, {
     method: "DELETE",
     headers: {

@@ -144,6 +144,7 @@ export async function fetchCalendars({
 export interface CreateCalendarParams {
   platform: 'Google';
   apiKey: string;
+  calendarId: string;
   proxyUrl?: string;
 }
 
@@ -155,6 +156,7 @@ export interface CreateCalendarResponse {
 export async function createCalendar({
   platform,
   apiKey,
+  calendarId,
   proxyUrl,
 }: CreateCalendarParams): Promise<CreateCalendarResponse> {
   try {
@@ -164,6 +166,7 @@ export async function createCalendar({
       url,
       {
         platform: platform,
+        calendarId: calendarId
       },
       {
         headers: {
