@@ -1,13 +1,13 @@
 {
   "functions": {
-    "source": "dist",
+    "source": ".output/server",
     "codebase": "hono",
     "runtime": "nodejs20"
   },
   "hosting": [
     {
       "site": "transcript-seeker-api-c8419",
-      "public": "dist",
+      "public": ".output/public",
       "cleanUrls": true,
       "rewrites": [
         {

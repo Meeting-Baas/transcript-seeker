@@ -1,7 +1,4 @@
-import "dotenv/config";
-
 import { Hono } from "hono";
-import { serve } from "@hono/node-server";
 
 import meetingbaas from "@/routes/meetingbaas";
 import authRouter from "@/routes/auth";
@@ -29,10 +26,4 @@ app.route("/api/auth", authRouter);
 app.route("/api/meetingbaas", meetingbaas);
 app.route("/api/calendars", calendars);
 
-const port = 3001;
-console.log(`Hono Server is running on port ${port}`);
-
-serve({
-  fetch: app.fetch,
-  port,
-});
+export const handler = app.fetch;
