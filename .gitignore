@@ -149,5 +149,5 @@ dev-dist
 **/data/db
 
 # firebase functions
-**/functions/*
-!**/functions/package.json
+**/functions/server
+# !**/functions/package.json

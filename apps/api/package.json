@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsup",
+    "build": "unbuild",
+    "prepack": "unbuild",
     "dev": "pnpm with-env tsx watch src/deployment/node.ts",
     "clean": "git clean -xdf .cache .turbo .vercel node_modules",
     "lint": "eslint",
@@ -37,8 +38,8 @@
     "drizzle-kit": "^0.26.2",
     "esbuild": "0.24.0",
     "prettier": "catalog:",
-    "tsup": "^8.3.5",
     "tsx": "^4.19.1",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "unbuild": "^2.0.0"
   }
 }
