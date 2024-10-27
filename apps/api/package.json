@@ -15,7 +15,7 @@
     "db:studio": "pnpm with-env drizzle-kit studio",
     "db:generate": "pnpm with-env drizzle-kit generate",
     "db:migrate": "pnpm with-env drizzle-kit migrate",
-    "with-env": "dotenv -e ./.env.${NODE_ENV}.local --"
+    "with-env": "dotenv -e ./.env -c ${NODE_ENV} --"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.2",

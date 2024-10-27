@@ -12,7 +12,7 @@
     "lint": "eslint",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "typecheck": "tsc --noEmit",
-    "with-env": "dotenv -e ./.env.${NODE_ENV}.local --"
+    "with-env": "dotenv -e ./.env -c ${NODE_ENV} --"
   },
   "devDependencies": {
     "@meeting-baas/eslint-config": "workspace:*",

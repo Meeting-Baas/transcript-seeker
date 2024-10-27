@@ -46,10 +46,11 @@ This project utilizes Turborepo for managing and building multiple packages effi
 
 2. **Set Up Environment Variables**:
    ```sh
-   cp .env.example .env
+   cp .env.example .env.development.local
+   export NODE_ENV=development
    ```
 
-3. **Run the App** (front-end only for now, without configuring `.env`):
+3. **Run the App**:
    ```sh
    pnpm run dev
    ```
