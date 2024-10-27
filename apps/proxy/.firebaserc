@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "transcript-seeker-bdc29"
+    "transcript-seeker": "transcript-seeker-bdc29"
   },
   "targets": {
     "transcript-seeker-proxy": [
