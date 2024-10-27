@@ -28,4 +28,4 @@ app.route("/api/auth", authRouter);
 app.route("/api/meetingbaas", meetingbaas);
 app.route("/api/calendars", calendars);
 
-export const handler = app.fetch;
+export default app;
