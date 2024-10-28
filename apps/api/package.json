@@ -8,8 +8,9 @@
     "pnpm": ">=9"
   },
   "scripts": {
+    "start": "pnpm with-env node dist/index.js",
     "build": "tsup",
-    "dev": "pnpm with-env tsx watch src/deployment/node.ts",
+    "dev": "pnpm with-env tsx watch src/index.ts",
     "clean": "git clean -xdf .cache .turbo .vercel node_modules",
     "lint": "eslint",
     "format": "prettier --check . --ignore-path ../../.gitignore",
