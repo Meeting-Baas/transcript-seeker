@@ -13,9 +13,9 @@ COPY pnpm-workspace.yaml ./
 # Copy the api package.json
 COPY apps/api/package.json ./apps/api/package.json
  
-RUN pnpm ci && \
+RUN pnpm install && \
     pnpm run build && \
-    pnpm prune --production
+    pnpm prune --prod
  
 FROM base AS runner
 WORKDIR /app
