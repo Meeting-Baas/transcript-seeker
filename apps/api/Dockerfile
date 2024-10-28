@@ -7,8 +7,9 @@ WORKDIR /app
  
 # Copy root package.json and lockfile
 COPY package.json ./
-COPY package-lock.json ./
- 
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
+
 # Copy the api package.json
 COPY apps/api/package.json ./apps/api/package.json
  
