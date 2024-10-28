@@ -5,7 +5,7 @@
   "homepage": "https://meetingbaas.com/",
   "engines": {
     "node": ">=20",
-    "pnpm": ">=9.12.2"
+    "pnpm": ">=9.12.1"
   },
   "repository": {
     "type": "git",
