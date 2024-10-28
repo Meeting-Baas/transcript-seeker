@@ -27,4 +27,4 @@ COPY --from=builder --chown=hono:nodejs . .
  
 USER hono
 EXPOSE 3001 
-CMD [ "node", "/app/apps/api/dist/index.js" ]
+CMD [ "node", "apps/api/dist/index.js" ]
