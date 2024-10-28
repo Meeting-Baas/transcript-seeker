@@ -12,13 +12,19 @@
     "lint": "eslint --fix  .",
     "format": "prettier --write \"{,!(node_modules|venv)/**/}*.{js,jsx,ts,tsx}\"",
     "preview": "pnpm with-env vite preview",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../.env -c ${NODE_ENV} --"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@meeting-baas/db": "workspace:*",
     "@meeting-baas/shared": "workspace:*",
     "@meeting-baas/ui": "workspace:*",
+    "@schedule-x/calendar-controls": "^2.4.1",
+    "@schedule-x/current-time": "^2.4.1",
+    "@schedule-x/event-modal": "^2.4.1",
+    "@schedule-x/events-service": "^2.4.1",
+    "@schedule-x/react": "^2.4.1",
+    "@schedule-x/theme-default": "^2.4.1",
     "@tanstack/react-table": "^8.19.2",
     "@vidstack/react": "^1.11.24",
     "assemblyai": "^4.6.1",
@@ -34,9 +40,9 @@
     "next-themes": "^0.3.0",
     "novel": "^0.4.3",
     "openai": "^4.52.7",
-    "react": "^18.3.1",
+    "react": "catalog:react18",
     "react-day-picker": "8.10.1",
-    "react-dom": "^18.3.1",
+    "react-dom": "catalog:react18",
     "react-hook-form": "^7.53.1",
     "react-router-dom": "^6.24.1",
     "sonner": "^1.5.0",
@@ -58,8 +64,7 @@
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
     "@types/uuid": "^10.0.0",
-    "@vite-pwa/assets-generator": "^0.2.6",
-    "@vitejs/plugin-react-swc": "^3.5.0",
+    "@vitejs/plugin-react-swc": "^3.7.1",
     "autoprefixer": "^10.4.19",
     "eslint": "catalog:",
     "globals": "^15.8.0",
@@ -69,13 +74,8 @@
     "tsx": "^4.19.1",
     "typescript": "catalog:",
     "typescript-eslint": "^8.9.0",
-    "vite": "^5.3.1",
-    "vite-plugin-checker": "^0.7.2",
-    "workbox-background-sync": "^7.1.0",
-    "workbox-core": "^7.1.0",
-    "workbox-precaching": "^7.1.0",
-    "workbox-routing": "^7.1.0",
-    "workbox-window": "^7.1.0"
+    "vite": "^5.4.10",
+    "vite-plugin-checker": "^0.8.0"
   },
   "prettier": "@meeting-baas/prettier-config"
 }

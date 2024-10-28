@@ -1,0 +1,94 @@
+:root {
+  /* Primary colors */
+  --sx-color-primary: hsl(var(--primary));
+  --sx-color-on-primary: hsl(var(--primary-foreground));
+  --sx-color-primary-container: hsl(var(--muted));
+  --sx-color-on-primary-container: hsl(var(--muted-foreground));
+
+  /* Secondary colors */
+  --sx-color-secondary: hsl(var(--secondary));
+  --sx-color-on-secondary: hsl(var(--secondary-foreground));
+  --sx-color-secondary-container: hsl(var(--accent));
+  --sx-color-on-secondary-container: hsl(var(--accent-foreground));
+
+  /* Tertiary colors */
+  --sx-color-tertiary: hsl(var(--muted));
+  --sx-color-on-tertiary: hsl(var(--muted-foreground));
+  --sx-color-tertiary-container: hsl(var(--accent));
+  --sx-color-on-tertiary-container: hsl(var(--accent-foreground));
+
+  /* Surface colors */
+  --sx-color-surface: hsl(var(--background));
+  --sx-color-surface-dim: hsl(var(--muted));
+  --sx-color-surface-bright: hsl(var(--card));
+  --sx-color-on-surface: hsl(var(--foreground));
+  --sx-color-surface-container: hsl(var(--card));
+  --sx-color-surface-container-low: hsl(var(--muted));
+  --sx-color-surface-container-high: hsl(var(--accent));
+
+  /* Background colors */
+  --sx-color-background: hsl(var(--background));
+  --sx-color-on-background: hsl(var(--foreground));
+
+  /* Utility colors */
+  --sx-color-outline: hsl(var(--border));
+  --sx-color-outline-variant: hsl(var(--border));
+  --sx-color-shadow: hsl(var(--border));
+  --sx-color-surface-tint: hsl(var(--primary));
+
+  /* Neutral colors */
+  --sx-color-neutral: hsl(var(--foreground));
+  --sx-color-neutral-variant: hsl(var(--muted-foreground));
+
+  /* Internal colors */
+  --sx-internal-color-gray-ripple-background: hsl(var(--muted));
+  --sx-internal-color-light-gray: hsl(var(--muted));
+  --sx-internal-color-text: hsl(var(--foreground));
+
+  /* Radius */
+  --sx-rounding-extra-small: 0.5rem;
+  --sx-rounding-small: 0.75rem;
+  --sx-rounding-extra-large: 1rem;
+
+  /* Padding */
+  --sx-spacing-padding1: 2px;
+  --sx-spacing-padding2: 4px;
+  --sx-spacing-padding3: 8px;
+  --sx-spacing-padding4: 10px;
+  --sx-spacing-padding6: 12px;
+  --sx-spacing-modal-padding: 14px;
+}
+
+.sx-react-calendar-wrapper {
+  width: 100%;
+  max-width: 100%;
+  /* spacing.20 is because the header is spacing.16 + spacing.16 again for 2nd toolbar + spacing.4 for sidebar padding */
+  height: calc(100svh - theme(spacing.36));
+  margin: 0;
+}
+
+.sx__calendar {
+  border: none;
+}
+
+.sx__month-grid-day__events-more {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  border: 1px solid hsl(var(--border))!important;
+  margin: 2px;
+}
+
+.sx__ripple::before,
+.sx__ripple::after {
+  all: unset !important;
+}
+
+.sx__ripple--wide::before,
+.sx__ripple--wide::after {
+  all: unset !important;
+} 
+
+.sx__calendar-header {
+  display: none;
+}

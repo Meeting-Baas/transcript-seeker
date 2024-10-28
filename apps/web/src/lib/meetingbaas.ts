@@ -1,8 +1,18 @@
 // This is where we convert the meetingbaas data to our data type
 import type { Meeting } from '@/types';
-import { VITE_PROXY_URL } from '@/lib/constants';
+import { VITE_API_URL, VITE_PROXY_URL } from '@/lib/constants';
 
-import type { BotDetailsParams, JoinMeetingParams, LeaveMeetingParams, MeetingData } from '@meeting-baas/shared';
+import type {
+  BotDetailsParams,
+  CalendarBaasData,
+  CalendarBaasEvent,
+  CreateCalendarParams,
+  FetchCalendarEventsParams,
+  FetchCalendarsParams,
+  JoinMeetingParams,
+  LeaveMeetingParams,
+  MeetingData,
+} from '@meeting-baas/shared';
 import * as MeetingBaas from '@meeting-baas/shared';
 
 interface JoinMeetingProps extends Omit<JoinMeetingParams, 'proxyUrl'> {}
@@ -54,4 +64,68 @@ export const fetchBotDetails = async ({ ...params }: FetchBotDetailsProps) => {
     endedAt: bot.ended_at ? new Date(bot.ended_at + 'Z') : null,
     createdAt: new Date(bot.created_at + 'Z'),
   } as Omit<Meeting, 'id'>;
+};
+
+interface FetchCalendarsProps extends Omit<FetchCalendarsParams, 'proxyUrl'> {}
+
+export const fetchCalendars = async ({
+  ...params
+}: FetchCalendarsProps): Promise<CalendarBaasData[] | null> => {
+  const response = await MeetingBaas.fetchCalendars({
+    proxyUrl: VITE_API_URL,
+    ...params,
+  });
+
+  const data: CalendarBaasData[] | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
+};
+
+interface CreateCalendarProps extends Omit<CreateCalendarParams, 'proxyUrl'> {}
+
+export const createCalendar = async ({
+  ...params
+}: CreateCalendarProps): Promise<CalendarBaasData[] | null> => {
+  const response = await MeetingBaas.createCalendar({
+    proxyUrl: VITE_API_URL,
+    ...params,
+  });
+
+  const data: CalendarBaasData[] | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
+};
+
+interface DeleteCalendarProps extends Omit<MeetingBaas.DeleteCalendarParams, 'proxyUrl'> {}
+
+export const deleteCalendar = async ({
+  ...params
+}: DeleteCalendarProps): Promise<{ statusCode: number } | null> => {
+  const response = await MeetingBaas.deleteCalendar({
+    proxyUrl: VITE_API_URL,
+    ...params,
+  });
+
+  const data: { statusCode: number } | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
+};
+
+interface FetchCalendarEventsProps extends Omit<FetchCalendarEventsParams, 'proxyUrl'> {}
+
+export const fetchCalendarEvents = async ({
+  ...params
+}: FetchCalendarEventsProps): Promise<CalendarBaasEvent[] | null> => {
+  const response = await MeetingBaas.fetchCalendarEvents({
+    proxyUrl: VITE_API_URL,
+    ...params,
+  });
+
+  const data: CalendarBaasEvent[] | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
 };

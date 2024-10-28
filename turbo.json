@@ -50,6 +50,7 @@
   },
   "globalEnv": [
     "VITE_PROXY_URL",
+    "VITE_API_URL",
     "VITE_CLIENT_PORT",
     "VITE_CLIENT_HOST",
     "VITE_S3_PREFIX",
@@ -57,8 +58,16 @@
     "SW_DEV",
     "HOST",
     "PORT",
-    "MEETINGBASS_API_URL",
-    "MEETINGBASS_S3_URL"
+    "MEETINGBAAS_API_URL",
+    "MEETINGBAAS_S3_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_REDIRECT_URI",
+    "TURSO_DATABASE_URL",
+    "TURSO_AUTH_TOKEN",
+    "BETTER_AUTH_SECRET",
+    "BETTER_AUTH_URL",
+    "BETTER_AUTH_TRUSTED_ORIGINS"
   ],
   "globalPassThroughEnv": [
     "NODE_ENV",

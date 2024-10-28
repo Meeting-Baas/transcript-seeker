@@ -1,16 +1,19 @@
 {
   "functions": {
-    "source": ".output/server"
+    "source": ".output/server",
+    "codebase": "nitro",
+    "runtime": "nodejs20"
   },
   "hosting": [
     {
-      "site": "<your_project_id>",
+      "site": "transcript-seeker-proxy",
       "public": ".output/public",
       "cleanUrls": true,
       "rewrites": [
         {
           "source": "**",
-          "function": "server"
+          "function": "server",
+          "codebase": "nitro"
         }
       ]
     }
