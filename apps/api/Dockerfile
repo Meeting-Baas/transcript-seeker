@@ -5,6 +5,8 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 # Set working directory
 WORKDIR /app
+RUN corepack enable
+RUN corepack install
 RUN pnpm --global add turbo@^2
 COPY . .
  
