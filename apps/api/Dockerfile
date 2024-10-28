@@ -1,31 +1,40 @@
 FROM node:20-alpine AS base
  
 FROM base AS builder
-
-RUN apk add --no-cache gcompat
+RUN apk update
+RUN apk add --no-cache libc6-compat
+# Set working directory
+WORKDIR /app
+RUN pnpm --global add turbo@^2
+COPY . .
+ 
+# Generate a partial monorepo with a pruned lockfile for a target workspace.
+# Assuming "@meeting-baas/api" is the name entered in the project's package.json: { name: "@meeting-baas/api" }
+RUN turbo prune @meeting-baas/api --docker
+ 
+# Add lockfile and package.json's of isolated subworkspace
+FROM base AS installer
+RUN apk update
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
  
-# Copy root package.json and lockfile
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-COPY pnpm-workspace.yaml ./
-
-# Copy the api package.json
-COPY apps/api/package.json ./apps/api/package.json
+# First install the dependencies (as they change less often)
+COPY --from=builder /app/out/json/ .
+RUN pnpm install
  
-RUN pnpm install && \
-    pnpm run build && \
-    pnpm prune --prod
+# Build the project
+COPY --from=builder /app/out/full/ .
+RUN pnpm turbo run build --filter @meeting-baas/api...
  
 FROM base AS runner
 WORKDIR /app
-
+ 
+# Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 hono
-
-# Copy app source
-COPY --from=builder --chown=hono:nodejs . .
- 
 USER hono
-EXPOSE 3001 
-CMD [ "node", "apps/api/dist/index.js" ]
+ 
+# Automatically leverage output traces to reduce image size
+COPY --from=installer --chown=hono:nodejs /app/apps/api/dist ./apps/api/dist
+
+CMD node apps/api/dist/index.js
