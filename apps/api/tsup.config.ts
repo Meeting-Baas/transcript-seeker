@@ -9,5 +9,5 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['esm'],
-  outDir: "functions/server"
+  outDir: "dist"
 });
