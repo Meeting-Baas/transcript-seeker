@@ -1,2 +1,5 @@
 node_modules
-*debug.log
+.git
+.gitignore
+*.md
+dist
