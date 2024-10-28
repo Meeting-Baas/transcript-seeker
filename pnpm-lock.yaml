@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   default:
-    axios:
-      specifier: ^1.7.2
-      version: 1.7.7
     dotenv-cli:
       specifier: ^7.4.2
       version: 7.4.2
@@ -24,9 +21,6 @@ catalogs:
     typescript:
       specifier: ^5.6.3
       version: 5.6.3
-    zod:
-      specifier: ^3.23.8
-      version: 3.23.8
   react18:
     '@types/react':
       specifier: ^18.3.11
@@ -40,6 +34,7 @@ catalogs:
     react-dom:
       specifier: rc
       version: 19.0.0-rc-cae764ce-20241025
+
 
 overrides:
   '@meeting-baas/shared': workspace:*
