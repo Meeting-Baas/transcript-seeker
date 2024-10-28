@@ -1,4 +1,5 @@
 # https://pnpm.io/docker
+# The issue we are having is bcs the dockerfile isn't in the root of the file system, we need to fix the docker file or use gcloud or fix fucntions
 FROM node:22-alpine AS base
  
 FROM base AS builder
