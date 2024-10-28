@@ -41,5 +41,7 @@
     "tsup": "^8.3.5",
     "tsx": "^4.19.1",
     "typescript": "catalog:"
-  }
+  },
+  "packageManager": "pnpm@9.12.2",
+  "prettier": "@meeting-baas/prettier-config"
 }
