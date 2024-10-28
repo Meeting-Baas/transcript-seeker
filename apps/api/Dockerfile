@@ -1,12 +1,16 @@
+# https://pnpm.io/docker
 FROM node:20-alpine AS base
  
 FROM base AS builder
 RUN apk update
 RUN apk add --no-cache libc6-compat
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
 # Set working directory
 WORKDIR /app
-RUN corepack enable
-RUN corepack install
 RUN pnpm --global add turbo@^2
 COPY . .
  
