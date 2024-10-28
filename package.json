@@ -3,7 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "homepage": "https://meetingbaas.com/",
-  "engines": { "node": ">=20" }, 
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9.12.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Meeting-Baas/transcript-seeker"
@@ -40,11 +43,6 @@
     "cross-env": "^7.0.3",
     "turbo": "^2.2.3",
     "typescript": "^5.2.2"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "client/"
-    ]
   },
   "pnpm": {
     "overrides": {

@@ -1,7 +1,7 @@
 packages:
-  - ./packages/*
-  - ./apps/*
-  - ./tooling/*
+  - packages/*
+  - apps/*
+  - tooling/*
 
 catalog:
   eslint: ^9.12.0

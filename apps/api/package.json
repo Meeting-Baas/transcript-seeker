@@ -3,10 +3,6 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "engines": {
-    "node": ">=20",
-    "pnpm": ">=9"
-  },
   "scripts": {
     "start": "pnpm with-env node dist/index.js",
     "build": "tsup",
