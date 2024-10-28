@@ -4,14 +4,15 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "nitro build",
-    "dev": "nitro dev",
+    "build": "pnpm with-env nitro build",
+    "dev": "pnpm with-env nitro dev",
     "prepare": "nitro prepare",
     "preview": "node .output/server/index.mjs",
     "clean": "git clean -xdf .cache .nitro .output .turbo .vercel node_modules",
     "lint": "eslint",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "with-env": "dotenv -e ./.env -c ${NODE_ENV} --"
   },
   "devDependencies": {
     "@meeting-baas/eslint-config": "workspace:*",
@@ -19,9 +20,10 @@
     "@meeting-baas/tailwind-config": "workspace:*",
     "@meeting-baas/tsconfig": "workspace:*",
     "@types/node": "^20.16.11",
+    "dotenv-cli": "catalog:",
+    "drizzle-kit": "^0.26.2",
     "eslint": "catalog:",
     "h3": "^1.13.0",
-    "http-proxy-middleware": "^3.0.3",
     "nitropack": "^2.9.7",
     "prettier": "catalog:",
     "typescript": "catalog:"

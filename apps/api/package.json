@@ -1,0 +1,44 @@
+{
+  "name": "@meeting-baas/api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "dev": "pnpm with-env tsx watch src/deployment/node.ts",
+    "clean": "git clean -xdf .cache .turbo .vercel node_modules",
+    "lint": "eslint",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "typecheck": "tsc --noEmit",
+    "db:push": "pnpm with-env drizzle-kit push",
+    "db:studio": "pnpm with-env drizzle-kit studio",
+    "db:generate": "pnpm with-env drizzle-kit generate",
+    "db:migrate": "pnpm with-env drizzle-kit migrate",
+    "with-env": "dotenv -e ./.env -c ${NODE_ENV} --"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.2",
+    "@libsql/client": "^0.14.0",
+    "better-auth": "0.6.1-beta.7",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.35.2",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1",
+    "firebase-functions-test": "^3.3.0",
+    "googleapis": "^144.0.0",
+    "hono": "^4.6.6"
+  },
+  "devDependencies": {
+    "@meeting-baas/eslint-config": "workspace:*",
+    "@meeting-baas/prettier-config": "workspace:*",
+    "@meeting-baas/tailwind-config": "workspace:*",
+    "@meeting-baas/tsconfig": "workspace:*",
+    "@types/node": "^20.16.11",
+    "drizzle-kit": "^0.26.2",
+    "esbuild": "0.24.0",
+    "prettier": "catalog:",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.1",
+    "typescript": "catalog:"
+  }
+}

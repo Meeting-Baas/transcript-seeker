@@ -1,21 +1,4 @@
-export interface Transcript {
-  speaker: string;
-  words: {
-    start_time: number;
-    end_time: number;
-    text: string;
-  }[];
-}
-
-export interface Message {
-  content: string;
-  role: 'assistant' | 'user' | 'system';
-}
-
-export interface Chat {
-  id: string;
-  messages?: Message[];
-}
+import { Transcript } from "./transcript";
 
 export interface Bot {
   id: number;

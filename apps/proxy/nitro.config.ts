@@ -11,12 +11,12 @@ export default defineNitroConfig({
   srcDir: 'server',
   // https://github.com/unjs/rou3/tree/radix3#route-matcher
   routeRules: {
-    '/api/meetingbaas/**': { proxy: `${MEETINGBAAS_API_URL}/**` },
-    '/api/s3/**': { proxy: `${MEETINGBAAS_S3_URL}/**` },
+    '/api/meetingbaas/**': { proxy: `${MEETINGBAAS_API_URL}/**`, cors: true },
+    '/api/s3/**': { proxy: `${MEETINGBAAS_S3_URL}/**`, cors: true },
     // '/proxy/**': { proxy: '/api/**' },
   },
   firebase: {
     gen: 2,
-    nodeVersion: "20"
-  }
+    nodeVersion: '20',
+  },
 });

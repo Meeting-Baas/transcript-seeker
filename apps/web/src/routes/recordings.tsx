@@ -31,12 +31,12 @@ function RecordingsPage() {
           apiKey: baasApiKey,
         });
         if (!data) return;
-        await updateMeeting({ id: meeting.id, values: data });
+        // todo: the status is loaded here.
+        await updateMeeting({ id: meeting.id, values: { ...data, status: 'loaded' } });
         mutate('meetings');
       }
 
-      // todo: comment this out and replace with auto-refreshing meeting with swr revalidate
-      if (meeting.status === 'loaded' && meeting.type == 'meetingbaas') {
+      if (meeting.status === 'loaded' && meeting.type === 'meetingbaas') {
         if (!meeting.updatedAt) return;
         const now = new Date();
         if (differenceInHours(now, meeting.updatedAt) >= 1) {
@@ -52,7 +52,8 @@ function RecordingsPage() {
               assets: data?.assets,
             },
           });
-          mutate();
+          mutate('meetings');
+          mutate(['meeting', meeting.id]);
         }
       }
     });
@@ -97,7 +98,7 @@ function RecordingsPage() {
           </>
         )}
       </div>
-      <div className="fixed bottom-4 left-4 flex items-center gap-2 text-sm text-muted-foreground">
+      <div className="fixed left-0 right-0 bottom-4 flex items-center gap-2 text-sm text-muted-foreground flex w-full justify-center">
         <ServerAvailablity />
       </div>
     </div>

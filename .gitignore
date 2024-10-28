@@ -141,3 +141,13 @@ dev-dist
 
 # turbo
 .turbo
+
+# firebase
+.firebase
+
+# proxy
+**/data/db
+
+# firebase functions
+**/functions/server
+# !**/functions/package.json

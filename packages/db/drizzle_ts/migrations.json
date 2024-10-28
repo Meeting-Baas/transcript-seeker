@@ -29,5 +29,34 @@
     "bps": true,
     "folderMillis": 1729509307792,
     "hash": "0b1ac9c255f8b9ac6510add02fd22816eed7904f5d738ab2b88aca4f2c6c0f67"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"meetings\" ADD COLUMN \"ended_at\" timestamp with time zone;"
+    ],
+    "bps": true,
+    "folderMillis": 1729608302746,
+    "hash": "f091a137aaa4093a475ce6eea0e7631f9ca9731b71ff56c85669612691c7fd48"
+  },
+  {
+    "sql": [
+      "ALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'google-oauth-client-id' BEFORE 'gladia';",
+      "\nALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'google-oauth-client-secret' BEFORE 'gladia';",
+      "\nALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'google-oauth-refresh-token' BEFORE 'gladia';"
+    ],
+    "bps": true,
+    "folderMillis": 1729681825517,
+    "hash": "7123c43ca0f1f99629b788d4015b29392b263826eb1b74e9dea9eaef5b39bbfa"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE text;",
+      "\nDROP TYPE \"public\".\"api_key_type\";",
+      "\nCREATE TYPE \"public\".\"api_key_type\" AS ENUM('meetingbaas', 'google-client-id', 'google-client-secret', 'google-refresh-token', 'gladia', 'openai', 'assemblyai');",
+      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"api_key_type\" USING \"type\"::\"public\".\"api_key_type\";"
+    ],
+    "bps": true,
+    "folderMillis": 1729682842710,
+    "hash": "b025e9074af29db38436ec58874925bb0f194129b7fb68079e7c1d3bc308d6f3"
   }
 ]

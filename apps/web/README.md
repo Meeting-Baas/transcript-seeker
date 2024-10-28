@@ -1,30 +1,13 @@
-# Front End to view transcripts and interact with them
+# Frontend for Transcript Seeker
 
-This app allows you to view meeting recordings.
+This is the frontend of the Transcript Seeker application. It provides a user-friendly interface for interacting with the backend services, allowing users to easily search and manage their transcripts. This application is built with modern web technologies to ensure a smooth and responsive user experience, making it simple for users to upload, search, and analyze transcripts in a variety of formats.
 
-Currently, two official plugins are available:
+## Firebase Deployment
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To deploy this application using Firebase, use the following command.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, you should update the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-};
+```sh
+pnpm dlx firebase-tools deploy --only hosting --project <project-id>
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Make sure you have properly configured your Firebase project before running this command, including setting up your project ID and ensuring that Firebase Hosting is enabled. The command will handle the deployment process, pushing the latest version of your frontend code to Firebase for public access. You can find more details on Firebase deployment and hosting configurations in the Firebase documentation.

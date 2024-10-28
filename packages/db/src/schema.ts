@@ -5,6 +5,9 @@ import type { Message, Transcript } from '@meeting-baas/shared';
 
 export const apiKeyTypeEnum = pgEnum('api_key_type', [
   'meetingbaas',
+  'google-client-id',
+  'google-client-secret',
+  'google-refresh-token',
   'gladia',
   'openai',
   'assemblyai',
@@ -18,6 +21,18 @@ export const apiKeysTable = pgTable('api_keys', {
 
 export type InsertAPIKey = typeof apiKeysTable.$inferInsert;
 export type SelectAPIKey = typeof apiKeysTable.$inferSelect;
+
+// New types for manually saving Google OAuth credentials
+export type GoogleOAuthCredentials = {
+  clientId: string;
+  clientSecret: string;
+  refreshToken: string;
+};
+
+export type SaveGoogleOAuthCredentialsParams = {
+  userId: string;
+  credentials: GoogleOAuthCredentials;
+};
 
 export const meetingTypeEnum = pgEnum('meeting_type', ['meetingbaas', 'local']);
 export const meetingStatusEnum = pgEnum('meeting_status', ['loaded', 'loading', 'error']);
@@ -47,6 +62,10 @@ export const meetingsTable = pgTable('meetings', {
       video_url: null,
       video_blob: null,
     }),
+  endedAt: timestamp('ended_at', {
+    mode: 'date',
+    withTimezone: true,
+  }),
   createdAt: timestamp('created_at', {
     mode: 'date',
     withTimezone: true,

@@ -1,4 +1,3 @@
-import ReloadPrompt from '@/components/reload-prompt';
 import TabManager from '@/components/tab-manager';
 import { Outlet } from 'react-router-dom';
 
@@ -8,7 +7,6 @@ export default function Layout() {
       <main className="flex-grow">
         <Outlet />
         <TabManager />
-        <ReloadPrompt />
       </main>
     </div>
   );

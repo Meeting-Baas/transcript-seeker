@@ -5,8 +5,7 @@ import type { SelectChat } from '@meeting-baas/db/schema';
 
 const fetcher = async (meetingId: SelectChat['meetingId']) => {
   const chat = await getChatByMeetingId({ meetingId });
-  if (chat) return chat;
-  return null;
+  return chat ?? null;
 };
 
 function useChat({ meetingId }: { meetingId: SelectChat['meetingId'] }) {
@@ -16,6 +15,7 @@ function useChat({ meetingId }: { meetingId: SelectChat['meetingId'] }) {
 
   return {
     chat: data,
+    messages: data?.messages ?? [],
     isLoading,
     isError: error,
   };

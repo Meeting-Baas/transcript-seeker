@@ -28,7 +28,7 @@
     "migrate": "tsc src/compile-migrations.ts --module nodenext --outDir drizzle_ts && node drizzle_ts/compile-migrations.js",
     "studio": "pnpm with-env drizzle-kit studio",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../.env -c ${NODE_ENV} --"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.2.12",

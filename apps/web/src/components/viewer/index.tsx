@@ -4,6 +4,8 @@ import type { MediaPlayerInstance } from '@vidstack/react';
 import type { JSONContent } from 'novel';
 import type { z } from 'zod';
 import * as React from 'react';
+import { useCallback, useMemo } from 'react';
+import { ModeToggle } from '@/components/mode-toggle';
 import Chat from '@/components/viewer/chat';
 import Editor from '@/components/viewer/editor';
 import Transcript from '@/components/viewer/transcript';
@@ -18,12 +20,14 @@ import {
   VITE_PROXY_URL,
   VITE_S3_PREFIX,
 } from '@/lib/constants';
-import { setChat, setEditor as setEditorDB } from '@/queries';
+import { leaveMeeting as leaveMeetingQuery } from '@/lib/meetingbaas';
+import { createMessage, setEditor as setEditorDB } from '@/queries';
 import { DownloadIcon } from 'lucide-react';
 import OpenAI from 'openai';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
+import useSWRMutation from 'swr/mutation';
 
 import { cn } from '@meeting-baas/ui';
 import {
@@ -37,16 +41,13 @@ import {
 import { Button, buttonVariants } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
 
-import { ModeToggle } from '../mode-toggle';
-
 interface ViewerProps {
   botId: string;
   isLoading: boolean;
   meeting: Meeting;
 }
 
-export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
-  const [data] = React.useState<Meeting>(meeting);
+export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
   const [transcripts, setTranscripts] = React.useState<any[]>([
     {
       speaker: '',
@@ -61,98 +62,106 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
   ]);
 
   const [editor, setEditor] = React.useState<JSONContent | undefined>(undefined);
-
   const [player, setPlayer] = React.useState<MediaPlayerInstance>();
   const [currentTime, setCurrentTime] = React.useState(0);
 
-  const [video, setVideo] = React.useState<string | Blob>();
-
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
-  const { editor: editorDB, isLoading: isEditorLoading } = useEditor({ meetingId: meeting.id });
 
-  const { chat, isLoading: isChatLoading } = useChat({ meetingId: meeting.id });
+  const { editor: editorDB, isLoading: isEditorLoading } = useEditor({ meetingId: data.id });
 
-  const [messages, setMessages] = React.useState<Message[]>([]);
+  const {
+    messages: chatMessages,
+    isLoading: isChatLoading,
+  } = useChat({ meetingId: data.id });
+
+  const { trigger: leaveMeeting, isMutating: isLeavingMeeting } = useSWRMutation(
+    ['leaveMeeting', botId, baasApiKey],
+    ([key, botId, baasApiKey]) => leaveMeetingQuery({ botId, apiKey: baasApiKey! }),
+  );
+
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
-  const handleEditorChange = async (content: JSONContent) => {
-    if (!meeting) return;
-    await setEditorDB({ meetingId: meeting.id, content: content });
-    mutate(['editor', meeting.id]);
-  };
-
-  const handleMessageChange = async (messages: Message[]) => {
-    if (!meeting) return;
-    await setChat({
-      meetingId: meeting.id,
-      messages,
-    });
-    mutate(['chat', meeting.id]);
-  };
-
-  const handleChatSubmit = async (values: z.infer<typeof chatSchema>) => {
-    const message = values.message;
-    setMessages((prev) => [...prev, { content: message, role: 'user' }]);
-
-    try {
-      const messagesList: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];
-
-      transcripts.forEach((transcript) => {
-        let text = '';
-        transcript.words.forEach((word: { text: string }) => {
-          text += word.text + ' ';
-        });
-        messagesList.push({ content: text, role: 'user' });
-      });
-
-      messagesList.push(...messages);
-      messagesList.push({ content: message, role: 'user' });
-
-      let res: {
-        data: {
-          response: string;
-        };
-      };
-
-      // todo: create a proxy openai server instead idk
-      // todo: allow options for the proxy server to include api keys so no need for clients
-      if (!openAIApiKey) return;
-      const openai = new OpenAI({
-        apiKey: openAIApiKey,
-        dangerouslyAllowBrowser: true,
-        // https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety
-      });
-
-      const systemPrompt =
-        'You are a helpful assistant named AI Meeting Bot. You will be given a context of a meeting and some meeting notes, you will answer questions based on the context.';
-      const result = await openai.chat.completions.create({
-        messages: [{ role: 'system', content: systemPrompt }, ...messagesList],
-        model: 'gpt-4o-mini',
-      });
-
-      res = {
-        data: {
-          response: result.choices[0]?.message.content || '',
-        },
-      };
-
-      setMessages((prev) => [...prev, { content: res.data.response, role: 'assistant' }]);
-    } catch (error) {
-      console.error('error', error);
-      toast.error('Oops! Something went wrong.');
-      setMessages((prev) => [
-        ...prev,
-        { content: `Oops! Something went wrong. ${error}`, role: 'assistant' },
-      ]);
-      return;
+  const video = useMemo(() => {
+    if (data.type === 'meetingbaas' && data.assets.video_url) {
+      const url = data.assets.video_url.replace(VITE_S3_PREFIX, '');
+      return `${VITE_PROXY_URL}/api/s3${url}`;
     }
-  };
+    if (data.type === 'local' && data.assets.video_blob) {
+      return data.assets.video_blob;
+    }
+    return null;
+  }, [data]);
 
-  const handleTimeUpdate = React.useCallback((time: number) => {
+  const handleEditorChange = useCallback(
+    async (content: JSONContent) => {
+      if (!data) return;
+      await setEditorDB({ meetingId: data.id, content: content });
+      mutate(['editor', data.id]);
+    },
+    [data],
+  );
+
+  const handleChatSubmit = useCallback(
+    async (values: z.infer<typeof chatSchema>) => {
+      const message = values.message;
+      createMessage({ meetingId: data.id, message: { content: message, role: 'user' } });
+      mutate(['chat', data.id]);
+
+      try {
+        if (!openAIApiKey) return;
+
+        const messagesList: Message[] = [
+          ...transcripts.map((transcript) => ({
+            content: transcript.words.map((word: { text: string }) => word.text).join(' '),
+            role: 'user' as const,
+          })),
+          ...chatMessages,
+        ];
+
+        const openai = new OpenAI({
+          apiKey: openAIApiKey,
+          dangerouslyAllowBrowser: true,
+        });
+
+        const systemPrompt =
+          'You are a helpful assistant named AI Meeting Bot. You will be given a context of a meeting and some meeting notes, you will answer questions based on the context.';
+        const result = await openai.chat.completions.create({
+          messages: [{ role: 'system', content: systemPrompt }, ...messagesList],
+          model: 'gpt-4o-mini',
+        });
+
+        await createMessage({
+          meetingId: data.id,
+          message: {
+            role: 'assistant',
+            content: result.choices[0]?.message.content || '',
+          },
+        });
+      } catch (error) {
+        console.error('error', error);
+        toast.error('Oops! Something went wrong.');
+        await createMessage({
+          meetingId: data.id,
+          message: { content: `Oops! Something went wrong. ${error}`, role: 'assistant' },
+        });
+      }
+      mutate(['chat', data.id]);
+
+    },
+    [chatMessages, transcripts, openAIApiKey],
+  );
+
+  const handleQuit = useCallback(() => {
+    if (!baasApiKey) return;
+    leaveMeeting();
+  }, [baasApiKey, leaveMeeting]);
+
+  const handleTimeUpdate = useCallback((time: number) => {
     setCurrentTime(time);
   }, []);
 
-  const handleSeek = React.useCallback(
+  const handleSeek = useCallback(
     (time: number) => {
       if (player) {
         player.currentTime = time;
@@ -161,30 +170,18 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
     [player],
   );
 
-  const setPlayerRef = React.useCallback((player: MediaPlayerInstance) => {
+  const setPlayerRef = useCallback((player: MediaPlayerInstance) => {
     setPlayer(player);
   }, []);
 
-  React.useEffect(() => {
-    if (data.type === 'meetingbaas') {
-      if (!data.assets.video_url) return;
-      const url = data.assets.video_url.replace(VITE_S3_PREFIX, '');
-      setVideo(`${VITE_PROXY_URL}/api/s3${url}`);
-    }
-    if (data.type === 'local') {
-      if (!data.assets.video_blob) return;
-      setVideo(data.assets.video_blob);
-    }
-  }, [data]);
-
+  // Update transcripts when data changes
   React.useEffect(() => {
     if (data.transcripts) {
-      const transcripts: Meeting['transcripts'] = data.transcripts;
-      console.log('parsed transcript:', transcripts);
-      setTranscripts(transcripts);
+      setTranscripts(data.transcripts);
     }
-  }, [data]);
+  }, [data.transcripts]);
 
+  // Update editor content when editorDB changes
   React.useEffect(() => {
     if (editorDB?.content) {
       editor?.commands.setContent(editorDB.content);
@@ -192,15 +189,6 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
       editor?.commands.setContent(BLANK_EDITOR_DATA);
     }
   }, [isEditorLoading]);
-
-  React.useEffect(() => {
-    if (messages.length > 0) {
-      handleMessageChange(messages);
-    } else if (messages.length === 0 && chat) {
-      if (!chat.messages) return;
-      setMessages(chat.messages);
-    }
-  }, [isChatLoading, messages]);
 
   return (
     <div className="min-h-svh">
@@ -221,19 +209,16 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
             </BreadcrumbList>
           </Breadcrumb>
           <div className="flex-grow text-center">
-            <h1 className="text-xl font-semibold">{meeting.name}</h1>
+            <h1 className="text-xl font-semibold">{data.name}</h1>
           </div>
-          <div className='flex gap-2'>
-            <Link
-              to={`/share/${botId}`}
-              className={cn(
-                buttonVariants({ variant: 'outline' }),
-                'pointer-events-none opacity-50',
-                '',
-              )}
+          <div className="flex gap-2">
+            <Button
+              variant="destructive"
+              onClick={handleQuit}
+              disabled={!!data.endedAt || isLeavingMeeting}
             >
-              Share
-            </Link>
+              Quit
+            </Button>
             <ModeToggle />
           </div>
         </header>
@@ -250,12 +235,12 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
                   <VideoPlayer
                     // @ts-ignore
                     src={{
-                      src: video,
+                      src: data.type === 'meetingbaas' ? (video as string) : (video as Blob),
                       type: data.type === 'meetingbaas' ? 'video/mp4' : 'video/object',
                     }}
                     onTimeUpdate={handleTimeUpdate}
                     setPlayer={setPlayerRef}
-                    assetTitle={meeting.name}
+                    assetTitle={data.name}
                   />
                 )}
               </div>
@@ -297,7 +282,7 @@ export function Viewer({ botId, isLoading, meeting }: ViewerProps) {
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={33} minSize={25}>
               <Chat
-                messages={messages}
+                messages={chatMessages}
                 handleSubmit={handleChatSubmit}
                 disabled={{
                   value: !openAIApiKey || isChatLoading,

@@ -2,8 +2,9 @@ import { ModeToggle } from '@/components/mode-toggle';
 import ServerAlert from '@/components/server-alert';
 import ServerAvailablity from '@/components/server-availablity';
 import { useApiKey } from '@/hooks/use-api-key';
+import { useSession } from '@/lib/auth';
 import { useServerAvailabilityStore } from '@/store';
-import { Info, Key, List, Mic, Upload } from 'lucide-react';
+import { Calendar, Cog, Info, Key, List, Mic, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { cn } from '@meeting-baas/ui';
@@ -16,7 +17,14 @@ function RootPage() {
   const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
   const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
   const { apiKey: assemblyAIApiKey } = useApiKey({ type: 'assemblyai' });
-  const apiKeysExist = baasApiKey || gladiaApiKey || assemblyAIApiKey;
+  const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
+
+  const {
+    data: session,
+    isPending, //loading state
+    error, //error object
+  } = useSession();
+  const apiKeysExist = baasApiKey && gladiaApiKey && assemblyAIApiKey && openAIApiKey;
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-gradient-to-br from-muted/20 to-muted/40 p-4">
@@ -93,13 +101,24 @@ function RootPage() {
                 'gap-2',
               )}
             >
-              <Key className="h-4 w-4" />
-              Manage API Keys
+              <Cog className="h-4 w-4" />
+              Settings
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-2">
+            <Link
+              to="/meetings"
+              className={cn(buttonVariants({ variant: session ? 'secondary' : 'default' }), 'gap-2', {
+                'pointer-events-none opacity-50': !baasApiKey,
+              })}
+            >
+              <Calendar className="h-4 w-4" />
+              Upcoming Meetings
             </Link>
           </div>
         </CardContent>
       </Card>
-      <div className="fixed bottom-4 left-4 flex items-center gap-2 text-sm text-muted-foreground">
+      <div className="fixed bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2 text-sm text-muted-foreground">
         <ServerAvailablity />
       </div>
     </div>
