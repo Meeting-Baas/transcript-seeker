@@ -42,6 +42,6 @@ RUN adduser --system --uid 1001 hono
 USER hono
  
 # Automatically leverage output traces to reduce image size
-COPY --from=installer --chown=hono:nodejs /app/apps/api/dist ./apps/api/dist
+COPY --from=installer --chown=hono:nodejs /app/apps/api/dist /app/apps/api/dist
 
-CMD node apps/api/dist/index.js
+CMD node /app/apps/api/dist/index.js
