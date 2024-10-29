@@ -29,7 +29,7 @@ jobs:
           node-version: lts/*
 
       - name: Install step
-        run: "corepack enable && pnpm install"
+        run: "pnpm install"
 
       - name: Build step
         run: "pnpm build"
@@ -38,7 +38,7 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "transcript-seeker"
-          entrypoint: "apps/api/src/index.ts"
-          root: "apps/api/dist"
+          entrypoint: "apps/api/dist/index.ts"
+          root: ""
           
           
