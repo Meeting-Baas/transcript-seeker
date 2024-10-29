@@ -231,37 +231,37 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
           {/* <div className="flex-grow text-center">
             <h1 className="text-xl font-semibold">{data.name}</h1>
           </div> */}
-<div className="flex-grow text-center flex items-center justify-center">
-  <h1 className="text-xl font-semibold">{localMeetingName}</h1>
-  <Button
-    variant="ghost"
-    size="icon"
-    className="ml-2"
-    onClick={() => setShowRename(true)}
-  >
+          <div className="flex-grow text-center flex items-center justify-center">
+            <h1 className="text-xl font-semibold">{localMeetingName}</h1>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="ml-2"
+              onClick={() => setShowRename(true)}
+            >
               <PencilIcon className="h-4 w-4" />
             </Button>
           </div>
 
-        <label htmlFor="show-editor-chat" className="text-sm font-medium">
-          Show Editor & Chat
-        </label>
-        <Switch
-          id="show-editor-chat"
-          checked={showEditorChat}
-          onCheckedChange={setShowEditorChat}
-        />
+          <label htmlFor="show-editor-chat" className="text-sm font-medium">
+            Show Editor & Chat
+          </label>
+          <Switch
+            id="show-editor-chat"
+            checked={showEditorChat}
+            onCheckedChange={setShowEditorChat}
+          />
           {/* {data.type === 'meetingbaas' && !!data.endedAt && ( */}
-            <div className="flex gap-2">
-              <Button
+          <div className="flex gap-2">
+            <Button
               variant="destructive"
               onClick={handleQuit}
               disabled={!!data.endedAt || isLeavingMeeting}
             >
               Quit
             </Button>
-              <ModeToggle />
-            </div>
+            <ModeToggle />
+          </div>
           {/* )} */}
 
         </header>
