@@ -4,7 +4,7 @@ import ServerAvailablity from '@/components/server-availablity';
 import { useApiKey } from '@/hooks/use-api-key';
 import { useSession } from '@/lib/auth';
 import { useServerAvailabilityStore } from '@/store';
-import { Calendar, Cog, Info, Key, List, Mic, Upload } from 'lucide-react';
+import { Calendar, Cog, Info, List, Mic, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { cn } from '@meeting-baas/ui';
@@ -69,6 +69,25 @@ function RootPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
+
+          <div className="text-sm text-muted-foreground mb-2">
+            <span className="font-semibold">(1)</span> Configure your API keys 
+          </div>
+          <div className="grid grid-cols-1 gap-2">
+            <Link
+              to="/settings"
+              className={cn(
+                buttonVariants({ variant: apiKeysExist ? 'secondary' : 'default' }),
+                'gap-2',
+              )}
+            >
+              <Cog className="h-4 w-4" />
+              Settings
+            </Link>
+          </div>
+          <div className="text-sm text-muted-foreground mb-2">
+            <span className="font-semibold">(2)</span> Record a meeting or upload a file
+          </div>
           <div className="grid grid-cols-2 gap-2">
             <Link
               to="/join"
@@ -89,23 +108,14 @@ function RootPage() {
               Upload File
             </Link>
           </div>
+          <div className="text-sm text-muted-foreground mb-2">
+            <span className="font-semibold">(3)</span> View your recordings and upcoming meetings
+          </div>
           <div className="grid grid-cols-2 gap-2">
             <Link to="/recordings" className={cn(buttonVariants({ variant: 'default' }), 'gap-2')}>
               <List className="h-4 w-4" />
               Recordings
             </Link>
-            <Link
-              to="/settings"
-              className={cn(
-                buttonVariants({ variant: apiKeysExist ? 'secondary' : 'default' }),
-                'gap-2',
-              )}
-            >
-              <Cog className="h-4 w-4" />
-              Settings
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 gap-2">
             <Link
               to="/meetings"
               className={cn(buttonVariants({ variant: session ? 'secondary' : 'default' }), 'gap-2', {
