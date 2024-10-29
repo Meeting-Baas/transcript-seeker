@@ -239,22 +239,10 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
     className="ml-2"
     onClick={() => setShowRename(true)}
   >
-    <PencilIcon className="h-4 w-4" />
-  </Button>
-</div>
-          <div className="flex gap-2">
-            <Button
-              variant="destructive"
-              onClick={handleQuit}
-              disabled={!!data.endedAt || isLeavingMeeting}
-            >
-              Quit
+              <PencilIcon className="h-4 w-4" />
             </Button>
-            <ModeToggle />
           </div>
-        </header>
-      </div>
-      <div className="flex items-center justify-end gap-2 px-4 py-2">
+
         <label htmlFor="show-editor-chat" className="text-sm font-medium">
           Show Editor & Chat
         </label>
@@ -263,6 +251,20 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
           checked={showEditorChat}
           onCheckedChange={setShowEditorChat}
         />
+          {/* {data.type === 'meetingbaas' && !!data.endedAt && ( */}
+            <div className="flex gap-2">
+              <Button
+              variant="destructive"
+              onClick={handleQuit}
+              disabled={!!data.endedAt || isLeavingMeeting}
+            >
+              Quit
+            </Button>
+              <ModeToggle />
+            </div>
+          {/* )} */}
+
+        </header>
       </div>
       <div className={cn("flex justify-center", showEditorChat ? "w-full" : "max-w-3xl mx-auto")}>
         <ResizablePanelGroup
