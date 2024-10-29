@@ -35,9 +35,10 @@ interface AppSidebarProps {
   calendars?: CalendarBaasData[] | null;
   isLoading: boolean;
   deleteCalendar: (id: string) => void;
+  mutate: () => Promise<void>;
 }
 
-export function AppSidebar({ calendars, isLoading, deleteCalendar }: AppSidebarProps) {
+export function AppSidebar({ calendars, isLoading, deleteCalendar, mutate }: AppSidebarProps) {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
@@ -62,59 +63,63 @@ export function AppSidebar({ calendars, isLoading, deleteCalendar }: AppSidebarP
           <SidebarGroupLabel className="px-0">Calendars</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {calendars?.map((calendar) => (
-                <SidebarMenuItem key={calendar.uuid}>
-                  <SidebarMenuButton asChild>
-                    <div
-                      className="flex cursor-pointer items-center gap-2"
-                      // onClick={() => toggleCalendarVisibility(calendar.uuid)}
-                    >
-                      <Checkbox
-                        // checked={visibleCalendarIds.includes(calendar.uuid)}
-                        // onCheckedChange={() => toggleCalendarVisibility(calendar.uuid)}
-                        className="pointer-events-none"
-                      />
-                      <span>{calendar.name}</span>
-                    </div>
-                  </SidebarMenuButton>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <SidebarMenuAction>
-                        <MoreHorizontal />
-                      </SidebarMenuAction>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent side="right" align="start">
-                      <DropdownMenuItem
-                        className="group"
-                        // onClick={() => toggleCalendarVisibility(calendar.uuid)}
-                      >
-                        <div className="inline-flex size-4 items-center justify-center rounded-md border group-hover:border-background">
-                          <CheckIcon className="size-3" />
-                        </div>
-                        <span>
-                          {/* {visibleCalendarIds.includes(calendar.uuid) ? 'Hide' : 'Show'} Calendar */}
-                        </span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => deleteCalendar(calendar.uuid)}>
-                        <TrashIcon />
-                        <span>Delete Calendar</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </SidebarMenuItem>
-              ))}
-              {isLoading &&
+              {isLoading ? (
                 Array.from({ length: 5 }).map((_, index) => (
                   <SidebarMenuItem key={index}>
                     <SidebarMenuSkeleton />
                   </SidebarMenuItem>
-                ))}
+                ))
+              ) : Array.isArray(calendars) && calendars.length > 0 ? (
+                calendars.map((calendar) => (
+                  <SidebarMenuItem key={calendar.uuid}>
+                    <SidebarMenuButton asChild>
+                      <div
+                        className="flex cursor-pointer items-center gap-2"
+                        // onClick={() => toggleCalendarVisibility(calendar.uuid)}
+                      >
+                        <Checkbox
+                          // checked={visibleCalendarIds.includes(calendar.uuid)}
+                          // onCheckedChange={() => toggleCalendarVisibility(calendar.uuid)}
+                          className="pointer-events-none"
+                        />
+                        <span>{calendar.name}</span>
+                      </div>
+                    </SidebarMenuButton>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <SidebarMenuAction>
+                          <MoreHorizontal />
+                        </SidebarMenuAction>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent side="right" align="start">
+                        <DropdownMenuItem
+                          className="group"
+                          // onClick={() => toggleCalendarVisibility(calendar.uuid)}
+                        >
+                          <div className="inline-flex size-4 items-center justify-center rounded-md border group-hover:border-background">
+                            <CheckIcon className="size-3" />
+                          </div>
+                          <span>
+                            {/* {visibleCalendarIds.includes(calendar.uuid) ? 'Hide' : 'Show'} Calendar */}
+                          </span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => deleteCalendar(calendar.uuid)}>
+                          <TrashIcon />
+                          <span>Delete Calendar</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </SidebarMenuItem>
+                ))
+              ) : (
+                <p>You don't have any calendars yet</p>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <CreateCalendar />
+        <CreateCalendar mutate={mutate} />
         <ServerAvailablity />
       </SidebarFooter>
     </Sidebar>
