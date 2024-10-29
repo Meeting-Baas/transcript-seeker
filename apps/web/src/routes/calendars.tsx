@@ -29,11 +29,12 @@ import { Skeleton } from '@meeting-baas/ui/skeleton';
 
 export default function CalendarsPage() {
   const navigate = useNavigate();
-  const { data: session, isPending: isSessionLoading } = useSession();
+  const { data: session, isPending: isSessionLoading, error: sessionError } = useSession();
   const { apiKey: baasApiKey, isLoading: isBaasApiKeyLoading } = useApiKey({ type: 'meetingbaas' });
   const {
     calendars,
     isLoading: isCalendarsLoading,
+    isError: isCalendarsError,
     mutate: mutateCalendars,
   } = useCalendars({
     apiKey: baasApiKey,
@@ -103,12 +104,32 @@ export default function CalendarsPage() {
     );
   }
 
+  if (isCalendarsError) {
+    return (
+      <ErrorPage>
+        Failed to fetch calendars. Please try again later.
+      </ErrorPage>
+    );
+  }
+
+  if (sessionError) {
+    return (
+      <ErrorPage>
+        Failed to fetch session data. Please try again later.
+      </ErrorPage>
+    );
+  }
+
   return (
     <SidebarProvider>
       <AppSidebar
         calendars={calendars}
         isLoading={isCalendarsLoading}
         deleteCalendar={handleDeleteCalendar}
+        mutateCalendars={async () => {
+          await mutateCalendars();
+          await mutateEvents();
+        }}
       />
       <SidebarInset className="w-full">
         <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -133,10 +154,15 @@ export default function CalendarsPage() {
           <div className="flex h-full w-full flex-1 overflow-hidden">
             {isCalendarsLoading || isEventsLoading ? (
               <Skeleton className="flex-1" />
-            ) : calendars && calendars.length > 0 && events ? (
+            ) : Array.isArray(calendars) && calendars.length > 0 && events ? (
               <Calendar calendarsData={calendars} eventsData={events} />
             ) : (
-              <NoCalendars />
+              <NoCalendars
+                mutate={async () => {
+                  await mutateCalendars();
+                  await mutateEvents();
+                }}
+              />
             )}
           </div>
         </div>

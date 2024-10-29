@@ -2,11 +2,16 @@ import { useTransition } from 'react';
 import { useApiKey } from '@/hooks/use-api-key';
 import { createCalendar } from '@/lib/meetingbaas';
 import { toast } from 'sonner';
+import { mutate } from 'swr';
 
 import { CreateCalendarParams } from '@meeting-baas/shared';
 import { Button } from '@meeting-baas/ui/button';
 
-export function CreateCalendar() {
+interface CreateCalendarProps {
+  mutate: () => Promise<void>;
+}
+
+export function CreateCalendar({ mutate }: CreateCalendarProps) {
   const [isPending, startTransition] = useTransition();
   const { apiKey } = useApiKey({ type: 'meetingbaas' });
 
@@ -24,10 +29,12 @@ export function CreateCalendar() {
           platform: 'Google',
           apiKey,
         };
-        await createCalendar(params);
+        const res = await createCalendar(params);
+        if (!res) throw new Error('Failed to create calendar.');
         toast.success('Success', {
           description: 'Calendar created successfully. Please refresh the page.',
         });
+        await mutate();
       } catch (error) {
         console.error('Failed to create calendar:', error);
         toast.error('Error', {

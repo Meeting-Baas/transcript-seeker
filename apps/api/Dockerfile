@@ -1,14 +1,14 @@
 # https://pnpm.io/docker
 # The issue we are having is bcs the dockerfile isn't in the root of the file system, we need to fix the docker file or use gcloud or fix fucntions
 FROM node:22-alpine AS base
- 
-FROM base AS builder
-RUN apk update
-RUN apk add --no-cache libc6-compat
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
+
+FROM base AS builder
+RUN apk update
+RUN apk add --no-cache libc6-compat
 
 # Set working directory
 WORKDIR /app
@@ -42,6 +42,6 @@ RUN adduser --system --uid 1001 hono
 USER hono
  
 # Automatically leverage output traces to reduce image size
-COPY --from=installer --chown=hono:nodejs /app/apps/api/dist ./apps/api/dist
+COPY --from=installer --chown=hono:nodejs /app/apps/api/dist /app/apps/api/dist
 
-CMD node apps/api/dist/index.js
+CMD node /app/apps/api/dist/index.js

@@ -39,7 +39,8 @@ pnpm install
 Copy over the environment variables:
 
 ```bash
-cp .env.example .env
+cp .env.example .env.development.local
+export NODE_ENV=development
 ```
 
 Build the project:

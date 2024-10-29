@@ -9,6 +9,7 @@ export const auth = betterAuth({
   logger: {
     verboseLogging: true,
   },
+  trustedOrigins: ['https://transcriptseeker.com'],
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
