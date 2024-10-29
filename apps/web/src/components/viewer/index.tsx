@@ -251,18 +251,18 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
             checked={showEditorChat}
             onCheckedChange={setShowEditorChat}
           />
-          {/* {data.type === 'meetingbaas' && !!data.endedAt && ( */}
-          <div className="flex gap-2">
-            <Button
-              variant="destructive"
-              onClick={handleQuit}
-              disabled={!!data.endedAt || isLeavingMeeting}
-            >
-              Quit
-            </Button>
-            <ModeToggle />
-          </div>
-          {/* )} */}
+          {data.type === 'meetingbaas' && !!data.endedAt && (
+            <div className="flex gap-2">
+              <Button
+                variant="destructive"
+                onClick={handleQuit}
+                disabled={!!data.endedAt || isLeavingMeeting}
+              >
+                Quit
+              </Button>
+              <ModeToggle />
+            </div>
+          )}
 
         </header>
       </div>
