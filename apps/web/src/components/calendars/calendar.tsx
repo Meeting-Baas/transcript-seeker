@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
 import {
   createViewDay,
   createViewMonthAgenda,
@@ -12,6 +11,7 @@ import { createCurrentTimePlugin } from '@schedule-x/current-time';
 import { createEventsServicePlugin } from '@schedule-x/events-service';
 import { ScheduleXCalendar, useCalendarApp } from '@schedule-x/react';
 import { format } from 'date-fns';
+import { useEffect, useMemo, useState } from 'react';
 
 // prettier-ignore
 import '@schedule-x/theme-default/dist/index.css';
@@ -40,7 +40,9 @@ interface CalendarProps {
 }
 
 function Calendar({ calendarsData, eventsData }: CalendarProps) {
-  const [selectedEvent, setSelectedEvent] = useState<ExtendedCalendarBaasEvent | null | undefined>(null);
+  const [selectedEvent, setSelectedEvent] = useState<ExtendedCalendarBaasEvent | null | undefined>(
+    null,
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
 
@@ -135,7 +137,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
           e.uuid === event.uuid ? { ...e, bot_param: enabled ? { enabled: true } : null } : e,
         );
       },
-      false, 
+      false,
     );
 
     try {

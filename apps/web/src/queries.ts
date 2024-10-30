@@ -1,5 +1,6 @@
 import { eq } from 'drizzle-orm';
 
+import { db } from '@meeting-baas/db/client';
 import type {
   InsertAPIKey,
   InsertChat,
@@ -10,7 +11,6 @@ import type {
   SelectEditor,
   SelectMeeting,
 } from '@meeting-baas/db/schema';
-import { db } from '@meeting-baas/db/client';
 import { apiKeysTable, chatsTable, editorsTable, meetingsTable } from '@meeting-baas/db/schema';
 
 import { Message } from './types';

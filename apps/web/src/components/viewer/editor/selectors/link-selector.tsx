@@ -1,3 +1,5 @@
+import { Check, Trash } from 'lucide-react';
+import { useEditor } from 'novel';
 import {
   // type Dispatch,
   // type FC,
@@ -5,8 +7,6 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { Check, Trash } from 'lucide-react';
-import { useEditor } from 'novel';
 
 import { cn } from '@meeting-baas/ui';
 import { Button } from '@meeting-baas/ui/button';

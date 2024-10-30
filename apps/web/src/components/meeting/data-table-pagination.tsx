@@ -1,10 +1,10 @@
-import type { Table } from '@tanstack/react-table';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from '@radix-ui/react-icons';
+import type { Table } from '@tanstack/react-table';
 
 import { Button } from '@meeting-baas/ui/button';
 import {

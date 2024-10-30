@@ -1,13 +1,13 @@
 'use client';
 
-import type { Meeting as MeetingT } from '@/types';
-import { useEffect } from 'react';
 import FullSpinner from '@/components/loader';
 import { Viewer } from '@/components/viewer';
 import { useApiKey } from '@/hooks/use-api-key';
 import { fetchBotDetails } from '@/lib/meetingbaas';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import { getMeetingByBotId, updateMeeting } from '@/queries';
+import type { Meeting as MeetingT } from '@/types';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useSWR, { mutate } from 'swr';
 

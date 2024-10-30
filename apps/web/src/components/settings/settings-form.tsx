@@ -1,12 +1,12 @@
-import { useEffect, useState, useTransition } from 'react';
 import SignOut from '@/components/sign-out';
 import { useApiKey } from '@/hooks/use-api-key';
-import { signOut, useSession } from '@/lib/auth';
+import { useSession } from '@/lib/auth';
 import { setAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Eye, EyeOff, LoaderIcon } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useForm, useFormState } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
 import { z } from 'zod';

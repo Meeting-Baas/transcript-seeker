@@ -1,6 +1,5 @@
 'use client';
 
-import { useCallback, useTransition } from 'react';
 import { AppSidebar } from '@/components/calendars/app-sidebar';
 import Calendar from '@/components/calendars/calendar';
 import { NoCalendars } from '@/components/calendars/no-calendars';
@@ -12,6 +11,7 @@ import { useCalendars } from '@/hooks/use-calendars';
 import { useSession } from '@/lib/auth';
 import { deleteCalendar as deleteCalendarApi } from '@/lib/meetingbaas';
 import ErrorPage from '@/routes/error';
+import { useCallback, useTransition } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 

@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import { useApiKey } from '@/hooks/use-api-key';
 import { useServerAvailabilityStore } from '@/store';
+import { useEffect } from 'react';
 
 import { cn } from '@meeting-baas/ui';
 

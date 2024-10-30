@@ -1,7 +1,7 @@
 'use client';
 
-import type { Table } from '@tanstack/react-table';
 import { Cross2Icon } from '@radix-ui/react-icons';
+import type { Table } from '@tanstack/react-table';
 
 import { Button } from '@meeting-baas/ui/button';
 import { Input } from '@meeting-baas/ui/input';
