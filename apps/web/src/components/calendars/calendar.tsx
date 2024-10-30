@@ -33,6 +33,7 @@ import {
 
 import CalendarToolbar from './calendar-toolbar';
 import { EventModal } from './event-modal';
+import { toast } from 'sonner';
 
 interface CalendarProps {
   calendarsData: CalendarBaasData[];
@@ -40,9 +41,7 @@ interface CalendarProps {
 }
 
 function Calendar({ calendarsData, eventsData }: CalendarProps) {
-  const [selectedEvent, setSelectedEvent] = useState<ExtendedCalendarBaasEvent | null | undefined>(
-    null,
-  );
+  const [selectedEvent, setSelectedEvent] = useState<ExtendedCalendarBaasEvent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
 
@@ -109,7 +108,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
       events: events,
       callbacks: {
         onEventClick(calendarEvent: CalendarEvent) {
-          setSelectedEvent(eventsData.find((event) => event.uuid === calendarEvent.id));
+          setSelectedEvent(eventsData.find((event) => event.uuid === calendarEvent.id) ?? null);
           setIsModalOpen(true);
         },
       },
@@ -128,36 +127,46 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
   };
 
   async function onRecordChange(event: ExtendedCalendarBaasEvent, enabled: boolean) {
-    await mutate(
-      ['calendar-events', calendarsData, baasApiKey],
-      async (currentEvents: ExtendedCalendarBaasEvent[] = []) => {
-        return currentEvents.map((e) =>
-          e.uuid === event.uuid ? { ...e, bot_param: enabled ? { enabled: true } : null } : e,
-        );
-      },
-      false,
+    const optimisticData = eventsData.map((e) =>
+      e.uuid === event.uuid ? { ...e, bot_param: enabled ? { enabled: true } : null } : e
     );
 
     try {
-      if (enabled) {
-        await scheduleCalendarEvent({
-          apiKey: baasApiKey ?? '',
-          eventId: event.uuid,
-          botName: DEFAULT_BOT_NAME,
-          botImage: DEFAULT_BOT_IMAGE,
-          enterMessage: DEFAULT_ENTRY_MESSAGE,
-        });
-      } else {
-        await unScheduleCalendarEvent({
-          apiKey: baasApiKey ?? '',
-          eventId: event.uuid,
-        });
-      }
+      await mutate(
+        ['calendar-events', calendarsData, baasApiKey],
+        async () => {
+          if (enabled) {
+            await scheduleCalendarEvent({
+              apiKey: baasApiKey ?? '',
+              eventId: event.uuid,
+              botName: DEFAULT_BOT_NAME,
+              botImage: DEFAULT_BOT_IMAGE,
+              enterMessage: DEFAULT_ENTRY_MESSAGE,
+            });
+          } else {
+            await unScheduleCalendarEvent({
+              apiKey: baasApiKey ?? '',
+              eventId: event.uuid,
+            });
+          }
+          return optimisticData;
+        },
+        {
+          optimisticData,
+          rollbackOnError: true,
+          populateCache: true,
+          revalidate: false,
+        }
+      );
 
-      await mutate(['calendar-events', calendarsData, baasApiKey]);
+      setSelectedEvent((prev) => 
+        prev?.uuid === event.uuid ? { ...prev, bot_param: enabled ? { enabled: true } : null } : prev
+      );
+
+      toast.success('Event recording status updated successfully');
     } catch (error) {
-      await mutate(['calendar-events', calendarsData, baasApiKey]);
       console.error('Failed to toggle recording:', error);
+      toast.error('Failed to update event recording status');
     }
   }
 

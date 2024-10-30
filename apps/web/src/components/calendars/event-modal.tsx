@@ -13,9 +13,10 @@ import {
   DialogTitle,
 } from '@meeting-baas/ui/dialog';
 import { Switch } from '@meeting-baas/ui/switch';
+import { Card } from '@meeting-baas/ui/card';
 
 interface EventModalProps {
-  event: ExtendedCalendarBaasEvent | null | undefined;
+  event: ExtendedCalendarBaasEvent | null;
   isOpen: boolean;
   onClose: () => void;
   onRecordChange: (event: ExtendedCalendarBaasEvent, enabled: boolean) => void;
@@ -23,6 +24,10 @@ interface EventModalProps {
 
 export function EventModal({ event, isOpen, onClose, onRecordChange }: EventModalProps) {
   if (!event) return null;
+
+  const handleRecordChange = (checked: boolean) => {
+    onRecordChange(event, checked);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -40,12 +45,12 @@ export function EventModal({ event, isOpen, onClose, onRecordChange }: EventModa
             <div className="col-span-3">
               <Switch
                 checked={!!event.bot_param}
-                onCheckedChange={(checked: boolean) => onRecordChange(event, checked)}
+                onCheckedChange={handleRecordChange}
               />
             </div>
           </div>
           {event.meeting_url && (
-            <div className="grid grid-cols-4 items-center gap-4">
+            <Card className="grid grid-cols-4 items-center gap-4">
               <span className="text-right font-medium">Location:</span>
               <span className="col-span-3 max-h-24 overflow-y-auto break-words">
                 <a
@@ -57,7 +62,7 @@ export function EventModal({ event, isOpen, onClose, onRecordChange }: EventModa
                   {event.meeting_url}
                 </a>
               </span>
-            </div>
+            </Card>
           )}
           {event.raw.description && (
             <div className="grid grid-cols-4 items-center gap-4">
