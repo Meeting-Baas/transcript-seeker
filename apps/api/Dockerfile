@@ -46,4 +46,6 @@ COPY --from=installer --chown=hono:nodejs /app/apps/api/node_modules /app/apps/a
 COPY --from=installer --chown=hono:nodejs /app/apps/api/dist /app/apps/api/dist
 COPY --from=installer --chown=hono:nodejs /app/apps/api/package.json /app/apps/api/package.json
 
+EXPOSE 3001
+
 CMD node /app/apps/api/dist/index.js
