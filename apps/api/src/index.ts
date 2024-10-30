@@ -9,7 +9,7 @@ import calendars from "@/routes/calendars";
 import { auth } from "@/lib/auth";
 import type { Bindings } from "@/types";
 
-import { handle } from '@hono/node-server/vercel'
+import { serve } from '@hono/node-server'
 
 export const config = {
   api: {
@@ -39,4 +39,7 @@ app.route("/api/calendars", calendars);
 const port = process.env.PORT ?? 3001;
 console.log(`Hono Server is running on port ${port}`);
 
-export default handle(app);
+serve({
+  fetch: app.fetch,
+  port: port,
+})
