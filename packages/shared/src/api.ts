@@ -1,8 +1,8 @@
 // shared/src/api.ts
 import axios from 'axios';
 
-import type { CalendarBaasData, CalendarBaasEvent } from './types';
 import * as constants from './constants';
+import type { CalendarBaasData, CalendarBaasEvent } from './types';
 
 export interface JoinMeetingParams {
   meetingBotName?: string;
@@ -10,6 +10,7 @@ export interface JoinMeetingParams {
   meetingBotImage?: string;
   meetingBotEntryMessage?: string;
   apiKey: string;
+  startTime?: number; // UTC timestamp in milliseconds
 }
 
 export interface JoinMeetingResult {
@@ -23,6 +24,7 @@ export async function joinMeeting({
   meetingBotEntryMessage,
   apiKey,
   proxyUrl,
+  startTime,
 }: JoinMeetingParams & { proxyUrl: string }): Promise<{
   data?: JoinMeetingResult;
   error?: string;
@@ -43,6 +45,7 @@ export async function joinMeeting({
         reserved: false,
         entry_message: meetingBotEntryMessage || constants.DEFAULT_ENTRY_MESSAGE,
         recording_mode: 'speaker_view',
+        start_time: startTime,
       },
       {
         headers: {
