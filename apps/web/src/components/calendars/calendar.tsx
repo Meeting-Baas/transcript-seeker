@@ -39,7 +39,7 @@ interface CalendarProps {
 }
 
 function Calendar({ calendarsData, eventsData }: CalendarProps) {
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
 
@@ -98,6 +98,11 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
   const monthGridView = createViewMonthGrid();
   const monthAgendaView = createViewMonthAgenda();
 
+  const selectedEvent = useMemo(() => {
+    if (!selectedEventId) return null;
+    return eventsData.find((event) => event.uuid === selectedEventId);
+  }, [selectedEventId, eventsData]);
+
   const calendar = useCalendarApp(
     {
       views: [dayView, weekView, monthGridView, monthAgendaView],
@@ -106,7 +111,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
       events: events,
       callbacks: {
         onEventClick(calendarEvent) {
-          setSelectedEvent(calendarEvent);
+          setSelectedEventId(calendarEvent.id.toString());
           setIsModalOpen(true);
         },
       },
@@ -121,7 +126,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedEvent(null);
+    setSelectedEventId(null);
   };
 
   function onToggleRecord(event: CalendarEvent, enabled: boolean) {

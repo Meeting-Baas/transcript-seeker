@@ -212,7 +212,7 @@ export async function scheduleCalendarEvent({
   enterMessage,
 }: ScheduleCalendarEventParams): Promise<ScheduleCalendarEventResponse> {
   try {
-    const url = `${proxyUrl}/api/calendar_events/${eventId}/bot`;
+    const url = `${proxyUrl}/api/calendars/calendar_events/${eventId}/bot`;
 
     const response = await axios.post(
       url,
