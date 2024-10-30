@@ -28,7 +28,7 @@
     "@meeting-baas/tsconfig": "workspace:*",
     "@meeting-baas/ui": "workspace:*",
     "@types/mdx": "^2.0.13",
-    "@types/node": "^22.8.1",
+    "@types/node": "^22.8.4",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
     "autoprefixer": "^10.4.20",

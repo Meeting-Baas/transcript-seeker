@@ -24,7 +24,7 @@
     "@meeting-baas/prettier-config": "workspace:*",
     "@meeting-baas/tailwind-config": "workspace:*",
     "@meeting-baas/tsconfig": "workspace:*",
-    "@types/node": "^22.8.1",
+    "@types/node": "^22.8.4",
     "@types/react": "catalog:react18",
     "eslint": "catalog:",
     "prettier": "catalog:",
