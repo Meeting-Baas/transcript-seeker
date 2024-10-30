@@ -17,6 +17,7 @@
     "react-dom": "catalog:react18"
   },
   "devDependencies": {
+    "@meeting-baas/ui": "workspace:*",
     "@meeting-baas/eslint-config": "workspace:*",
     "@meeting-baas/prettier-config": "workspace:*",
     "@meeting-baas/tailwind-config": "workspace:*",

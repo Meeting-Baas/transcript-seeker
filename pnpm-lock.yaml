@@ -167,6 +167,9 @@ importers:
       '@meeting-baas/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
+      '@meeting-baas/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@types/mdx':
         specifier: ^2.0.13
         version: 2.0.13
