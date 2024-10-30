@@ -25,7 +25,7 @@ export type Calendar = {
 };
 
 export type Calendars = {
-  [key: string]: Calendar
+  [key: string]: Calendar;
 };
 
 export type CalendarControlsPluginType = ReturnType<typeof createCalendarControlsPlugin>;

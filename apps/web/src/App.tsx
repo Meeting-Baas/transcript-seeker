@@ -1,16 +1,16 @@
 import { ThemeProvider } from '@/components/theme-provider';
+import Calendars from '@/routes/calendars';
 import Join from '@/routes/join';
 import Layout from '@/routes/layout';
+import Login from '@/routes/login';
 import NotFound from '@/routes/not-found';
 import Meeting from '@/routes/recording';
 import Recordings from '@/routes/recordings';
 import Root from '@/routes/root';
 import Settings from '@/routes/settings';
 import Upload from '@/routes/upload';
-import Calendars from '@/routes/calendars';
-import Login from '@/routes/login';
-
 import { Route, Routes } from 'react-router-dom';
+
 import { Toaster } from '@meeting-baas/ui/sonner';
 
 export default function App() {

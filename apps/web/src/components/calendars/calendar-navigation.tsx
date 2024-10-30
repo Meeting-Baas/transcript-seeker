@@ -17,7 +17,12 @@ interface CalendarNavigationProps {
   view: string;
 }
 
-export default function CalendarNavigation({ calendar, date, setDate, view }: CalendarNavigationProps) {
+export default function CalendarNavigation({
+  calendar,
+  date,
+  setDate,
+  view,
+}: CalendarNavigationProps) {
   const minDate = calendar.calendarControls.getMinDate();
   const maxDate = calendar.calendarControls.getMaxDate();
 
@@ -65,7 +70,7 @@ export default function CalendarNavigation({ calendar, date, setDate, view }: Ca
   }, [calendar.calendarControls, setDate]);
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       <Button variant="outline" onClick={goToToday} disabled={isTodayDisabled}>
         Today
       </Button>

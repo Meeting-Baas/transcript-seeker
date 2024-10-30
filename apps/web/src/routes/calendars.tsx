@@ -105,19 +105,11 @@ export default function CalendarsPage() {
   }
 
   if (isCalendarsError) {
-    return (
-      <ErrorPage>
-        Failed to fetch calendars. Please try again later.
-      </ErrorPage>
-    );
+    return <ErrorPage>Failed to fetch calendars. Please try again later.</ErrorPage>;
   }
 
   if (sessionError) {
-    return (
-      <ErrorPage>
-        Failed to fetch session data. Please try again later.
-      </ErrorPage>
-    );
+    return <ErrorPage>Failed to fetch session data. Please try again later.</ErrorPage>;
   }
 
   return (

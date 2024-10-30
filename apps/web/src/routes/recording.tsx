@@ -11,8 +11,8 @@ import { getMeetingByBotId, updateMeeting } from '@/queries';
 import { useParams } from 'react-router-dom';
 import useSWR, { mutate } from 'swr';
 
-import NotFoundPage from './not-found';
 import ErrorPage from './error';
+import NotFoundPage from './not-found';
 
 const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
   if (!botId) throw new Error('No bot ID provided');

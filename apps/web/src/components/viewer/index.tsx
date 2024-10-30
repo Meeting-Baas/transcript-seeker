@@ -1,6 +1,12 @@
+import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
+import type { Meeting, Message } from '@/types';
+import type { MediaPlayerInstance } from '@vidstack/react';
+import type { JSONContent } from 'novel';
+import type { z } from 'zod';
+import * as React from 'react';
+import { useCallback, useMemo } from 'react';
 import { ModeToggle } from '@/components/mode-toggle';
 import Chat from '@/components/viewer/chat';
-import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
 import Editor from '@/components/viewer/editor';
 import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
@@ -15,19 +21,17 @@ import {
   VITE_S3_PREFIX,
 } from '@/lib/constants';
 import { leaveMeeting as leaveMeetingQuery } from '@/lib/meetingbaas';
-import { createMessage, renameMeeting as renameMeetingDb, setEditor as setEditorDB } from '@/queries';
-import type { Meeting, Message } from '@/types';
-import type { MediaPlayerInstance } from '@vidstack/react';
+import {
+  createMessage,
+  renameMeeting as renameMeetingDb,
+  setEditor as setEditorDB,
+} from '@/queries';
 import { DownloadIcon, PencilIcon } from 'lucide-react';
-import type { JSONContent } from 'novel';
 import OpenAI from 'openai';
-import * as React from 'react';
-import { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
 import useSWRMutation from 'swr/mutation';
-import type { z } from 'zod';
 
 import { cn } from '@meeting-baas/ui';
 import {
@@ -41,6 +45,7 @@ import {
 import { Button } from '@meeting-baas/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
 import { Switch } from '@meeting-baas/ui/switch';
+
 import RenameModal from '../meeting/rename-modal';
 
 interface ViewerProps {
@@ -73,10 +78,7 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
 
   const { editor: editorDB, isLoading: isEditorLoading } = useEditor({ meetingId: data.id });
 
-  const {
-    messages: chatMessages,
-    isLoading: isChatLoading,
-  } = useChat({ meetingId: data.id });
+  const { messages: chatMessages, isLoading: isChatLoading } = useChat({ meetingId: data.id });
 
   const { trigger: leaveMeeting, isMutating: isLeavingMeeting } = useSWRMutation(
     ['leaveMeeting', botId, baasApiKey],
@@ -165,7 +167,6 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
         });
       }
       mutate(['chat', data.id]);
-
     },
     [chatMessages, transcripts, openAIApiKey],
   );
@@ -231,7 +232,7 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
           {/* <div className="flex-grow text-center">
             <h1 className="text-xl font-semibold">{data.name}</h1>
           </div> */}
-          <div className="flex-grow text-center flex items-center justify-center">
+          <div className="flex flex-grow items-center justify-center text-center">
             <h1 className="text-xl font-semibold">{localMeetingName}</h1>
             <Button
               variant="ghost"
@@ -263,10 +264,9 @@ export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
               <ModeToggle />
             </div>
           )}
-
         </header>
       </div>
-      <div className={cn("flex justify-center", showEditorChat ? "w-full" : "max-w-3xl mx-auto")}>
+      <div className={cn('flex justify-center', showEditorChat ? 'w-full' : 'mx-auto max-w-3xl')}>
         <ResizablePanelGroup
           className="flex min-h-[200dvh] lg:min-h-[calc(100svh-theme(spacing.16))]"
           direction={isDesktop ? 'horizontal' : 'vertical'}

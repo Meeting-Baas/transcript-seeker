@@ -69,9 +69,8 @@ function RootPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
-
-          <div className="text-sm text-muted-foreground mb-2">
-            <span className="font-semibold">(1)</span> Configure your API keys 
+          <div className="mb-2 text-sm text-muted-foreground">
+            <span className="font-semibold">(1)</span> Configure your API keys
           </div>
           <div className="grid grid-cols-1 gap-2">
             <Link
@@ -85,7 +84,7 @@ function RootPage() {
               Settings
             </Link>
           </div>
-          <div className="text-sm text-muted-foreground mb-2">
+          <div className="mb-2 text-sm text-muted-foreground">
             <span className="font-semibold">(2)</span> Record a meeting or upload a file
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -108,7 +107,7 @@ function RootPage() {
               Upload File
             </Link>
           </div>
-          <div className="text-sm text-muted-foreground mb-2">
+          <div className="mb-2 text-sm text-muted-foreground">
             <span className="font-semibold">(3)</span> View your recordings and upcoming meetings
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -118,9 +117,13 @@ function RootPage() {
             </Link>
             <Link
               to="/meetings"
-              className={cn(buttonVariants({ variant: session ? 'secondary' : 'default' }), 'gap-2', {
-                'pointer-events-none opacity-50': !baasApiKey,
-              })}
+              className={cn(
+                buttonVariants({ variant: session ? 'secondary' : 'default' }),
+                'gap-2',
+                {
+                  'pointer-events-none opacity-50': !baasApiKey,
+                },
+              )}
             >
               <Calendar className="h-4 w-4" />
               Upcoming Meetings
