@@ -42,10 +42,10 @@ RUN adduser --system --uid 1001 hono
 USER hono
  
 # Copy the built files over to the docker image
-COPY --from=installer --chown=hono:nodejs /app/apps/api/node_modules /app/apps/api/node_modules
-COPY --from=installer --chown=hono:nodejs /app/apps/api/dist /app/apps/api/dist
-COPY --from=installer --chown=hono:nodejs /app/apps/api/package.json /app/apps/api/package.json
+COPY --from=installer --chown=hono:nodejs /app/node_modules ./node_modules
+COPY --from=installer --chown=hono:nodejs /app/apps/api/dist ./apps/api/dist
+COPY --from=installer --chown=hono:nodejs /app/apps/api/package.json ./apps/api/package.json
 
 EXPOSE 3001
 
-CMD node /app/apps/api/dist/index.js
+CMD node ./apps/api/dist/index.js
