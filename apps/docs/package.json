@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
-    "start": "next start",
+    "dev": "next dev -p 5174",
+    "start": "next start -p 5174",
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {

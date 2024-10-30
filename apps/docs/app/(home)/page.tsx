@@ -8,10 +8,6 @@ export default function HomePage() {
   return (
     <main className="p-4 flex flex-col flex-1 relative px-2 py-4 lg:py-10">
       <section
-        style={{
-          background:
-            "repeating-linear-gradient(to bottom, transparent, hsl(var(--secondary)/.2) 500px, transparent 1000px)",
-        }}
         className="relative rounded-xl flex flex-col flex-1"
       >
         <div className="flex-1 gap-6 relative z-[2] flex flex-col overflow-hidden rounded-xl bg-fd-background max-md:text-center px-4 pt-4 md:pt-0">
