@@ -13,4 +13,4 @@ gcloud run deploy transcript-seeker-api-prod \
   --set-env-vars "$(grep -v '^#' apps/api/.env.production.local | grep -v '^\s*$' | sed 's/=\s*"\(.*\)"$/=\1/' | tr '\n' ',' | sed 's/,$//')"
 
 # Every Time
-gcloud builds submit --region=us-central1 --config=cloudbuild.yaml --substitutions=_GITHUB_USERNAME="your_github_username",_DEPLOY_REGION=$DEPLOY_REGION,_SERVICE_NAME=$SERVICE_NAME,COMMIT_SHA=$COMMIT_SHA
+gcloud builds submit --region="$DEPLOY_REGION" --config=cloudbuild.yaml --substitutions=_GITHUB_USERNAME="your_github_username",_DEPLOY_REGION=$DEPLOY_REGION,_SERVICE_NAME=$SERVICE_NAME,COMMIT_SHA=$COMMIT_SHA
