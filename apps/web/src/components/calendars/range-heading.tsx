@@ -1,7 +1,7 @@
-import type { CalendarApp } from '@schedule-x/calendar';
-import { useCallback, useMemo } from 'react';
 import { CalendarControlsPluginType } from '@/types/schedulex';
+import type { CalendarApp } from '@schedule-x/calendar';
 import { endOfWeek, format, isSameMonth, isSameYear, startOfWeek } from 'date-fns';
+import { useCallback, useMemo } from 'react';
 
 interface RangeHeadingProps {
   calendar: CalendarApp & {
@@ -11,7 +11,7 @@ interface RangeHeadingProps {
   view: string;
 }
 
-function RangeHeading({ calendar, date, view }: RangeHeadingProps) {
+function RangeHeading({ date, view }: RangeHeadingProps) {
   const getMonthAndYearForSelectedDate = useCallback((selectedDate: Date) => {
     return format(selectedDate, 'MMMM yyyy');
   }, []);

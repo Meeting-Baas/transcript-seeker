@@ -10,7 +10,7 @@ function NotFoundPage() {
         <h1 className="text-4xl font-bold">Page Not Found</h1>
         <p className="text-lg text-gray-500">The page you're looking for does not exist.</p>
 
-        <Button asChild className='w-full'>
+        <Button asChild className="w-full">
           <Link to="/">Back To Home</Link>
         </Button>
         <div className="fixed bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2 text-sm text-muted-foreground">

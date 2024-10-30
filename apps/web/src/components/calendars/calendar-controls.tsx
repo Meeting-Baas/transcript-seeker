@@ -1,6 +1,6 @@
+import { CalendarControlsPluginType } from '@/types/schedulex';
 import type { CalendarApp } from '@schedule-x/calendar';
 import { useCallback } from 'react';
-import { CalendarControlsPluginType } from '@/types/schedulex';
 
 import {
   Select,
@@ -22,12 +22,7 @@ interface CalendarControlsProps {
   setView: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function CalendarControls({
-  date,
-  setDate,
-  view,
-  setView,
-}: CalendarControlsProps) {
+export default function CalendarControls({ date, setDate, view, setView }: CalendarControlsProps) {
   return (
     <div className="flex gap-2">
       <CalendarSelect view={view} setView={setView} />

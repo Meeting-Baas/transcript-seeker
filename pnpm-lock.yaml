@@ -76,8 +76,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       better-auth:
-        specifier: 0.6.1-beta.7
-        version: 0.6.1-beta.7(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
+        specifier: 0.6.2
+        version: 0.6.2(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -113,7 +113,7 @@ importers:
         specifier: workspace:*
         version: link:../../tooling/typescript
       '@types/node':
-        specifier: ^22.8.4
+        specifier: ^22.8.1
         version: 22.8.4
       drizzle-kit:
         specifier: ^0.26.2
@@ -285,6 +285,9 @@ importers:
       assemblyai:
         specifier: ^4.6.1
         version: 4.7.1
+      better-auth:
+        specifier: 0.6.2
+        version: 0.6.2(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -4586,11 +4589,11 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  better-auth@0.6.1-beta.7:
-    resolution: {integrity: sha512-tIkLiQvbIgR1Ai2g8OO0ZooOGFHZ7aaVLA37GEYdF/Jasws1Aq6PB9pMVPd6utSUobsQje3vCuKdwYpFN3eytA==}
+  better-auth@0.6.2:
+    resolution: {integrity: sha512-7lh0ph5eXnoyMDs9hbL32hrY+e/y7Abk0IHtCS5h0fbObZNA1Uv2uW4G89RuHQG30LI7VeB4klYGn6Qcs74DrA==}
 
-  better-call@0.2.12:
-    resolution: {integrity: sha512-xuR4hJEtirZYI4UXOEVKaipghWcxxo4/tW3FUTIXIIG1X9nb2V/VH4HZP7fuD7ONHoNntwtPIurDNeK/SswxgA==}
+  better-call@0.2.13:
+    resolution: {integrity: sha512-Y1rOwUtTYeH4usW7XNqonoo+Dtcb2sXL6m6zcLsgTYSD2ANqyELxkeA8BkCTWonN1y+Pt9CMbcn5vILaPohdUg==}
 
   bignumber.js@9.1.2:
     resolution: {integrity: sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==}
@@ -12816,7 +12819,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  better-auth@0.6.1-beta.7(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3)):
+  better-auth@0.6.2(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3)):
     dependencies:
       '@better-fetch/fetch': 1.1.12
       '@nanostores/query': 0.3.4(nanostores@0.11.3)
@@ -12827,7 +12830,7 @@ snapshots:
       '@noble/hashes': 1.5.0
       '@simplewebauthn/browser': 10.0.0
       '@simplewebauthn/server': 10.0.1
-      better-call: 0.2.12
+      better-call: 0.2.13
       consola: 3.2.3
       defu: 6.1.4
       jose: 5.9.6
@@ -12846,7 +12849,7 @@ snapshots:
       - solid-js
       - vue
 
-  better-call@0.2.12:
+  better-call@0.2.13:
     dependencies:
       '@better-fetch/fetch': 1.1.12
       rou3: 0.5.1

@@ -1,6 +1,5 @@
-import type { LucideIcon } from 'lucide-react';
-import type { EditorInstance } from 'novel';
 import { Popover } from '@radix-ui/react-popover';
+import type { LucideIcon } from 'lucide-react';
 import {
   Check,
   CheckSquare,
@@ -13,6 +12,7 @@ import {
   TextIcon,
   TextQuote,
 } from 'lucide-react';
+import type { EditorInstance } from 'novel';
 import { EditorBubbleItem, useEditor } from 'novel';
 
 import { Button } from '@meeting-baas/ui/button';

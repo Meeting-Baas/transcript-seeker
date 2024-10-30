@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Header } from '@/components/header';
 import { columns } from '@/components/meeting/columns';
 import { DataTable } from '@/components/meeting/data-table';
@@ -11,6 +10,7 @@ import { fetchBotDetails } from '@/lib/meetingbaas';
 import { updateMeeting } from '@/queries';
 import { useServerAvailabilityStore } from '@/store';
 import { differenceInHours } from 'date-fns';
+import { useEffect } from 'react';
 import { mutate } from 'swr';
 
 import { Separator } from '@meeting-baas/ui/separator';
@@ -98,7 +98,7 @@ function RecordingsPage() {
           </>
         )}
       </div>
-      <div className="fixed left-0 right-0 bottom-4 flex items-center gap-2 text-sm text-muted-foreground flex w-full justify-center">
+      <div className="fixed bottom-4 left-0 right-0 flex w-full items-center justify-center gap-2 text-sm text-muted-foreground">
         <ServerAvailablity />
       </div>
     </div>

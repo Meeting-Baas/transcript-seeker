@@ -1,8 +1,7 @@
-import { useTransition } from 'react';
 import { useApiKey } from '@/hooks/use-api-key';
 import { createCalendar } from '@/lib/meetingbaas';
+import { useTransition } from 'react';
 import { toast } from 'sonner';
-import { mutate } from 'swr';
 
 import { CreateCalendarParams } from '@meeting-baas/shared';
 import { Button } from '@meeting-baas/ui/button';

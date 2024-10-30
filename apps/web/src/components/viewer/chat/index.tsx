@@ -1,8 +1,8 @@
 import type { formSchema } from '@/components/viewer/chat/chat-input';
-import type { Message as MessageT } from '@/types';
-import type { z } from 'zod';
 import ChatInput from '@/components/viewer/chat/chat-input';
 import Message from '@/components/viewer/chat/message';
+import type { Message as MessageT } from '@/types';
+import type { z } from 'zod';
 
 import { Card, CardContent, CardHeader } from '@meeting-baas/ui/card';
 

@@ -1,8 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
+import * as React from 'react';
 
 import { cn } from '@meeting-baas/ui';
 import { Button } from '@meeting-baas/ui/button';
@@ -32,7 +32,12 @@ function CalendarDatePicker({ className, date, setDate }: CalendarDatePicker) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar mode="single" selected={date} onSelect={(newDate) => newDate ? setDate(newDate) : setDate(date)} initialFocus />
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={(newDate) => (newDate ? setDate(newDate) : setDate(date))}
+          initialFocus
+        />
       </PopoverContent>
     </Popover>
   );

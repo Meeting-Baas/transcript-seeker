@@ -1,18 +1,18 @@
 'use client';
 
-import type { Meeting as MeetingT } from '@/types';
-import { useEffect } from 'react';
 import FullSpinner from '@/components/loader';
 import { Viewer } from '@/components/viewer';
 import { useApiKey } from '@/hooks/use-api-key';
 import { fetchBotDetails } from '@/lib/meetingbaas';
 import { StorageBucketAPI } from '@/lib/storage-bucket-api';
 import { getMeetingByBotId, updateMeeting } from '@/queries';
+import type { Meeting as MeetingT } from '@/types';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useSWR, { mutate } from 'swr';
 
-import NotFoundPage from './not-found';
 import ErrorPage from './error';
+import NotFoundPage from './not-found';
 
 const fetchMeeting = async (botId: string): Promise<MeetingT | null> => {
   if (!botId) throw new Error('No bot ID provided');

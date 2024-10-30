@@ -1,7 +1,6 @@
+import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import { defineConfig } from 'vite';
-import replace from '@rollup/plugin-replace';
-import react from '@vitejs/plugin-react-swc';
 import checker from 'vite-plugin-checker';
 
 // @ts-ignore
@@ -15,7 +14,7 @@ export default defineConfig(() => {
       react(),
       checker({
         typescript: true,
-      })
+      }),
     ],
     server: {
       port: CLIENT_PORT,
