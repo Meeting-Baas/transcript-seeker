@@ -34,7 +34,7 @@
     "@meeting-baas/prettier-config": "workspace:*",
     "@meeting-baas/tailwind-config": "workspace:*",
     "@meeting-baas/tsconfig": "workspace:*",
-    "@types/node": "^20.16.11",
+    "@types/node": "^22.8.1",
     "drizzle-kit": "^0.26.2",
     "esbuild": "0.24.0",
     "prettier": "catalog:",

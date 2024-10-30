@@ -1,0 +1,39 @@
+{
+  "name": "@meeting-baas/docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm with-env next build",
+    "clean": "git clean -xdf .cache .next .turbo node_modules",
+    "dev": "pnpm with-env next dev -p 5174",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "start": "pnpm with-env next start -p 5174",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "fumadocs-mdx",
+    "with-env": "dotenv -e ../../.env --"
+  },
+  "dependencies": {
+    "fumadocs-core": "14.1.1",
+    "fumadocs-mdx": "11.1.1",
+    "fumadocs-ui": "14.1.1",
+    "next": "15.0.1",
+    "react": "catalog:react18",
+    "react-dom": "catalog:react18"
+  },
+  "devDependencies": {
+    "@meeting-baas/eslint-config": "workspace:*",
+    "@meeting-baas/prettier-config": "workspace:*",
+    "@meeting-baas/tailwind-config": "workspace:*",
+    "@meeting-baas/tsconfig": "workspace:*",
+    "@meeting-baas/ui": "workspace:*",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "^22.8.1",
+    "@types/react": "catalog:react18",
+    "@types/react-dom": "catalog:react18",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
+  }
+}

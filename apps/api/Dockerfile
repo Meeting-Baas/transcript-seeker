@@ -41,7 +41,11 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 hono
 USER hono
  
-# Automatically leverage output traces to reduce image size
-COPY --from=installer --chown=hono:nodejs /app/apps/api/dist /app/apps/api/dist
+# Copy the built files over to the docker image
+COPY --from=installer --chown=hono:nodejs /app/node_modules ./node_modules
+COPY --from=installer --chown=hono:nodejs /app/apps/api/dist ./apps/api/dist
+COPY --from=installer --chown=hono:nodejs /app/apps/api/package.json ./apps/api/package.json
 
-CMD node /app/apps/api/dist/index.js
+EXPOSE 3001
+
+CMD node ./apps/api/dist/index.js
