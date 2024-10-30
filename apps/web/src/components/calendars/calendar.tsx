@@ -40,7 +40,7 @@ interface CalendarProps {
 }
 
 function Calendar({ calendarsData, eventsData }: CalendarProps) {
-  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<ExtendedCalendarBaasEvent | null | undefined>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
 
@@ -99,11 +99,6 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
   const monthGridView = createViewMonthGrid();
   const monthAgendaView = createViewMonthAgenda();
 
-  const selectedEvent = useMemo(() => {
-    if (!selectedEventId) return null;
-    return eventsData.find((event) => event.uuid === selectedEventId);
-  }, [selectedEventId, eventsData]);
-
   const calendar = useCalendarApp(
     {
       views: [dayView, weekView, monthGridView, monthAgendaView],
@@ -111,8 +106,8 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
       calendars: calendars,
       events: events,
       callbacks: {
-        onEventClick(calendarEvent) {
-          setSelectedEventId(calendarEvent.id.toString());
+        onEventClick(calendarEvent: CalendarEvent) {
+          setSelectedEvent(eventsData.find((event) => event.uuid === calendarEvent.id));
           setIsModalOpen(true);
         },
       },
@@ -127,13 +122,12 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedEventId(null);
+    setSelectedEvent(null);
   };
 
   async function onToggleRecord(event: ExtendedCalendarBaasEvent, enabled: boolean) {
     console.log('onToggleRecord', event, enabled);
 
-    // Optimistically update the UI first
     await mutate(
       ['calendar-events', calendarsData, baasApiKey],
       async (currentEvents: ExtendedCalendarBaasEvent[] = []) => {
@@ -141,11 +135,10 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
           e.uuid === event.uuid ? { ...e, bot_param: enabled ? { enabled: true } : null } : e,
         );
       },
-      false, // false means don't revalidate immediately
+      false, 
     );
 
     try {
-      // Then perform the actual API call
       await scheduleCalendarEvent({
         apiKey: baasApiKey ?? '',
         eventId: event.uuid,
@@ -154,10 +147,8 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
         enterMessage: DEFAULT_ENTRY_MESSAGE,
       });
 
-      // If successful, trigger a revalidation to get the real server state
       await mutate(['calendar-events', calendarsData, baasApiKey]);
     } catch (error) {
-      // If the API call fails, revert the optimistic update
       await mutate(['calendar-events', calendarsData, baasApiKey]);
       console.error('Failed to toggle recording:', error);
     }

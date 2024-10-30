@@ -15,7 +15,7 @@ import {
 import { Switch } from '@meeting-baas/ui/switch';
 
 interface EventModalProps {
-  event: ExtendedCalendarBaasEvent | null;
+  event: ExtendedCalendarBaasEvent | null | undefined;
   isOpen: boolean;
   onClose: () => void;
   onToggleRecord: (event: ExtendedCalendarBaasEvent, enabled: boolean) => void;
