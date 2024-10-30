@@ -39,6 +39,6 @@ options:
   substitutionOption: ALLOW_LOOSE
 
 substitutions:
-  _GITHUB_USERNAME: "techwithanirudh"
-  _SERVICE_NAME: transcript-seeker-api-dev
+  # _GITHUB_USERNAME: "techwithanirudh"
+  _SERVICE_NAME: transcript-seeker-api-prod
   _DEPLOY_REGION: us-central1
