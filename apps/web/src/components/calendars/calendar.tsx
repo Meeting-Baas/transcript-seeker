@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react';
 import {
   createViewDay,
   createViewMonthAgenda,
@@ -12,10 +11,11 @@ import { createCurrentTimePlugin } from '@schedule-x/current-time';
 import { createEventsServicePlugin } from '@schedule-x/events-service';
 import { ScheduleXCalendar, useCalendarApp } from '@schedule-x/react';
 import { format } from 'date-fns';
+import { useEffect, useMemo, useState } from 'react';
 
 // prettier-ignore-start
-import '@schedule-x/theme-default/dist/index.css';
 import '@/styles/schedulex.css';
+import '@schedule-x/theme-default/dist/index.css';
 // prettier-ignore-end
 
 import { ExtendedCalendarBaasEvent } from '@/types/calendar';
@@ -86,7 +86,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
 
   const dayView = createViewDay();
   const weekView = createViewWeek();
-  const monthGridView =  createViewMonthGrid();
+  const monthGridView = createViewMonthGrid();
   const monthAgendaView = createViewMonthAgenda();
 
   const calendar = useCalendarApp(
@@ -119,10 +119,13 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
     <div className="flex h-full w-full flex-col">
       <CalendarToolbar calendarApp={calendar} />
       <ScheduleXCalendar calendarApp={calendar} />
-      <EventModal 
-        event={selectedEvent} 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
+      <EventModal
+        event={selectedEvent}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onToggleRecord={function (eventId: string, enabled: boolean): void {
+          throw new Error('Function not implemented.');
+        }}
       />
     </div>
   );

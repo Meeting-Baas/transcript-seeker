@@ -1,5 +1,6 @@
 'use client';
 
+import { CalendarEvent } from '@/types/schedulex';
 import { Button } from '@meeting-baas/ui/button';
 import {
   Dialog,
@@ -9,16 +10,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@meeting-baas/ui/dialog';
-import { CalendarEvent } from '@/types/schedulex';
+import { Switch } from '@meeting-baas/ui/switch';
 import { format } from 'date-fns';
 
 interface EventModalProps {
   event: CalendarEvent | null;
   isOpen: boolean;
   onClose: () => void;
+  onToggleRecord: (eventId: string, enabled: boolean) => void;
+  isRecording?: boolean;
 }
 
-export function EventModal({ event, isOpen, onClose }: EventModalProps) {
+export function EventModal({ event, isOpen, onClose, onToggleRecord, isRecording = false }: EventModalProps) {
   if (!event) return null;
 
   return (
@@ -31,22 +34,46 @@ export function EventModal({ event, isOpen, onClose }: EventModalProps) {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <span className="text-right font-medium">Record:</span>
+            <div className="col-span-3">
+              <Switch
+                checked={isRecording}
+                onCheckedChange={(checked) => onToggleRecord(event.id.toString(), checked)}
+              />
+            </div>
+          </div>
           {event.location && (
             <div className="grid grid-cols-4 items-center gap-4">
               <span className="text-right font-medium">Location:</span>
-              <span className="col-span-3">{event.location}</span>
+              <span className="col-span-3 break-words overflow-y-auto max-h-24">
+                {event.location.match(/^https?:\/\//) ? (
+                  <a
+                    href={event.location}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    {event.location}
+                  </a>
+                ) : (
+                  event.location
+                )}
+              </span>
             </div>
           )}
           {event.description && (
             <div className="grid grid-cols-4 items-center gap-4">
               <span className="text-right font-medium">Description:</span>
-              <span className="col-span-3">{event.description}</span>
+              <span className="col-span-3 break-words overflow-y-auto max-h-48">{event.description}</span>
             </div>
           )}
           {event.people && event.people.length > 0 && (
             <div className="grid grid-cols-4 items-center gap-4">
               <span className="text-right font-medium">Attendees:</span>
-              <span className="col-span-3">{event.people.join(', ')}</span>
+              <span className="col-span-3 break-words overflow-y-auto max-h-24">
+                {event.people.join(', ')}
+              </span>
             </div>
           )}
         </div>
