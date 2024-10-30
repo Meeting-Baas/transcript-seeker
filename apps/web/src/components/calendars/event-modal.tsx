@@ -13,20 +13,21 @@ import {
   DialogTitle,
 } from '@meeting-baas/ui/dialog';
 import { Switch } from '@meeting-baas/ui/switch';
-import { Card } from '@meeting-baas/ui/card';
+import { Loader2 } from 'lucide-react';
 
 interface EventModalProps {
   event: ExtendedCalendarBaasEvent | null;
   isOpen: boolean;
   onClose: () => void;
-  onRecordChange: (event: ExtendedCalendarBaasEvent, enabled: boolean) => void;
+  onRecordChange: (event: ExtendedCalendarBaasEvent, enabled: boolean) => Promise<void>;
+  isProcessing: boolean;
 }
 
-export function EventModal({ event, isOpen, onClose, onRecordChange }: EventModalProps) {
+export function EventModal({ event, isOpen, onClose, onRecordChange, isProcessing }: EventModalProps) {
   if (!event) return null;
 
-  const handleRecordChange = (checked: boolean) => {
-    onRecordChange(event, checked);
+  const handleRecordChange = async (checked: boolean) => {
+    await onRecordChange(event, checked);
   };
 
   return (
@@ -42,15 +43,19 @@ export function EventModal({ event, isOpen, onClose, onRecordChange }: EventModa
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <span className="text-right font-medium">Record:</span>
-            <div className="col-span-3">
+            <div className="col-span-3 flex items-center space-x-2">
               <Switch
                 checked={!!event.bot_param}
                 onCheckedChange={handleRecordChange}
+                disabled={isProcessing}
               />
+              {isProcessing && (
+                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+              )}
             </div>
           </div>
           {event.meeting_url && (
-            <Card className="grid grid-cols-4 items-center gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <span className="text-right font-medium">Location:</span>
               <span className="col-span-3 max-h-24 overflow-y-auto break-words">
                 <a
@@ -62,7 +67,7 @@ export function EventModal({ event, isOpen, onClose, onRecordChange }: EventModa
                   {event.meeting_url}
                 </a>
               </span>
-            </Card>
+            </div>
           )}
           {event.raw.description && (
             <div className="grid grid-cols-4 items-center gap-4">
@@ -82,7 +87,7 @@ export function EventModal({ event, isOpen, onClose, onRecordChange }: EventModa
           )}
         </div>
         <DialogFooter>
-          <Button onClick={onClose}>Close</Button>
+          <Button onClick={onClose} disabled={isProcessing}>Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
