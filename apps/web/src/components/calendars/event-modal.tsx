@@ -71,7 +71,7 @@ export function EventModal({ event, isOpen, onClose, onToggleRecord }: EventModa
             <div className="grid grid-cols-4 items-center gap-4">
               <span className="text-right font-medium">Attendees:</span>
               <span className="col-span-3 max-h-24 overflow-y-auto break-words">
-                {event.raw.attendees.join(', ')}
+                {event.raw.attendees.map((attendee) => attendee.email).join(', ')}
               </span>
             </div>
           )}
