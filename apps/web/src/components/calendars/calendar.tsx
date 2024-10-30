@@ -22,6 +22,9 @@ import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { CalendarEvent, Calendars } from '@/types/schedulex';
 
 import { CalendarBaasData } from '@meeting-baas/shared';
+
+import { useApiKey } from '@/hooks/use-api-key';
+import { joinMeeting } from '@/lib/meetingbaas';
 import CalendarToolbar from './calendar-toolbar';
 import { EventModal } from './event-modal';
 
@@ -33,6 +36,7 @@ interface CalendarProps {
 function Calendar({ calendarsData, eventsData }: CalendarProps) {
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
 
   const calendarControls = createCalendarControlsPlugin();
   const plugins = [
@@ -115,6 +119,15 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
     setSelectedEvent(null);
   };
 
+  function onToggleRecord(event: CalendarEvent, enabled: boolean) {
+    console.log('onToggleRecord', event, enabled);
+    joinMeeting({
+      meetingURL: event.location!,
+      apiKey: baasApiKey ?? '',
+      startTime: new Date(event.start).getTime(),
+    });
+  }
+
   return (
     <div className="flex h-full w-full flex-col">
       <CalendarToolbar calendarApp={calendar} />
@@ -123,9 +136,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
         event={selectedEvent}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onToggleRecord={function (eventId: string, enabled: boolean): void {
-          throw new Error('Function not implemented.');
-        }}
+        onToggleRecord={onToggleRecord}
       />
     </div>
   );

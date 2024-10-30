@@ -17,7 +17,7 @@ interface EventModalProps {
   event: CalendarEvent | null;
   isOpen: boolean;
   onClose: () => void;
-  onToggleRecord: (eventId: string, enabled: boolean) => void;
+  onToggleRecord: (event: CalendarEvent, enabled: boolean) => void;
   isRecording?: boolean;
 }
 
@@ -39,7 +39,7 @@ export function EventModal({ event, isOpen, onClose, onToggleRecord, isRecording
             <div className="col-span-3">
               <Switch
                 checked={isRecording}
-                onCheckedChange={(checked) => onToggleRecord(event.id.toString(), checked)}
+                onCheckedChange={(checked: boolean) => onToggleRecord(event, checked)}
               />
             </div>
           </div>
