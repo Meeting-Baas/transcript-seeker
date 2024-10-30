@@ -19,11 +19,16 @@ import '@schedule-x/theme-default/dist/index.css';
 import '@/styles/schedulex.css';
 
 import { useApiKey } from '@/hooks/use-api-key';
-import { joinMeeting } from '@/lib/meetingbaas';
+import { scheduleCalendarEvent } from '@/lib/meetingbaas';
 import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { CalendarEvent, Calendars } from '@/types/schedulex';
 
-import { CalendarBaasData } from '@meeting-baas/shared';
+import {
+  CalendarBaasData,
+  DEFAULT_BOT_IMAGE,
+  DEFAULT_BOT_NAME,
+  DEFAULT_ENTRY_MESSAGE,
+} from '@meeting-baas/shared';
 
 import CalendarToolbar from './calendar-toolbar';
 import { EventModal } from './event-modal';
@@ -121,10 +126,12 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
 
   function onToggleRecord(event: CalendarEvent, enabled: boolean) {
     console.log('onToggleRecord', event, enabled);
-    joinMeeting({
-      meetingURL: event.location!,
+    scheduleCalendarEvent({
       apiKey: baasApiKey ?? '',
-      startTime: new Date(event.start).getTime(),
+      eventId: event.id.toString(),
+      botName: DEFAULT_BOT_NAME,
+      botImage: DEFAULT_BOT_IMAGE,
+      enterMessage: DEFAULT_ENTRY_MESSAGE,
     });
   }
 

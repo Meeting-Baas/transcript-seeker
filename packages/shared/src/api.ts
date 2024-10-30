@@ -1,8 +1,8 @@
 // shared/src/api.ts
 import axios from 'axios';
 
-import * as constants from './constants';
 import type { CalendarBaasData, CalendarBaasEvent } from './types';
+import * as constants from './constants';
 
 export interface JoinMeetingParams {
   meetingBotName?: string;
@@ -169,7 +169,7 @@ export async function createCalendar({
       url,
       {
         platform: platform,
-        calendarId: calendarId
+        calendarId: calendarId,
       },
       {
         headers: {
@@ -181,6 +181,57 @@ export async function createCalendar({
 
     if (response.status != 200) {
       throw new Error('Failed to create calendar');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface ScheduleCalendarEventParams {
+  apiKey: string;
+  eventId: string;
+  proxyUrl?: string;
+  botName?: string;
+  botImage?: string;
+  enterMessage?: string;
+}
+
+export interface ScheduleCalendarEventResponse {
+  data?: CalendarBaasEvent;
+  error?: string;
+}
+
+export async function scheduleCalendarEvent({
+  apiKey,
+  eventId,
+  proxyUrl,
+  botName,
+  botImage,
+  enterMessage,
+}: ScheduleCalendarEventParams): Promise<ScheduleCalendarEventResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendar_events/${eventId}/bot`;
+
+    const response = await axios.post(
+      url,
+      {
+        botName,
+        bot_image: botImage,
+        enter_message: enterMessage,
+        recordingMode: 'speaker_view',
+      },
+      {
+        headers: {
+          'x-meeting-baas-api-key': apiKey,
+        },
+        withCredentials: true,
+      },
+    );
+
+    if (response.status != 200) {
+      throw new Error('Failed to schedule calendar event');
     }
 
     return { data: response.data };
