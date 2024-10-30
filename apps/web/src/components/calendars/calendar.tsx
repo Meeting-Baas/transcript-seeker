@@ -1,5 +1,6 @@
-'use client'
+'use client';
 
+import { useEffect, useMemo, useState } from 'react';
 import {
   createViewDay,
   createViewMonthAgenda,
@@ -11,20 +12,19 @@ import { createCurrentTimePlugin } from '@schedule-x/current-time';
 import { createEventsServicePlugin } from '@schedule-x/events-service';
 import { ScheduleXCalendar, useCalendarApp } from '@schedule-x/react';
 import { format } from 'date-fns';
-import { useEffect, useMemo, useState } from 'react';
 
-// prettier-ignore-start
-import '@/styles/schedulex.css';
+// prettier-ignore
 import '@schedule-x/theme-default/dist/index.css';
-// prettier-ignore-end
+// prettier-ignore
+import '@/styles/schedulex.css';
 
+import { useApiKey } from '@/hooks/use-api-key';
+import { joinMeeting } from '@/lib/meetingbaas';
 import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { CalendarEvent, Calendars } from '@/types/schedulex';
 
 import { CalendarBaasData } from '@meeting-baas/shared';
 
-import { useApiKey } from '@/hooks/use-api-key';
-import { joinMeeting } from '@/lib/meetingbaas';
 import CalendarToolbar from './calendar-toolbar';
 import { EventModal } from './event-modal';
 
@@ -105,7 +105,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
           setIsModalOpen(true);
         },
       },
-      isResponsive: false
+      isResponsive: false,
     },
     plugins,
   );
