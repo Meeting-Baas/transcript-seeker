@@ -22,6 +22,7 @@ import { useApiKey } from '@/hooks/use-api-key';
 import { scheduleCalendarEvent } from '@/lib/meetingbaas';
 import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { CalendarEvent, Calendars } from '@/types/schedulex';
+import { mutate } from 'swr';
 
 import {
   CalendarBaasData,
@@ -129,15 +130,37 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
     setSelectedEventId(null);
   };
 
-  function onToggleRecord(event: CalendarEvent, enabled: boolean) {
+  async function onToggleRecord(event: ExtendedCalendarBaasEvent, enabled: boolean) {
     console.log('onToggleRecord', event, enabled);
-    scheduleCalendarEvent({
-      apiKey: baasApiKey ?? '',
-      eventId: event.id.toString(),
-      botName: DEFAULT_BOT_NAME,
-      botImage: DEFAULT_BOT_IMAGE,
-      enterMessage: DEFAULT_ENTRY_MESSAGE,
-    });
+
+    // Optimistically update the UI first
+    await mutate(
+      ['calendar-events', calendarsData, baasApiKey],
+      async (currentEvents: ExtendedCalendarBaasEvent[] = []) => {
+        return currentEvents.map((e) =>
+          e.uuid === event.uuid ? { ...e, bot_param: enabled ? { enabled: true } : null } : e,
+        );
+      },
+      false, // false means don't revalidate immediately
+    );
+
+    try {
+      // Then perform the actual API call
+      await scheduleCalendarEvent({
+        apiKey: baasApiKey ?? '',
+        eventId: event.uuid,
+        botName: DEFAULT_BOT_NAME,
+        botImage: DEFAULT_BOT_IMAGE,
+        enterMessage: DEFAULT_ENTRY_MESSAGE,
+      });
+
+      // If successful, trigger a revalidation to get the real server state
+      await mutate(['calendar-events', calendarsData, baasApiKey]);
+    } catch (error) {
+      // If the API call fails, revert the optimistic update
+      await mutate(['calendar-events', calendarsData, baasApiKey]);
+      console.error('Failed to toggle recording:', error);
+    }
   }
 
   return (
