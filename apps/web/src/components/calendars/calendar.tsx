@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useMemo, useState } from 'react';
 import {
   createViewDay,
   createViewMonthAgenda,
@@ -11,7 +12,6 @@ import { createCurrentTimePlugin } from '@schedule-x/current-time';
 import { createEventsServicePlugin } from '@schedule-x/events-service';
 import { ScheduleXCalendar, useCalendarApp } from '@schedule-x/react';
 import { format } from 'date-fns';
-import { useEffect, useMemo, useState } from 'react';
 
 // prettier-ignore
 import '@schedule-x/theme-default/dist/index.css';
@@ -19,7 +19,7 @@ import '@schedule-x/theme-default/dist/index.css';
 import '@/styles/schedulex.css';
 
 import { useApiKey } from '@/hooks/use-api-key';
-import { scheduleCalendarEvent } from '@/lib/meetingbaas';
+import { scheduleCalendarEvent, unScheduleCalendarEvent } from '@/lib/meetingbaas';
 import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { CalendarEvent, Calendars } from '@/types/schedulex';
 import { mutate } from 'swr';
@@ -127,9 +127,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
     setSelectedEvent(null);
   };
 
-  async function onToggleRecord(event: ExtendedCalendarBaasEvent, enabled: boolean) {
-    console.log('onToggleRecord', event, enabled);
-
+  async function onRecordChange(event: ExtendedCalendarBaasEvent, enabled: boolean) {
     await mutate(
       ['calendar-events', calendarsData, baasApiKey],
       async (currentEvents: ExtendedCalendarBaasEvent[] = []) => {
@@ -141,13 +139,20 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
     );
 
     try {
-      await scheduleCalendarEvent({
-        apiKey: baasApiKey ?? '',
-        eventId: event.uuid,
-        botName: DEFAULT_BOT_NAME,
-        botImage: DEFAULT_BOT_IMAGE,
-        enterMessage: DEFAULT_ENTRY_MESSAGE,
-      });
+      if (enabled) {
+        await scheduleCalendarEvent({
+          apiKey: baasApiKey ?? '',
+          eventId: event.uuid,
+          botName: DEFAULT_BOT_NAME,
+          botImage: DEFAULT_BOT_IMAGE,
+          enterMessage: DEFAULT_ENTRY_MESSAGE,
+        });
+      } else {
+        await unScheduleCalendarEvent({
+          apiKey: baasApiKey ?? '',
+          eventId: event.uuid,
+        });
+      }
 
       await mutate(['calendar-events', calendarsData, baasApiKey]);
     } catch (error) {
@@ -164,7 +169,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
         event={selectedEvent}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onToggleRecord={onToggleRecord}
+        onRecordChange={onRecordChange}
       />
     </div>
   );

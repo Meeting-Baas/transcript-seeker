@@ -18,10 +18,10 @@ interface EventModalProps {
   event: ExtendedCalendarBaasEvent | null | undefined;
   isOpen: boolean;
   onClose: () => void;
-  onToggleRecord: (event: ExtendedCalendarBaasEvent, enabled: boolean) => void;
+  onRecordChange: (event: ExtendedCalendarBaasEvent, enabled: boolean) => void;
 }
 
-export function EventModal({ event, isOpen, onClose, onToggleRecord }: EventModalProps) {
+export function EventModal({ event, isOpen, onClose, onRecordChange }: EventModalProps) {
   if (!event) return null;
 
   return (
@@ -40,7 +40,7 @@ export function EventModal({ event, isOpen, onClose, onToggleRecord }: EventModa
             <div className="col-span-3">
               <Switch
                 checked={!!event.bot_param}
-                onCheckedChange={(checked: boolean) => onToggleRecord(event, checked)}
+                onCheckedChange={(checked: boolean) => onRecordChange(event, checked)}
               />
             </div>
           </div>

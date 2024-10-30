@@ -240,6 +240,42 @@ export async function scheduleCalendarEvent({
   }
 }
 
+export interface UnScheduleCalendarEventParams {
+  apiKey: string;
+  eventId: string;
+  proxyUrl?: string;
+}
+
+export interface UnScheduleCalendarEventResponse {
+  data?: CalendarBaasEvent;
+  error?: string;
+}
+
+export async function unScheduleCalendarEvent({
+  apiKey,
+  eventId,
+  proxyUrl,
+}: UnScheduleCalendarEventParams): Promise<UnScheduleCalendarEventResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars/calendar_events/${eventId}/bot`;
+
+    const response = await axios.delete(url, {
+      headers: {
+        'x-meeting-baas-api-key': apiKey,
+      },
+      withCredentials: true,
+    });
+
+    if (response.status != 200) {
+      throw new Error('Failed to unschedule calendar event');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
 export interface DeleteCalendarParams {
   calendarId: string;
   apiKey: string;

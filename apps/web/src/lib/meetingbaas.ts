@@ -115,6 +115,22 @@ export const scheduleCalendarEvent = async ({
   return data;
 };
 
+interface UnScheduleCalendarEventProps extends Omit<ScheduleCalendarEventParams, 'proxyUrl'> {}
+
+export const unScheduleCalendarEvent = async ({
+  ...params
+}: UnScheduleCalendarEventProps): Promise<CalendarBaasEvent | null> => {
+  const response = await MeetingBaas.unScheduleCalendarEvent({
+    proxyUrl: VITE_API_URL,
+    ...params,
+  });
+
+  const data: CalendarBaasEvent | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
+};
+
 interface DeleteCalendarProps extends Omit<MeetingBaas.DeleteCalendarParams, 'proxyUrl'> {}
 
 export const deleteCalendar = async ({
