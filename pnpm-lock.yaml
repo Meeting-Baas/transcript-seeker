@@ -76,8 +76,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       better-auth:
-        specifier: 0.6.3-beta.2
-        version: 0.6.3-beta.2(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
+        specifier: 0.6.2
+        version: 0.6.2(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -286,8 +286,8 @@ importers:
         specifier: ^4.6.1
         version: 4.7.1
       better-auth:
-        specifier: v0.6.3-beta.2
-        version: 0.6.3-beta.2(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
+        specifier: 0.6.2
+        version: 0.6.2(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -630,7 +630,7 @@ importers:
         version: 1.2.2(eslint@9.13.0(jiti@2.3.3))
       eslint-plugin-import:
         specifier: ^2.31.0
-        version: 2.31.0(eslint@9.13.0(jiti@2.3.3))
+        version: 2.31.0(@typescript-eslint/parser@8.12.2(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3))(eslint@9.13.0(jiti@2.3.3))
       eslint-plugin-jsx-a11y:
         specifier: ^6.10.0
         version: 6.10.2(eslint@9.13.0(jiti@2.3.3))
@@ -4589,8 +4589,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  better-auth@0.6.3-beta.2:
-    resolution: {integrity: sha512-Nu3htbEf7jdXOaSeLnfDNLwhMyevl4VXMpQkPeUtWTA3W55d+KqOhfXvXfkj12oftJzNIyLhtZbiu6cNiPC+1w==}
+  better-auth@0.6.2:
+    resolution: {integrity: sha512-7lh0ph5eXnoyMDs9hbL32hrY+e/y7Abk0IHtCS5h0fbObZNA1Uv2uW4G89RuHQG30LI7VeB4klYGn6Qcs74DrA==}
 
   better-call@0.2.13:
     resolution: {integrity: sha512-Y1rOwUtTYeH4usW7XNqonoo+Dtcb2sXL6m6zcLsgTYSD2ANqyELxkeA8BkCTWonN1y+Pt9CMbcn5vILaPohdUg==}
@@ -12819,7 +12819,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  better-auth@0.6.3-beta.2(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3)):
+  better-auth@0.6.2(react@19.0.0-rc-0bc30748-20241028)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3)):
     dependencies:
       '@better-fetch/fetch': 1.1.12
       '@nanostores/query': 0.3.4(nanostores@0.11.3)
@@ -13665,16 +13665,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(eslint-import-resolver-node@0.3.9)(eslint@9.13.0(jiti@2.3.3)):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.12.2(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint@9.13.0(jiti@2.3.3)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
+      '@typescript-eslint/parser': 8.12.2(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3)
       eslint: 9.13.0(jiti@2.3.3)
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.31.0(eslint@9.13.0(jiti@2.3.3)):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.12.2(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3))(eslint@9.13.0(jiti@2.3.3)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -13685,7 +13686,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.13.0(jiti@2.3.3)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(eslint-import-resolver-node@0.3.9)(eslint@9.13.0(jiti@2.3.3))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.12.2(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint@9.13.0(jiti@2.3.3))
       hasown: 2.0.2
       is-core-module: 2.15.1
       is-glob: 4.0.3
@@ -13696,6 +13697,8 @@ snapshots:
       semver: 6.3.1
       string.prototype.trimend: 1.0.8
       tsconfig-paths: 3.15.0
+    optionalDependencies:
+      '@typescript-eslint/parser': 8.12.2(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3)
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
