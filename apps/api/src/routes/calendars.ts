@@ -184,4 +184,37 @@ calendars.post('/calendar_events/:eventId/bot', async (c) => {
   return c.json(calendars);
 });
 
+calendars.delete('/calendar_events/:eventId/bot', async (c) => {
+  const baasApiKey = c.req.header('x-meeting-baas-api-key');
+  const eventId = c.req.param('eventId');
+  if (!baasApiKey || !eventId) return c.body(null, 401);
+
+  const user = c.get('user');
+  if (!user) return c.body(null, 401);
+
+  const userAccount = await db.query.account.findFirst({
+    where: eq(account.userId, user.id),
+  });
+  if (!userAccount) return c.body(null, 401);
+
+  const response = await fetch(
+    `${process.env.MEETINGBAAS_API_URL}/calendar_events/${eventId}/bot`,
+    {
+      method: 'DELETE',
+      headers: {
+        'x-meeting-baas-api-key': baasApiKey,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  if (response.status != 200) {
+    console.log('error, failed to create calendar:', await response.text());
+    return c.body(null, 500);
+  }
+
+  const calendars = (await response.json()) as JSON;
+  return c.json(calendars);
+});
+
 export default calendars;
