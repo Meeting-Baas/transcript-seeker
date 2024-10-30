@@ -60,7 +60,7 @@
     "@meeting-baas/tsconfig": "workspace:*",
     "@rollup/plugin-replace": "^6.0.1",
     "@types/lodash": "^4.17.7",
-    "@types/node": "^22.8.1",
+    "@types/node": "^22.8.4",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
     "@types/uuid": "^10.0.0",
