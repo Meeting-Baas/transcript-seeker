@@ -28,6 +28,7 @@
     "@tanstack/react-table": "^8.19.2",
     "@vidstack/react": "^1.11.24",
     "assemblyai": "^4.6.1",
+    "better-auth": "v0.6.3-beta.2",
     "date-fns": "^3.6.0",
     "dotenv-cli": "catalog:",
     "hls.js": "^1.5.13",
