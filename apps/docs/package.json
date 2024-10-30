@@ -17,11 +17,11 @@
     "react-dom": "catalog:react18"
   },
   "devDependencies": {
-    "@meeting-baas/ui": "workspace:*",
     "@meeting-baas/eslint-config": "workspace:*",
     "@meeting-baas/prettier-config": "workspace:*",
     "@meeting-baas/tailwind-config": "workspace:*",
     "@meeting-baas/tsconfig": "workspace:*",
+    "@meeting-baas/ui": "workspace:*",
     "@types/mdx": "^2.0.13",
     "@types/node": "^22.8.1",
     "@types/react": "catalog:react18",
