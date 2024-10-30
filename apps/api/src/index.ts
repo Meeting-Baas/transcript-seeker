@@ -41,5 +41,5 @@ console.log(`Hono Server is running on port ${port}`);
 
 serve({
   fetch: app.fetch,
-  port: port,
+  port: port as number,
 })
