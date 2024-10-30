@@ -3,10 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev -p 5174",
-    "start": "next start -p 5174",
-    "postinstall": "fumadocs-mdx"
+    "build": "pnpm with-env next build",
+    "clean": "git clean -xdf .cache .next .turbo node_modules",
+    "dev": "pnpm with-env next dev -p 5174",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "start": "pnpm with-env next start -p 5174",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "fumadocs-mdx",
+    "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "fumadocs-core": "14.1.1",
