@@ -1,42 +1,39 @@
-'use client'
-
-import { useCallback, useState, useEffect } from 'react'
-import { toast } from 'sonner'
-import useSWR from 'swr'
-import useSWRMutation from 'swr/mutation'
-import type { MediaPlayerInstance } from '@vidstack/react'
-import type { JSONContent } from 'novel'
-import type { z } from 'zod'
-import OpenAI from 'openai'
-
-import { ModeToggle } from '@/components/mode-toggle'
-import Chat from '@/components/viewer/chat'
-import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input'
-import Editor from '@/components/viewer/editor'
-import Transcript from '@/components/viewer/transcript'
-import { Player as VideoPlayer } from '@/components/viewer/video-player'
-import { useApiKey } from '@/hooks/use-api-key'
-import { useMediaQuery } from '@/hooks/use-media-query'
+import { ModeToggle } from '@/components/mode-toggle';
+import Chat from '@/components/viewer/chat';
+import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
+import Editor from '@/components/viewer/editor';
+import Transcript from '@/components/viewer/transcript';
+import { Player as VideoPlayer } from '@/components/viewer/video-player';
+import { useApiKey } from '@/hooks/use-api-key';
+import { useChat } from '@/hooks/use-chat';
+import { useEditor } from '@/hooks/use-editor';
+import { useMediaQuery } from '@/hooks/use-media-query';
 import {
   BLANK_EDITOR_DATA,
   LOADING_EDITOR_DATA,
   VITE_PROXY_URL,
   VITE_S3_PREFIX,
-} from '@/lib/constants'
-import { leaveMeeting as leaveMeetingQuery } from '@/lib/meetingbaas'
+} from '@/lib/constants';
+import { leaveMeeting as leaveMeetingQuery } from '@/lib/meetingbaas';
 import {
   createMessage,
   renameMeeting as renameMeetingDb,
   setEditor as setEditorDB,
-  getMeetingByBotId,
-  getEditorByMeetingId,
-  getChatMessages,
-} from '@/queries'
-import type { Meeting, Message } from '@/types'
-import { DownloadIcon, PencilIcon } from 'lucide-react'
-import { Link } from 'react-router-dom'
+} from '@/queries';
+import type { Meeting, Message } from '@/types';
+import type { MediaPlayerInstance } from '@vidstack/react';
+import { DownloadIcon, PencilIcon } from 'lucide-react';
+import type { JSONContent } from 'novel';
+import OpenAI from 'openai';
+import * as React from 'react';
+import { useCallback, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
+import { mutate } from 'swr';
+import useSWRMutation from 'swr/mutation';
+import type { z } from 'zod';
 
-import { cn } from '@meeting-baas/ui'
+import { cn } from '@meeting-baas/ui';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -44,166 +41,175 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@meeting-baas/ui/breadcrumb'
-import { Button } from '@meeting-baas/ui/button'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable'
-import { Switch } from '@meeting-baas/ui/switch'
+} from '@meeting-baas/ui/breadcrumb';
+import { Button } from '@meeting-baas/ui/button';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@meeting-baas/ui/resizable';
+import { Switch } from '@meeting-baas/ui/switch';
 
-import RenameModal from '../meeting/rename-modal'
+import RenameModal from '../meeting/rename-modal';
 
 interface ViewerProps {
-  botId: string
-  meetingId: string
+  botId: string;
+  isLoading: boolean;
+  meeting: Meeting;
 }
 
-export function Viewer({ botId, meetingId }: ViewerProps) {
-  const { data: meeting, error: meetingError, isLoading: isMeetingLoading } = useSWR(
-    ['meeting', meetingId],
-    () => getMeetingByBotId(meetingId),
-    { revalidateOnFocus: false }
-  )
+export function Viewer({ botId, isLoading, meeting: data }: ViewerProps) {
+  const [transcripts, setTranscripts] = React.useState<any[]>([
+    {
+      speaker: '',
+      words: [
+        {
+          start_time: 0,
+          end_time: 0,
+          text: '',
+        },
+      ],
+    },
+  ]);
 
-  const { data: editorData, mutate: mutateEditor, isLoading: isEditorLoading } = useSWR(
-    meeting ? ['editor', meeting.id] : null,
-    () => getEditorByMeetingId(meeting!.id),
-    { revalidateOnFocus: false }
-  )
+  const [editor, setEditor] = React.useState<JSONContent | undefined>(undefined);
+  const [showRename, setShowRename] = React.useState(false);
+  const [player, setPlayer] = React.useState<MediaPlayerInstance>();
+  const [currentTime, setCurrentTime] = React.useState(0);
 
-  const { data: chatMessages, mutate: mutateChat, isLoading: isChatLoading } = useSWR(
-    meeting ? ['chat', meeting.id] : null,
-    () => getChatMessages(meeting!.id),
-    { revalidateOnFocus: false }
-  )
+  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
+  const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
 
-  const [transcripts, setTranscripts] = useState<any[]>([])
-  const [showRename, setShowRename] = useState(false)
-  const [player, setPlayer] = useState<MediaPlayerInstance | null>(null)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [showEditorChat, setShowEditorChat] = useState(false)
+  const { editor: editorDB, isLoading: isEditorLoading } = useEditor({ meetingId: data.id });
 
-  const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' })
-  const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' })
-
-  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const { messages: chatMessages, isLoading: isChatLoading } = useChat({ meetingId: data.id });
 
   const { trigger: leaveMeeting, isMutating: isLeavingMeeting } = useSWRMutation(
     ['leaveMeeting', botId, baasApiKey],
-    ([key, botId, baasApiKey]) => leaveMeetingQuery({ botId, apiKey: baasApiKey! })
-  )
+    ([key, botId, baasApiKey]) => leaveMeetingQuery({ botId, apiKey: baasApiKey! }),
+  );
 
-  const video = meeting?.type === 'meetingbaas' && meeting.assets.video_url
-    ? `${VITE_PROXY_URL}/api/s3${meeting.assets.video_url.replace(VITE_S3_PREFIX, '')}`
-    : meeting?.type === 'local' && meeting.assets.video_blob
-    ? meeting.assets.video_blob
-    : null
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
-  const handleEditorChange = useCallback(async (content: JSONContent) => {
-    if (!meeting) return
-    await setEditorDB({ meetingId: meeting.id, content })
-    mutateEditor()
-  }, [meeting, mutateEditor])
+  const video = useMemo(() => {
+    if (data.type === 'meetingbaas' && data.assets.video_url) {
+      const url = data.assets.video_url.replace(VITE_S3_PREFIX, '');
+      return `${VITE_PROXY_URL}/api/s3${url}`;
+    }
+    if (data.type === 'local' && data.assets.video_blob) {
+      return data.assets.video_blob;
+    }
+    return null;
+  }, [data]);
+
+  const handleEditorChange = useCallback(
+    async (content: JSONContent) => {
+      if (!data) return;
+      await setEditorDB({ meetingId: data.id, content: content });
+      mutate(['editor', data.id]);
+    },
+    [data],
+  );
+
+  const [localMeetingName, setLocalMeetingName] = React.useState(data.name);
 
   const handleRename = async (newName: string) => {
-    if (!meeting) return
     try {
-      await renameMeetingDb({ id: meeting.id, name: newName })
-      mutateEditor({ ...meeting, name: newName })
-      toast.success('Successfully renamed meeting.')
-      setShowRename(false)
+      await renameMeetingDb({ id: data.id, name: newName });
+      mutate(['meeting', data.id]);
+      setLocalMeetingName(newName); // Update local state
+      toast.success('Successfully renamed meeting.');
+      setShowRename(false);
     } catch (error) {
-      console.error('Error renaming meeting:', error)
-      toast.error('Failed to rename meeting.')
+      console.error('Error renaming meeting:', error);
+      toast.error('Failed to rename meeting.');
     }
-  }
+  };
 
-  const handleChatSubmit = useCallback(async (values: z.infer<typeof chatSchema>) => {
-    if (!meeting || !openAIApiKey) return
+  const handleChatSubmit = useCallback(
+    async (values: z.infer<typeof chatSchema>) => {
+      const message = values.message;
+      createMessage({ meetingId: data.id, message: { content: message, role: 'user' } });
+      mutate(['chat', data.id]);
 
-    const message = values.message
-    await createMessage({ meetingId: meeting.id, message: { content: message, role: 'user' } })
-    mutateChat()
+      try {
+        if (!openAIApiKey) return;
 
-    try {
-      const messagesList: Message[] = [
-        ...transcripts.map((transcript) => ({
-          content: transcript.words.map((word: { text: string }) => word.text).join(' '),
-          role: 'user' as const,
-        })),
-        ...(chatMessages || []),
-      ]
+        const messagesList: Message[] = [
+          ...transcripts.map((transcript) => ({
+            content: transcript.words.map((word: { text: string }) => word.text).join(' '),
+            role: 'user' as const,
+          })),
+          ...chatMessages,
+        ];
 
-      const openai = new OpenAI({
-        apiKey: openAIApiKey,
-        dangerouslyAllowBrowser: true,
-      })
+        const openai = new OpenAI({
+          apiKey: openAIApiKey,
+          dangerouslyAllowBrowser: true,
+        });
 
-      const systemPrompt = 'You are a helpful assistant named AI Meeting Bot. You will be given a context of a meeting and some meeting notes, you will answer questions based on the context.'
-      const result = await openai.chat.completions.create({
-        messages: [{ role: 'system', content: systemPrompt }, ...messagesList],
-        model: 'gpt-4o-mini',
-      })
+        const systemPrompt =
+          'You are a helpful assistant named AI Meeting Bot. You will be given a context of a meeting and some meeting notes, you will answer questions based on the context.';
+        const result = await openai.chat.completions.create({
+          messages: [{ role: 'system', content: systemPrompt }, ...messagesList],
+          model: 'gpt-4o-mini',
+        });
 
-      await createMessage({
-        meetingId: meeting.id,
-        message: {
-          role: 'assistant',
-          content: result.choices[0]?.message.content || '',
-        },
-      })
-    } catch (error) {
-      console.error('error', error)
-      toast.error('Oops! Something went wrong.')
-      await createMessage({
-        meetingId: meeting.id,
-        message: { content: `Oops! Something went wrong. ${error}`, role: 'assistant' },
-      })
-    }
-    mutateChat()
-  }, [chatMessages, transcripts, openAIApiKey, meeting, mutateChat])
+        await createMessage({
+          meetingId: data.id,
+          message: {
+            role: 'assistant',
+            content: result.choices[0]?.message.content || '',
+          },
+        });
+      } catch (error) {
+        console.error('error', error);
+        toast.error('Oops! Something went wrong.');
+        await createMessage({
+          meetingId: data.id,
+          message: { content: `Oops! Something went wrong. ${error}`, role: 'assistant' },
+        });
+      }
+      mutate(['chat', data.id]);
+    },
+    [chatMessages, transcripts, openAIApiKey],
+  );
 
   const handleQuit = useCallback(() => {
-    if (!baasApiKey) return
-    leaveMeeting()
-  }, [baasApiKey, leaveMeeting])
+    if (!baasApiKey) return;
+    leaveMeeting();
+  }, [baasApiKey, leaveMeeting]);
 
   const handleTimeUpdate = useCallback((time: number) => {
-    setCurrentTime(time)
-  }, [])
+    setCurrentTime(time);
+  }, []);
 
-  const handleSeek = useCallback((time: number) => {
-    if (player) {
-      player.currentTime = time
-    }
-  }, [player])
+  const handleSeek = useCallback(
+    (time: number) => {
+      if (player) {
+        player.currentTime = time;
+      }
+    },
+    [player],
+  );
 
   const setPlayerRef = useCallback((player: MediaPlayerInstance) => {
-    setPlayer(player)
-  }, [])
+    setPlayer(player);
+  }, []);
 
-  useEffect(() => {
-    if (meeting?.transcripts) {
-      setTranscripts(meeting.transcripts)
+  // Update transcripts when data changes
+  React.useEffect(() => {
+    if (data.transcripts) {
+      setTranscripts(data.transcripts);
     }
-  }, [meeting?.transcripts])
+  }, [data.transcripts]);
 
-  useEffect(() => {
-    if (editorData?.content) {
-      // Assuming editor is a ref to the Novel editor instance
-      // editor.current?.commands.setContent(editorData.content)
+  // Update editor content when editorDB changes
+  React.useEffect(() => {
+    if (editorDB?.content) {
+      editor?.commands.setContent(editorDB.content);
+    } else {
+      editor?.commands.setContent(BLANK_EDITOR_DATA);
     }
-  }, [editorData])
+  }, [isEditorLoading]);
 
-  if (isMeetingLoading) {
-    return <div className="flex items-center justify-center h-screen">Loading meeting data...</div>
-  }
-
-  if (meetingError) {
-    return <div className="flex items-center justify-center h-screen">Error loading meeting: {meetingError.message}</div>
-  }
-
-  if (!meeting) {
-    return <div className="flex items-center justify-center h-screen">No meeting data available.</div>
-  }
+  const [showEditorChat, setShowEditorChat] = React.useState(false);
 
   return (
     <div className="min-h-svh">
@@ -216,14 +222,18 @@ export function Viewer({ botId, meetingId }: ViewerProps) {
                   <Link to="/">Home</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
+
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbPage>Recording</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
+          {/* <div className="flex-grow text-center">
+            <h1 className="text-xl font-semibold">{data.name}</h1>
+          </div> */}
           <div className="flex flex-grow items-center justify-center text-center">
-            <h1 className="text-xl font-semibold">{meeting.name}</h1>
+            <h1 className="text-xl font-semibold">{localMeetingName}</h1>
             <Button
               variant="ghost"
               size="icon"
@@ -233,6 +243,7 @@ export function Viewer({ botId, meetingId }: ViewerProps) {
               <PencilIcon className="h-4 w-4" />
             </Button>
           </div>
+
           <label htmlFor="show-editor-chat" className="text-sm font-medium">
             Show Editor & Chat
           </label>
@@ -241,12 +252,12 @@ export function Viewer({ botId, meetingId }: ViewerProps) {
             checked={showEditorChat}
             onCheckedChange={setShowEditorChat}
           />
-          {meeting.type === 'meetingbaas' && !!meeting.endedAt && (
+          {data.type === 'meetingbaas' && !!data.endedAt && (
             <div className="flex gap-2">
               <Button
                 variant="destructive"
                 onClick={handleQuit}
-                disabled={!!meeting.endedAt || isLeavingMeeting}
+                disabled={!!data.endedAt || isLeavingMeeting}
               >
                 Quit
               </Button>
@@ -265,13 +276,14 @@ export function Viewer({ botId, meetingId }: ViewerProps) {
               <ResizablePanel defaultSize={50} minSize={25}>
                 {video && (
                   <VideoPlayer
+                    // @ts-ignore
                     src={{
-                      src: meeting.type === 'meetingbaas' ? (video as string) : (video as Blob),
-                      type: meeting.type === 'meetingbaas' ? 'video/mp4' : 'video/object',
+                      src: data.type === 'meetingbaas' ? (video as string) : (video as Blob),
+                      type: data.type === 'meetingbaas' ? 'video/mp4' : 'video/object',
                     }}
                     onTimeUpdate={handleTimeUpdate}
                     setPlayer={setPlayerRef}
-                    assetTitle={meeting.name}
+                    assetTitle={data.name}
                   />
                 )}
               </ResizablePanel>
@@ -289,6 +301,7 @@ export function Viewer({ botId, meetingId }: ViewerProps) {
                       </Button>
                     </div>
                   </div>
+                  {isLoading && <div className="flex px-0.5">Loading...</div>}
                   <Transcript
                     transcript={transcripts}
                     currentTime={currentTime}
@@ -305,14 +318,15 @@ export function Viewer({ botId, meetingId }: ViewerProps) {
                 <ResizablePanelGroup direction="vertical" className={cn('flex h-full w-full')}>
                   <ResizablePanel defaultSize={50} minSize={25}>
                     <Editor
-                      initialValue={editorData?.content || LOADING_EDITOR_DATA}
+                      initialValue={LOADING_EDITOR_DATA}
+                      onCreate={({ editor }) => setEditor(editor)}
                       onChange={handleEditorChange}
                     />
                   </ResizablePanel>
                   <ResizableHandle withHandle />
                   <ResizablePanel defaultSize={33} minSize={25}>
                     <Chat
-                      messages={chatMessages || []}
+                      messages={chatMessages}
                       handleSubmit={handleChatSubmit}
                       disabled={{
                         value: !openAIApiKey || isChatLoading,
@@ -330,10 +344,10 @@ export function Viewer({ botId, meetingId }: ViewerProps) {
         open={showRename}
         onOpenChange={setShowRename}
         defaultValues={{
-          name: meeting.name,
+          name: localMeetingName,
         }}
         onSubmit={(values) => handleRename(values.name)}
       />
     </div>
-  )
+  );
 }
