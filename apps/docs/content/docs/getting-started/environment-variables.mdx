@@ -121,11 +121,13 @@ VITE_S3_PREFIX=https://s3.eu-west-3.amazonaws.com/meeting-baas-video
 
 ## API Configuration
 
+Create a `.env.development.local` file in the below directory of your project and add the following environment variables:
+
 <Files>
   <Folder name="apps" defaultOpen>
     <Folder name="api" defaultOpen>
         <File name="..." />
-      <File name=".env.development.local" />
+      <File name=".env.development.local"  className="bg-fd-accent" />
     </Folder>
     <Folder name="proxy">
         <File name="..." />
@@ -165,12 +167,13 @@ VITE_S3_PREFIX=https://s3.eu-west-3.amazonaws.com/meeting-baas-video
       <File name="..." />
     </Folder>
   </Folder>
-  <File name=".env.development.local" className="bg-fd-accent" />
+  <File name=".env.development.local" />
   <File name="package.json" />
 </Files>
 
-
-1. **MeetingBaas Proxy Configuration**
+<Steps>
+<Step>
+### MeetingBaas Proxy Configuration
 
 These values are used by the api to figure out the api url for baas servers.
 
@@ -178,29 +181,38 @@ These values are used by the api to figure out the api url for baas servers.
 MEETINGBAAS_API_URL="https://api.meeting-baas.com"
 MEETINGBAAS_S3_URL="https://s3.eu-west-3.amazonaws.com/meeting-baas-video"
 ```
+</Step>
 
-2. **Google Authentication Configuration**
+<Step>
+### Google Authentication Configuration
 
-These values are used by the api to perform google authentication. Please follow the [guide](/docs/concepts/google)
+These values are used by the api to perform google authentication. Please follow the [guide](/docs/concepts/google) for more details:
 
 ```txt title=".env.development.local"
 GOOGLE_CLIENT_ID=""
 GOOGLE_CLIENT_SECRET=""
 ```
+</Step>
 
-3. **Turso Database Configuration**
+<Step>
+### Turso Database Configuration
 
-These values are used by the api to store user autehtncation data. Please follow the [guide](/docs/concepts/database)
+These values are used by the api to store user autehtncation data. Please follow the [guide](/docs/concepts/database) for more details:
 
 ```txt title=".env.development.local"
 TURSO_DATABASE_URL=""
 TURSO_AUTH_TOKEN=""
 ```
+</Step>
 
-4. **Better Auth Configuration**
+<Step>
+### Better Auth Configuration
 
 ```txt title=".env.development.local"
 BETTER_AUTH_SECRET=""
 BETTER_AUTH_URL="http://localhost:3001"
 BETTER_AUTH_TRUSTED_ORIGINS="http://localhost:5173"
 ```
+</Step>
+
+</Steps>
