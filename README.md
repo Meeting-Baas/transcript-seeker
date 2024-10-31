@@ -50,6 +50,8 @@ This project utilizes Turborepo for managing and building multiple packages effi
    export NODE_ENV=development
    ```
 
+    To learn more about configuring the environment variables, follow this [guide](https://docs.transcriptseeker.com/docs/concepts/environment-variables).
+
 3. **Run the App**:
    ```sh
    pnpm run dev
@@ -70,6 +72,9 @@ We welcome contributions from everyone! To get started:
 3. **Open a Pull Request (PR)**: Once you've made changes, open a PR so we can review and merge your work.
 
 We value contributions of all kinds, whether it's fixing bugs, adding features, improving documentation, or providing feedback.
+
+## Documentation
+If you'd like to see more information about Transcript Seeker, visit [docs.transcriptseeker.com](https://docs.transcriptseeker.com)
 
 ## License
 
