@@ -2,9 +2,9 @@
 
 import type { z } from 'zod';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ZodProvider } from '@autoform/zod';
 
-import type { ZodObjectOrWrapped } from '@meeting-baas/ui/auto-form/utils';
-import AutoForm from '@meeting-baas/ui/auto-form';
+import { AutoForm } from '@meeting-baas/ui/autoform';
 
 interface ProvidersFormProps<T extends z.ZodTypeAny> {
   defaultValues: z.infer<T>;
@@ -17,9 +17,8 @@ export default function ProvidersForm<T extends z.ZodTypeAny>({
   schema,
   onSubmit,
 }: ProvidersFormProps<T>) {
+  const schemaProvider = new ZodProvider(schema);
   const [values, setValues] = useState<z.infer<T>>(defaultValues);
-
-  const parsedSchema = useMemo(() => schema as unknown as ZodObjectOrWrapped, [schema]);
 
   useEffect(() => {
     if (!defaultValues) return;
@@ -38,7 +37,7 @@ export default function ProvidersForm<T extends z.ZodTypeAny>({
     <AutoForm
       values={values}
       onParsedValuesChange={handleParsedValuesChange}
-      formSchema={parsedSchema}
+      schema={schemaProvider}
     />
   );
 }

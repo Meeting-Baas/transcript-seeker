@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { source } from "@/lib/source";
 import { Slot } from "@radix-ui/react-slot";
-import { Sidebar } from "@/components/layout/sidebar";
+import { DynamicSidebar } from "@/components/layout/dynamic-sidebar";
 
 const docsOptions: DocsLayoutProps = {
   ...baseOptions,
@@ -38,7 +38,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <DocsLayout
       {...docsOptions}
       sidebar={{
-        component: <Sidebar />,
+        component: <DynamicSidebar />,
       }}
     >
       <span
