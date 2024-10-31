@@ -2,6 +2,7 @@
 title: Introduction
 description: Getting Started with Transcript Seeker
 icon: Album
+index: true
 ---
 
 import { File, Folder, Files } from "fumadocs-ui/components/files";
@@ -11,6 +12,7 @@ import {
   Database,
   Terminal,
   Download,
+  Cloud
 } from "lucide-react";
 
 ## Introduction
@@ -51,11 +53,20 @@ The setup process for Transcript Seeker uses **Turborepo** for efficient monorep
 
 <Cards>
 
-<Card icon={<Download className="text-purple-300" />} title='Installation'     href="/docs/installation"
+<Card icon={<Download className="text-purple-300" />} title='Installation'     href="/docs/getting-started/installation"
 >
 
 Learn how to configure and set up Transcript Seeker.
 
 </Card>
+
+
+<Card icon={<Cloud className="text-purple-300" />} title='Deployment'     href="/docs/guides/deployment"
+>
+
+Learn how to configure and set up Transcript Seeker.
+
+</Card>
+
 
 </Cards>

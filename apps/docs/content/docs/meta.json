@@ -1,9 +1,11 @@
 {
-  "title:": "Guide",
+  "title:": "Transcript Seeker",
+  "description": "The docs framework",
   "root": true,
   "pages": [
-    "---Get Started---",
-    "introduction",
-    "installation"
+    "index",
+    "getting-started",
+    "concepts",
+    "guides"
   ]
 }

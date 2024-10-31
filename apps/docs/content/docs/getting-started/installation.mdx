@@ -7,6 +7,7 @@ icon: Download
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { File, Folder, Files } from "fumadocs-ui/components/files";
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Callout } from 'fumadocs-ui/components/callout';
 
 <Steps>
 <Step>
@@ -33,12 +34,9 @@ yarn dlx create-turbo@latest -e https://github.com/Meeting-Baas/transcript-seeke
 It will ask you the following questions:
 
 - Which package manager would you like to use? PNPM
-- Configure Tailwind CSS?
-- Install dependencies?
 
-
-<Callout>
-Use pnpm as the package manager or the installation will fail.
+<Callout type="warn">
+  Use pnpm as the package manager or the installation will fail.
 </Callout>
 
 </Step>
@@ -113,16 +111,53 @@ Create a `.env.development.local` file in the below directory of your project an
   <File name="package.json" />
 </Files>
 
-Then
+
+1. **MeetingBaas Proxy Configuration**
+
+These values are used by the api to figure out the api url for baas servers.
+
+```txt title=".env.development.local"
+MEETINGBAAS_API_URL="https://api.meeting-baas.com"
+MEETINGBAAS_S3_URL="https://s3.eu-west-3.amazonaws.com/meeting-baas-video"
+```
+
+2. **Google Authentication Configuration**
+
+These values are used by the api to perform google authentication. Please follow the [guide](/docs/concepts/google)
+
+```txt title=".env.development.local"
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+```
+
+3. **Turso Database Configuration**
+
+These values are used by the api to store user autehtncation data. Please follow the [guide](/docs/concepts/database)
+
+```txt title=".env.development.local"
+TURSO_DATABASE_URL=""
+TURSO_AUTH_TOKEN=""
+```
+
+4. **Better Auth Configuration**
+
+```txt title=".env.development.local"
+BETTER_AUTH_SECRET=""
+BETTER_AUTH_URL="http://localhost:3001"
+BETTER_AUTH_TRUSTED_ORIGINS="http://localhost:5173"
+```
+
 
 </Step>
 
 Now after all of that is configured do the following
+
 ```bash
 export NODE_ENV="development"
 ```
 
 This means the env files from .env.development.local will be laoded
+
 <Step>
 ### Run the App
 
