@@ -29,7 +29,7 @@ export default function HomePage() {
             <Link
               href="/docs"
               className={cn(
-                buttonVariants({ size: "lg", className: "rounded-full" })
+                buttonVariants({ size: 'lg', className: "rounded-full" })
               )}
             >
               Get Started

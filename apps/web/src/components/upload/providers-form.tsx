@@ -36,7 +36,13 @@ export default function ProvidersForm<T extends z.ZodTypeAny>({
   return (
     <AutoForm
       values={values}
-      onParsedValuesChange={handleParsedValuesChange}
+      onFormInit={(form) => {
+        // You can use the "form" prop to access the underlying "react-hook-form" instance
+        // https://www.react-hook-form.com/api/useform/
+        form.watch((data) => {
+          handleParsedValuesChange(data);
+        });
+      }}
       schema={schemaProvider}
     />
   );

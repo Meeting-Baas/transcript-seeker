@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { source } from "@/lib/source";
 import { Slot } from "@radix-ui/react-slot";
-import { DynamicSidebar } from "@/components/layout/dynamic-sidebar";
+import DynamicSidebar from "@/components/layout/dynamic-sidebar";
 
 const docsOptions: DocsLayoutProps = {
   ...baseOptions,
@@ -30,6 +30,7 @@ const docsOptions: DocsLayoutProps = {
         };
       },
     },
+    component: <DynamicSidebar />,
   },
 };
 
@@ -37,9 +38,6 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <DocsLayout
       {...docsOptions}
-      sidebar={{
-        component: <DynamicSidebar />,
-      }}
     >
       <span
         className="absolute inset-0 z-[-1] h-[64rem] max-h-screen overflow-hidden"
