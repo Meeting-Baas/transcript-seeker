@@ -7,7 +7,7 @@ icon: Download
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { File, Folder, Files } from "fumadocs-ui/components/files";
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
-import { Callout } from 'fumadocs-ui/components/callout';
+import { Callout } from "fumadocs-ui/components/callout";
 
 <Steps>
 <Step>
@@ -44,132 +44,45 @@ It will ask you the following questions:
 <Step>
 ### Configure Environment Variables
 
-#### Client Configuration
+Copy the `.env.example` file to a `.env.development.local` file in the following folders within your project structure and add the necessary environment variables:
 
-Create a `.env.development.local` file in the root of your project and add the following environment variables:
-
-<Files>
-  <Folder name="apps" defaultOpen>
-    <Folder name="api" defaultOpen>
-
-    <File name=".env.development.local" />
-    </Folder>
-
-  </Folder>
-    <File name=".env.development.local" className="bg-fd-accent" />
-
-  <File name="package.json" />
-</Files>
-
-1. **Vite Port Configuration**
-
-These values are used by vite to configure the url the server listens on.
-
-```txt title=".env.development.local"
-VITE_CLIENT_PORT=5173
-VITE_CLIENT_HOST=0.0.0.0
-```
-
-2. **Set Proxy Configuration**
-
-This Proxy URL is used to forward requests from the client to the respective server, helping to avoid client-side CORS errors. An example proxy server is provided in the repository.
-
-```txt title=".env.development.local"
-VITE_PROXY_URL=http://localhost:3000
-```
-
-3. **Set API Configuration**
-
-This API URL is used by the calendars functionality of Transcript Seeker. It allows the app to perform authentication and retrieve the user's calendar data.
-
-```txt title=".env.development.local"
-VITE_API_URL=http://localhost:3001
-```
-
-4. **Set S3 Configuration**
-
-This environment variable is used to indicate to the client where the video recordings are stored.
-
-```txt title=".env.development.local"
-VITE_S3_PREFIX=https://s3.eu-west-3.amazonaws.com/meeting-baas-video
-```
-
-#### Server Configuration
-
-Create a `.env.development.local` file in the below directory of your project and add the following environment variables:
+To learn more about configuring the environment variables, follow this [guide](/docs/getting-started/environment-variables).
 
 <Files>
   <Folder name="apps" defaultOpen>
     <Folder name="api" defaultOpen>
-
-    <File name=".env.development.local" className="bg-fd-accent" />
+      <File name=".env.development.local" />
     </Folder>
-
   </Folder>
-    <File name=".env.development.local"  />
-
+  <Folder name="apps" defaultOpen>
+    <Folder name="proxy" defaultOpen>
+      <File name=".env.development.local" />
+    </Folder>
+  </Folder>
+  <File name=".env.development.local" />
   <File name="package.json" />
 </Files>
 
+After setting up the environment files, execute the following command to set the environment to development mode:
 
-1. **MeetingBaas Proxy Configuration**
-
-These values are used by the api to figure out the api url for baas servers.
-
-```txt title=".env.development.local"
-MEETINGBAAS_API_URL="https://api.meeting-baas.com"
-MEETINGBAAS_S3_URL="https://s3.eu-west-3.amazonaws.com/meeting-baas-video"
-```
-
-2. **Google Authentication Configuration**
-
-These values are used by the api to perform google authentication. Please follow the [guide](/docs/concepts/google)
-
-```txt title=".env.development.local"
-GOOGLE_CLIENT_ID=""
-GOOGLE_CLIENT_SECRET=""
-```
-
-3. **Turso Database Configuration**
-
-These values are used by the api to store user autehtncation data. Please follow the [guide](/docs/concepts/database)
-
-```txt title=".env.development.local"
-TURSO_DATABASE_URL=""
-TURSO_AUTH_TOKEN=""
-```
-
-4. **Better Auth Configuration**
-
-```txt title=".env.development.local"
-BETTER_AUTH_SECRET=""
-BETTER_AUTH_URL="http://localhost:3001"
-BETTER_AUTH_TRUSTED_ORIGINS="http://localhost:5173"
-```
-
-
-</Step>
-
-Now after all of that is configured do the following
-
-```bash
+```bash title="Terminal"
 export NODE_ENV="development"
 ```
 
-This means the env files from .env.development.local will be laoded
+</Step>
 
 <Step>
 ### Run the App
 
 Now, start the development server:
 
-```sh
+```bash title="Terminal"
 pnpm run dev
 ```
 
 > **Note**: If `pnpm run dev` doesn't work, you can try the following:
 
-```sh
+```bash title="Terminal"
 npm install turbo --global
 turbo dev
 ```
