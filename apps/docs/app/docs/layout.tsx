@@ -4,10 +4,34 @@ import { baseOptions } from "@/app/layout.config";
 import { source } from "@/lib/source";
 import { Slot } from "@radix-ui/react-slot";
 import DynamicSidebar from "@/components/layout/dynamic-sidebar";
+import { Trigger } from "@/components/ai/search-ai";
+import { logo } from "@/app/layout.config";
+import { cn } from "@/lib/cn";
+import { buttonVariants } from "@meeting-baas/ui/button";
+import { MessageCircle } from "lucide-react";
 
 const docsOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: source.pageTree,
+  nav: {
+    ...baseOptions.nav,
+    title: logo,
+    children: (
+      <Trigger
+        className={cn(
+          buttonVariants({
+            variant: "secondary",
+            size: "sm",
+            className:
+              "md:flex-1 px-2 h-5 shadow-none ms-2 gap-1.5 text-fd-muted-foreground rounded-full border bg-fd-secondary hover:bg-fd-secondary/80",
+          })
+        )}
+      >
+        <MessageCircle className="!size-3" />
+        Ask AI
+      </Trigger>
+    ),
+  },
   sidebar: {
     tabs: {
       transform(option, node) {
@@ -36,9 +60,7 @@ const docsOptions: DocsLayoutProps = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <DocsLayout
-      {...docsOptions}
-    >
+    <DocsLayout {...docsOptions}>
       <span
         className="absolute inset-0 z-[-1] h-[64rem] max-h-screen overflow-hidden"
         style={{

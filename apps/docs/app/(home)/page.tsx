@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@meeting-baas/ui/button";
 import { AspectRatio } from "@meeting-baas/ui/aspect-ratio";
 import { cn } from "@/lib/cn";
 import Img from "./hero.png";
@@ -28,7 +28,7 @@ export default function HomePage() {
             <Link
               href="/docs"
               className={cn(
-                buttonVariants({ size: "lg", className: "rounded-full" })
+                buttonVariants({ size: "lg", className: "bg-fd-background bg-fd-primary text-fd-primary-foreground shadow hover:bg-fd-primary/90 rounded-full" })
               )}
             >
               Get Started
@@ -39,7 +39,7 @@ export default function HomePage() {
                 buttonVariants({
                   size: "lg",
                   variant: "outline",
-                  className: "rounded-full bg-fd-background",
+                  className: "rounded-full border bg-fd-secondary text-fd-secondary-foreground hover:bg-fd-secondary/80",
                 })
               )}
             >
