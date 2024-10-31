@@ -364,7 +364,6 @@ const Message = memo(
         processor ??= createProcessor();
         const result = await processor.process(
           message.content,
-          // @ts-expect-error -- avoid conflicts between JSX types and React types
           {
             ...defaultMdxComponents,
             img: undefined, // use JSX
