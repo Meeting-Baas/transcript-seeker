@@ -14,8 +14,8 @@ export default {
   presets: [
     createPreset({
       addGlobalColors: true,
-      preset: 'vitepress'
+      preset: "vitepress",
     }),
   ],
-  plugins: [baseConfig.plugins],
+  plugins: [baseConfig.plugins, require("tailwindcss-animate")],
 };

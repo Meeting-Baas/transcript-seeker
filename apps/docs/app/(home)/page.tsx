@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { buttonVariants } from "@meeting-baas/ui/button";
-import { cn } from "@meeting-baas/ui";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/cn";
 import Img from "./hero.png";
 
 export default function HomePage() {

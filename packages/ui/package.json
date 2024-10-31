@@ -52,7 +52,7 @@
     "class-variance-authority": "^0.7.0",
     "cmdk": "1.0.0",
     "date-fns": "^3.6.0",
-    "lucide-react": "^0.399.0",
+    "lucide-react": "^0.453.0",
     "next-themes": "^0.3.0",
     "react-day-picker": "8.10.1",
     "react-hook-form": "^7.53.1",
@@ -65,15 +65,15 @@
     "@meeting-baas/prettier-config": "workspace:*",
     "@meeting-baas/tailwind-config": "workspace:*",
     "@meeting-baas/tsconfig": "workspace:*",
-    "@types/react": "catalog:react18",
+    "@types/react": "catalog:react19",
     "eslint": "catalog:",
     "prettier": "catalog:",
-    "react": "catalog:react18",
+    "react": "catalog:react19",
     "typescript": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:react18",
+    "react": "catalog:react19",
     "zod": "catalog:"
   },
   "prettier": "@meeting-baas/prettier-config"

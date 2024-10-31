@@ -1,9 +1,9 @@
-import { DocsLayout, DocsLayoutProps } from 'fumadocs-ui/layouts/docs';
-import type { ReactNode } from 'react';
-import { baseOptions } from '@/app/layout.config';
-import { source } from '@/lib/source';
-import { buttonVariants } from '@meeting-baas/ui/button';
-import { Slot } from '@radix-ui/react-slot';
+import { DocsLayout, DocsLayoutProps } from "fumadocs-ui/layouts/docs";
+import type { ReactNode } from "react";
+import { baseOptions } from "@/app/layout.config";
+import { source } from "@/lib/source";
+import { Slot } from "@radix-ui/react-slot";
+import { Sidebar } from "@/components/layout/sidebar";
 
 const docsOptions: DocsLayoutProps = {
   ...baseOptions,
@@ -33,15 +33,19 @@ const docsOptions: DocsLayoutProps = {
   },
 };
 
-
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <DocsLayout {...docsOptions}>
+    <DocsLayout
+      {...docsOptions}
+      sidebar={{
+        component: <Sidebar />,
+      }}
+    >
       <span
         className="absolute inset-0 z-[-1] h-[64rem] max-h-screen overflow-hidden"
         style={{
           backgroundImage:
-            'radial-gradient(49.63% 57.02% at 58.99% -7.2%, hsl(var(--primary)/0.1) 39.4%, transparent 100%)',
+            "radial-gradient(49.63% 57.02% at 58.99% -7.2%, hsl(var(--primary)/0.1) 39.4%, transparent 100%)",
         }}
       >
         <svg
@@ -55,7 +59,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           <mask
             id="mask-dark"
             style={{
-              maskType: 'alpha',
+              maskType: "alpha",
             }}
             maskUnits="userSpaceOnUse"
             x="0"
