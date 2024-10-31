@@ -34,7 +34,7 @@ export const baseOptions: BaseLayoutProps = {
           },
           icon: <Book />,
           text: 'Getting Started',
-          description: 'Learn to use Fumadocs on your docs site.',
+          description: 'Learn to setup and use Transcript Seeker.',
           url: '/docs',
         },
       ]

@@ -1,14 +1,89 @@
 ---
 title: Quick Start
-description: Getting Started with Fumadocs
+description: Getting Started with Transcript Seeker
 icon: Album
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+import { File, Folder, Files } from 'fumadocs-ui/components/files';
+import { CpuIcon, PanelsTopLeft, Database, Terminal } from 'lucide-react';
 
-## What is Next?
+## Introduction
+
+Transcript Seeker is an **open-source transcription playground** built for easy upload, transcription, and interaction with your recordings. It's a powerful, beginner-friendly tool that offers an accessible way to transcribe meetings, chat with transcripts, generate notes, and more. Powered by technologies like Vite.js, React, and Drizzle ORM, Transcript Seeker offers an intuitive interface and seamless integration with transcription APIs.
+
+Transcript Seeker comes with different parts:
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.vercel.app" />
+
+<Card icon={<CpuIcon className="text-purple-300" />} title='Transcript Seeker Core'>
+
+The core of Transcript Seeker includes the main transcription, playback, and note-taking functionality. It makes use of transcription APIs like Gladia and AssemblyAI, ensuring a smooth transcription experience.
+
+</Card>
+
+<Card icon={<PanelsTopLeft className="text-blue-300" />} title='Meeting Bot Integration'>
+
+Integration with Meeting Baas' fleet of bots allows you to transcribe popular meeting platforms, such as Zoom and Google Meet. This feature makes recording and reviewing meetings easier than ever.
+
+</Card>
+
+<Card icon={<Database />} title='Browser Database with PGLite'>
+
+PGLite is a lightweight Postgres implementation that powers local storage for Transcript Seeker. It ensures your data stays private and manageable directly in the browser.
+
+</Card>
+
+<Card icon={<Terminal />} title='Quick Setup via Turborepo'>
+
+The setup process for Transcript Seeker uses **Turborepo** for efficient monorepo management, making it easy to run concurrent scripts and streamline development.
+
+</Card>
+
 </Cards>
+
+## Automatic Installation
+
+Transcript Seeker utilizes **Turborepo** to manage and build multiple packages efficiently. Here's how you can get started quickly:
+
+### 1. Clone the Repo
+
+Start by cloning the repository:
+
+```sh
+npx create-turbo@latest -e https://github.com/Meeting-Baas/transcript-seeker
+```
+
+### 2. Set Up Environment Variables
+
+Configure your environment by copying the example environment file and setting up the development environment:
+
+```sh
+cp .env.example .env.development.local
+export NODE_ENV=development
+```
+
+### 3. Run the App
+
+Now, start the development server:
+
+```sh
+pnpm run dev
+```
+
+> **Note**: If `pnpm run dev` doesn't work, you can try the following:
+
+```sh
+npm install turbo --global
+turbo dev
+```
+
+
+## Contributing
+
+We welcome contributions from everyone! To get started, follow these steps:
+
+1. **Read the [Contributing Guide](./CONTRIBUTING.md)**: Learn about the contribution process and best practices.
+2. **Find an Issue**: Browse our [to-do list](./TODO.md) or existing GitHub issues to pick something to work on.
+3. **Open a Pull Request (PR)**: Make your changes and open a PR for us to review.
+
+We value contributions of all kinds, whether it's fixing bugs, adding new features, improving documentation, or giving feedback.

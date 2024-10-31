@@ -1,12 +1,12 @@
-import { source } from '@/lib/source';
+import { source } from "@/lib/source";
 import {
   DocsPage,
   DocsBody,
   DocsDescription,
   DocsTitle,
-} from 'fumadocs-ui/page';
-import { notFound } from 'next/navigation';
-import defaultMdxComponents from 'fumadocs-ui/mdx';
+} from "fumadocs-ui/page";
+import { notFound } from "next/navigation";
+import defaultMdxComponents from "fumadocs-ui/mdx";
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -15,10 +15,25 @@ export default async function Page(props: {
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const path = `apps/docs/content/docs/${page.file.path}`;
+
   const MDX = page.data.body;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
+    <DocsPage
+      toc={page.data.toc}
+      full={page.data.full}
+      tableOfContent={{
+        style: "clerk",
+        single: false,
+      }}
+      editOnGithub={{
+        repo: 'transcript-seeker',
+        owner: 'Meeting-Baas',
+        sha: 'main',
+        path,
+      }}
+    >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>

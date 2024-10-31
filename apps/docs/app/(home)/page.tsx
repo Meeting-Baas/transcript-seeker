@@ -44,7 +44,7 @@ export default function HomePage() {
                 })
               )}
             >
-              Learn More
+              Github
             </a>
           </div>
           <Image
