@@ -1,0 +1,9 @@
+{
+  "title:": "Guide",
+  "root": true,
+  "pages": [
+    "---Get Started---",
+    "introduction",
+    "installation"
+  ]
+}

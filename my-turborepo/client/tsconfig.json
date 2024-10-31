@@ -1,0 +1,19 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  // This exists only to make the shadcn-ui cli happy ¯\_(ツ)_/¯
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@meeting-baas/*": ["../packages/shared/src/*"]
+    }
+  }
+}

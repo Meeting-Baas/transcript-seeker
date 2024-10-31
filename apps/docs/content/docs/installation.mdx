@@ -1,0 +1,143 @@
+---
+title: Installation
+description: Learn how to configure Transcript Seeker.
+icon: Download
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { File, Folder, Files } from "fumadocs-ui/components/files";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+<Steps>
+<Step>
+### Clone the Repo
+
+Create a new app with `create-turbo`, it requires Node.js 20+.
+
+<Tabs groupId='package-manager' persist items={['npm', 'pnpm', 'yarn']}>
+
+```bash tab="npm"
+npx create-turbo@latest -e https://github.com/Meeting-Baas/transcript-seeker
+```
+
+```bash tab="pnpm"
+pnpm dlx create-turbo@latest -e https://github.com/Meeting-Baas/transcript-seeker
+```
+
+```bash tab="yarn"
+yarn dlx create-turbo@latest -e https://github.com/Meeting-Baas/transcript-seeker
+```
+
+</Tabs>
+
+It will ask you the following questions:
+
+- Which package manager would you like to use? PNPM
+- Configure Tailwind CSS?
+- Install dependencies?
+
+
+<Callout>
+Use pnpm as the package manager or the installation will fail.
+</Callout>
+
+</Step>
+
+<Step>
+### Configure Environment Variables
+
+#### Client Configuration
+
+Create a `.env.development.local` file in the root of your project and add the following environment variables:
+
+<Files>
+  <Folder name="apps" defaultOpen>
+    <Folder name="api" defaultOpen>
+
+    <File name=".env.development.local" />
+    </Folder>
+
+  </Folder>
+    <File name=".env.development.local" className="bg-fd-accent" />
+
+  <File name="package.json" />
+</Files>
+
+1. **Vite Port Configuration**
+
+These values are used by vite to configure the url the server listens on.
+
+```txt title=".env.development.local"
+VITE_CLIENT_PORT=5173
+VITE_CLIENT_HOST=0.0.0.0
+```
+
+2. **Set Proxy Configuration**
+
+This Proxy URL is used to forward requests from the client to the respective server, helping to avoid client-side CORS errors. An example proxy server is provided in the repository.
+
+```txt title=".env.development.local"
+VITE_PROXY_URL=http://localhost:3000
+```
+
+3. **Set API Configuration**
+
+This API URL is used by the calendars functionality of Transcript Seeker. It allows the app to perform authentication and retrieve the user's calendar data.
+
+```txt title=".env.development.local"
+VITE_API_URL=http://localhost:3001
+```
+
+4. **Set S3 Configuration**
+
+This environment variable is used to indicate to the client where the video recordings are stored.
+
+```txt title=".env.development.local"
+VITE_S3_PREFIX=https://s3.eu-west-3.amazonaws.com/meeting-baas-video
+```
+
+#### Server Configuration
+
+Create a `.env.development.local` file in the below directory of your project and add the following environment variables:
+
+<Files>
+  <Folder name="apps" defaultOpen>
+    <Folder name="api" defaultOpen>
+
+    <File name=".env.development.local" className="bg-fd-accent" />
+    </Folder>
+
+  </Folder>
+    <File name=".env.development.local"  />
+
+  <File name="package.json" />
+</Files>
+
+Then
+
+</Step>
+
+Now after all of that is configured do the following
+```bash
+export NODE_ENV="development"
+```
+
+This means the env files from .env.development.local will be laoded
+<Step>
+### Run the App
+
+Now, start the development server:
+
+```sh
+pnpm run dev
+```
+
+> **Note**: If `pnpm run dev` doesn't work, you can try the following:
+
+```sh
+npm install turbo --global
+turbo dev
+```
+
+</Step>
+</Steps>

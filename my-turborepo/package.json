@@ -1,0 +1,40 @@
+{
+  "name": "transcript-seeker",
+  "version": "1.0.0",
+  "description": "An open-source, browser-based transcript viewer and manager. Upload, transcribe, and chat with meeting recordings using AI. Features meeting bot integration, note-taking, and standalone mode.",
+  "private": true,
+  "scripts": {
+    "start": "yarn backend",
+    "build": "yarn shared:build && yarn backend:build && yarn frontend:build",
+    "buildClient": "yarn shared:build && yarn frontend:build",
+    "dev": "concurrently \"yarn backend:dev\" \"yarn frontend:dev\"",
+    "backend": "cd api && npm start",
+    "backend:build": "cd api && yarn build",
+    "backend:dev": "cd api && cross-env NODE_ENV=development yarn dev",
+    "frontend:build": "cd client && yarn build",
+    "frontend:dev": "cd client && cross-env NODE_ENV=development yarn dev",
+    "shared:build": "cd packages/shared && yarn build",
+    "install:all": "cd packages/shared && yarn install && cd ../.. && cd client && yarn install && cd .. && cd api && yarn install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@meeting-baas/shared": "workspace:*",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "concurrently": "^6.2.0",
+    "cross-env": "^7.0.3",
+    "typescript": "^4.9.5"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "client/"
+    ]
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "react-router-dom": "^6.24.1"
+  },
+  "packageManager": "pnpm@9.12.1"
+}
