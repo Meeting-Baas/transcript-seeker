@@ -4,100 +4,202 @@ description: Learn how to deploy Transcript Seeker to Firebase.
 icon: Flame
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 ## Setup
 
 ### Firebase Hosting
 
-To learn more about Firebase Hosting, check out the official [Firebase Hosting Documentation](https://firebase.google.com/docs/hosting).
+For more information on Firebase Hosting, refer to the official [Firebase Hosting Documentation](https://firebase.google.com/docs/hosting).
 
-### Using Firebase CLI
+<Steps>
 
-#### 1. Install Firebase CLI Globally
+<Step>
 
-Always try to use the latest version of the Firebase CLI.
+### Install Firebase CLI Globally
 
-```bash
+Always ensure you have the latest version of the Firebase CLI installed.
+
+```bash title="Terminal"
 npm install -g firebase-tools@latest
 ```
 
-**Note**: You need to be on version [^11.18.0](https://github.com/firebase/firebase-tools/releases/tag/v11.18.0) or higher to deploy a `nodejs18` function.
+<Callout> **Note**: Make sure to use version [^11.18.0](https://github.com/firebase/firebase-tools/releases/tag/v11.18.0) or higher to deploy `nodejs18` functions. </Callout>
 
-#### 2. Log in to Your Firebase Account
+</Step>
 
-Log in to your Firebase account:
+<Step>
 
-```bash
+### Log in to Firebase
+
+Use the Firebase CLI to log into your Firebase account.
+
+```bash title="Terminal"
 firebase login
 ```
 
-#### 3. Prepare Your Environment
+</Step>
 
-Install dependencies if not done already:
+<Step>
 
-```bash
-pnpm install
+### Create a Firebase Project
+
+In the Firebase Console:
+
+1. Create a project named **Transcript Seeker**.
+2. Then, create three new web apps:
+    - `transcript-seeker` (Project ID): Replace `transcript-seeker-bdc29` in `firebase.json` and `.firebaserc` with this new ID. (This one will be automatically created with your project ID)
+    - `transcript-seeker-api`: Replace `transcript-seeker-api-c8419` in `firebase.json` and `.firebaserc` with this new ID.
+    - `transcript-seeker-proxy`: Replace `transcript-seeker-proxy` in `firebase.json` and `.firebaserc` with this new ID.
+3. Navigate to **Hosting** and click "Get Started."
+
+</Step>
+
+<Step>
+
+### Set Up Firebase Functions
+
+In the Firebase Console:
+
+1. Navigate to **Functions** and click "Get Started."
+
+This completes the Firebase setup.
+
+</Step>
+
+</Steps>
+
+---
+
+## Google Cloud Run
+
+For more information on installation and the Google Cloud CLI, check out the official [Google Cloud CLI Documentation](https://cloud.google.com/sdk/docs/install#deb).
+
+<Callout>
+If you're using the devcontainer configuration provided by this repository, the GCloud CLI will be automatically installed.
+</Callout>
+
+### Initialize Google Cloud CLI
+
+This command will prompt you to log in and select the project you're working on.
+
+```bash title="Terminal"
+gcloud init
 ```
 
-Copy over the environment variables:
+---
 
-```bash
-cp .env.example .env.development.local
-export NODE_ENV=development
-```
+## Nitro Deployment
 
-Build the project:
+<Callout>You need to be on the **Blaze plan** to use Nitro with cloud functions.</Callout>
 
-```bash
-pnpm build
-```
 
-## Nitro
+<Steps>
 
-> You need to be on the **Blaze plan** to use Nitro with cloud functions.
+<Step>
+### Navigate to the Nitro Application Directory
 
-Navigate to the Nitro application directory:
-
-```sh
+```bash title="Terminal"
 cd apps/nitro
 ```
+</Step>
+
+<Step>
 
 ### Local Preview
 
-You can preview a local version of your site if you need to test things out without deploying:
+Preview a local version of your site for testing without deploying:
 
-```bash
+```bash title="Terminal"
 NITRO_PRESET=firebase pnpm build
 firebase emulators:start
 ```
+</Step>
 
-### Build and Deploy
 
-To deploy to Firebase Hosting, run a Nitro build and then deploy:
+<Step>
+###  Build and Deploy
 
-```bash
+To deploy to Firebase Hosting, first build the Nitro app, then deploy:
+
+```bash title="Terminal"
 NITRO_PRESET=firebase pnpm build
-```
-
-```bash
 firebase deploy
 ```
+</Step>
+</Steps>
+
+---
 
 ## Frontend Deployment
+<Steps>
 
-Navigate to the frontend application directory:
+<Step>
+### Navigate to the Frontend Application Directory
 
-```sh
+```bash title="Terminal"
 cd apps/web
 ```
+</Step>
 
+<Step>
 ### Build and Deploy
 
 To deploy the frontend to Firebase Hosting, build the project and deploy:
 
-```bash
+```bash title="Terminal"
 pnpm build
-```
-
-```bash
 firebase deploy
 ```
+</Step>
+</Steps>
+---
+
+## API Deployment
+
+<Callout>
+The API cannot be deployed to Firebase functions. Instead, we are using Google Cloud Run.
+</Callout>
+
+<Steps>
+
+<Step>
+
+### Create a Cloud Run Service
+
+The following command will create a Cloud Run service. Modify the `SERVICE_NAME` to suit your needs.
+
+```bash title="Terminal"
+export DEPLOY_REGION="us-central1"
+export SERVICE_NAME="transcript-seeker-api-prod"
+
+gcloud run deploy "$SERVICE_NAME" \
+  --image=us-docker.pkg.dev/cloudrun/container/hello \
+  --region="$DEPLOY_REGION" \
+  --allow-unauthenticated \
+  --port=3001 \
+  --set-env-vars "$(grep -v '^#' apps/api/.env.production.local | grep -v '^\s*$' | sed 's/=\s*"\(.*\)"$/=\1/' | tr '\n' ',' | sed 's/,$//')"
+```
+
+</Step>
+
+<Step>
+
+### Build and Deploy the Cloud Run Service
+
+The command below builds and deploys the Cloud Run service.
+
+```bash title="Terminal"
+export COMMIT_SHA=$(git rev-parse --short HEAD)
+export DEPLOY_REGION="us-central1"
+export SERVICE_NAME="transcript-seeker-api-prod"
+
+gcloud builds submit \
+  --region="$DEPLOY_REGION" \
+  --config=cloudbuild.yaml \
+  --substitutions=_GITHUB_USERNAME="your_github_username",_DEPLOY_REGION="$DEPLOY_REGION",_SERVICE_NAME="$SERVICE_NAME",COMMIT_SHA="$COMMIT_SHA"
+```
+
+</Step>
+
+</Steps>

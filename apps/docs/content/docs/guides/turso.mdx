@@ -4,7 +4,6 @@ description: Learn how to create a turso database.
 icon: DatabaseZap
 ---
 
-# Create a Database
 
     <div className="relative w-full h-none" style={{  paddingBottom: 'calc(55.443786982248525% + 41px)' }}>
       <iframe
@@ -17,3 +16,10 @@ icon: DatabaseZap
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', colorScheme: 'light' }}
       />
     </div>
+
+After creating the database, please push the schema onto the db:
+
+```bash
+cd apps/api
+pnpm db:push
+```
