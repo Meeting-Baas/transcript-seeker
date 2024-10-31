@@ -1,6 +1,6 @@
 import React from 'react';
 import { AutoFormFieldProps } from '@autoform/react';
-import { Checkbox } from 's/components/ui/checkbox';
+import { Checkbox } from '@meeting-baas/ui/checkbox';
 
 import { Label } from '../../label';
 

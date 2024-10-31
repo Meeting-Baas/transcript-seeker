@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertCircle } from 'lucide-react';
-import { Alert, AlertTitle } from 's/components/ui/alert';
+import { Alert, AlertTitle } from '@meeting-baas/ui/alert';
 
 export const ErrorMessage: React.FC<{ error: string }> = ({ error }) => (
   <Alert variant="destructive">

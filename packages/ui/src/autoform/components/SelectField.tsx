@@ -6,7 +6,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from 's/components/ui/select';
+} from '@meeting-baas/ui/select';
 
 export const SelectField: React.FC<AutoFormFieldProps> = ({ field, inputProps, error, id }) => (
   <Select {...inputProps}>

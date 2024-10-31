@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldWrapperProps } from '@autoform/react';
-import { Label } from 's/components/ui/label';
+import { Label } from '@meeting-baas/ui/label';
 
 const DISABLED_LABELS = ['boolean', 'object', 'array'];
 
