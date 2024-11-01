@@ -66,6 +66,7 @@ export function createProcessor(): Processor {
           const result = value.regex.exec(meta);
 
           if (result) {
+            // @ts-expect-error fumadocs issue, fix later
             map[value.name] = result[1];
           }
         }

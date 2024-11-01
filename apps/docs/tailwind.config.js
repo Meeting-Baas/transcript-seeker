@@ -15,7 +15,7 @@ export default {
     createPreset({
       addGlobalColors: true,
       preset: {
-        ...presets.default,
+        ...presets.ocean,
         // light: {
         //   background: '0 0% 100%',
         //   foreground: '0 0% 17%',
