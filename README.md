@@ -54,10 +54,10 @@ This project utilizes Turborepo for managing and building multiple packages effi
 
 3. **Run the App**:
    ```sh
-   pnpm run dev
+   pnpm turbo run dev
    ```
 
-   > **Note**: If `pnpm run dev` isn't working, try this instead:
+   > **Note**: If `pnpm turbo run dev` isn't working, try this instead:
    ```sh
    npm install turbo --global
    turbo dev

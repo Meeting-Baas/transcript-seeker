@@ -76,15 +76,16 @@ export NODE_ENV="development"
 
 Now, start the development server:
 
-<Tabs groupId='package-manager' persist items={['npm', 'pnpm', 'yarn']}>
+<Tabs groupId='package-manager' persist items={['pnpm', 'npm', 'yarn']}>
+
+```bash tab="pnpm"
+pnpm turbo run dev
+```
 
 ```bash tab="npm"
 npm run dev
 ```
 
-```bash tab="pnpm"
-pnpm run dev
-```
 
 ```bash tab="yarn"
 yarn run dev
@@ -94,15 +95,15 @@ yarn run dev
 
 <Callout> If `pnpm run dev` doesn't work, you can try the following </Callout>
 
-<Tabs groupId='package-manager' persist items={['npm', 'pnpm', 'yarn']}>
-
-```bash tab="npm"
-npm install turbo --global
-turbo dev
-```
+<Tabs groupId='package-manager' persist items={['pnpm', 'npm', 'yarn']}>
 
 ```bash tab="pnpm"
 pnpm add turbo --global
+turbo dev
+```
+
+```bash tab="npm"
+npm install turbo --global
 turbo dev
 ```
 

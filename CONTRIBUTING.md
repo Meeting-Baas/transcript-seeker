@@ -66,7 +66,7 @@ Ready to jump into the code? Awesome! Here’s how to get set up locally:
 6. **Start the app in development mode**:
 
    ```bash
-   pnpm dev
+   pnpm turbo run dev
    ```
 
    You can now access the services at:
