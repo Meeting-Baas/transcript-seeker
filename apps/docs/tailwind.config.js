@@ -15,7 +15,7 @@ export default {
     createPreset({
       addGlobalColors: true,
       preset: {
-        ...presets.ocean,
+        ...presets.default,
         // light: {
         //   background: '0 0% 100%',
         //   foreground: '0 0% 17%',
@@ -35,6 +35,7 @@ export default {
         //   ring: "173 100% 74%"
         // },
         dark: {
+          ...presets.default.dark,
           background: '0 0% 17%',
           foreground: '0 0% 100%',
           card: '0 0% 17%',

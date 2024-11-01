@@ -57,7 +57,7 @@ export const baseOptions: BaseLayoutProps = {
     title: (
       <>
         {logo}
-        <span className="font-medium [.uwu_&]:hidden [header_&]:text-[15px]">
+        <span className="font-medium [header_&]:text-[15px]">
           Transcript Seeker
         </span>
       </>
