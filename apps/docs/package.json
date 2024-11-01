@@ -6,7 +6,7 @@
     "build": "pnpm build:pre && pnpm with-env next build && pnpm build:post",
     "build:pre": "pnpm with-env tsx ./scripts/pre-build.mts",
     "build:post": "pnpm with-env tsx ./scripts/post-build.mts",
-    "clean": "git clean -xdf .cache .next .turbo node_modules",
+    "clean": "git clean -xdf .cache .source .next .turbo node_modules",
     "dev": "pnpm with-env next dev -p 5174",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
