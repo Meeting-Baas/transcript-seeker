@@ -379,7 +379,7 @@ const Message = memo(
 
     const roleName = {
       user: 'you',
-      assistant: 'fuma bot',
+      assistant: 'bot',
     };
 
     return (

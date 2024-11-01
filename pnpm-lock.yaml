@@ -179,8 +179,8 @@ importers:
         specifier: 11.1.1
         version: 11.1.1(acorn@8.14.0)(fumadocs-core@14.2.0(@oramacloud/client@1.3.19(typescript@5.6.3)(zod@3.23.8))(algoliasearch@4.24.0)(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1))(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))
       fumadocs-ui:
-        specifier: 14.1.1
-        version: 14.1.1(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1)(types-react@19.0.0-rc.1)
+        specifier: 14.2.0
+        version: 14.2.0(@oramacloud/client@1.3.19(typescript@5.6.3)(zod@3.23.8))(algoliasearch@4.24.0)(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(tailwindcss@3.4.14)(types-react@19.0.0-rc.1)(types-react@19.0.0-rc.1)
       hast:
         specifier: ^1.0.0
         version: 1.0.0
@@ -6076,23 +6076,6 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
-  fumadocs-core@14.1.1:
-    resolution: {integrity: sha512-eU7K3cxTeh45fAfphXJ8xNfX2Cw+2M7S+pqvne4+xADf3y9YSiexlO1Xyivyl6fHQQbtPuZkV47Vl0ucJFPtXg==}
-    peerDependencies:
-      algoliasearch: 4.24.0
-      next: 14.x.x || 15.x.x
-      react: '>= 18'
-      react-dom: '>= 18'
-    peerDependenciesMeta:
-      algoliasearch:
-        optional: true
-      next:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-
   fumadocs-core@14.2.0:
     resolution: {integrity: sha512-cRahw/8hIox/T1drQpghn1hvN6r2hpy1Z2egU4E1xF2KaB+r16ZN6YpyGkpS1f9lziLgU8Ve2gtOiqIJwl3oCA==}
     peerDependencies:
@@ -6128,12 +6111,16 @@ packages:
     peerDependencies:
       typescript: '*'
 
-  fumadocs-ui@14.1.1:
-    resolution: {integrity: sha512-/l9IhBzEOayoWyvNuobCx73h9uoUYy7FDAT7bCwJr7626qavUEGKBHF2f7LbeXLwnV5eb/LJezGXLu0DQ4dmQg==}
+  fumadocs-ui@14.2.0:
+    resolution: {integrity: sha512-ARz4W/sFie3KfiT7DS2zcPYcMw24ezQ+yFjSjK2vdiJ8G1SJ9ZTaCAkHTiNl+DC2i7FaVz7OmeLfdfDmNUSmZw==}
     peerDependencies:
       next: 14.x.x || 15.x.x
       react: '>= 18'
       react-dom: '>= 18'
+      tailwindcss: ^3.4.14
+    peerDependenciesMeta:
+      tailwindcss:
+        optional: true
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
@@ -15042,31 +15029,6 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
-  fumadocs-core@14.1.1(algoliasearch@4.24.0)(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1):
-    dependencies:
-      '@formatjs/intl-localematcher': 0.5.6
-      '@orama/orama': 3.0.1
-      '@shikijs/rehype': 1.22.2
-      github-slugger: 2.0.0
-      hast-util-to-estree: 3.1.0
-      hast-util-to-jsx-runtime: 2.3.2
-      image-size: 1.1.1
-      negotiator: 1.0.0
-      react-remove-scroll: 2.6.0(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1)
-      remark: 15.0.1
-      remark-gfm: 4.0.0
-      scroll-into-view-if-needed: 3.1.0
-      shiki: 1.22.2
-      unist-util-visit: 5.0.0
-    optionalDependencies:
-      algoliasearch: 4.24.0
-      next: 15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)
-      react: 19.0.0-rc-603e6108-20241029
-      react-dom: 19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029)
-    transitivePeerDependencies:
-      - '@types/react'
-      - supports-color
-
   fumadocs-core@14.2.0(@oramacloud/client@1.3.19(typescript@5.6.3)(zod@3.23.8))(algoliasearch@4.24.0)(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1):
     dependencies:
       '@formatjs/intl-localematcher': 0.5.6
@@ -15137,7 +15099,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  fumadocs-ui@14.1.1(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1)(types-react@19.0.0-rc.1):
+  fumadocs-ui@14.2.0(@oramacloud/client@1.3.19(typescript@5.6.3)(zod@3.23.8))(algoliasearch@4.24.0)(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(tailwindcss@3.4.14)(types-react@19.0.0-rc.1)(types-react@19.0.0-rc.1):
     dependencies:
       '@radix-ui/react-accordion': 1.2.1(@types/react-dom@18.3.1)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1)
       '@radix-ui/react-collapsible': 1.1.1(@types/react-dom@18.3.1)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1)
@@ -15150,8 +15112,7 @@ snapshots:
       '@radix-ui/react-tabs': 1.1.1(@types/react-dom@18.3.1)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1)
       '@tailwindcss/typography': 0.5.15(tailwindcss@3.4.14)
       class-variance-authority: 0.7.0
-      cmdk: 1.0.0(@types/react-dom@18.3.1)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1)
-      fumadocs-core: 14.1.1(algoliasearch@4.24.0)(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1)
+      fumadocs-core: 14.2.0(@oramacloud/client@1.3.19(typescript@5.6.3)(zod@3.23.8))(algoliasearch@4.24.0)(next@15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029))(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)(types-react@19.0.0-rc.1)
       next: 15.0.1(@opentelemetry/api@1.9.0)(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)
       next-themes: 0.3.0(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)
       react: 19.0.0-rc-603e6108-20241029
@@ -15159,14 +15120,13 @@ snapshots:
       react-medium-image-zoom: 5.2.10(react-dom@19.0.0-rc-603e6108-20241029(react@19.0.0-rc-603e6108-20241029))(react@19.0.0-rc-603e6108-20241029)
       tailwind-merge: 2.5.4
     optionalDependencies:
-      '@algolia/client-search': 4.24.0
-      algoliasearch: 4.24.0
       tailwindcss: 3.4.14
     transitivePeerDependencies:
+      - '@oramacloud/client'
       - '@types/react'
       - '@types/react-dom'
+      - algoliasearch
       - supports-color
-      - ts-node
 
   function-bind@1.1.2: {}
 
