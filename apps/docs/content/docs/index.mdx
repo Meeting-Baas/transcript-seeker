@@ -13,6 +13,7 @@ import {
   Download,
   Cloud
 } from "lucide-react";
+import { Accordions, Accordion } from '@/components/accordion';
 
 ## Introduction
 
@@ -69,3 +70,20 @@ Learn how to deploy Transcript Seeker to different providers.
 
 
 </Cards>
+
+
+## FAQ
+
+Some common questions you may encounter.
+
+<Accordions>
+    <Accordion id='clean-workspace' title='How do I clean the workspaces?'>
+You can clean (remove all packages, cache directories) using turbo clean or pnpm clean:workspaces
+
+    </Accordion>
+    <Accordion id='fix-monorepo-styling' title="I've configured the .env.development.local file but my app still isn't running?">
+
+If you have not added the `export NODE_ENV=development / production` flag before running the app u will get the error
+
+    </Accordion>
+    </Accordions>

@@ -20,21 +20,49 @@
 
 ## Tech Stack
 
-- **Frontend**: 
-  - Framework: React, Vite.js
-  - Language: TypeScript
-  - Styling: TailwindCSS
-  - UI Components: Radix UI
-  - Data Fetching: SWR - A library for easy data fetching.
-- **Media Playback**: Vidstack - provides seamless media playback capabilities.
-- **Backend**: 
-  - Proxy Server: Express (using Node Http Proxy)
-  - API Integration: Meeting Baas for meeting recording and transcription.
-- **Database**: 
-  - Browser Database: PGLite - A lightweight Postgres implementation for browser-based data storage.
-- **ORM**: Drizzle ORM - A developer-friendly ORM for efficient database operations.
-- **Monorepo Management**: Turborepo - Used to manage and build multiple packages efficiently, allowing concurrent script execution and streamlined development.
+### 📂 Frontend
 
+- **Framework**: React with Vite.js (TypeScript)
+- **Styling**: TailwindCSS
+- **UI Components**: Radix UI
+- **Data Fetching**: SWR for efficient, flexible data handling
+- **Media Playback**: Vidstack, providing seamless video and audio playback
+
+---
+
+### 🔧 Backend
+
+- **Proxy Server**: **Nitro** - a proxy layer for managing cross-origin requests efficiently.
+- **API Server**: Facilitates communication across services:
+  - **Meeting Baas Calendar Integration**: Enables calendar data synchronization.
+  - **Better-Auth**: Ensures secure, enhanced user authentication.
+
+---
+
+### 🗄 Database
+
+- **Browser Database**: **PGLite** - a lightweight, browser-based Postgres implementation providing local storage with privacy in mind.
+- **Persistent Database**: **SQLite (Turso DB)** - a reliable SQL database primarily for calendar data storage.
+
+---
+
+### 📋 ORM
+
+- **Drizzle ORM**: A developer-friendly ORM for streamlined data management and efficient database interactions.
+
+---
+
+### 📦 Monorepo Management
+
+- **Turborepo**: Enables efficient management in a monorepo setup, streamlining builds, workspace organization, and script management.
+
+---
+
+### 🤖 Meeting Bot Integration
+
+- **Meeting Baas Bots**: Integrated with Meeting Baas to support transcription and calendar sync for platforms like Zoom and Google Meet.
+
+---
 
 ## Quick Start
 This project utilizes Turborepo for managing and building multiple packages efficiently. Turborepo allows you to run build commands and scripts concurrently, making the development process fast and streamlined.
