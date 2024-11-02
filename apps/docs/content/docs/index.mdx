@@ -49,6 +49,62 @@ The setup process for Transcript Seeker uses **Turborepo** for efficient monorep
 
 </Cards>
 
+
+
+## FAQ
+
+Some common questions you may encounter.
+<Accordions>
+    <Accordion id='clean-workspace' title='How do I remove all node_modules and clean the workspace?'>
+        To thoroughly clean the workspace, you need to remove all `node_modules` directories and clear any package caches. This helps eliminate any residual files or corrupted packages that may interfere with your app's functionality. Run the following commands:
+        
+        ```bash
+        turbo clean
+        pnpm clean:workspaces
+        ```
+        
+        These commands will effectively clear the workspace and prepare it for a fresh setup.
+    </Accordion>
+<Accordion id='startup-issue' title="Transcript Seeker isn't starting. What should I do?">
+    If `pnpm dev` is stuck and your application isn't starting, you may need to clean your workspace to remove any corrupted packages or residual files. Follow these steps:
+
+    First, remove all `node_modules` directories and clear any package caches. This will ensure a clean setup:
+
+    ```bash
+    turbo clean
+    pnpm clean:workspaces
+    ```
+
+    Next, reinstall the packages:
+
+    ```bash
+    pnpm install
+    ```
+
+    Finally, install the Turbo CLI globally and start the development server:
+
+    ```bash
+    pnpm install -g turbo
+    turbo dev
+    ```
+</Accordion>
+
+    <Accordion id='fix-monorepo-styling' title="I've configured the .env.development.local file, but my app still isn't running. What could be wrong?">
+        Transcript Seeker utilizes `dotenv-cli` to load environment variables, simplifying the setup for different environments. Ensure that your `.env` files are correctly structured for the intended environment, as shown below:
+
+        - `.env.development.local` for development builds
+        - `.env.production.local` for production builds
+
+        If your app is still not responding, make sure that the environment file is being loaded correctly. You can specify the environment by running this command:
+
+        ```bash
+        export NODE_ENV="development"
+        ```
+
+        Setting `NODE_ENV` ensures the app reads the correct configuration, aligning with the specified environment. This step is essential to avoid conflicts between development and production settings.
+    </Accordion>
+</Accordions>
+
 ## Learn More
 
 <Cards>
@@ -70,20 +126,3 @@ Learn how to deploy Transcript Seeker to different providers.
 
 
 </Cards>
-
-
-## FAQ
-
-Some common questions you may encounter.
-
-<Accordions>
-    <Accordion id='clean-workspace' title='How do I clean the workspaces?'>
-You can clean (remove all packages, cache directories) using turbo clean or pnpm clean:workspaces
-
-    </Accordion>
-    <Accordion id='fix-monorepo-styling' title="I've configured the .env.development.local file but my app still isn't running?">
-
-If you have not added the `export NODE_ENV=development / production` flag before running the app u will get the error
-
-    </Accordion>
-    </Accordions>
