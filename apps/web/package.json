@@ -15,6 +15,7 @@
     "with-env": "dotenv -e ../../.env -c ${NODE_ENV} --"
   },
   "dependencies": {
+    "@autoform/zod": "^2.0.0",
     "@hookform/resolvers": "^3.9.1",
     "@meeting-baas/db": "workspace:*",
     "@meeting-baas/shared": "workspace:*",

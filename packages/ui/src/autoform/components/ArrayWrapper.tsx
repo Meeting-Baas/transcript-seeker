@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrayWrapperProps } from '@autoform/react';
 import { PlusIcon } from 'lucide-react';
+
 import { Button } from '@meeting-baas/ui/button';
 
 export const ArrayWrapper: React.FC<ArrayWrapperProps> = ({ label, children, onAddItem }) => {
