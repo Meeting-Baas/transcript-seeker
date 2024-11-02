@@ -11,9 +11,9 @@ import {
   Database,
   Terminal,
   Download,
-  Cloud
+  Cloud,
 } from "lucide-react";
-import { Accordions, Accordion } from '@/components/accordion';
+import { Accordions, Accordion } from "@/components/accordion";
 
 ## Introduction
 
@@ -49,11 +49,10 @@ The setup process for Transcript Seeker uses **Turborepo** for efficient monorep
 
 </Cards>
 
-
-
 ## FAQ
 
 Some common questions you may encounter.
+
 <Accordions>
     <Accordion id='clean-workspace' title='How do I remove all node_modules and clean the workspace?'>
         To thoroughly clean the workspace, you need to remove all `node_modules` directories and clear any package caches. This helps eliminate any residual files or corrupted packages that may interfere with your app's functionality. Run the following commands:
@@ -87,6 +86,7 @@ Some common questions you may encounter.
     pnpm install -g turbo
     turbo dev
     ```
+
 </Accordion>
 
     <Accordion id='fix-monorepo-styling' title="I've configured the .env.development.local file, but my app still isn't running. What could be wrong?">
@@ -103,6 +103,7 @@ Some common questions you may encounter.
 
         Setting `NODE_ENV` ensures the app reads the correct configuration, aligning with the specified environment. This step is essential to avoid conflicts between development and production settings.
     </Accordion>
+
 </Accordions>
 
 ## Learn More
@@ -116,13 +117,11 @@ Learn how to configure and set up Transcript Seeker.
 
 </Card>
 
-
 <Card icon={<Cloud className="text-purple-300" />} title='Deployment'     href="/docs/guides/deployment"
 >
 
 Learn how to deploy Transcript Seeker to different providers.
 
 </Card>
-
 
 </Cards>

@@ -2,8 +2,11 @@ import { LinkItemType } from "fumadocs-ui/layouts/docs";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import {
   AlbumIcon,
+  ArrowUpFromLine,
   Book,
+  Cloud,
   ComponentIcon,
+  Download,
   Heart,
   Layout,
   LayoutTemplate,
@@ -75,9 +78,27 @@ export const baseOptions: BaseLayoutProps = {
             className: "md:row-span-2",
           },
           icon: <Book />,
-          text: "Getting Started",
-          description: "Learn to setup and use Transcript Seeker.",
+          text: "Introduction",
+          description: "Learn more about Transcript Seeker.",
           url: "/docs",
+        },
+        {
+          menu: {
+            className: "md:row-span-2",
+          },
+          icon: <Download />,
+          text: "Installation",
+          description: "Learn how to setup and install Transcript Seeker.",
+          url: "/docs/getting-started/installation",
+        },
+        {
+          menu: {
+            className: "md:row-span-2",
+          },
+          icon: <Cloud />,
+          text: "Deployment",
+          description: "Learn how to deploy Transcript Seeker to production.",
+          url: "/docs/getting-started/installation",
         },
       ],
     },
