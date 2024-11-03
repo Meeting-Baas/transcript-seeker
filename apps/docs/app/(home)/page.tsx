@@ -26,7 +26,7 @@ export default function HomePage() {
           </p>
           <div className="inline-flex items-center gap-3 max-md:mx-auto">
             <Link
-              href="/docs"
+              href="/get-started"
               className={cn(
                 buttonVariants({ size: "lg", className: "bg-fd-background bg-fd-primary text-fd-primary-foreground shadow hover:bg-fd-primary/90 rounded-full" })
               )}
@@ -34,7 +34,7 @@ export default function HomePage() {
               Get Started
             </Link>
             <a
-              href="https://github.com/Meeting-Baas/transcript-seeker"
+              href="https://app.transcriptseeker.com"
               className={cn(
                 buttonVariants({
                   size: "lg",
@@ -43,7 +43,7 @@ export default function HomePage() {
                 })
               )}
             >
-              Github
+              View Hosted
             </a>
           </div>
           <AspectRatio ratio={16 / 9}>
@@ -52,7 +52,7 @@ export default function HomePage() {
               objectFit="cover"
               alt="Transcript Seeker preview"
               fill
-              className="h-full w-full rounded-xl object-cover select-none duration-1000 animate-in fade-in slide-in-from-bottom-12 w-full"
+              className="h-full w-full rounded-xl object-cover select-none duration-1000 animate-in fade-in slide-in-from-bottom-12 w-full border border-border"
               priority
             />
           </AspectRatio>

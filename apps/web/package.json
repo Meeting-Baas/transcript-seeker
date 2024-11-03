@@ -40,6 +40,7 @@
     "match-sorter": "^6.3.4",
     "next-themes": "^0.3.0",
     "novel": "^0.4.3",
+    "nuqs": "^2.1.1",
     "openai": "^4.52.7",
     "react": "catalog:react19",
     "react-day-picker": "8.10.1",
