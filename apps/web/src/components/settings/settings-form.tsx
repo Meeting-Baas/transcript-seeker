@@ -252,7 +252,7 @@ export function SettingsForm() {
               <AccordionContent className="flex flex-col space-y-6 px-1">
                 <code className="h-128 w-full rounded-md bg-muted p-4">
                   {session?.user
-                    ? JSON.stringify(session?.user)
+                    ? JSON.stringify(session.user)
                     : isSessionLoading
                       ? 'loading...'
                       : 'not authenticated'}

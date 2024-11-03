@@ -1,4 +1,4 @@
-import { createCalendarControlsPlugin } from '@schedule-x/calendar-controls';
+import type { createCalendarControlsPlugin } from '@schedule-x/calendar-controls';
 
 export interface CalendarEvent {
   id: string | number;
@@ -11,21 +11,19 @@ export interface CalendarEvent {
   calendarId?: string;
 }
 
-export type ColorDefinition = {
+export interface ColorDefinition {
   main: string;
   container: string;
   onContainer: string;
-};
+}
 
-export type Calendar = {
+export interface Calendar {
   colorName: string;
   label?: string;
   lightColors?: ColorDefinition;
   darkColors?: ColorDefinition;
-};
+}
 
-export type Calendars = {
-  [key: string]: Calendar
-};
+export type Calendars = Record<string, Calendar>;
 
 export type CalendarControlsPluginType = ReturnType<typeof createCalendarControlsPlugin>;

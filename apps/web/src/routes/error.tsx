@@ -2,7 +2,7 @@ import ServerAvailablity from '@/components/server-availablity';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@meeting-baas/ui/button';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface ErrorProps {
   children: ReactNode;

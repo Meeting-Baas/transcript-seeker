@@ -4,7 +4,7 @@ import { createCalendar } from '@/lib/meetingbaas';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
 
-import { CreateCalendarParams } from '@meeting-baas/shared';
+import type { CreateCalendarParams } from '@meeting-baas/shared';
 import { Button } from '@meeting-baas/ui/button';
 
 interface CreateCalendarProps {

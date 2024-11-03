@@ -1,6 +1,6 @@
 import type { CalendarApp } from '@schedule-x/calendar';
 import { useCallback, useMemo } from 'react';
-import { CalendarControlsPluginType } from '@/types/schedulex';
+import type { CalendarControlsPluginType } from '@/types/schedulex';
 import { endOfWeek, format, isSameMonth, isSameYear, startOfWeek } from 'date-fns';
 
 interface RangeHeadingProps {

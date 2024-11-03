@@ -18,10 +18,10 @@ import '@schedule-x/theme-default/dist/index.css';
 import '@/styles/schedulex.css';
 // prettier-ignore-end
 
-import { ExtendedCalendarBaasEvent } from '@/types/calendar';
-import { CalendarEvent, Calendars } from '@/types/schedulex';
+import type { ExtendedCalendarBaasEvent } from '@/types/calendar';
+import type { CalendarEvent, Calendars } from '@/types/schedulex';
 
-import { CalendarBaasData } from '@meeting-baas/shared';
+import type { CalendarBaasData } from '@meeting-baas/shared';
 import CalendarToolbar from './calendar-toolbar';
 import { EventModal } from './event-modal';
 
@@ -68,7 +68,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
 
         const startDate = new Date(event.start_time);
         const endDate = new Date(event.end_time);
-        const attendees = event.raw?.attendees?.map((attendee) => attendee?.email ?? '') ?? [];
+        const attendees = event.raw.attendees.map((attendee) => attendee.email ?? '') ?? [];
 
         return {
           id: event.uuid,
@@ -76,7 +76,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
           end: format(endDate, 'yyyy-MM-dd HH:mm'),
           title: event.name,
           location: event.meeting_url,
-          description: event.raw?.description ?? '',
+          description: event.raw.description ?? '',
           people: attendees,
           calendarId: event.calendarId,
         };

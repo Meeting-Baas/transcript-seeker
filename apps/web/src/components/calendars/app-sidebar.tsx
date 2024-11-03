@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { CheckIcon, Command, DeleteIcon, MoreHorizontal, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { CalendarBaasData } from '@meeting-baas/shared';
+import type { CalendarBaasData } from '@meeting-baas/shared';
 import { Button } from '@meeting-baas/ui/button';
 import { Checkbox } from '@meeting-baas/ui/checkbox';
 import {

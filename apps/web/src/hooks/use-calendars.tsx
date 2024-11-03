@@ -1,7 +1,7 @@
 import { fetchCalendars } from '@/lib/meetingbaas';
 import useSWR from 'swr';
 
-import { CalendarBaasData } from '@meeting-baas/shared';
+import type { CalendarBaasData } from '@meeting-baas/shared';
 
 interface UseCalendarsOptions {
   apiKey?: string | null;

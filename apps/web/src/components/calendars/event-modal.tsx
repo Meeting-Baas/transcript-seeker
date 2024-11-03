@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@meeting-baas/ui/dialog';
-import { CalendarEvent } from '@/types/schedulex';
+import type { CalendarEvent } from '@/types/schedulex';
 import { format } from 'date-fns';
 
 interface EventModalProps {
