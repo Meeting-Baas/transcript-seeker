@@ -1,0 +1,36 @@
+---
+title: Database
+icon: Database
+---
+
+**Transcript Seeker requires a database connection to store user data.** This is essential for managing calendar integration, which uses Better-Auth to store user information securely.
+
+The current setup utilizes Drizzle ORM for database management, where it will store information like user details, sessions, and more.
+
+<Callout>
+  This applies specifically to the calendar feature. Other user data is stored
+  locally in the browser using PGLite. To learn more, visit our [web database
+  documentation](/docs/concepts/web/database).
+</Callout>
+
+## Database Configuration
+
+To get started, set up a PostgreSQL-compatible database. We recommend using Turso for this purpose. Follow this [guide](/docs/guides/turso) for detailed steps on setting up a Turso database.
+
+## Database Migration
+
+To run a database migration, use the following commands:
+
+```bash
+cd apps/api
+pnpm db:push
+```
+
+## Database Studio
+
+To visualize the data in a user-friendly interface, use the command below:
+
+```bash
+cd apps/api
+pnpm db:studio
+```

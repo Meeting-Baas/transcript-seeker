@@ -1,10 +1,10 @@
-import { auth } from '@/lib/auth';
+import type { auth } from '@/lib/auth';
 
-export type Variables = {
+export interface Variables {
   user: typeof auth.$Infer.Session.user | null;
   session: typeof auth.$Infer.Session.session | null;
-};
+}
 
-export type Bindings = {
+export interface Bindings {
   Variables: Variables;
-};
+}

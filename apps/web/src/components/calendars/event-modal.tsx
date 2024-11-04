@@ -1,6 +1,6 @@
 'use client';
 
-import { ExtendedCalendarBaasEvent } from '@/types/calendar';
+import type { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { format } from 'date-fns';
 import { Loader2 } from 'lucide-react';
 

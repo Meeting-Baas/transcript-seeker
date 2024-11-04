@@ -1,4 +1,17 @@
-import { z } from 'zod';
+import { buildZodFieldConfig } from '@autoform/react';
+import { ZodProvider } from '@autoform/zod';
+import * as z from 'zod';
+
+import type { FieldTypes } from '@meeting-baas/ui/autoform';
+import { AutoForm } from '@meeting-baas/ui/autoform'; // use any UI library
+
+const fieldConfig = buildZodFieldConfig<
+  FieldTypes,
+  {
+    // You can define custom props here
+    isImportant?: boolean;
+  }
+>();
 
 export const options = z.object({
   diarization: z.boolean().describe('Speaker Diarization').optional(),

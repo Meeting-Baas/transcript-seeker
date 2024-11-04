@@ -13,7 +13,7 @@ import type {
 import { db } from '@meeting-baas/db/client';
 import { apiKeysTable, chatsTable, editorsTable, meetingsTable } from '@meeting-baas/db/schema';
 
-import { Message } from './types';
+import type { Message } from './types';
 
 export async function getAPIKey({ type }: { type: SelectAPIKey['type'] }) {
   if (!type) return;

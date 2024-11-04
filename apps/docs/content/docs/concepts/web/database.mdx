@@ -1,0 +1,30 @@
+---
+title: Database
+icon: Database
+---
+
+**Transcript Seeker** uses a PGLite database to store data, which is essential for its functionality. PGLite enables us to run PostgreSQL in the browser, allowing secure storage of user data. We use **Drizzle ORM** with PGLite to handle data management efficiently.
+
+<Callout>
+  This setup is used to store meeting data, API keys, and more. To learn more
+  about how authentication data is stored for calendars, visit [this
+  page](/docs/concepts/api/database).
+</Callout>
+
+## Database Migration
+
+To migrate the database after making changes, run the following commands:
+
+```bash
+pnpm db:generate
+pnpm db:migrate
+```
+
+## Cleaning Migrations
+
+To remove all migrations, use the following commands:
+
+```bash
+cd packages/db
+rm -rf drizzle drizzle_ts
+```

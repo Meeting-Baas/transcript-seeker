@@ -1,8 +1,8 @@
+import type { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { fetchCalendarEvents } from '@/lib/meetingbaas';
-import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import useSWR from 'swr';
 
-import { CalendarBaasData } from '@meeting-baas/shared';
+import type { CalendarBaasData } from '@meeting-baas/shared';
 
 interface UseCalendarEventsProps {
   calendars?: CalendarBaasData[] | null;
@@ -25,7 +25,7 @@ const fetcher = async (
           })) as ExtendedCalendarBaasEvent[] | null;
 
           events?.forEach((event) => {
-            event['calendarId'] = calendar.uuid;
+            event.calendarId = calendar.uuid;
           });
 
           resolve(events);

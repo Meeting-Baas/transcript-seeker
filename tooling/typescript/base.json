@@ -20,6 +20,7 @@
       "strict": true,
       "noUncheckedIndexedAccess": true,
       "checkJs": true,
+      "forceConsistentCasingInFileNames": true,
   
       /** Transpile using Bundler (not tsc) */
       "module": "Preserve",

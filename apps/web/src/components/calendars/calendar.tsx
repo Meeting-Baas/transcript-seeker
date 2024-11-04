@@ -19,18 +19,14 @@ import '@schedule-x/theme-default/dist/index.css';
 // prettier-ignore
 import '@/styles/schedulex.css';
 
+import type { ExtendedCalendarBaasEvent } from '@/types/calendar';
+import type { CalendarEvent, Calendars } from '@/types/schedulex';
 import { useApiKey } from '@/hooks/use-api-key';
 import { scheduleCalendarEvent, unScheduleCalendarEvent } from '@/lib/meetingbaas';
-import { ExtendedCalendarBaasEvent } from '@/types/calendar';
-import { CalendarEvent, Calendars } from '@/types/schedulex';
 import { toast } from 'sonner';
 
-import {
-  CalendarBaasData,
-  DEFAULT_BOT_IMAGE,
-  DEFAULT_BOT_NAME,
-  DEFAULT_ENTRY_MESSAGE,
-} from '@meeting-baas/shared';
+import type { CalendarBaasData } from '@meeting-baas/shared';
+import { DEFAULT_BOT_IMAGE, DEFAULT_BOT_NAME, DEFAULT_ENTRY_MESSAGE } from '@meeting-baas/shared';
 
 import CalendarToolbar from './calendar-toolbar';
 import { EventModal } from './event-modal';
@@ -90,7 +86,7 @@ function Calendar({ calendarsData, initialEventsData }: CalendarProps) {
 
             const startDate = new Date(event.start_time);
             const endDate = new Date(event.end_time);
-            const attendees = event.raw?.attendees?.map((attendee) => attendee?.email ?? '') ?? [];
+            const attendees = event.raw.attendees.map((attendee) => attendee.email ?? '') ?? [];
 
             return {
               id: event.uuid,
@@ -98,7 +94,7 @@ function Calendar({ calendarsData, initialEventsData }: CalendarProps) {
               end: format(endDate, 'yyyy-MM-dd HH:mm'),
               title: event.name,
               location: event.meeting_url,
-              description: event.raw?.description ?? '',
+              description: event.raw.description ?? '',
               people: attendees,
               calendarId: event.calendarId,
             };

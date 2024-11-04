@@ -1,14 +1,127 @@
 ---
-title: Quick Start
-description: Getting Started with Fumadocs
+title: Introduction
+description: Getting Started with Transcript Seeker
 icon: Album
+index: true
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+import {
+  CpuIcon,
+  PanelsTopLeft,
+  Database,
+  Terminal,
+  Download,
+  Cloud,
+} from "lucide-react";
+import { Accordions, Accordion } from "@/components/accordion";
 
-## What is Next?
+## Introduction
+
+Transcript Seeker is an **open-source transcription playground** built for easy upload, transcription, and interaction with your recordings. It's a powerful, beginner-friendly tool that offers an accessible way to transcribe meetings, chat with transcripts, generate notes, and more. Powered by technologies like Vite.js, React, and Drizzle ORM, Transcript Seeker offers an intuitive interface and seamless integration with transcription APIs.
+
+Transcript Seeker comes with different parts:
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.vercel.app" />
+
+<Card icon={<CpuIcon className="text-purple-300" />} title='Transcript Seeker Core'>
+
+The core of Transcript Seeker includes the main transcription, playback, and note-taking functionality. It makes use of transcription APIs like Gladia and AssemblyAI, ensuring a smooth transcription experience.
+
+</Card>
+
+<Card icon={<PanelsTopLeft className="text-blue-300" />} title='Meeting Bot Integration'>
+
+Integration with Meeting Baas' fleet of bots allows you to transcribe popular meeting platforms, such as Zoom and Google Meet. This feature makes recording and reviewing meetings easier than ever.
+
+</Card>
+
+<Card icon={<Database />} title='Browser Database with PGLite'>
+
+PGLite is a lightweight Postgres implementation that powers local storage for Transcript Seeker. It ensures your data stays private and manageable directly in the browser.
+
+</Card>
+
+<Card icon={<Terminal />} title='Quick Setup via Turborepo'>
+
+The setup process for Transcript Seeker uses **Turborepo** for efficient monorepo management, making it easy to run concurrent scripts and streamline development.
+
+</Card>
+
+</Cards>
+
+## FAQ
+
+Some common questions you may encounter.
+
+<Accordions>
+    <Accordion id='clean-workspace' title='How do I remove all node_modules and clean the workspace?'>
+        To thoroughly clean the workspace, you need to remove all `node_modules` directories and clear any package caches. This helps eliminate any residual files or corrupted packages that may interfere with your app's functionality. Run the following commands:
+        
+        ```bash
+        turbo clean
+        pnpm clean:workspaces
+        ```
+        
+        These commands will effectively clear the workspace and prepare it for a fresh setup.
+    </Accordion>
+<Accordion id='startup-issue' title="Transcript Seeker isn't starting. What should I do?">
+    If `pnpm dev` is stuck and your application isn't starting, you may need to clean your workspace to remove any corrupted packages or residual files. Follow these steps:
+
+    First, remove all `node_modules` directories and clear any package caches. This will ensure a clean setup:
+
+    ```bash
+    turbo clean
+    pnpm clean:workspaces
+    ```
+
+    Next, reinstall the packages:
+
+    ```bash
+    pnpm install
+    ```
+
+    Finally, install the Turbo CLI globally and start the development server:
+
+    ```bash
+    pnpm install -g turbo
+    turbo dev
+    ```
+
+</Accordion>
+
+    <Accordion id='fix-monorepo-styling' title="I've configured the .env.development.local file, but my app still isn't running. What could be wrong?">
+        Transcript Seeker utilizes `dotenv-cli` to load environment variables, simplifying the setup for different environments. Ensure that your `.env` files are correctly structured for the intended environment, as shown below:
+
+        - `.env.development.local` for development builds
+        - `.env.production.local` for production builds
+
+        If your app is still not responding, make sure that the environment file is being loaded correctly. You can specify the environment by running this command:
+
+        ```bash
+        export NODE_ENV="development"
+        ```
+
+        Setting `NODE_ENV` ensures the app reads the correct configuration, aligning with the specified environment. This step is essential to avoid conflicts between development and production settings.
+    </Accordion>
+
+</Accordions>
+
+## Learn More
+
+<Cards>
+
+<Card icon={<Download className="text-purple-300" />} title='Installation'     href="/docs/getting-started/installation"
+>
+
+Learn how to configure and set up Transcript Seeker.
+
+</Card>
+
+<Card icon={<Cloud className="text-purple-300" />} title='Deployment'     href="/docs/guides/deployment"
+>
+
+Learn how to deploy Transcript Seeker to different providers.
+
+</Card>
+
 </Cards>

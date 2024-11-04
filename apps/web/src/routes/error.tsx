@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import ServerAvailablity from '@/components/server-availablity';
 import { Link } from 'react-router-dom';
 

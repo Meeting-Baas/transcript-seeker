@@ -49,7 +49,7 @@ function RecordingsPage() {
           await updateMeeting({
             id: meeting.id,
             values: {
-              assets: data?.assets,
+              assets: data.assets,
             },
           });
           mutate('meetings');

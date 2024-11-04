@@ -3,7 +3,7 @@
 import { CheckIcon, MoreHorizontal, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { CalendarBaasData } from '@meeting-baas/shared';
+import type { CalendarBaasData } from '@meeting-baas/shared';
 import { Checkbox } from '@meeting-baas/ui/checkbox';
 import {
   DropdownMenu,

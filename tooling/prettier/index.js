@@ -6,7 +6,11 @@ import { fileURLToPath } from 'url';
 
 /** @type { PrettierConfig | SortImportsConfig | TailwindConfig } */
 const config = {
-  plugins: ['@ianvs/prettier-plugin-sort-imports', 'prettier-plugin-tailwindcss'],
+  plugins: [
+    '@ianvs/prettier-plugin-sort-imports',
+    'prettier/parser-babel',
+    'prettier-plugin-tailwindcss',
+  ],
   printWidth: 100,
   singleQuote: true,
   endOfLine: 'auto',
