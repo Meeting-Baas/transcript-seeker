@@ -12,6 +12,7 @@ Before deploying to Firebase, you need to configure the `.env.production.local` 
 Please follow this [guide](/docs/concepts/environment-variables) to set up environment variables.
 
 Change the `NODE_ENV` to `production` in the terminal:
+
 ```bash title="Terminal"
 export NODE_ENV="production"
 ```
@@ -34,6 +35,7 @@ If not already, create a Firebase project in the Firebase Console:
    - `transcript-seeker-proxy`: Replace `transcript-seeker-proxy` in `firebase.json` and `.firebaserc` with this new ID.
 3. Navigate to **Hosting** and click "Get Started."
 4. Finally, Replace `transcript-seeker-bdc29` in `firebase.json` and `.firebaserc` with your project id. (This is for firebase hosting, when you click on get started it automatically creates a hosting project with ur app id)
+
 </Step>
 
 <Step>
@@ -66,7 +68,6 @@ yarn global add firebase-tools@latest
 </Callout>
 
 </Step>
-
 
 <Step>
 
@@ -124,10 +125,10 @@ This completes the Firebase setup.
 </Step>
 
 <Step>
-### Navigate to the Nitro Application Directory
+### Navigate to the Proxy Application Directory
 
 ```bash title="Terminal"
-cd apps/nitro
+cd apps/proxy
 ```
 
 </Step>
@@ -157,6 +158,15 @@ firebase deploy
 <Steps>
 
 <Step>
+### Navigate to the Project Root
+
+```bash title="Terminal"
+cd /workspaces/transcript-seeker
+```
+
+</Step>
+
+<Step>
 
 ### Create a Cloud Run Service
 
@@ -180,17 +190,23 @@ gcloud run deploy "$SERVICE_NAME" \
 
 ### Build and Deploy the Cloud Run Service
 
-The command below builds and deploys the Cloud Run service.
+The command below builds and deploys the Cloud Run service.  Modify the `SERVICE_NAME` and `GITHUB_USERNAME` to suit your needs.
+
+<Callout>
+  The below command assumes you are using a git repository. If you are not, you
+  can replace `COMMIT_SHA` with a unique identifier.
+</Callout>
 
 ```bash title="Terminal"
 export COMMIT_SHA=$(git rev-parse --short HEAD)
 export DEPLOY_REGION="us-central1"
 export SERVICE_NAME="transcript-seeker-api-prod"
+export GITHUB_USERNAME="your_github_username"
 
 gcloud builds submit \
   --region="$DEPLOY_REGION" \
   --config=cloudbuild.yaml \
-  --substitutions=_GITHUB_USERNAME="your_github_username",_DEPLOY_REGION="$DEPLOY_REGION",_SERVICE_NAME="$SERVICE_NAME",COMMIT_SHA="$COMMIT_SHA"
+  --substitutions=_GITHUB_USERNAME="$GITHUB_USERNAME",_DEPLOY_REGION="$DEPLOY_REGION",_SERVICE_NAME="$SERVICE_NAME",COMMIT_SHA="$COMMIT_SHA"
 ```
 
 </Step>
