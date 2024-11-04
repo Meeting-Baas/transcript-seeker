@@ -13,7 +13,7 @@ Please follow this [guide](/docs/concepts/environment-variables) to set up envir
 
 Change the `NODE_ENV` to `production` in the terminal:
 ```bash title="Terminal"
-export NODE_ENV=production
+export NODE_ENV="production"
 ```
 
 ### Firebase Hosting
@@ -24,40 +24,9 @@ For more information on Firebase Hosting, refer to the official [Firebase Hostin
 
 <Step>
 
-### Install Firebase CLI Globally
-
-Always ensure you have the latest version of the Firebase CLI installed.
-
-```bash title="Terminal"
-npm install -g firebase-tools@latest
-```
-
-<Callout>
-  {" "}
-  Make sure to use version
-  [^11.18.0](https://github.com/firebase/firebase-tools/releases/tag/v11.18.0)
-  or higher to deploy `nodejs18` functions.{" "}
-</Callout>
-
-</Step>
-
-<Step>
-
-### Log in to Firebase
-
-Use the Firebase CLI to log into your Firebase account.
-
-```bash title="Terminal"
-firebase login
-```
-
-</Step>
-
-<Step>
-
 ### Create a Firebase Project
 
-In the Firebase Console:
+If not already, create a Firebase project in the Firebase Console:
 
 1. Create a project named **Transcript Seeker**.
 2. Then, create two new web apps:
@@ -69,13 +38,45 @@ In the Firebase Console:
 
 <Step>
 
-### Set Up Firebase Functions
+### Install Firebase CLI Globally
 
-In the Firebase Console:
+Always ensure you have the latest version of the Firebase CLI installed.
 
-1. Navigate to **Functions** and click "Get Started."
+<Tabs groupId='package-manager' persist items={['npm', 'pnpm', 'yarn']}>
 
-This completes the Firebase setup.
+```bash tab="npm"
+npm install -g firebase-tools@latest
+```
+
+```bash tab="pnpm"
+pnpm add -g firebase-tools@latest
+```
+
+```bash tab="yarn"
+yarn global add firebase-tools@latest
+```
+
+</Tabs>
+
+<Callout>
+  {" "}
+  Make sure to use version
+  [^11.18.0](https://github.com/firebase/firebase-tools/releases/tag/v11.18.0)
+  or higher to deploy `nodejs18` functions.{" "}
+</Callout>
+
+</Step>
+
+
+<Step>
+
+### Log in to Firebase
+
+Use the Firebase CLI to log into your Firebase account.
+
+```bash title="Terminal"
+firebase login
+```
 
 </Step>
 
@@ -102,7 +103,7 @@ gcloud init
 
 ---
 
-## Nitro Deployment
+## Proxy Deployment
 
 <Callout>
   You need to be on the **Blaze plan** to use Nitro with cloud functions.
@@ -111,23 +112,22 @@ gcloud init
 <Steps>
 
 <Step>
-### Navigate to the Nitro Application Directory
 
-```bash title="Terminal"
-cd apps/nitro
-```
+### Set Up Firebase Functions
+
+In the Firebase Console:
+
+1. Navigate to **Functions** and click "Get Started."
+
+This completes the Firebase setup.
 
 </Step>
 
 <Step>
-
-### Local Preview
-
-Preview a local version of your site for testing without deploying:
+### Navigate to the Nitro Application Directory
 
 ```bash title="Terminal"
-NITRO_PRESET=firebase pnpm build
-firebase emulators:start
+cd apps/nitro
 ```
 
 </Step>
@@ -145,34 +145,6 @@ firebase deploy
 </Step>
 </Steps>
 
----
-
-## Frontend Deployment
-
-<Steps>
-
-<Step>
-### Navigate to the Frontend Application Directory
-
-```bash title="Terminal"
-cd apps/web
-```
-
-</Step>
-
-<Step>
-### Build and Deploy
-
-To deploy the frontend to Firebase Hosting, build the project and deploy:
-
-```bash title="Terminal"
-pnpm build
-firebase deploy
-```
-
-</Step>
-</Steps>
----
 
 ## API Deployment
 
@@ -223,3 +195,32 @@ gcloud builds submit \
 </Step>
 
 </Steps>
+
+---
+
+## Frontend Deployment
+
+<Steps>
+
+<Step>
+### Navigate to the Frontend Application Directory
+
+```bash title="Terminal"
+cd apps/web
+```
+
+</Step>
+
+<Step>
+### Build and Deploy
+
+To deploy the frontend to Firebase Hosting, build the project and deploy:
+
+```bash title="Terminal"
+pnpm build
+firebase deploy
+```
+
+</Step>
+</Steps>
+---
