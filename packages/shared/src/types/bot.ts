@@ -1,4 +1,4 @@
-import { Transcript } from "./transcript";
+import { Transcript } from './transcript';
 
 export interface Bot {
   id: number;

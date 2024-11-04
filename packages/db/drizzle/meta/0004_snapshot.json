@@ -221,19 +221,12 @@
     "public.meeting_status": {
       "name": "meeting_status",
       "schema": "public",
-      "values": [
-        "loaded",
-        "loading",
-        "error"
-      ]
+      "values": ["loaded", "loading", "error"]
     },
     "public.meeting_type": {
       "name": "meeting_type",
       "schema": "public",
-      "values": [
-        "meetingbaas",
-        "local"
-      ]
+      "values": ["meetingbaas", "local"]
     }
   },
   "schemas": {},

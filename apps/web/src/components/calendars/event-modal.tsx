@@ -2,6 +2,7 @@
 
 import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { format } from 'date-fns';
+import { Loader2 } from 'lucide-react';
 
 import { Button } from '@meeting-baas/ui/button';
 import {
@@ -13,7 +14,6 @@ import {
   DialogTitle,
 } from '@meeting-baas/ui/dialog';
 import { Switch } from '@meeting-baas/ui/switch';
-import { Loader2 } from 'lucide-react';
 
 interface EventModalProps {
   event: ExtendedCalendarBaasEvent | null;
@@ -23,7 +23,13 @@ interface EventModalProps {
   isProcessing: boolean;
 }
 
-export function EventModal({ event, isOpen, onClose, onRecordChange, isProcessing }: EventModalProps) {
+export function EventModal({
+  event,
+  isOpen,
+  onClose,
+  onRecordChange,
+  isProcessing,
+}: EventModalProps) {
   if (!event) return null;
 
   const handleRecordChange = async (checked: boolean) => {
@@ -49,9 +55,7 @@ export function EventModal({ event, isOpen, onClose, onRecordChange, isProcessin
                 onCheckedChange={handleRecordChange}
                 disabled={isProcessing}
               />
-              {isProcessing && (
-                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-              )}
+              {isProcessing && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
             </div>
           </div>
           {event.meeting_url && (
@@ -87,7 +91,9 @@ export function EventModal({ event, isOpen, onClose, onRecordChange, isProcessin
           )}
         </div>
         <DialogFooter>
-          <Button onClick={onClose} disabled={isProcessing}>Close</Button>
+          <Button onClick={onClose} disabled={isProcessing}>
+            Close
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

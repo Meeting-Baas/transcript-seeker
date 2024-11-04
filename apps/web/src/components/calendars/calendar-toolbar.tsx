@@ -1,7 +1,7 @@
-import { CalendarControlsPluginType } from '@/types/schedulex';
 import type { CalendarApp } from '@schedule-x/calendar';
-import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
+import { CalendarControlsPluginType } from '@/types/schedulex';
+import { format } from 'date-fns';
 
 import CalendarControls from './calendar-controls';
 import CalendarNavigation from './calendar-navigation';

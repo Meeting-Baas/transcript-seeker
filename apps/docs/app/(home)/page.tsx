@@ -7,9 +7,7 @@ import Img from "./hero.png";
 export default function HomePage() {
   return (
     <main className="p-4 flex flex-col flex-1 relative px-2 py-4 lg:py-10">
-      <section
-        className="relative rounded-xl flex flex-col flex-1"
-      >
+      <section className="relative rounded-xl flex flex-col flex-1">
         <div className="flex-1 gap-6 relative z-[2] flex flex-col overflow-hidden rounded-xl bg-fd-background max-md:text-center px-4 pt-4 md:pt-0">
           <h1 className=" text-4xl font-medium md:hidden">Transcript Seeker</h1>
           <h1 className=" max-w-[600px] text-4xl font-medium max-md:hidden">
@@ -29,7 +27,7 @@ export default function HomePage() {
             <Link
               href="/docs"
               className={cn(
-                buttonVariants({ size: "lg", className: "rounded-full" })
+                buttonVariants({ size: "lg", className: "rounded-full" }),
               )}
             >
               Get Started
@@ -41,7 +39,7 @@ export default function HomePage() {
                   size: "lg",
                   variant: "outline",
                   className: "rounded-full bg-fd-background",
-                })
+                }),
               )}
             >
               Learn More

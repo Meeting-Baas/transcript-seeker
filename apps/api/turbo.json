@@ -1,22 +1,13 @@
 {
-    "$schema": "https://turborepo.org/schema.json",
-    "extends": [
-        "//"
-    ],
-    "tasks": {
-        "build": {
-            "dependsOn": [
-                "^build"
-            ],
-            "outputs": [
-                ".hono/**",
-                "dist/**",
-                ".output/**",
-                ".vercel/**"
-            ]
-        },
-        "dev": {
-            "persistent": true
-        }
+  "$schema": "https://turborepo.org/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".hono/**", "dist/**", ".output/**", ".vercel/**"]
+    },
+    "dev": {
+      "persistent": true
     }
+  }
 }

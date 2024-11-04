@@ -23,6 +23,7 @@ import { useApiKey } from '@/hooks/use-api-key';
 import { scheduleCalendarEvent, unScheduleCalendarEvent } from '@/lib/meetingbaas';
 import { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import { CalendarEvent, Calendars } from '@/types/schedulex';
+import { toast } from 'sonner';
 
 import {
   CalendarBaasData,
@@ -33,7 +34,6 @@ import {
 
 import CalendarToolbar from './calendar-toolbar';
 import { EventModal } from './event-modal';
-import { toast } from 'sonner';
 
 interface CalendarProps {
   calendarsData: CalendarBaasData[];
@@ -52,7 +52,7 @@ function Calendar({ calendarsData, initialEventsData }: CalendarProps) {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 
   const calendarControls = createCalendarControlsPlugin();
@@ -141,7 +141,7 @@ function Calendar({ calendarsData, initialEventsData }: CalendarProps) {
   async function onRecordChange(event: ExtendedCalendarBaasEvent, enabled: boolean) {
     setIsProcessing(true);
     const optimisticData = eventsData?.map((e) =>
-      e.uuid === event.uuid ? { ...e, bot_param: enabled ? { enabled: true } : null } : e
+      e.uuid === event.uuid ? { ...e, bot_param: enabled ? { enabled: true } : null } : e,
     );
 
     try {
@@ -168,11 +168,13 @@ function Calendar({ calendarsData, initialEventsData }: CalendarProps) {
           rollbackOnError: true,
           populateCache: true,
           revalidate: false,
-        }
+        },
       );
 
-      setSelectedEvent((prev) => 
-        prev?.uuid === event.uuid ? { ...prev, bot_param: enabled ? { enabled: true } : null } : prev
+      setSelectedEvent((prev) =>
+        prev?.uuid === event.uuid
+          ? { ...prev, bot_param: enabled ? { enabled: true } : null }
+          : prev,
       );
 
       toast.success('Event recording status updated successfully');

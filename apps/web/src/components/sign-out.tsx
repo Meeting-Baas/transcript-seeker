@@ -1,6 +1,6 @@
+import { useTransition } from 'react';
 import { signOut } from '@/lib/auth';
 import { LoaderIcon } from 'lucide-react';
-import { useTransition } from 'react';
 
 import { Button } from '@meeting-baas/ui/button';
 

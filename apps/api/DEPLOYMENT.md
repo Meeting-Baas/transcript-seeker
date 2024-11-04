@@ -2,10 +2,7 @@
 
 Learn how to create and deploy the Transcript Seeker service, package it into a container image, upload it to Artifact Registry, and deploy it to Cloud Run.
 
-
 ### Before you Begin
-
-
 
 In the Google Cloud console, on the project selector page, select or create a Google Cloud project.
 
@@ -126,6 +123,7 @@ Now when it fails re create a new thing same name set env yay worked
 While Cloud Run does not charge when the service is not in use, you might still be charged for storing the container image in Artifact Registry. You can delete your container image or delete your Google Cloud project to avoid incurring charges. Deleting your Google Cloud project stops billing for all the resources used within that project.
 
 > **Caution**: Deleting a project has the following effects:
+>
 > - Everything in the project is deleted. If you used an existing project for the tasks in this document, when you delete it, you also delete any other work you've done in the project.
 > - Custom project IDs are lost. When you created this project, you might have created a custom project ID that you want to use in the future. To preserve the URLs that use the project ID, such as an `appspot.com` URL, delete selected resources inside the project instead of deleting the whole project.
 
@@ -136,5 +134,4 @@ In the dialog, type the project ID, and then click **Shut down** to delete the p
 
 ### Credits
 
-This guide was adapted from the official Google Cloud documentation for deploying services to Cloud Run. Content is licensed under the Creative Commons Attribution 4.0 License. For more details, refer to the original [Google Developers Site Policies](https://developers.google.com/site-policies). 
-
+This guide was adapted from the official Google Cloud documentation for deploying services to Cloud Run. Content is licensed under the Creative Commons Attribution 4.0 License. For more details, refer to the original [Google Developers Site Policies](https://developers.google.com/site-policies).

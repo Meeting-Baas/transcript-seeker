@@ -1,4 +1,4 @@
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import {
   AlbumIcon,
   Book,
@@ -8,7 +8,7 @@ import {
   LayoutTemplate,
   Pencil,
   Server,
-} from 'lucide-react';
+} from "lucide-react";
 
 /**
  * Shared layout configurations
@@ -19,25 +19,25 @@ import {
  */
 export const baseOptions: BaseLayoutProps = {
   nav: {
-    title: 'Transcript Seeker',
-    transparentMode: 'top',
+    title: "Transcript Seeker",
+    transparentMode: "top",
   },
   links: [
     {
-      type: 'menu',
-      text: 'Documentation',
-      url: '/docs',
+      type: "menu",
+      text: "Documentation",
+      url: "/docs",
       items: [
         {
           menu: {
-            className: 'md:row-span-2',
+            className: "md:row-span-2",
           },
           icon: <Book />,
-          text: 'Getting Started',
-          description: 'Learn to use Fumadocs on your docs site.',
-          url: '/docs',
+          text: "Getting Started",
+          description: "Learn to use Fumadocs on your docs site.",
+          url: "/docs",
         },
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 };

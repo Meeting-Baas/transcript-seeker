@@ -1,6 +1,7 @@
 'use client';
 
 import type { EditorInstance, JSONContent } from 'novel';
+import React from 'react'; // useState
 import {
   EditorBubble,
   EditorCommand,
@@ -12,7 +13,6 @@ import {
 } from 'novel';
 import { handleCommandNavigation, ImageResizer } from 'novel/extensions';
 import { handleImageDrop, handleImagePaste } from 'novel/plugins';
-import React from 'react'; // useState
 
 import { Separator } from '@meeting-baas/ui/separator';
 

@@ -1,10 +1,10 @@
+import { useEffect, useState } from 'react';
 import SignOut from '@/components/sign-out';
 import { useApiKey } from '@/hooks/use-api-key';
 import { useSession } from '@/lib/auth';
 import { setAPIKey } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { useForm, useFormState } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';

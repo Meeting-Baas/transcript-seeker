@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { auth } from '@/lib/auth';
 
 export type Variables = {
   user: typeof auth.$Infer.Session.user | null;
@@ -6,5 +6,5 @@ export type Variables = {
 };
 
 export type Bindings = {
-    Variables: Variables;
-}
+  Variables: Variables;
+};

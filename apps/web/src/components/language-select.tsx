@@ -1,9 +1,9 @@
 'use client';
 
 import type { formSchema } from '@/routes/upload';
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import type { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import type { z } from 'zod';
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 
 import { cn } from '@meeting-baas/ui';
 import { Button } from '@meeting-baas/ui/button';

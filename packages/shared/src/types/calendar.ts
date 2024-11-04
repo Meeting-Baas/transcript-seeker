@@ -1,4 +1,4 @@
-import type { CalendarEvent } from "./calendar-event";
+import type { CalendarEvent } from './calendar-event';
 
 export interface CalendarBaasEvent {
   google_id: string;
