@@ -38,7 +38,7 @@ export default function MockupCalendar() {
       <div className="flex select-none flex-col rounded-[inherit] bg-gradient-to-b from-fd-popover">
         <div className="p-4 shadow-sm">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold">November 5 - 11, 2023</h2>
+            <h2 className="text-lg font-bold">November 5 - 11, 2024</h2>
             <div className="flex items-center gap-2">
               <button
                 className={buttonVariants({

@@ -8,6 +8,14 @@ import { Step, Steps } from "@/components/steps";
 
 ## Setup
 
+Before deploying to Firebase, you need to configure the `.env.production.local` files for each app.
+Please follow this [guide](/docs/concepts/environment-variables) to set up environment variables.
+
+Change the `NODE_ENV` to `production` in the terminal:
+```bash title="Terminal"
+export NODE_ENV=production
+```
+
 ### Firebase Hosting
 
 For more information on Firebase Hosting, refer to the official [Firebase Hosting Documentation](https://firebase.google.com/docs/hosting).
@@ -52,12 +60,11 @@ firebase login
 In the Firebase Console:
 
 1. Create a project named **Transcript Seeker**.
-2. Then, create three new web apps:
-   - `transcript-seeker` (Project ID): Replace `transcript-seeker-bdc29` in `firebase.json` and `.firebaserc` with this new ID. (This one will be automatically created with your project ID)
+2. Then, create two new web apps:
    - `transcript-seeker-api`: Replace `transcript-seeker-api-c8419` in `firebase.json` and `.firebaserc` with this new ID.
    - `transcript-seeker-proxy`: Replace `transcript-seeker-proxy` in `firebase.json` and `.firebaserc` with this new ID.
 3. Navigate to **Hosting** and click "Get Started."
-
+4. Finally, Replace `transcript-seeker-bdc29` in `firebase.json` and `.firebaserc` with your project id. (This is for firebase hosting, when you click on get started it automatically creates a hosting project with ur app id)
 </Step>
 
 <Step>
