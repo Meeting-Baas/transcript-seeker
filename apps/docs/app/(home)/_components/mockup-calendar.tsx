@@ -32,7 +32,7 @@ const calendarItemVariants = cva(
   "absolute flex flex-col gap-2 overflow-hidden  gap-2 rounded-md px-1 py-0.5 text-xs text-fd-popover-foreground hover:bg-fd-accent transition-colors"
 );
 
-export default function CalendarLanding() {
+export default function MockupCalendar() {
   return (
     <div className="w-full p-px bg-gradient-to-b from-fd-border rounded-lg ">
       <div className="flex select-none flex-col rounded-[inherit] bg-gradient-to-b from-fd-popover">
