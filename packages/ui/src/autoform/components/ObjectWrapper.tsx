@@ -1,5 +1,5 @@
-import React from 'react';
 import type { ObjectWrapperProps } from '@autoform/react';
+import React from 'react';
 
 export const ObjectWrapper: React.FC<ObjectWrapperProps> = ({ label, children }) => {
   return (

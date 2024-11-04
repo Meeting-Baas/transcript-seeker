@@ -6,13 +6,8 @@ import type {
   AccordionSingleProps,
 } from "@radix-ui/react-accordion";
 import { Check, ChevronRight, LinkIcon } from "lucide-react";
-import {
-  forwardRef,
-  
-  useState,
-  useEffect
-} from "react";
-import type {ComponentPropsWithoutRef} from "react";
+import { forwardRef, useState, useEffect } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "../lib/cn";
 import { useCopyButton } from "../lib/use-copy-button";
 import { buttonVariants } from "./ui/button";

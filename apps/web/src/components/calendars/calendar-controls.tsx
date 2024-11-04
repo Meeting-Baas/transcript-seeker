@@ -1,6 +1,7 @@
 import type { CalendarControlsPluginType } from '@/types/schedulex';
 import type { CalendarApp } from '@schedule-x/calendar';
 import { useCallback } from 'react';
+import type { CalendarControlsPluginType } from '@/types/schedulex';
 
 import {
   Select,

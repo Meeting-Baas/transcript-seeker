@@ -1,15 +1,12 @@
 "use client";
 import { Check, Copy } from "lucide-react";
-import {
-  
-  
-  
-  
-  forwardRef,
-  useCallback,
-  useRef
+import { forwardRef, useCallback, useRef } from "react";
+import type {
+  ButtonHTMLAttributes,
+  HTMLAttributes,
+  ReactElement,
+  ReactNode,
 } from "react";
-import type {ButtonHTMLAttributes, HTMLAttributes, ReactElement, ReactNode} from "react";
 import { cn } from "../lib/cn";
 import { ScrollArea, ScrollBar, ScrollViewport } from "./ui/scroll-area";
 import { useCopyButton } from "../lib/use-copy-button";

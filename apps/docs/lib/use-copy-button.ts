@@ -1,11 +1,5 @@
-import {
-  useState,
-  useRef,
-  useEffect,
-  useCallback
-  
-} from "react";
-import type {MouseEventHandler} from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import type { MouseEventHandler } from "react";
 
 export function useCopyButton(
   onCopy: () => void,

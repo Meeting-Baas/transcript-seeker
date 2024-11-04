@@ -2,8 +2,8 @@
 
 import { cva } from "class-variance-authority";
 import { FileIcon, FolderIcon, FolderOpen } from "lucide-react";
-import { useState   } from "react";
-import type {HTMLAttributes, ReactNode} from "react";
+import { useState } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 import { cn } from "../lib/cn";
 import {
   Collapsible,

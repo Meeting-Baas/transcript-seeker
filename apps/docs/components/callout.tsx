@@ -1,6 +1,6 @@
 import { AlertTriangle, CircleX, Info } from "lucide-react";
-import { forwardRef   } from "react";
-import type {HTMLAttributes, ReactNode} from "react";
+import { forwardRef } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 type CalloutProps = Omit<

@@ -1,10 +1,10 @@
 import type { Bindings } from '@/types';
+import type { StatusCode } from 'hono/utils/http-status';
 import { eq } from '@/db';
 import { db } from '@/db/client';
 import { account } from '@/db/schema';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import type { StatusCode } from 'hono/utils/http-status';
 
 const calendars = new Hono<Bindings>();
 calendars.use(

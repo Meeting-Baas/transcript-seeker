@@ -1,7 +1,8 @@
+import type { AutoFormUIComponents } from '@autoform/react';
 import React from 'react';
-import type { AutoFormUIComponents} from '@autoform/react';
 import { AutoForm as BaseAutoForm } from '@autoform/react';
 
+import type { AutoFormProps } from './types';
 import { ArrayElementWrapper } from './components/ArrayElementWrapper';
 import { ArrayWrapper } from './components/ArrayWrapper';
 import { BooleanField } from './components/BooleanField';
@@ -14,7 +15,6 @@ import { ObjectWrapper } from './components/ObjectWrapper';
 import { SelectField } from './components/SelectField';
 import { StringField } from './components/StringField';
 import { SubmitButton } from './components/SubmitButton';
-import type { AutoFormProps } from './types';
 
 const ShadcnUIComponents: AutoFormUIComponents = {
   Form,

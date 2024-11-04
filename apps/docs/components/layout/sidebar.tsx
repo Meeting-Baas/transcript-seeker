@@ -3,16 +3,8 @@ import { ChevronDown, ExternalLink } from "lucide-react";
 import type { PageTree } from "fumadocs-core/server";
 import * as Base from "fumadocs-core/sidebar";
 import { usePathname } from "next/navigation";
-import {
-  createContext,
-  
-  memo,
-  
-  useContext,
-  useMemo,
-  useState
-} from "react";
-import type {HTMLAttributes, ReactNode} from "react";
+import { createContext, memo, useContext, useMemo, useState } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 import Link from "fumadocs-core/link";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import { cn } from "../../lib/cn";

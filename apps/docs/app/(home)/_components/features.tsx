@@ -1,10 +1,5 @@
-import {
-  BookIcon,
-  CaptionsIcon,
-  FishIcon
-  
-} from "lucide-react";
-import type {LucideIcon} from "lucide-react";
+import { BookIcon, CaptionsIcon, FishIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { CpuIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import type { HTMLAttributes, ReactNode } from "react";

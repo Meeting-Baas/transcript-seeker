@@ -1,5 +1,5 @@
-import React from 'react';
 import type { AutoFormFieldProps } from '@autoform/react';
+import React from 'react';
 
 import {
   Select,
