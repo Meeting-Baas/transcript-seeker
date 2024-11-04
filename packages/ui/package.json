@@ -10,7 +10,10 @@
     },
     "./autoform": {
       "types": "./dist/src/autoform/index.d.ts",
-      "default": "./src/autoform/index.tsx"
+      "default": [
+        "./src/autoform/*.ts",
+        "./src/autoform/*.tsx"
+      ]
     },
     "./hooks": {
       "types": "./dist/src/hooks/index.d.ts",

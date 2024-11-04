@@ -251,16 +251,16 @@ export function SettingsForm() {
               </AccordionTrigger>
               <AccordionContent className="flex flex-col space-y-6 px-1">
                 <code className="h-128 w-full rounded-md bg-muted p-4">
-                  {session?.user
+                  {session.user
                     ? JSON.stringify(session.user)
                     : isSessionLoading
                       ? 'loading...'
                       : 'not authenticated'}
                 </code>
 
-                {session?.user && <SignOut />}
+                {session.user && <SignOut />}
 
-                {!session?.user && (
+                {!session.user && (
                   <Link to="/login" className={cn(buttonVariants({ variant: 'default' }))}>
                     Login
                   </Link>
