@@ -1,6 +1,6 @@
 // This is where we convert the meetingbaas data to our data type
-import { VITE_API_URL, VITE_PROXY_URL } from '@/lib/constants';
 import type { Meeting } from '@/types';
+import { VITE_API_URL, VITE_PROXY_URL } from '@/lib/constants';
 
 import type {
   BotDetailsParams,

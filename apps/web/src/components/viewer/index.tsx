@@ -1,6 +1,12 @@
+import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
+import type { Meeting, Message } from '@/types';
+import type { MediaPlayerInstance } from '@vidstack/react';
+import type { JSONContent } from 'novel';
+import type { z } from 'zod';
+import * as React from 'react';
+import { useCallback, useMemo } from 'react';
 import { ModeToggle } from '@/components/mode-toggle';
 import Chat from '@/components/viewer/chat';
-import type { formSchema as chatSchema } from '@/components/viewer/chat/chat-input';
 import Editor from '@/components/viewer/editor';
 import Transcript from '@/components/viewer/transcript';
 import { Player as VideoPlayer } from '@/components/viewer/video-player';
@@ -20,18 +26,12 @@ import {
   renameMeeting as renameMeetingDb,
   setEditor as setEditorDB,
 } from '@/queries';
-import type { Meeting, Message } from '@/types';
-import type { MediaPlayerInstance } from '@vidstack/react';
 import { DownloadIcon, PencilIcon } from 'lucide-react';
-import type { JSONContent } from 'novel';
 import OpenAI from 'openai';
-import * as React from 'react';
-import { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
 import useSWRMutation from 'swr/mutation';
-import type { z } from 'zod';
 
 import { cn } from '@meeting-baas/ui';
 import {

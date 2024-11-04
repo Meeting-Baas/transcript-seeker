@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Header } from '@/components/header';
 import { columns } from '@/components/meeting/columns';
 import { DataTable } from '@/components/meeting/data-table';
@@ -10,7 +11,6 @@ import { fetchBotDetails } from '@/lib/meetingbaas';
 import { updateMeeting } from '@/queries';
 import { useServerAvailabilityStore } from '@/store';
 import { differenceInHours } from 'date-fns';
-import { useEffect } from 'react';
 import { mutate } from 'swr';
 
 import { Separator } from '@meeting-baas/ui/separator';

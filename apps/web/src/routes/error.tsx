@@ -1,5 +1,5 @@
-import ServerAvailablity from '@/components/server-availablity';
 import { ReactNode } from 'react';
+import ServerAvailablity from '@/components/server-availablity';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@meeting-baas/ui/button';
