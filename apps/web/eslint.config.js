@@ -3,10 +3,9 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import reactPlugin from 'eslint-plugin-react';
 import reactConfig from '@meeting-baas/eslint-config/react';
-import tseslint from 'typescript-eslint'
 
 /** @type {import('typescript-eslint').Config} */
-export default tseslint.config(
+export default [
   {
     ignores: ['dist/**', 'dev-dist/**'],
   },
@@ -22,4 +21,4 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
     },
   }
-);
+];
