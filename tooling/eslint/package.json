@@ -22,7 +22,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.7",
     "eslint-plugin-turbo": "^2.1.3",
-    "typescript-eslint": "^8.9.0"
+    "typescript-eslint": "^8.12.2"
   },
   "devDependencies": {
     "@meeting-baas/prettier-config": "workspace:*",
