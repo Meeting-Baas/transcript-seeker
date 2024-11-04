@@ -1,5 +1,4 @@
-import { GithubIcon } from "lucide-react";
-import { RocketIcon } from "lucide-react";
+import { GithubIcon, RocketIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { buttonVariants } from "@meeting-baas/ui/button";
@@ -21,7 +20,7 @@ export function CTA(): React.ReactElement {
             className={cn(
               buttonVariants({
                 className: " gap-2 group",
-              })
+              }),
             )}
           >
             Get Started
@@ -34,7 +33,7 @@ export function CTA(): React.ReactElement {
               buttonVariants({
                 variant: "outline",
                 className: "group",
-              })
+              }),
             )}
           >
             View on GitHub
@@ -42,7 +41,6 @@ export function CTA(): React.ReactElement {
           </a>
         </div>
       </div>
-      {/* <Integration className="border-t lg:col-span-2" /> */}
     </div>
   );
 }

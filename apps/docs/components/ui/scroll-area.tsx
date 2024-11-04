@@ -1,6 +1,6 @@
-import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-import * as React from 'react';
-import { cn } from '../../lib/cn';
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+import * as React from "react";
+import { cn } from "../../lib/cn";
 
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
@@ -8,7 +8,7 @@ const ScrollArea = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <ScrollAreaPrimitive.Root
     ref={ref}
-    className={cn('overflow-hidden', className)}
+    className={cn("overflow-hidden", className)}
     {...props}
   >
     {children}
@@ -25,7 +25,7 @@ const ScrollViewport = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <ScrollAreaPrimitive.Viewport
     ref={ref}
-    className={cn('size-full rounded-[inherit]', className)}
+    className={cn("size-full rounded-[inherit]", className)}
     {...props}
   >
     {children}
@@ -37,14 +37,14 @@ ScrollViewport.displayName = ScrollAreaPrimitive.Viewport.displayName;
 const ScrollBar = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Scrollbar>,
   React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Scrollbar>
->(({ className, orientation = 'vertical', ...props }, ref) => (
+>(({ className, orientation = "vertical", ...props }, ref) => (
   <ScrollAreaPrimitive.Scrollbar
     ref={ref}
     orientation={orientation}
     className={cn(
-      'flex select-none data-[state=hidden]:animate-fd-fade-out',
-      orientation === 'vertical' && 'h-full w-1.5',
-      orientation === 'horizontal' && 'h-1.5 flex-col',
+      "flex select-none data-[state=hidden]:animate-fd-fade-out",
+      orientation === "vertical" && "h-full w-1.5",
+      orientation === "horizontal" && "h-1.5 flex-col",
       className,
     )}
     {...props}

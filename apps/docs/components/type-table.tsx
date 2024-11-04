@@ -1,15 +1,11 @@
-'use client';
+"use client";
 
-import { InfoIcon } from 'lucide-react';
-import Link from 'next/link';
-import { cva } from 'class-variance-authority';
-import { cn } from '../lib/cn';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from './ui/popover';
-import type { ReactNode } from 'react';
+import { InfoIcon } from "lucide-react";
+import Link from "next/link";
+import { cva } from "class-variance-authority";
+import { cn } from "../lib/cn";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import type { ReactNode } from "react";
 
 export function Info({ children }: { children: ReactNode }): ReactNode {
   return (
@@ -38,14 +34,14 @@ interface ObjectType {
   default?: string;
 }
 
-const th = cva('p-2 font-medium first:pl-0 last:pr-0');
-const td = cva('p-2 first:pl-0 last:pr-0');
-const field = cva('inline-flex flex-row items-center gap-1');
+const th = cva("p-2 font-medium first:pl-0 last:pr-0");
+const td = cva("p-2 first:pl-0 last:pr-0");
+const field = cva("inline-flex flex-row items-center gap-1");
 const code = cva(
-  'rounded-md bg-fd-secondary p-1 text-fd-secondary-foreground',
+  "rounded-md bg-fd-secondary p-1 text-fd-secondary-foreground",
   {
     variants: {
-      color: { primary: 'bg-fd-primary/10 text-fd-primary' },
+      color: { primary: "bg-fd-primary/10 text-fd-primary" },
     },
   },
 );
@@ -60,9 +56,9 @@ export function TypeTable({
       <table className="my-4 w-full text-left text-sm text-fd-muted-foreground">
         <thead className="border-b">
           <tr>
-            <th className={cn(th(), 'w-[45%]')}>Prop</th>
-            <th className={cn(th(), 'w-[30%]')}>Type</th>
-            <th className={cn(th(), 'w-1/4')}>Default</th>
+            <th className={cn(th(), "w-[45%]")}>Prop</th>
+            <th className={cn(th(), "w-[30%]")}>Type</th>
+            <th className={cn(th(), "w-1/4")}>Default</th>
           </tr>
         </thead>
         <tbody className="border-collapse divide-y divide-fd-border">
@@ -70,7 +66,7 @@ export function TypeTable({
             <tr key={key}>
               <td className={td()}>
                 <div className={field()}>
-                  <code className={cn(code({ color: 'primary' }))}>{key}</code>
+                  <code className={cn(code({ color: "primary" }))}>{key}</code>
                   {value.description ? <Info>{value.description}</Info> : null}
                 </div>
               </td>

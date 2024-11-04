@@ -24,7 +24,12 @@ Always ensure you have the latest version of the Firebase CLI installed.
 npm install -g firebase-tools@latest
 ```
 
-<Callout> Make sure to use version [^11.18.0](https://github.com/firebase/firebase-tools/releases/tag/v11.18.0) or higher to deploy `nodejs18` functions. </Callout>
+<Callout>
+  {" "}
+  Make sure to use version
+  [^11.18.0](https://github.com/firebase/firebase-tools/releases/tag/v11.18.0)
+  or higher to deploy `nodejs18` functions.{" "}
+</Callout>
 
 </Step>
 
@@ -48,9 +53,9 @@ In the Firebase Console:
 
 1. Create a project named **Transcript Seeker**.
 2. Then, create three new web apps:
-    - `transcript-seeker` (Project ID): Replace `transcript-seeker-bdc29` in `firebase.json` and `.firebaserc` with this new ID. (This one will be automatically created with your project ID)
-    - `transcript-seeker-api`: Replace `transcript-seeker-api-c8419` in `firebase.json` and `.firebaserc` with this new ID.
-    - `transcript-seeker-proxy`: Replace `transcript-seeker-proxy` in `firebase.json` and `.firebaserc` with this new ID.
+   - `transcript-seeker` (Project ID): Replace `transcript-seeker-bdc29` in `firebase.json` and `.firebaserc` with this new ID. (This one will be automatically created with your project ID)
+   - `transcript-seeker-api`: Replace `transcript-seeker-api-c8419` in `firebase.json` and `.firebaserc` with this new ID.
+   - `transcript-seeker-proxy`: Replace `transcript-seeker-proxy` in `firebase.json` and `.firebaserc` with this new ID.
 3. Navigate to **Hosting** and click "Get Started."
 
 </Step>
@@ -76,7 +81,8 @@ This completes the Firebase setup.
 For more information on installation and the Google Cloud CLI, check out the official [Google Cloud CLI Documentation](https://cloud.google.com/sdk/docs/install#deb).
 
 <Callout>
-If you're using the devcontainer configuration provided by this repository, the GCloud CLI will be automatically installed.
+  If you're using the devcontainer configuration provided by this repository,
+  the GCloud CLI will be automatically installed.
 </Callout>
 
 ### Initialize Google Cloud CLI
@@ -91,8 +97,9 @@ gcloud init
 
 ## Nitro Deployment
 
-<Callout>You need to be on the **Blaze plan** to use Nitro with cloud functions.</Callout>
-
+<Callout>
+  You need to be on the **Blaze plan** to use Nitro with cloud functions.
+</Callout>
 
 <Steps>
 
@@ -102,6 +109,7 @@ gcloud init
 ```bash title="Terminal"
 cd apps/nitro
 ```
+
 </Step>
 
 <Step>
@@ -114,8 +122,8 @@ Preview a local version of your site for testing without deploying:
 NITRO_PRESET=firebase pnpm build
 firebase emulators:start
 ```
-</Step>
 
+</Step>
 
 <Step>
 ###  Build and Deploy
@@ -126,12 +134,14 @@ To deploy to Firebase Hosting, first build the Nitro app, then deploy:
 NITRO_PRESET=firebase pnpm build
 firebase deploy
 ```
+
 </Step>
 </Steps>
 
 ---
 
 ## Frontend Deployment
+
 <Steps>
 
 <Step>
@@ -140,6 +150,7 @@ firebase deploy
 ```bash title="Terminal"
 cd apps/web
 ```
+
 </Step>
 
 <Step>
@@ -151,6 +162,7 @@ To deploy the frontend to Firebase Hosting, build the project and deploy:
 pnpm build
 firebase deploy
 ```
+
 </Step>
 </Steps>
 ---
@@ -158,7 +170,8 @@ firebase deploy
 ## API Deployment
 
 <Callout>
-The API cannot be deployed to Firebase functions. Instead, we are using Google Cloud Run.
+  The API cannot be deployed to Firebase functions. Instead, we are using Google
+  Cloud Run.
 </Callout>
 
 <Steps>

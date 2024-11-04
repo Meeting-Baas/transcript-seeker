@@ -4,7 +4,7 @@ import {
   useEffect,
   useCallback,
   type MouseEventHandler,
-} from 'react';
+} from "react";
 
 export function useCopyButton(
   onCopy: () => void,

@@ -15,7 +15,7 @@ export default defineConfig(() => {
       react(),
       checker({
         typescript: true,
-      })
+      }),
     ],
     server: {
       port: CLIENT_PORT,

@@ -75,8 +75,8 @@ export default {
       },
     },
     animation: {
-      meteor: 'meteor 5s linear infinite'
-    }
+      meteor: "meteor 5s linear infinite",
+    },
   },
   plugins: [require("tailwindcss-animate")],
 };

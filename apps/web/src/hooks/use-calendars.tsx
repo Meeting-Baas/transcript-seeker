@@ -15,7 +15,7 @@ const fetcher = async (apiKey: string): Promise<CalendarBaasData[] | null> => {
 
 export function useCalendars({ apiKey }: UseCalendarsOptions) {
   const { data, error, isLoading, mutate } = useSWR(
-    apiKey ? ["calendars", apiKey] : null,
+    apiKey ? ['calendars', apiKey] : null,
     ([, apiKey]) => fetcher(apiKey),
   );
 
@@ -23,6 +23,6 @@ export function useCalendars({ apiKey }: UseCalendarsOptions) {
     calendars: data,
     isLoading,
     isError: error,
-    mutate
+    mutate,
   };
 }

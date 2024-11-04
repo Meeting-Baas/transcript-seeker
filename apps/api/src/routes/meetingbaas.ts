@@ -1,12 +1,11 @@
-import { Hono } from "hono";
-import { cors } from "hono/cors";
-
-import type { Bindings } from "@/types";
+import type { Bindings } from '@/types';
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 
 const meetingbaas = new Hono<Bindings>();
-meetingbaas.use("/*", cors());
+meetingbaas.use('/*', cors());
 
-meetingbaas.all("/*", async (c) => {
+meetingbaas.all('/*', async (c) => {
   const res = await fetch(process.env.MEETINGBAAS_API_URL!, {
     // headers: c.req.raw.headers,
     ...c.req.raw,

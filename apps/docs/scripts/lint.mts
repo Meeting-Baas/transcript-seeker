@@ -21,11 +21,11 @@ async function readFromPath(file: string) {
 
 async function checkLinks() {
   const docsFiles = await Promise.all(
-    await fg("content/docs/**/*.mdx").then((files) => files.map(readFromPath))
+    await fg("content/docs/**/*.mdx").then((files) => files.map(readFromPath)),
   );
 
   const blogFiles = await Promise.all(
-    await fg("content/blog/**/*.mdx").then((files) => files.map(readFromPath))
+    await fg("content/blog/**/*.mdx").then((files) => files.map(readFromPath)),
   );
 
   const scanned = await scanURLs({
@@ -34,7 +34,7 @@ async function checkLinks() {
       "docs/[...slug]": docsFiles.map(async (file) => {
         const info = parseFilePath(path.relative("content/docs", file.path));
         const toc = await getTableOfContents(file.content);
-        
+
         return {
           value: getSlugs(info),
           hashes: file.data?._mdx?.mirror
@@ -46,14 +46,14 @@ async function checkLinks() {
   });
 
   console.log(
-    `collected ${scanned.urls.size} URLs, ${scanned.fallbackUrls.length} fallbacks`
+    `collected ${scanned.urls.size} URLs, ${scanned.fallbackUrls.length} fallbacks`,
   );
 
   printErrors(
     await validateFiles([...docsFiles, ...blogFiles], {
       scanned,
     }),
-    true
+    true,
   );
 }
 

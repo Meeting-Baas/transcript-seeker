@@ -43,7 +43,7 @@ export function Features(): React.ReactElement {
         <Link
           href="/docs/concepts/search"
           className={cn(
-            buttonVariants({ variant: "outline", className: "mt-4 group" })
+            buttonVariants({ variant: "outline", className: "mt-4 group" }),
           )}
         >
           Learn More

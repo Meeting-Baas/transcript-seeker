@@ -1,9 +1,9 @@
-import { type ButtonHTMLAttributes } from 'react';
-import { SearchIcon } from 'lucide-react';
-import { useSearchContext } from 'fumadocs-ui/provider';
-import { useI18n } from 'fumadocs-ui/provider';
-import { cn } from '../../lib/cn';
-import { buttonVariants } from '../ui/button';
+import { type ButtonHTMLAttributes } from "react";
+import { SearchIcon } from "lucide-react";
+import { useSearchContext } from "fumadocs-ui/provider";
+import { useI18n } from "fumadocs-ui/provider";
+import { cn } from "../../lib/cn";
+import { buttonVariants } from "../ui/button";
 
 export function SearchToggle(
   props: ButtonHTMLAttributes<HTMLButtonElement>,
@@ -15,8 +15,8 @@ export function SearchToggle(
       type="button"
       className={cn(
         buttonVariants({
-          size: 'icon',
-          color: 'ghost',
+          size: "icon",
+          color: "ghost",
           className: props.className,
         }),
       )}
@@ -43,7 +43,7 @@ export function LargeSearchToggle(
       data-search-full=""
       {...props}
       className={cn(
-        'inline-flex items-center gap-2 rounded-full border bg-fd-secondary/50 p-1.5 text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground',
+        "inline-flex items-center gap-2 rounded-full border bg-fd-secondary/50 p-1.5 text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground",
         props.className,
       )}
       onClick={() => {

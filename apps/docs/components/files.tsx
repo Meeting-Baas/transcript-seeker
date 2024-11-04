@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { cva } from 'class-variance-authority';
-import { FileIcon, FolderIcon, FolderOpen } from 'lucide-react';
-import { useState, type HTMLAttributes, type ReactNode } from 'react';
-import { cn } from '../lib/cn';
+import { cva } from "class-variance-authority";
+import { FileIcon, FolderIcon, FolderOpen } from "lucide-react";
+import { useState, type HTMLAttributes, type ReactNode } from "react";
+import { cn } from "../lib/cn";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from './ui/collapsible';
+} from "./ui/collapsible";
 
 const itemVariants = cva(
-  'flex flex-row items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-fd-accent hover:text-fd-accent-foreground [&_svg]:size-4',
+  "flex flex-row items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-fd-accent hover:text-fd-accent-foreground [&_svg]:size-4",
 );
 
 export function Files({
@@ -20,7 +20,7 @@ export function Files({
 }: HTMLAttributes<HTMLDivElement>): React.ReactElement {
   return (
     <div
-      className={cn('not-prose rounded-md border bg-fd-card p-2', className)}
+      className={cn("not-prose rounded-md border bg-fd-card p-2", className)}
       {...props}
     >
       {props.children}
@@ -69,7 +69,7 @@ export function Folder({
 
   return (
     <Collapsible open={open} onOpenChange={setOpen} {...props}>
-      <CollapsibleTrigger className={cn(itemVariants({ className: 'w-full' }))}>
+      <CollapsibleTrigger className={cn(itemVariants({ className: "w-full" }))}>
         {open ? <FolderOpen /> : <FolderIcon />}
         {name}
       </CollapsibleTrigger>

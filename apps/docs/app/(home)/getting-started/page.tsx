@@ -1,8 +1,8 @@
-import { Building2, CloudIcon, LibraryIcon } from 'lucide-react';
-import Link, { type LinkProps } from 'next/link';
-import Image from 'next/image';
-import { buttonVariants } from '@meeting-baas/ui/button';
-import { cn } from '@/lib/cn';
+import { Building2, CloudIcon, LibraryIcon } from "lucide-react";
+import Link, { type LinkProps } from "next/link";
+import Image from "next/image";
+import { buttonVariants } from "@meeting-baas/ui/button";
+import { cn } from "@/lib/cn";
 
 export default function DocsPage(): React.ReactElement {
   return (
@@ -12,23 +12,29 @@ export default function DocsPage(): React.ReactElement {
         Getting Started
       </h1>
       <p className="text-fd-muted-foreground">
-        You can use the hosted version of Transcript Seeker, or self-host transcript seeker.
+        You can use the hosted version of Transcript Seeker, or self-host
+        transcript seeker.
       </p>
       <div className="mt-8 grid grid-cols-1 gap-4 text-left md:grid-cols-2">
         <Item href="/docs">
           <Icon>
             <LibraryIcon className="size-full" />
           </Icon>
-          <h2 className="mb-2 text-lg font-semibold">Self-Host Transcript Seeker</h2>
+          <h2 className="mb-2 text-lg font-semibold">
+            Self-Host Transcript Seeker
+          </h2>
           <p className="text-sm text-fd-muted-foreground">
-            Full documentation for self-hosting with a powerful, user-friendly interface.
+            Full documentation for self-hosting with a powerful, user-friendly
+            interface.
           </p>
         </Item>
         <Item href="https://app.transcriptseeker.com">
           <Icon>
             <CloudIcon className="size-full" />
           </Icon>
-          <h2 className="mb-2 text-lg font-semibold">Access the Hosted Version</h2>
+          <h2 className="mb-2 text-lg font-semibold">
+            Access the Hosted Version
+          </h2>
           <p className="text-sm text-fd-muted-foreground">
             Try Transcript Seeker online—no setup required.
           </p>
@@ -38,12 +44,21 @@ export default function DocsPage(): React.ReactElement {
   );
 }
 
-function Icon({ className, children }: { className?: string; children: React.ReactNode }): React.ReactElement {
+function Icon({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}): React.ReactElement {
   return (
     <div
-      className={cn("mb-2 size-9 rounded-lg border p-1.5 shadow-fd-primary/30", className)}
+      className={cn(
+        "mb-2 size-9 rounded-lg border p-1.5 shadow-fd-primary/30",
+        className,
+      )}
       style={{
-        boxShadow: 'inset 0px 8px 8px 0px var(--tw-shadow-color)',
+        boxShadow: "inset 0px 8px 8px 0px var(--tw-shadow-color)",
       }}
     >
       {children}
@@ -57,7 +72,10 @@ function Item(
   return (
     <Link
       {...props}
-      className={cn("rounded-2xl border border-border p-6 shadow-sm transition-all hover:bg-fd-accent", props.className)}
+      className={cn(
+        "rounded-2xl border border-border p-6 shadow-sm transition-all hover:bg-fd-accent",
+        props.className,
+      )}
     >
       {props.children}
     </Link>

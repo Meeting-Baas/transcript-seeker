@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   type PointerEventHandler,
   type ReactElement,
@@ -6,13 +6,13 @@ import {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import { SidebarIcon } from 'lucide-react';
-import { useOnChange } from 'fumadocs-core/utils/use-on-change';
-import { Sidebar, type SidebarProps } from './sidebar';
-import { cn } from '../../lib/cn';
-import { buttonVariants } from '../ui/button';
-import { useSidebar } from 'fumadocs-ui/provider';
+} from "react";
+import { SidebarIcon } from "lucide-react";
+import { useOnChange } from "fumadocs-core/utils/use-on-change";
+import { Sidebar, type SidebarProps } from "./sidebar";
+import { cn } from "../../lib/cn";
+import { buttonVariants } from "../ui/button";
+import { useSidebar } from "fumadocs-ui/provider";
 
 export default function DynamicSidebar(props: SidebarProps): ReactElement {
   const { collapsed, setCollapsed } = useSidebar();
@@ -26,13 +26,13 @@ export default function DynamicSidebar(props: SidebarProps): ReactElement {
   });
 
   const onEnter: PointerEventHandler = useCallback((e) => {
-    if (e.pointerType === 'touch' || closeTimeRef.current > Date.now()) return;
+    if (e.pointerType === "touch" || closeTimeRef.current > Date.now()) return;
     window.clearTimeout(timerRef.current);
     setHover(true);
   }, []);
 
   const onLeave: PointerEventHandler = useCallback((e) => {
-    if (e.pointerType === 'touch') return;
+    if (e.pointerType === "touch") return;
     window.clearTimeout(timerRef.current);
 
     timerRef.current = window.setTimeout(
@@ -60,9 +60,9 @@ export default function DynamicSidebar(props: SidebarProps): ReactElement {
             aria-label="Collapse Sidebar"
             className={cn(
               buttonVariants({
-                color: 'secondary',
-                size: 'icon',
-                className: 'fixed start-4 bottom-2 z-10 max-md:hidden',
+                color: "secondary",
+                size: "icon",
+                className: "fixed start-4 bottom-2 z-10 max-md:hidden",
               }),
             )}
             onClick={() => {
@@ -78,22 +78,22 @@ export default function DynamicSidebar(props: SidebarProps): ReactElement {
         {...props}
         aside={useMemo(
           () => ({
-            'data-collapse': collapsed,
-            'data-hover': hover,
+            "data-collapse": collapsed,
+            "data-hover": hover,
             onPointerEnter: collapsed ? onEnter : undefined,
             onPointerLeave: collapsed ? onLeave : undefined,
-            'aria-hidden': Boolean(collapsed && !hover),
+            "aria-hidden": Boolean(collapsed && !hover),
             style: {
               // the offset given to docs content when the sidebar is collapsed
-              '--fd-content-offset': 'calc(var(--fd-sidebar-width) * -1)',
+              "--fd-content-offset": "calc(var(--fd-sidebar-width) * -1)",
             } as object,
             className: cn(
-              'md:transition-[transform,margin,flex]',
+              "md:transition-[transform,margin,flex]",
               collapsed && [
-                'md:me-[var(--fd-content-offset)] md:grow-0 md:shadow-md',
+                "md:me-[var(--fd-content-offset)] md:grow-0 md:shadow-md",
                 hover
-                  ? 'md:translate-x-0'
-                  : 'md:translate-x-[calc(var(--fd-sidebar-width)*-1)] rtl:md:translate-x-[var(--fd-sidebar-width)]',
+                  ? "md:translate-x-0"
+                  : "md:translate-x-[calc(var(--fd-sidebar-width)*-1)] rtl:md:translate-x-[var(--fd-sidebar-width)]",
               ],
               ``,
             ),
@@ -103,7 +103,7 @@ export default function DynamicSidebar(props: SidebarProps): ReactElement {
       />
       <div
         role="none"
-        className={cn('transition-all max-md:hidden', collapsed && 'flex-1')}
+        className={cn("transition-all max-md:hidden", collapsed && "flex-1")}
       />
     </>
   );

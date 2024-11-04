@@ -1,16 +1,16 @@
-import { remark } from 'remark';
-import remarkGfm from 'remark-gfm';
-import remarkRehype from 'remark-rehype';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-import rehypeShikiFromHighlighter from '@shikijs/rehype/core';
-import { type Components, toJsxRuntime } from 'hast-util-to-jsx-runtime';
-import { type ReactNode } from 'react';
-import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
-import { createHighlighter } from 'shiki';
-import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
-import { createStyleTransformer } from 'fumadocs-core/server';
-import type { Root } from 'hast';
+import { remark } from "remark";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import rehypeShikiFromHighlighter from "@shikijs/rehype/core";
+import { type Components, toJsxRuntime } from "hast-util-to-jsx-runtime";
+import { type ReactNode } from "react";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
+import { createHighlighter } from "shiki";
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
+import { createStyleTransformer } from "fumadocs-core/server";
+import type { Root } from "hast";
 
 interface MetaValue {
   name: string;
@@ -22,7 +22,7 @@ interface MetaValue {
  */
 const metaValues: MetaValue[] = [
   {
-    name: 'title',
+    name: "title",
     regex: /title="(?<value>[^"]*)"/,
   },
 ];
@@ -38,15 +38,15 @@ export function createProcessor(): Processor {
   function filterMetaString(meta: string): string {
     let replaced = meta;
     for (const value of metaValues) {
-      replaced = replaced.replace(value.regex, '');
+      replaced = replaced.replace(value.regex, "");
     }
 
     return replaced;
   }
 
   const themes = {
-    light: 'vitesse-light',
-    dark: 'vitesse-dark',
+    light: "vitesse-light",
+    dark: "vitesse-dark",
   };
 
   const rehypeShiki = createHighlighter({
@@ -55,7 +55,7 @@ export function createProcessor(): Processor {
     engine: createJavaScriptRegexEngine(),
   }).then((highlighter) => {
     return rehypeShikiFromHighlighter(highlighter, {
-      defaultLanguage: 'text',
+      defaultLanguage: "text",
       defaultColor: false,
       themes,
       lazy: true,
@@ -75,10 +75,10 @@ export function createProcessor(): Processor {
       },
       transformers: [
         {
-          name: 'pre-process',
+          name: "pre-process",
           preprocess(_, { meta }) {
             if (meta) {
-              meta.__raw = filterMetaString(meta.__raw ?? '');
+              meta.__raw = filterMetaString(meta.__raw ?? "");
             }
           },
         },

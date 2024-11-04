@@ -1,8 +1,8 @@
-'use client';
-import { ChevronDown, ExternalLink } from 'lucide-react';
-import type { PageTree } from 'fumadocs-core/server';
-import * as Base from 'fumadocs-core/sidebar';
-import { usePathname } from 'next/navigation';
+"use client";
+import { ChevronDown, ExternalLink } from "lucide-react";
+import type { PageTree } from "fumadocs-core/server";
+import * as Base from "fumadocs-core/sidebar";
+import { usePathname } from "next/navigation";
 import {
   createContext,
   type HTMLAttributes,
@@ -11,21 +11,21 @@ import {
   useContext,
   useMemo,
   useState,
-} from 'react';
-import Link from 'fumadocs-core/link';
-import { useOnChange } from 'fumadocs-core/utils/use-on-change';
-import { cn } from '../../lib/cn';
-import { useTreeContext } from 'fumadocs-ui/provider';
-import { ScrollArea, ScrollViewport } from '../ui/scroll-area';
-import { isActive } from '../../lib/shared';
-import { LargeSearchToggle } from './search-toggle';
-import { useSearchContext } from 'fumadocs-ui/provider';
-import { itemVariants } from './variants';
+} from "react";
+import Link from "fumadocs-core/link";
+import { useOnChange } from "fumadocs-core/utils/use-on-change";
+import { cn } from "../../lib/cn";
+import { useTreeContext } from "fumadocs-ui/provider";
+import { ScrollArea, ScrollViewport } from "../ui/scroll-area";
+import { isActive } from "../../lib/shared";
+import { LargeSearchToggle } from "./search-toggle";
+import { useSearchContext } from "fumadocs-ui/provider";
+import { itemVariants } from "./variants";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '../ui/collapsible';
+} from "../ui/collapsible";
 
 export interface SidebarProps {
   /**
@@ -105,15 +105,15 @@ export const Sidebar = memo(
         blockScrollingWidth={768} // md
         {...props.aside}
         className={cn(
-          'fixed top-fd-layout-top z-30 bg-fd-card text-sm md:sticky md:h-[var(--fd-sidebar-height)] md:flex-1',
-          'max-md:inset-x-0 max-md:bottom-0 max-md:bg-fd-background/80 max-md:text-[15px] max-md:backdrop-blur-lg max-md:data-[open=false]:invisible',
+          "fixed top-fd-layout-top z-30 bg-fd-card text-sm md:sticky md:h-[var(--fd-sidebar-height)] md:flex-1",
+          "max-md:inset-x-0 max-md:bottom-0 max-md:bg-fd-background/80 max-md:text-[15px] max-md:backdrop-blur-lg max-md:data-[open=false]:invisible",
           props.aside?.className,
         )}
         style={
           {
             ...props.aside?.style,
-            '--fd-sidebar-height':
-              'calc(100dvh - var(--fd-banner-height) - var(--fd-nav-height))',
+            "--fd-sidebar-height":
+              "calc(100dvh - var(--fd-banner-height) - var(--fd-nav-height))",
           } as object
         }
       >
@@ -126,7 +126,7 @@ export const Sidebar = memo(
             <ScrollViewport
               style={{
                 maskImage:
-                  'linear-gradient(to bottom, transparent 2px, white 16px)',
+                  "linear-gradient(to bottom, transparent 2px, white 16px)",
               }}
             >
               {props.children}
@@ -142,7 +142,7 @@ export const Sidebar = memo(
   },
 );
 
-Sidebar.displayName = 'Sidebar';
+Sidebar.displayName = "Sidebar";
 
 const SeparatorNode = memo(({ item }: { item: PageTree.Separator }) => {
   return (
@@ -150,7 +150,7 @@ const SeparatorNode = memo(({ item }: { item: PageTree.Separator }) => {
   );
 });
 
-SeparatorNode.displayName = 'SeparatorNode';
+SeparatorNode.displayName = "SeparatorNode";
 
 function RootNodeList(): ReactNode {
   const { root } = useTreeContext();
@@ -172,9 +172,9 @@ function renderList(
     const id = `${item.type}_${i.toString()}`;
 
     switch (item.type) {
-      case 'separator':
+      case "separator":
         return <Separator key={id} item={item} />;
-      case 'folder':
+      case "folder":
         return <Folder key={id} item={item} level={level + 1} />;
       default:
         return <Item key={item.url} item={item} />;
@@ -201,7 +201,7 @@ const PageNode = memo(({ item }: { item: PageTree.Item }) => {
   );
 });
 
-PageNode.displayName = 'PageNode';
+PageNode.displayName = "PageNode";
 
 const FolderNode = memo(
   ({ item, level }: { item: PageTree.Folder; level: number }) => {
@@ -210,7 +210,7 @@ const FolderNode = memo(
     const pathname = usePathname();
     const active =
       item.index !== undefined && isActive(item.index.url, pathname, false);
-    const className = cn(itemVariants(), 'w-full md:pe-1.5');
+    const className = cn(itemVariants(), "w-full md:pe-1.5");
 
     const shouldExtend =
       active ||
@@ -228,7 +228,7 @@ const FolderNode = memo(
         {item.name}
         <ChevronDown
           data-icon
-          className={cn('ms-auto transition-transform', !open && '-rotate-90')}
+          className={cn("ms-auto transition-transform", !open && "-rotate-90")}
         />
       </>
     );
@@ -243,7 +243,7 @@ const FolderNode = memo(
             onClick={(e) => {
               if (
                 // clicking on icon
-                (e.target as HTMLElement).hasAttribute('data-icon') ||
+                (e.target as HTMLElement).hasAttribute("data-icon") ||
                 active
               ) {
                 setOpen((prev) => !prev);
@@ -269,11 +269,11 @@ const FolderNode = memo(
   },
 );
 
-FolderNode.displayName = 'FolderNode';
+FolderNode.displayName = "FolderNode";
 
 function useInternalContext(): InternalContext {
   const ctx = useContext(Context);
-  if (!ctx) throw new Error('<Sidebar /> component required.');
+  if (!ctx) throw new Error("<Sidebar /> component required.");
 
   return ctx;
 }

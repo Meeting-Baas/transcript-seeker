@@ -1,6 +1,6 @@
+import type { CalendarControlsPluginType } from '@/types/schedulex';
 import type { CalendarApp } from '@schedule-x/calendar';
 import { useEffect, useState } from 'react';
-import type { CalendarControlsPluginType } from '@/types/schedulex';
 import { format, getDate, isAfter, parseISO } from 'date-fns';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 

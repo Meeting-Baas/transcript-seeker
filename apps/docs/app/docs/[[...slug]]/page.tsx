@@ -7,9 +7,9 @@ import {
 } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
 import defaultMdxComponents from "fumadocs-ui/mdx";
-import { Tabs, Tab } from "@/components/tabs"
-import { TypeTable } from "@/components/type-table"
-import { Accordion, Accordions } from "@/components/accordion"
+import { Tabs, Tab } from "@/components/tabs";
+import { TypeTable } from "@/components/type-table";
+import { Accordion, Accordions } from "@/components/accordion";
 import { Steps, Step } from "@/components/steps";
 
 export default async function Page(props: {
@@ -32,25 +32,27 @@ export default async function Page(props: {
         single: false,
       }}
       editOnGithub={{
-        repo: 'transcript-seeker',
-        owner: 'Meeting-Baas',
-        sha: 'main',
+        repo: "transcript-seeker",
+        owner: "Meeting-Baas",
+        sha: "main",
         path,
       }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        <MDX components={{
-          ...defaultMdxComponents,
-          Tabs,
-          Tab,
-          TypeTable,
-          Accordion,
-          Accordions,
-          Steps,
-          Step
-        }} />
+        <MDX
+          components={{
+            ...defaultMdxComponents,
+            Tabs,
+            Tab,
+            TypeTable,
+            Accordion,
+            Accordions,
+            Steps,
+            Step,
+          }}
+        />
       </DocsBody>
     </DocsPage>
   );

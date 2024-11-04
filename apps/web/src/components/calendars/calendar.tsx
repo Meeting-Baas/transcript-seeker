@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -16,12 +16,14 @@ import { format } from 'date-fns';
 // prettier-ignore-start
 import '@schedule-x/theme-default/dist/index.css';
 import '@/styles/schedulex.css';
+
 // prettier-ignore-end
 
 import type { ExtendedCalendarBaasEvent } from '@/types/calendar';
 import type { CalendarEvent, Calendars } from '@/types/schedulex';
 
 import type { CalendarBaasData } from '@meeting-baas/shared';
+
 import CalendarToolbar from './calendar-toolbar';
 import { EventModal } from './event-modal';
 
@@ -86,7 +88,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
 
   const dayView = createViewDay();
   const weekView = createViewWeek();
-  const monthGridView =  createViewMonthGrid();
+  const monthGridView = createViewMonthGrid();
   const monthAgendaView = createViewMonthAgenda();
 
   const calendar = useCalendarApp(
@@ -101,7 +103,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
           setIsModalOpen(true);
         },
       },
-      isResponsive: false
+      isResponsive: false,
     },
     plugins,
   );
@@ -119,11 +121,7 @@ function Calendar({ calendarsData, eventsData }: CalendarProps) {
     <div className="flex h-full w-full flex-col">
       <CalendarToolbar calendarApp={calendar} />
       <ScheduleXCalendar calendarApp={calendar} />
-      <EventModal 
-        event={selectedEvent} 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
-      />
+      <EventModal event={selectedEvent} isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
 }

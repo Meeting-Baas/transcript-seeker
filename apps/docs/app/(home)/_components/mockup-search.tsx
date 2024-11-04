@@ -4,7 +4,7 @@ import { FileTextIcon, SearchIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const searchItemVariants = cva(
-  "flex flex-col gap-2  gap-2 rounded-md px-4 py-3 text-sm text-fd-popover-foreground hover:bg-fd-accent transition-colors"
+  "flex flex-col gap-2  gap-2 rounded-md px-4 py-3 text-sm text-fd-popover-foreground hover:bg-fd-accent transition-colors",
 );
 
 const searchTranscriptSnippets = [
@@ -56,7 +56,7 @@ export default function MockupSearch(): React.ReactElement {
                 className={cn(
                   searchItemVariants({
                     className: i === 0 ? "bg-fd-accent" : "",
-                  })
+                  }),
                 )}
               >
                 <div className="flex items-center gap-3">

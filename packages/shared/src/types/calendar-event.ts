@@ -1,4 +1,3 @@
-
 export interface CalendarEvent {
   anyoneCanAddSelf: boolean;
   attendees: Attendee[];

@@ -1,9 +1,9 @@
 import { useTransition } from 'react';
 import ServerAvailablity from '@/components/server-availablity';
 import { signIn } from '@/lib/auth';
+import { LoaderIcon } from 'lucide-react';
 
 import { Button } from '@meeting-baas/ui/button';
-import { LoaderIcon } from 'lucide-react';
 
 function LoginPage() {
   const [isPending, startTransition] = useTransition();
@@ -22,7 +22,7 @@ function LoginPage() {
             startTransition(async () => {
               await signIn.social({
                 provider: 'google',
-                callbackURL: '/meetings'
+                callbackURL: '/meetings',
               });
             });
           }}

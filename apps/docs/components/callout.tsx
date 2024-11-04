@@ -1,16 +1,16 @@
-import { AlertTriangle, CircleX, Info } from 'lucide-react';
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
-import { cn } from '../lib/cn';
+import { AlertTriangle, CircleX, Info } from "lucide-react";
+import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
+import { cn } from "../lib/cn";
 
 type CalloutProps = Omit<
   HTMLAttributes<HTMLDivElement>,
-  'title' | 'type' | 'icon'
+  "title" | "type" | "icon"
 > & {
   title?: ReactNode;
   /**
    * @defaultValue info
    */
-  type?: 'info' | 'warn' | 'error';
+  type?: "info" | "warn" | "error";
 
   /**
    * Force an icon
@@ -19,12 +19,12 @@ type CalloutProps = Omit<
 };
 
 export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
-  ({ className, children, title, type = 'info', icon, ...props }, ref) => {
+  ({ className, children, title, type = "info", icon, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          'my-6 flex flex-row gap-2 rounded-lg border bg-fd-card p-3 text-sm text-fd-card-foreground shadow-md',
+          "my-6 flex flex-row gap-2 rounded-lg border bg-fd-card p-3 text-sm text-fd-card-foreground shadow-md",
           className,
         )}
         {...props}
@@ -48,4 +48,4 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
   },
 );
 
-Callout.displayName = 'Callout';
+Callout.displayName = "Callout";

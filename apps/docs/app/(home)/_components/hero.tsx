@@ -1,4 +1,3 @@
-import Img from "@/app/(home)/hero.png";
 import { cn } from "@/lib/cn";
 import { AspectRatio } from "@meeting-baas/ui/aspect-ratio";
 import { buttonVariants } from "@meeting-baas/ui/button";
@@ -6,6 +5,8 @@ import Meteors from "@meeting-baas/ui/meteors";
 import { ExternalLink, RocketIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+import HeroImage from "@/app/(home)/hero.png";
 
 export function Hero(): React.ReactElement {
   return (
@@ -34,7 +35,7 @@ export function Hero(): React.ReactElement {
             buttonVariants({
               size: "lg",
               className: "rounded-full gap-2 group",
-            })
+            }),
           )}
         >
           Get Started
@@ -47,7 +48,7 @@ export function Hero(): React.ReactElement {
               size: "lg",
               variant: "outline",
               className: "rounded-full bg-fd-background gap-2 group",
-            })
+            }),
           )}
         >
           Open App
@@ -56,7 +57,7 @@ export function Hero(): React.ReactElement {
       </div>
       <AspectRatio ratio={16 / 9}>
         <Image
-          src={Img}
+          src={HeroImage}
           objectFit="cover"
           alt="Transcript Seeker preview"
           fill

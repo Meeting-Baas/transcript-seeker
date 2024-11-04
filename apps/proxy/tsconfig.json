@@ -1,4 +1,4 @@
 {
   // "extends": "@meeting-baas/tsconfig/base.json",
-  "extends": "./.nitro/types/tsconfig.json",
+  "extends": "./.nitro/types/tsconfig.json"
 }

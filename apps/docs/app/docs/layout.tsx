@@ -24,7 +24,7 @@ const docsOptions: DocsLayoutProps = {
             size: "sm",
             className:
               "md:flex-1 px-2 h-5 shadow-none ms-2 gap-1.5 text-fd-muted-foreground rounded-full border bg-fd-secondary hover:bg-fd-secondary/80",
-          })
+          }),
         )}
       >
         <MessageCircle className="!size-3" />

@@ -29,7 +29,7 @@ const events = [
 ];
 
 const calendarItemVariants = cva(
-  "absolute flex flex-col gap-2 overflow-hidden  gap-2 rounded-md px-1 py-0.5 text-xs text-fd-popover-foreground hover:bg-fd-accent transition-colors"
+  "absolute flex flex-col gap-2 overflow-hidden  gap-2 rounded-md px-1 py-0.5 text-xs text-fd-popover-foreground hover:bg-fd-accent transition-colors",
 );
 
 export default function MockupCalendar() {
@@ -84,10 +84,7 @@ export default function MockupCalendar() {
             {weekDays.map((_, dayIndex) => (
               <div key={dayIndex} className="col-span-1 relative">
                 {hours.map((hour) => (
-                  <div
-                    key={hour}
-                    className="h-12 border-t border-border"
-                  ></div>
+                  <div key={hour} className="h-12 border-t border-border"></div>
                 ))}
                 {events
                   .filter((event) => event.day === dayIndex)
@@ -97,7 +94,7 @@ export default function MockupCalendar() {
                       className={cn(
                         calendarItemVariants({
                           className: i === 0 ? "bg-fd-accent" : "",
-                        })
+                        }),
                       )}
                       // className={`absolute left-1 right-1 bg-gradient-to-r ${event.color} text-white rounded-lg p-1 text-[10px] shadow-sm overflow-hidden`}
                       style={{

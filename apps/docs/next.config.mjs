@@ -1,8 +1,8 @@
-import createBundleAnalyzer from '@next/bundle-analyzer';
-import { createMDX } from 'fumadocs-mdx/next';
+import createBundleAnalyzer from "@next/bundle-analyzer";
+import { createMDX } from "fumadocs-mdx/next";
 
 const withAnalyzer = createBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
+  enabled: process.env.ANALYZE === "true",
 });
 const withMDX = createMDX();
 
@@ -10,15 +10,15 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 
 const config = {
-  output: 'export',
+  output: "export",
   reactStrictMode: true,
   eslint: {
     // Replaced by root workspace command
     ignoreDuringBuilds: true,
   },
-  serverExternalPackages: ['ts-morph', 'typescript'],
+  serverExternalPackages: ["ts-morph", "typescript"],
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
 };
 

@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
-import { HomeLayout } from 'fumadocs-ui/layouts/home';
-import { baseOptions } from '@/app/layout.config';
+import type { ReactNode } from "react";
+import { HomeLayout } from "fumadocs-ui/layouts/home";
+import { baseOptions } from "@/app/layout.config";
 
 export default function Layout({
   children,
@@ -22,7 +22,7 @@ function Footer(): React.ReactElement {
         <div>
           <p className="mb-1 text-sm font-semibold">Transcript Seeker</p>
           <p className="text-xs">
-            Built by{' '}
+            Built by{" "}
             <a
               href="https://meetingbaas.com/"
               rel="noreferrer noopener"

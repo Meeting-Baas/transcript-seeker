@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 import type {
   TabsContentProps,
   TabsProps as BaseProps,
-} from '@radix-ui/react-tabs';
+} from "@radix-ui/react-tabs";
 import {
   useMemo,
   useState,
@@ -13,11 +13,11 @@ import {
   useRef,
   useLayoutEffect,
   useEffect,
-} from 'react';
-import { cn } from '../lib/cn';
-import * as Primitive from './ui/tabs';
+} from "react";
+import { cn } from "../lib/cn";
+import * as Primitive from "./ui/tabs";
 
-export * as Primitive from './ui/tabs';
+export * as Primitive from "./ui/tabs";
 
 type ChangeListener = (v: string) => void;
 const listeners = new Map<string, ChangeListener[]>();
@@ -107,7 +107,7 @@ export function Tabs({
       value={value}
       onValueChange={onValueChange}
       {...props}
-      className={cn('my-4', props.className)}
+      className={cn("my-4", props.className)}
     >
       <Primitive.TabsList>
         {values.map((v, i) => (
@@ -124,7 +124,7 @@ export function Tabs({
 }
 
 function toValue(v: string): string {
-  return v.toLowerCase().replace(/\s/, '-');
+  return v.toLowerCase().replace(/\s/, "-");
 }
 
 export function Tab({
@@ -147,7 +147,7 @@ export function Tab({
     <Primitive.TabsContent
       value={v}
       className={cn(
-        'prose-no-margin [&>figure:only-child]:-m-4 [&>figure:only-child]:rounded-none [&>figure:only-child]:border-none',
+        "prose-no-margin [&>figure:only-child]:-m-4 [&>figure:only-child]:rounded-none [&>figure:only-child]:border-none",
         className,
       )}
       {...props}

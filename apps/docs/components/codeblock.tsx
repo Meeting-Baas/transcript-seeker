@@ -1,5 +1,5 @@
-'use client';
-import { Check, Copy } from 'lucide-react';
+"use client";
+import { Check, Copy } from "lucide-react";
 import {
   type ButtonHTMLAttributes,
   type HTMLAttributes,
@@ -8,15 +8,11 @@ import {
   forwardRef,
   useCallback,
   useRef,
-} from 'react';
-import { cn } from '../lib/cn';
-import {
-  ScrollArea,
-  ScrollBar,
-  ScrollViewport,
-} from './ui/scroll-area';
-import { useCopyButton } from '../lib/use-copy-button';
-import { buttonVariants } from './ui/button';
+} from "react";
+import { cn } from "../lib/cn";
+import { ScrollArea, ScrollBar, ScrollViewport } from "./ui/scroll-area";
+import { useCopyButton } from "../lib/use-copy-button";
+import { buttonVariants } from "./ui/button";
 
 export type CodeBlockProps = HTMLAttributes<HTMLElement> & {
   /**
@@ -44,14 +40,14 @@ export type CodeBlockProps = HTMLAttributes<HTMLElement> & {
 export const Pre = forwardRef<HTMLPreElement, HTMLAttributes<HTMLPreElement>>(
   ({ className, ...props }, ref) => {
     return (
-      <pre ref={ref} className={cn('max-h-[400px] p-4', className)} {...props}>
+      <pre ref={ref} className={cn("max-h-[400px] p-4", className)} {...props}>
         {props.children}
       </pre>
     );
   },
 );
 
-Pre.displayName = 'Pre';
+Pre.displayName = "Pre";
 
 export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(
   (
@@ -67,25 +63,25 @@ export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(
   ) => {
     const areaRef = useRef<HTMLDivElement>(null);
     const onCopy = useCallback(() => {
-      const pre = areaRef.current?.getElementsByTagName('pre').item(0);
+      const pre = areaRef.current?.getElementsByTagName("pre").item(0);
 
       if (!pre) return;
 
       const clone = pre.cloneNode(true) as HTMLElement;
-      clone.querySelectorAll('.nd-copy-ignore').forEach((node) => {
+      clone.querySelectorAll(".nd-copy-ignore").forEach((node) => {
         node.remove();
       });
 
-      void navigator.clipboard.writeText(clone.textContent ?? '');
+      void navigator.clipboard.writeText(clone.textContent ?? "");
     }, []);
 
     return (
       <figure
         ref={ref}
         className={cn(
-          'not-prose group fd-codeblock relative my-6 overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm',
+          "not-prose group fd-codeblock relative my-6 overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm",
           keepBackground &&
-            'bg-[var(--shiki-light-bg)] dark:bg-[var(--shiki-dark-bg)]',
+            "bg-[var(--shiki-light-bg)] dark:bg-[var(--shiki-dark-bg)]",
           className,
         )}
         {...props}
@@ -95,7 +91,7 @@ export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(
             {icon ? (
               <div
                 className="text-fd-muted-foreground [&_svg]:size-3.5"
-                {...(typeof icon === 'string'
+                {...(typeof icon === "string"
                   ? {
                       dangerouslySetInnerHTML: { __html: icon },
                     }
@@ -128,7 +124,7 @@ export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(
   },
 );
 
-CodeBlock.displayName = 'CodeBlock';
+CodeBlock.displayName = "CodeBlock";
 
 function CopyButton({
   className,
@@ -144,10 +140,10 @@ function CopyButton({
       type="button"
       className={cn(
         buttonVariants({
-          color: 'ghost',
-          className: 'transition-all group-hover:opacity-100',
+          color: "ghost",
+          className: "transition-all group-hover:opacity-100",
         }),
-        !checked && 'opacity-0',
+        !checked && "opacity-0",
         className,
       )}
       aria-label="Copy Text"
@@ -155,12 +151,12 @@ function CopyButton({
       {...props}
     >
       <Check
-        className={cn('size-3.5 transition-transform', !checked && 'scale-0')}
+        className={cn("size-3.5 transition-transform", !checked && "scale-0")}
       />
       <Copy
         className={cn(
-          'absolute size-3.5 transition-transform',
-          checked && 'scale-0',
+          "absolute size-3.5 transition-transform",
+          checked && "scale-0",
         )}
       />
     </button>

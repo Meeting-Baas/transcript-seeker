@@ -1,5 +1,5 @@
-import { fetchCalendarEvents } from '@/lib/meetingbaas';
 import type { ExtendedCalendarBaasEvent } from '@/types/calendar';
+import { fetchCalendarEvents } from '@/lib/meetingbaas';
 import useSWR from 'swr';
 
 import type { CalendarBaasData } from '@meeting-baas/shared';

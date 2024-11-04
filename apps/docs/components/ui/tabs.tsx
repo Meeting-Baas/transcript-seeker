@@ -1,6 +1,6 @@
-import * as TabsPrimitive from '@radix-ui/react-tabs';
-import * as React from 'react';
-import { cn } from '../../lib/cn';
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import * as React from "react";
+import { cn } from "../../lib/cn";
 
 const Tabs = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Root>,
@@ -11,14 +11,14 @@ const Tabs = React.forwardRef<
       ref={ref}
       {...props}
       className={cn(
-        'flex flex-col overflow-hidden rounded-xl border bg-fd-card',
+        "flex flex-col overflow-hidden rounded-xl border bg-fd-card",
         props.className,
       )}
     />
   );
 });
 
-Tabs.displayName = 'Tabs';
+Tabs.displayName = "Tabs";
 
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
@@ -28,12 +28,12 @@ const TabsList = React.forwardRef<
     ref={ref}
     {...props}
     className={cn(
-      'flex flex-row items-end gap-4 overflow-x-auto bg-fd-secondary px-4 text-fd-muted-foreground',
+      "flex flex-row items-end gap-4 overflow-x-auto bg-fd-secondary px-4 text-fd-muted-foreground",
       props.className,
     )}
   />
 ));
-TabsList.displayName = 'TabsList';
+TabsList.displayName = "TabsList";
 
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
@@ -43,12 +43,12 @@ const TabsTrigger = React.forwardRef<
     ref={ref}
     {...props}
     className={cn(
-      'whitespace-nowrap border-b border-transparent py-2 text-sm font-medium transition-colors hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-fd-primary data-[state=active]:text-fd-primary',
+      "whitespace-nowrap border-b border-transparent py-2 text-sm font-medium transition-colors hover:text-fd-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-fd-primary data-[state=active]:text-fd-primary",
       props.className,
     )}
   />
 ));
-TabsTrigger.displayName = 'TabsTrigger';
+TabsTrigger.displayName = "TabsTrigger";
 
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
@@ -57,9 +57,9 @@ const TabsContent = React.forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     {...props}
-    className={cn('p-4', props.className)}
+    className={cn("p-4", props.className)}
   />
 ));
-TabsContent.displayName = 'TabsContent';
+TabsContent.displayName = "TabsContent";
 
 export { Tabs, TabsList, TabsTrigger, TabsContent };

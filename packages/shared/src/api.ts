@@ -166,7 +166,7 @@ export async function createCalendar({
       url,
       {
         platform: platform,
-        calendarId: calendarId
+        calendarId: calendarId,
       },
       {
         headers: {

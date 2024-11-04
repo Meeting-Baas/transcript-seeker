@@ -5,9 +5,9 @@ import { joinMeeting } from '@/lib/meetingbaas';
 import { createMeeting } from '@/queries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useNavigate } from 'react-router-dom';
 
 import { DEFAULT_BOT_IMAGE, DEFAULT_BOT_NAME, DEFAULT_ENTRY_MESSAGE } from '@meeting-baas/shared';
 import { Button } from '@meeting-baas/ui/button';

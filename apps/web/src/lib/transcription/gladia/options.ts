@@ -1,8 +1,9 @@
-import * as z from "zod";
-import { ZodProvider } from "@autoform/zod";
-import { buildZodFieldConfig } from "@autoform/react";
-import type { FieldTypes } from "@meeting-baas/ui/autoform";
-import { AutoForm } from "@meeting-baas/ui/autoform"; // use any UI library
+import { buildZodFieldConfig } from '@autoform/react';
+import { ZodProvider } from '@autoform/zod';
+import * as z from 'zod';
+
+import type { FieldTypes } from '@meeting-baas/ui/autoform';
+import { AutoForm } from '@meeting-baas/ui/autoform'; // use any UI library
 
 const fieldConfig = buildZodFieldConfig<
   FieldTypes,

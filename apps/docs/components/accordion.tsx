@@ -1,35 +1,35 @@
-'use client';
+"use client";
 
-import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import type {
   AccordionMultipleProps,
   AccordionSingleProps,
-} from '@radix-ui/react-accordion';
-import { Check, ChevronRight, LinkIcon } from 'lucide-react';
+} from "@radix-ui/react-accordion";
+import { Check, ChevronRight, LinkIcon } from "lucide-react";
 import {
   forwardRef,
   type ComponentPropsWithoutRef,
   useState,
   useEffect,
-} from 'react';
-import { cn } from '../lib/cn';
-import { useCopyButton } from '../lib/use-copy-button';
-import { buttonVariants } from './ui/button';
+} from "react";
+import { cn } from "../lib/cn";
+import { useCopyButton } from "../lib/use-copy-button";
+import { buttonVariants } from "./ui/button";
 
 export const Accordions = forwardRef<
   HTMLDivElement,
-  | Omit<AccordionSingleProps, 'value' | 'onValueChange'>
-  | Omit<AccordionMultipleProps, 'value' | 'onValueChange'>
->(({ type = 'single', className, defaultValue, ...props }, ref) => {
+  | Omit<AccordionSingleProps, "value" | "onValueChange">
+  | Omit<AccordionMultipleProps, "value" | "onValueChange">
+>(({ type = "single", className, defaultValue, ...props }, ref) => {
   const [value, setValue] = useState<string | string[]>(
-    type === 'single' ? (defaultValue ?? '') : (defaultValue ?? []),
+    type === "single" ? (defaultValue ?? "") : (defaultValue ?? []),
   );
 
   useEffect(() => {
     const id = window.location.hash.substring(1);
 
     if (id.length > 0)
-      setValue((prev) => (typeof prev === 'string' ? id : [id, ...prev]));
+      setValue((prev) => (typeof prev === "string" ? id : [id, ...prev]));
   }, []);
 
   return (
@@ -39,9 +39,9 @@ export const Accordions = forwardRef<
       ref={ref}
       value={value}
       onValueChange={setValue}
-      collapsible={type === 'single' ? true : undefined}
+      collapsible={type === "single" ? true : undefined}
       className={cn(
-        'divide-y divide-fd-border overflow-hidden rounded-lg border bg-fd-card',
+        "divide-y divide-fd-border overflow-hidden rounded-lg border bg-fd-card",
         className,
       )}
       {...props}
@@ -49,11 +49,11 @@ export const Accordions = forwardRef<
   );
 });
 
-Accordions.displayName = 'Accordions';
+Accordions.displayName = "Accordions";
 
 export const Accordion = forwardRef<
   HTMLDivElement,
-  Omit<ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>, 'value'> & {
+  Omit<ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>, "value"> & {
     title: string;
   }
 >(({ title, className, id, children, ...props }, ref) => {
@@ -62,7 +62,7 @@ export const Accordion = forwardRef<
       ref={ref}
       // Use `id` instead if presents
       value={id ?? title}
-      className={cn('group/accordion relative scroll-m-20', className)}
+      className={cn("group/accordion relative scroll-m-20", className)}
       {...props}
     >
       <AccordionPrimitive.Header
@@ -96,8 +96,8 @@ function CopyButton({ id }: { id: string }): React.ReactElement {
       aria-label="Copy Link"
       className={cn(
         buttonVariants({
-          color: 'ghost',
-          className: 'text-fd-muted-foreground me-2',
+          color: "ghost",
+          className: "text-fd-muted-foreground me-2",
         }),
       )}
       onClick={onClick}
@@ -111,4 +111,4 @@ function CopyButton({ id }: { id: string }): React.ReactElement {
   );
 }
 
-Accordion.displayName = 'Accordion';
+Accordion.displayName = "Accordion";

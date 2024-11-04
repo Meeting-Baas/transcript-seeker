@@ -1,10 +1,10 @@
-import { format, parseISO, isSameMonth, isSameYear } from 'date-fns'
+import { format, isSameMonth, isSameYear, parseISO } from 'date-fns';
 
 // Utility function to format month
-const getMonthFormat = (date, locale) => format(date, 'MMMM', { locale })
+const getMonthFormat = (date, locale) => format(date, 'MMMM', { locale });
 
 // Utility function to format year
-const getYearFormat = (date, locale) => format(date, 'yyyy', { locale })
+const getYearFormat = (date, locale) => format(date, 'yyyy', { locale });
 
 // Main function to get the month and year range
 export const getMonthAndYearForDateRange = (date, rangeStart, rangeEnd, locale) => {
@@ -25,4 +25,4 @@ export const getMonthAndYearForDateRange = (date, rangeStart, rangeEnd, locale) 
   } else {
     return `${startMonth} ${startYear} – ${endMonth} ${endYear}`;
   }
-}
+};

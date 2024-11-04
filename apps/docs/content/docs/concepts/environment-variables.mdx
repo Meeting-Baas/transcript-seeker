@@ -7,8 +7,8 @@ icon: Variable
 import { File, Folder, Files } from "@/components/files";
 import { Step, Steps } from "@/components/steps";
 
-Let's learn how to configure environment variables for Transcript Seeker. 
-Transcript Seeker uses `dotenv-cli` to load the environment variables, making it easy for development. 
+Let's learn how to configure environment variables for Transcript Seeker.
+Transcript Seeker uses `dotenv-cli` to load the environment variables, making it easy for development.
 Transcript Seeker follows this structure for different environments:
 
 - `.env.development.local` for development
@@ -51,6 +51,7 @@ Create a `.env.development.local` file in the below directory of your project an
     <Folder name="ui" defaultOpen>
       <File name="..." />
     </Folder>
+
   </Folder>
   <Folder name="tooling">
     <Folder name="eslint" defaultOpen>
@@ -69,6 +70,7 @@ Create a `.env.development.local` file in the below directory of your project an
         <Folder name="typescript" defaultOpen>
       <File name="..." />
     </Folder>
+
   </Folder>
   <File name=".env.development.local" className="bg-fd-accent" />
   <File name="package.json" />
@@ -150,6 +152,7 @@ Create a `.env.development.local` file in the below directory of your project an
     <Folder name="ui" defaultOpen>
       <File name="..." />
     </Folder>
+
   </Folder>
   <Folder name="tooling">
     <Folder name="eslint" defaultOpen>
@@ -168,11 +171,11 @@ Create a `.env.development.local` file in the below directory of your project an
         <Folder name="typescript" defaultOpen>
       <File name="..." />
     </Folder>
+
   </Folder>
   <File name=".env.development.local" />
   <File name="package.json" />
 </Files>
-
 
 <Steps>
 <Step>
@@ -184,6 +187,7 @@ These values are used by the api to figure out the api url for baas servers.
 MEETINGBAAS_API_URL="https://api.meeting-baas.com"
 MEETINGBAAS_S3_URL="https://s3.eu-west-3.amazonaws.com/meeting-baas-video"
 ```
+
 </Step>
 </Steps>
 
@@ -216,6 +220,7 @@ Create a `.env.development.local` file in the below directory of your project an
     <Folder name="ui" defaultOpen>
       <File name="..." />
     </Folder>
+
   </Folder>
   <Folder name="tooling">
     <Folder name="eslint" defaultOpen>
@@ -234,6 +239,7 @@ Create a `.env.development.local` file in the below directory of your project an
         <Folder name="typescript" defaultOpen>
       <File name="..." />
     </Folder>
+
   </Folder>
   <File name=".env.development.local" />
   <File name="package.json" />
@@ -249,6 +255,7 @@ These values are used by the api to figure out the api url for baas servers.
 MEETINGBAAS_API_URL="https://api.meeting-baas.com"
 MEETINGBAAS_S3_URL="https://s3.eu-west-3.amazonaws.com/meeting-baas-video"
 ```
+
 </Step>
 
 <Step>
@@ -260,6 +267,7 @@ These values are used by the api to perform google authentication. Please follow
 GOOGLE_CLIENT_ID=""
 GOOGLE_CLIENT_SECRET=""
 ```
+
 </Step>
 
 <Step>
@@ -271,6 +279,7 @@ These values are used by the api to store user autehtncation data. Please follow
 TURSO_DATABASE_URL=""
 TURSO_AUTH_TOKEN=""
 ```
+
 </Step>
 
 <Step>
@@ -281,6 +290,7 @@ BETTER_AUTH_SECRET=""
 BETTER_AUTH_URL="http://localhost:3001"
 BETTER_AUTH_TRUSTED_ORIGINS="http://localhost:5173"
 ```
+
 </Step>
 
 </Steps>

@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
-import { type OramaDocument } from 'fumadocs-core/search/orama-cloud';
-import { source } from '@/lib/source';
- 
+import { NextResponse } from "next/server";
+import { type OramaDocument } from "fumadocs-core/search/orama-cloud";
+import { source } from "@/lib/source";
+
 export const revalidate = false;
- 
+
 export function GET() {
   const results: OramaDocument[] = [];
- 
+
   for (const page of source.getPages()) {
     results.push({
       id: page.url,
@@ -16,6 +16,6 @@ export function GET() {
       description: page.data.description,
     });
   }
- 
+
   return NextResponse.json(results);
 }

@@ -1,6 +1,4 @@
-import {
-  RocketIcon,
-} from "lucide-react";
+import { RocketIcon } from "lucide-react";
 
 import { Hero } from "@/app/(home)/_components/hero";
 import { Testimonials } from "@/app/(home)/_components/testimonials";

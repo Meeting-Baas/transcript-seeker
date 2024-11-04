@@ -1,5 +1,8 @@
 'use client';
 
+import type { CalendarEvent } from '@/types/schedulex';
+import { format } from 'date-fns';
+
 import { Button } from '@meeting-baas/ui/button';
 import {
   Dialog,
@@ -9,8 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@meeting-baas/ui/dialog';
-import type { CalendarEvent } from '@/types/schedulex';
-import { format } from 'date-fns';
 
 interface EventModalProps {
   event: CalendarEvent | null;
