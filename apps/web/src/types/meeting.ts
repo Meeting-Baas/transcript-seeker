@@ -13,7 +13,7 @@ export interface Meeting {
     video_blob: Blob | null;
   };
   // editorContent?: JSONContent;
-  endedAt: Date | null;
+  endedAt?: Date | null;
   createdAt: Date;
   updatedAt?: Date | null;
   status: 'loaded' | 'loading' | 'error';

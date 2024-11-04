@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes } from "react";
+import type {ButtonHTMLAttributes} from "react";
 import { SearchIcon } from "lucide-react";
 import { useSearchContext } from "fumadocs-ui/provider";
 import { useI18n } from "fumadocs-ui/provider";

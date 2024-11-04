@@ -23,16 +23,16 @@ export type InsertAPIKey = typeof apiKeysTable.$inferInsert;
 export type SelectAPIKey = typeof apiKeysTable.$inferSelect;
 
 // New types for manually saving Google OAuth credentials
-export type GoogleOAuthCredentials = {
+export interface GoogleOAuthCredentials {
   clientId: string;
   clientSecret: string;
   refreshToken: string;
-};
+}
 
-export type SaveGoogleOAuthCredentialsParams = {
+export interface SaveGoogleOAuthCredentialsParams {
   userId: string;
   credentials: GoogleOAuthCredentials;
-};
+}
 
 export const meetingTypeEnum = pgEnum('meeting_type', ['meetingbaas', 'local']);
 export const meetingStatusEnum = pgEnum('meeting_status', ['loaded', 'loading', 'error']);

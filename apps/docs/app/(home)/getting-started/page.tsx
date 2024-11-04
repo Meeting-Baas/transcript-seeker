@@ -1,5 +1,6 @@
 import { Building2, CloudIcon, LibraryIcon } from "lucide-react";
-import Link, { type LinkProps } from "next/link";
+import Link from "next/link";
+import type {LinkProps} from "next/link";
 import Image from "next/image";
 import { buttonVariants } from "@meeting-baas/ui/button";
 import { cn } from "@/lib/cn";

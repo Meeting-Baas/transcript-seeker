@@ -1,6 +1,7 @@
 "use client";
 
-import { type HTMLAttributes, useCallback, useEffect, useState } from "react";
+import {  useCallback, useEffect, useState } from "react";
+import type {HTMLAttributes} from "react";
 import { X } from "lucide-react";
 import { cn } from "../lib/cn";
 import { buttonVariants } from "./ui/button";

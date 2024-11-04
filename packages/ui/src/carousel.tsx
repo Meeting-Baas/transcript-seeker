@@ -13,12 +13,12 @@ type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
-type CarouselProps = {
+interface CarouselProps {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
   setApi?: (api: CarouselApi) => void;
-};
+}
 
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
@@ -103,7 +103,7 @@ const Carousel = React.forwardRef<
     api.on('select', onSelect);
 
     return () => {
-      api?.off('select', onSelect);
+      api.off('select', onSelect);
     };
   }, [api, onSelect]);
 

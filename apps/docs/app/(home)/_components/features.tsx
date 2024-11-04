@@ -1,9 +1,10 @@
 import {
   BookIcon,
   CaptionsIcon,
-  FishIcon,
-  type LucideIcon,
+  FishIcon
+  
 } from "lucide-react";
+import type {LucideIcon} from "lucide-react";
 import { CpuIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import type { HTMLAttributes, ReactNode } from "react";

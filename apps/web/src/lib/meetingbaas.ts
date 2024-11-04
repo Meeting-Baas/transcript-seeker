@@ -12,6 +12,7 @@ import type {
   JoinMeetingParams,
   LeaveMeetingParams,
   MeetingData,
+  ScheduleCalendarEventParams,
 } from '@meeting-baas/shared';
 import * as MeetingBaas from '@meeting-baas/shared';
 
@@ -93,6 +94,38 @@ export const createCalendar = async ({
   });
 
   const data: CalendarBaasData[] | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
+};
+
+interface ScheduleCalendarEventProps extends Omit<ScheduleCalendarEventParams, 'proxyUrl'> {}
+
+export const scheduleCalendarEvent = async ({
+  ...params
+}: ScheduleCalendarEventProps): Promise<CalendarBaasEvent | null> => {
+  const response = await MeetingBaas.scheduleCalendarEvent({
+    proxyUrl: VITE_API_URL,
+    ...params,
+  });
+
+  const data: CalendarBaasEvent | undefined | null = response.data;
+
+  if (!data) return null;
+  return data;
+};
+
+interface UnScheduleCalendarEventProps extends Omit<ScheduleCalendarEventParams, 'proxyUrl'> {}
+
+export const unScheduleCalendarEvent = async ({
+  ...params
+}: UnScheduleCalendarEventProps): Promise<CalendarBaasEvent | null> => {
+  const response = await MeetingBaas.unScheduleCalendarEvent({
+    proxyUrl: VITE_API_URL,
+    ...params,
+  });
+
+  const data: CalendarBaasEvent | undefined | null = response.data;
 
   if (!data) return null;
   return data;

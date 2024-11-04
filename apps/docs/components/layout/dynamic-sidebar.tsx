@@ -1,15 +1,17 @@
 "use client";
 import {
-  type PointerEventHandler,
-  type ReactElement,
+  
+  
   useCallback,
   useMemo,
   useRef,
-  useState,
+  useState
 } from "react";
+import type {PointerEventHandler, ReactElement} from "react";
 import { SidebarIcon } from "lucide-react";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
-import { Sidebar, type SidebarProps } from "./sidebar";
+import { Sidebar  } from "./sidebar";
+import type {SidebarProps} from "./sidebar";
 import { cn } from "../../lib/cn";
 import { buttonVariants } from "../ui/button";
 import { useSidebar } from "fumadocs-ui/provider";

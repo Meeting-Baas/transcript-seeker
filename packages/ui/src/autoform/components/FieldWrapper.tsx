@@ -1,5 +1,5 @@
 import React from 'react';
-import { FieldWrapperProps } from '@autoform/react';
+import type { FieldWrapperProps } from '@autoform/react';
 
 import { Label } from '@meeting-baas/ui/label';
 

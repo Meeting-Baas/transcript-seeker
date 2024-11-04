@@ -8,10 +8,11 @@ import type {
 import { Check, ChevronRight, LinkIcon } from "lucide-react";
 import {
   forwardRef,
-  type ComponentPropsWithoutRef,
+  
   useState,
-  useEffect,
+  useEffect
 } from "react";
+import type {ComponentPropsWithoutRef} from "react";
 import { cn } from "../lib/cn";
 import { useCopyButton } from "../lib/use-copy-button";
 import { buttonVariants } from "./ui/button";

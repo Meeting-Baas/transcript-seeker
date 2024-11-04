@@ -2,9 +2,10 @@ import {
   BotIcon,
   CaptionsIcon,
   DatabaseZapIcon,
-  type LucideIcon,
-  UploadCloudIcon,
+  
+  UploadCloudIcon
 } from "lucide-react";
+import type {LucideIcon} from "lucide-react";
 import { KeyboardIcon, RocketIcon } from "lucide-react";
 import type { ReactNode } from "react";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrayWrapperProps } from '@autoform/react';
+import type { ArrayWrapperProps } from '@autoform/react';
 import { PlusIcon } from 'lucide-react';
 
 import { Button } from '@meeting-baas/ui/button';

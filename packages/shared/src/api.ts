@@ -10,6 +10,7 @@ export interface JoinMeetingParams {
   meetingBotImage?: string;
   meetingBotEntryMessage?: string;
   apiKey: string;
+  startTime?: number; // UTC timestamp in milliseconds
 }
 
 export interface JoinMeetingResult {
@@ -23,6 +24,7 @@ export async function joinMeeting({
   meetingBotEntryMessage,
   apiKey,
   proxyUrl,
+  startTime,
 }: JoinMeetingParams & { proxyUrl: string }): Promise<{
   data?: JoinMeetingResult;
   error?: string;
@@ -43,6 +45,7 @@ export async function joinMeeting({
         reserved: false,
         entry_message: meetingBotEntryMessage || constants.DEFAULT_ENTRY_MESSAGE,
         recording_mode: 'speaker_view',
+        start_time: startTime,
       },
       {
         headers: {
@@ -178,6 +181,93 @@ export async function createCalendar({
 
     if (response.status != 200) {
       throw new Error('Failed to create calendar');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface ScheduleCalendarEventParams {
+  apiKey: string;
+  eventId: string;
+  proxyUrl?: string;
+  botName?: string;
+  botImage?: string;
+  enterMessage?: string;
+}
+
+export interface ScheduleCalendarEventResponse {
+  data?: CalendarBaasEvent;
+  error?: string;
+}
+
+export async function scheduleCalendarEvent({
+  apiKey,
+  eventId,
+  proxyUrl,
+  botName,
+  botImage,
+  enterMessage,
+}: ScheduleCalendarEventParams): Promise<ScheduleCalendarEventResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars/calendar_events/${eventId}/bot`;
+
+    const response = await axios.post(
+      url,
+      {
+        botName,
+        bot_image: botImage,
+        enter_message: enterMessage,
+        recordingMode: 'speaker_view',
+      },
+      {
+        headers: {
+          'x-meeting-baas-api-key': apiKey,
+        },
+        withCredentials: true,
+      },
+    );
+
+    if (response.status != 200) {
+      throw new Error('Failed to schedule calendar event');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface UnScheduleCalendarEventParams {
+  apiKey: string;
+  eventId: string;
+  proxyUrl?: string;
+}
+
+export interface UnScheduleCalendarEventResponse {
+  data?: CalendarBaasEvent;
+  error?: string;
+}
+
+export async function unScheduleCalendarEvent({
+  apiKey,
+  eventId,
+  proxyUrl,
+}: UnScheduleCalendarEventParams): Promise<UnScheduleCalendarEventResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars/calendar_events/${eventId}/bot`;
+
+    const response = await axios.delete(url, {
+      headers: {
+        'x-meeting-baas-api-key': apiKey,
+      },
+      withCredentials: true,
+    });
+
+    if (response.status != 200) {
+      throw new Error('Failed to unschedule calendar event');
     }
 
     return { data: response.data };

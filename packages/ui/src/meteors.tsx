@@ -8,7 +8,7 @@ interface MeteorsProps {
   number?: number;
 }
 export const Meteors = ({ number = 20 }: MeteorsProps) => {
-  const [meteorStyles, setMeteorStyles] = useState<Array<React.CSSProperties>>([]);
+  const [meteorStyles, setMeteorStyles] = useState<React.CSSProperties[]>([]);
 
   useEffect(() => {
     const styles = [...new Array(number)].map(() => ({

@@ -118,7 +118,7 @@ export default function CalendarsPage() {
         calendars={calendars}
         isLoading={isCalendarsLoading}
         deleteCalendar={handleDeleteCalendar}
-        mutateCalendars={async () => {
+        mutate={async () => {
           await mutateCalendars();
           await mutateEvents();
         }}

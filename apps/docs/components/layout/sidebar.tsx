@@ -5,13 +5,14 @@ import * as Base from "fumadocs-core/sidebar";
 import { usePathname } from "next/navigation";
 import {
   createContext,
-  type HTMLAttributes,
+  
   memo,
-  type ReactNode,
+  
   useContext,
   useMemo,
-  useState,
+  useState
 } from "react";
+import type {HTMLAttributes, ReactNode} from "react";
 import Link from "fumadocs-core/link";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import { cn } from "../../lib/cn";

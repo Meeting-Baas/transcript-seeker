@@ -4,7 +4,7 @@ import { db } from '@/db/client';
 import { account } from '@/db/schema';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { StatusCode } from 'hono/utils/http-status';
+import type { StatusCode } from 'hono/utils/http-status';
 
 const calendars = new Hono<Bindings>();
 calendars.use(
@@ -141,14 +141,80 @@ calendars.get('/calendar_events', async (c) => {
   return c.json(calendar_events);
 });
 
-export default calendars;
+calendars.post('/calendar_events/:eventId/bot', async (c) => {
+  const baasApiKey = c.req.header('x-meeting-baas-api-key');
+  const eventId = c.req.param('eventId');
+  if (!baasApiKey || !eventId) return c.body(null, 401);
 
-// const calendar = google.calendar({version: 'v3', auth});
-//   const res = await calendar.events.list({
-//     calendarId: 'primary',
-//     timeMin: new Date().toISOString(),
-//     maxResults: 10,
-//     singleEvents: true,
-//     orderBy: 'startTime',
-//   });
-//   const events = res.data.items;
+  const user = c.get('user');
+  if (!user) return c.body(null, 401);
+
+  const userAccount = await db.query.account.findFirst({
+    where: eq(account.userId, user.id),
+  });
+  if (!userAccount) return c.body(null, 401);
+
+  const body = await c.req.json();
+  const response = await fetch(
+    `${process.env.MEETINGBAAS_API_URL}/calendar_events/${eventId}/bot`,
+    {
+      method: 'POST',
+      headers: {
+        'x-meeting-baas-api-key': baasApiKey,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        bot_name: body.botName,
+        bot_image: body.botImageUrl,
+        speech_to_text: {
+          provider: 'Default',
+        },
+        enter_message: body.enterMessage,
+        recording_mode: 'speaker_view',
+      }),
+    },
+  );
+
+  if (response.status != 200) {
+    console.log('error, failed to create calendar:', await response.text());
+    return c.body(null, 500);
+  }
+
+  const calendars = (await response.json()) as JSON;
+  return c.json(calendars);
+});
+
+calendars.delete('/calendar_events/:eventId/bot', async (c) => {
+  const baasApiKey = c.req.header('x-meeting-baas-api-key');
+  const eventId = c.req.param('eventId');
+  if (!baasApiKey || !eventId) return c.body(null, 401);
+
+  const user = c.get('user');
+  if (!user) return c.body(null, 401);
+
+  const userAccount = await db.query.account.findFirst({
+    where: eq(account.userId, user.id),
+  });
+  if (!userAccount) return c.body(null, 401);
+
+  const response = await fetch(
+    `${process.env.MEETINGBAAS_API_URL}/calendar_events/${eventId}/bot`,
+    {
+      method: 'DELETE',
+      headers: {
+        'x-meeting-baas-api-key': baasApiKey,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  if (response.status != 200) {
+    console.log('error, failed to create calendar:', await response.text());
+    return c.body(null, 500);
+  }
+
+  const calendars = (await response.json()) as JSON;
+  return c.json(calendars);
+});
+
+export default calendars;
