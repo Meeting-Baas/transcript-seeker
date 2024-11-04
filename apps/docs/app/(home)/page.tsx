@@ -30,6 +30,7 @@ import { buttonVariants } from "@meeting-baas/ui/button";
 import Img from "@/app/(home)/hero.png";
 import { AspectRatio } from "@meeting-baas/ui/aspect-ratio";
 import Meteors from "@meeting-baas/ui/meteors";
+import CalendarLanding from "./components/calendar";
 
 export default function Page(): React.ReactElement {
   return (
@@ -229,29 +230,7 @@ function Features(): React.ReactElement {
         description="Integrate MeetingBaas Calendars for seamless meeting management within Transcript Seeker."
       >
         <div className="mt-8 flex flex-col gap-4">
-          <Link
-            href="/docs/concepts/architecture"
-            className="rounded-xl bg-gradient-to-br from-transparent via-fd-primary p-px shadow-lg shadow-fd-primary/20"
-          >
-            <div className="rounded-[inherit] bg-fd-background bg-gradient-to-br from-transparent via-fd-primary/10 p-4 transition-colors hover:bg-fd-muted">
-              <LayoutIcon />
-              <h3 className="font-semibold">Calendar Integration</h3>
-              <p className="text-sm text-fd-muted-foreground">
-                Manage meetings and schedules directly within Transcript Seeker.
-              </p>
-            </div>
-          </Link>
-          <Link
-            href="/docs/"
-            className="rounded-xl border bg-fd-background p-4 shadow-lg transition-colors hover:bg-fd-muted"
-          >
-            <LibraryIcon />
-            <h3 className="font-semibold">Documentation</h3>
-            <p className="text-sm text-fd-muted-foreground">
-              Extensive documentation to help you make the most of Transcript
-              Seeker’s integration capabilities.
-            </p>
-          </Link>
+          <CalendarLanding />
         </div>
       </Feature>
     </div>

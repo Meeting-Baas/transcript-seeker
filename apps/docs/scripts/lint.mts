@@ -30,6 +30,7 @@ async function checkLinks() {
 
   const scanned = await scanURLs({
     populate: {
+      // @ts-expect-error
       "docs/[...slug]": docsFiles.map(async (file) => {
         const info = parseFilePath(path.relative("content/docs", file.path));
         const toc = await getTableOfContents(file.content);
