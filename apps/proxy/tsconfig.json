@@ -1,0 +1,4 @@
+{
+  "extends": ["@meeting-baas/tsconfig/base.json", "./.nitro/types/tsconfig.json"],
+  "exclude": ["node_modules", "build", "dist"]
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "sql": [
+      "CREATE TYPE \"public\".\"api_key_type\" AS ENUM('meetingbaas', 'gladia', 'openai', 'assemblyai');",
+      "\nCREATE TYPE \"public\".\"meeting_status\" AS ENUM('loaded', 'loading', 'error');",
+      "\nCREATE TYPE \"public\".\"meeting_type\" AS ENUM('meetingbaas', 'local');",
+      "\nCREATE TABLE IF NOT EXISTS \"api_keys\" (\n\t\"id\" serial NOT NULL,\n\t\"type\" \"api_key_type\",\n\t\"content\" text\n);\n",
+      "\nCREATE TABLE IF NOT EXISTS \"editors\" (\n\t\"id\" serial NOT NULL,\n\t\"meeting_id\" serial NOT NULL,\n\t\"content\" jsonb DEFAULT '{}'::jsonb NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n",
+      "\nCREATE TABLE IF NOT EXISTS \"meetings\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"name\" text NOT NULL,\n\t\"type\" \"meeting_type\" NOT NULL,\n\t\"status\" \"meeting_status\" NOT NULL,\n\t\"bot_id\" text NOT NULL,\n\t\"attendees\" text[] DEFAULT '{}'::text[] NOT NULL,\n\t\"transcripts\" jsonb DEFAULT '[]'::jsonb NOT NULL,\n\t\"assets\" jsonb DEFAULT '{\"video_url\":null,\"video_blob\":null}'::jsonb NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n"
+    ],
+    "bps": true,
+    "folderMillis": 1729493920869,
+    "hash": "2005d8b0907ba00bbad9b4668cd847cd3cf4b663b46abeed1fbc08a0b5de7939"
+  },
+  {
+    "sql": [
+      "CREATE TABLE IF NOT EXISTS \"chats\" (\n\t\"id\" serial NOT NULL,\n\t\"meeting_id\" serial NOT NULL,\n\t\"messages\" jsonb DEFAULT '[]'::jsonb NOT NULL,\n\t\"created_at\" timestamp DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone\n);\n"
+    ],
+    "bps": true,
+    "folderMillis": 1729500958186,
+    "hash": "e716adf4251229331fa18bc242e6e69cfe5ec18bf0b3cb4eaa99c55de9ec9ec8"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"chats\" ALTER COLUMN \"created_at\" SET DATA TYPE timestamp with time zone;",
+      "\nALTER TABLE \"editors\" ALTER COLUMN \"created_at\" SET DATA TYPE timestamp with time zone;",
+      "\nALTER TABLE \"meetings\" ALTER COLUMN \"created_at\" SET DATA TYPE timestamp with time zone;"
+    ],
+    "bps": true,
+    "folderMillis": 1729509307792,
+    "hash": "0b1ac9c255f8b9ac6510add02fd22816eed7904f5d738ab2b88aca4f2c6c0f67"
+  },
+  {
+    "sql": ["ALTER TABLE \"meetings\" ADD COLUMN \"ended_at\" timestamp with time zone;"],
+    "bps": true,
+    "folderMillis": 1729608302746,
+    "hash": "f091a137aaa4093a475ce6eea0e7631f9ca9731b71ff56c85669612691c7fd48"
+  },
+  {
+    "sql": [
+      "ALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'google-oauth-client-id' BEFORE 'gladia';",
+      "\nALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'google-oauth-client-secret' BEFORE 'gladia';",
+      "\nALTER TYPE \"public\".\"api_key_type\" ADD VALUE 'google-oauth-refresh-token' BEFORE 'gladia';"
+    ],
+    "bps": true,
+    "folderMillis": 1729681825517,
+    "hash": "7123c43ca0f1f99629b788d4015b29392b263826eb1b74e9dea9eaef5b39bbfa"
+  },
+  {
+    "sql": [
+      "ALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE text;",
+      "\nDROP TYPE \"public\".\"api_key_type\";",
+      "\nCREATE TYPE \"public\".\"api_key_type\" AS ENUM('meetingbaas', 'google-client-id', 'google-client-secret', 'google-refresh-token', 'gladia', 'openai', 'assemblyai');",
+      "\nALTER TABLE \"public\".\"api_keys\" ALTER COLUMN \"type\" SET DATA TYPE \"public\".\"api_key_type\" USING \"type\"::\"public\".\"api_key_type\";"
+    ],
+    "bps": true,
+    "folderMillis": 1729682842710,
+    "hash": "b025e9074af29db38436ec58874925bb0f194129b7fb68079e7c1d3bc308d6f3"
+  }
+]

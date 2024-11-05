@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ui {
+  --primary: var(--ui-color);
+}
+
+.headless {
+  --primary: var(--headless-color);
+}
+
+.mdx {
+  --primary: var(--mdx-color);
+}

@@ -1,0 +1,116 @@
+---
+title: Installation
+description: Learn how to configure Transcript Seeker.
+icon: Download
+---
+
+import { File, Folder, Files } from "@/components/files";
+import { Step, Steps } from "@/components/steps";
+import { Tabs, Tab } from "@/components/tabs";
+import { Callout } from "@/components/callout";
+
+<Steps>
+<Step>
+### Clone the Repo
+
+Create a new app with `create-turbo`, it requires Node.js 20+.
+
+<Tabs groupId='package-manager' persist items={['npm', 'pnpm', 'yarn']}>
+
+```bash tab="npm"
+npx create-turbo@latest -e https://github.com/Meeting-Baas/transcript-seeker
+```
+
+```bash tab="pnpm"
+pnpm dlx create-turbo@latest -e https://github.com/Meeting-Baas/transcript-seeker
+```
+
+```bash tab="yarn"
+yarn dlx create-turbo@latest -e https://github.com/Meeting-Baas/transcript-seeker
+```
+
+</Tabs>
+
+It will ask you the following questions:
+
+- Which package manager would you like to use? PNPM
+
+<Callout type="warn">
+  Use pnpm as the package manager or the installation will fail.
+</Callout>
+
+</Step>
+
+<Step>
+### Configure Environment Variables
+
+Copy the `.env.example` file to a `.env.development.local` file in the following folders within your project structure and add the necessary environment variables:
+
+To learn more about configuring the environment variables, follow this [guide](/docs/concepts/environment-variables).
+
+<Files>
+  <Folder name="apps" defaultOpen>
+    <Folder name="api" defaultOpen>
+      <File name=".env.development.local" />
+    </Folder>
+  </Folder>
+  <Folder name="apps" defaultOpen>
+    <Folder name="proxy" defaultOpen>
+      <File name=".env.development.local" />
+    </Folder>
+  </Folder>
+  <File name=".env.development.local" />
+  <File name="package.json" />
+</Files>
+
+After setting up the environment files, execute the following command to set the environment to development mode:
+
+```bash title="Terminal"
+export NODE_ENV="development"
+```
+
+</Step>
+
+<Step>
+### Run the App
+
+Now, start the development server:
+
+<Tabs groupId='package-manager' persist items={['pnpm', 'npm', 'yarn']}>
+
+```bash tab="pnpm"
+pnpm turbo run dev
+```
+
+```bash tab="npm"
+npm run dev
+```
+
+```bash tab="yarn"
+yarn run dev
+```
+
+</Tabs>
+
+<Callout> If `pnpm run dev` doesn't work, you can try the following </Callout>
+
+<Tabs groupId='package-manager' persist items={['pnpm', 'npm', 'yarn']}>
+
+```bash tab="pnpm"
+pnpm add turbo --global
+turbo dev
+```
+
+```bash tab="npm"
+npm install turbo --global
+turbo dev
+```
+
+```bash tab="yarn"
+yarn install turbo --global
+turbo dev
+```
+
+</Tabs>
+</Step>
+</Steps>

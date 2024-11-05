@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+core
 
 # Runtime data
 pids
@@ -91,6 +92,12 @@ out
 .nuxt
 dist
 
+# nitro
+.data
+.nitro
+.cache
+.output
+
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
@@ -123,9 +130,24 @@ dist
 .vscode-test
 
 # yarn v2
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
+**/.yarn/cache
+**/.yarn/unplugged
+**/.yarn/build-state.yml
+**/.yarn/install-state.gz
 .pnp.*
 .vercel
+
+dev-dist
+
+# turbo
+.turbo
+
+# firebase
+.firebase
+
+# proxy
+**/data/db
+
+# firebase functions
+**/functions/server
+# !**/functions/package.json

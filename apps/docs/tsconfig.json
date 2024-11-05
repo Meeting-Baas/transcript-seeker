@@ -1,0 +1,23 @@
+{
+  "extends": "@meeting-baas/tsconfig/base.json",
+  "compilerOptions": {
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "plugins": [{ "name": "next" }],
+    "module": "esnext"
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.mts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "next.config.js",
+    "tailwind.config.js"
+  ],
+  "exclude": ["node_modules"]
+}

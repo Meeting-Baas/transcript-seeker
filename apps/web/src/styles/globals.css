@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 17%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 17%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 17%;
+
+    --primary: 173 100% 74%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 203 65% 89%;
+    --secondary-foreground: 213 16% 27%;
+
+    --muted: 203 65% 89%;
+    --muted-foreground: 0 0% 46%;
+
+    --accent: 203 65% 89%;
+    --accent-foreground: 213 16% 27%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 200 33% 82%;
+    --input: 200 33% 82%;
+    --ring: 173 100% 74%;
+
+    --radius: 0.5rem;
+    
+    /* todo: perfect these colors */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --novel-highlight-default: 0 0% 100%;
+    --novel-highlight-purple: #f6f3f8;
+    --novel-highlight-red: #fdebeb;
+    --novel-highlight-yellow: #fbf4a2;
+    --novel-highlight-blue: #c1ecf9;
+    --novel-highlight-green: #acf79f;
+    --novel-highlight-orange: #faebdd;
+    --novel-highlight-pink: #faf1f5;
+    --novel-highlight-gray: #f1f1ef;
+  }
+
+  .dark {
+    --background: 0 0% 17%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 17%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 17%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 176 100% 43%;
+    --primary-foreground: 213 16% 27%;
+
+    --secondary: 173 8% 22%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 173 8% 22%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 173 8% 22%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 173 8% 22%;
+    --input: 173 8% 22%;
+    --ring: 197 100% 44%;
+    
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 240 5.9% 10%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --novel-highlight-default: #000000;
+    --novel-highlight-purple: #3f2c4b;
+    --novel-highlight-red: #5c1a1a;
+    --novel-highlight-yellow: #5c4b1a;
+    --novel-highlight-blue: #1a3d5c;
+    --novel-highlight-green: #1a5c20;
+    --novel-highlight-orange: #5c3a1a;
+    --novel-highlight-pink: #5c1a3a;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html,
+  body {
+    @apply h-full w-full;
+  }
+}
+
+@layer utilities {
+  .popover-content-width-full {
+    width: var(--radix-popover-trigger-width);
+    max-height: var(--radix-popover-content-available-height);
+  }
+}

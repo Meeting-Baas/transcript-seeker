@@ -1,5 +1,8 @@
 // shared/src/api.ts
-import axios from "axios";
+import axios from 'axios';
+
+import type { CalendarBaasData, CalendarBaasEvent } from './types';
+import * as constants from './constants';
 
 export interface JoinMeetingParams {
   meetingBotName?: string;
@@ -7,17 +10,12 @@ export interface JoinMeetingParams {
   meetingBotImage?: string;
   meetingBotEntryMessage?: string;
   apiKey: string;
+  startTime?: number; // UTC timestamp in milliseconds
 }
 
 export interface JoinMeetingResult {
   bot_id: string;
 }
-
-export const DEFAULT_BOT_NAME = "Baas Meeting Bot";
-export const DEFAULT_ENTRY_MESSAGE = "Hello 🐟 - recording this meeting.";
-export const DEFAULT_BOT_IMAGE =
-  "https://meetingbaas.com/static/a7d46fd33668f28baa9cbf66005489f0/a6312/preview.png";
-export const DEFAULT_SPEECH_TO_TEXT = "Gladia";
 
 export async function joinMeeting({
   meetingBotName,
@@ -26,38 +24,63 @@ export async function joinMeeting({
   meetingBotEntryMessage,
   apiKey,
   proxyUrl,
-}: JoinMeetingParams & { proxyUrl?: string }): Promise<{
+  startTime,
+}: JoinMeetingParams & { proxyUrl: string }): Promise<{
   data?: JoinMeetingResult;
   error?: string;
 }> {
   try {
-    const url = proxyUrl
-      ? `${proxyUrl}/bots`
-      : (process.env.VITE_MEETINGBASS_API_URL ??
-          "https://api.meetingbaas.com") + "/bots";
+    const url = `${proxyUrl}/api/meetingbaas/bots`;
 
     const response = await axios.post(
       url,
       {
         meeting_url: meetingURL,
-        bot_name: meetingBotName || DEFAULT_BOT_NAME,
-        entry_message: meetingBotEntryMessage || DEFAULT_ENTRY_MESSAGE,
-        bot_image: meetingBotImage || DEFAULT_BOT_IMAGE,
-        speech_to_text: "Gladia",
+        bot_name: meetingBotName || constants.DEFAULT_BOT_NAME,
+        bot_image: meetingBotImage || constants.DEFAULT_BOT_IMAGE,
+        speech_to_text: {
+          provider: 'Default',
+          api_key: null,
+        },
         reserved: false,
+        entry_message: meetingBotEntryMessage || constants.DEFAULT_ENTRY_MESSAGE,
+        recording_mode: 'speaker_view',
+        start_time: startTime,
       },
       {
         headers: {
-          "x-spoke-api-key": apiKey,
+          'x-meeting-baas-api-key': apiKey,
         },
+        withCredentials: true,
       },
     );
 
-    console.log(`New bot created, with id: ${response.data?.bot_id}`);
     return { data: response.data };
   } catch (error: any) {
-    console.error("Error joining meeting:", error);
-    return { error: error.message || "Unknown error" };
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface LeaveMeetingParams {
+  botId: string;
+  apiKey: string;
+  proxyUrl?: string;
+}
+
+export async function leaveMeeting({ botId, apiKey, proxyUrl }: LeaveMeetingParams) {
+  try {
+    const url = `${proxyUrl}/api/meetingbaas/bots/${botId}`;
+
+    const response = await axios.delete(url, {
+      headers: {
+        'x-meeting-baas-api-key': apiKey,
+      },
+      withCredentials: true,
+    });
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
   }
 }
 
@@ -66,29 +89,277 @@ export interface BotDetailsParams {
   apiKey: string;
   proxyUrl?: string;
 }
-export async function fetchBotDetails({
-  botId,
-  apiKey,
-  proxyUrl,
-}: BotDetailsParams) {
+
+export async function fetchBotDetails({ botId, apiKey, proxyUrl }: BotDetailsParams) {
   try {
-    const url = proxyUrl
-      ? proxyUrl
-      : "https://api.meetingbaas.com/bots/meeting_data";
+    const url = `${proxyUrl}/api/meetingbaas/bots/meeting_data`;
 
     const response = await axios.get(url, {
       params: {
         bot_id: botId,
       },
       headers: {
-        "x-spoke-api-key": apiKey,
+        'x-meeting-baas-api-key': apiKey,
       },
+      withCredentials: true,
     });
 
-    console.log(`bot details fetched, with id: ${response.data?.id}`);
     return { data: response.data };
   } catch (error: any) {
-    console.error("Error fetching meeting:", error);
-    return { error: error.message || "Unknown error" };
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface FetchCalendarsParams {
+  apiKey: string;
+  proxyUrl?: string;
+}
+
+export interface FetchCalendarsResponse {
+  data?: CalendarBaasData[];
+  error?: string;
+}
+
+export async function fetchCalendars({
+  apiKey,
+  proxyUrl,
+}: FetchCalendarsParams): Promise<FetchCalendarsResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars`;
+
+    const response = await axios.get(url, {
+      headers: {
+        'x-meeting-baas-api-key': apiKey,
+      },
+      withCredentials: true,
+    });
+
+    if (response.status != 200) {
+      throw new Error('Failed to fetch calendar');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface CreateCalendarParams {
+  platform: 'Google';
+  apiKey: string;
+  calendarId: string;
+  proxyUrl?: string;
+}
+
+export interface CreateCalendarResponse {
+  data?: CalendarBaasData[];
+  error?: string;
+}
+
+export async function createCalendar({
+  platform,
+  apiKey,
+  calendarId,
+  proxyUrl,
+}: CreateCalendarParams): Promise<CreateCalendarResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars`;
+
+    const response = await axios.post(
+      url,
+      {
+        platform: platform,
+        calendarId: calendarId,
+      },
+      {
+        headers: {
+          'x-meeting-baas-api-key': apiKey,
+        },
+        withCredentials: true,
+      },
+    );
+
+    if (response.status != 200) {
+      throw new Error('Failed to create calendar');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface ScheduleCalendarEventParams {
+  apiKey: string;
+  eventId: string;
+  proxyUrl?: string;
+  botName?: string;
+  botImage?: string;
+  enterMessage?: string;
+}
+
+export interface ScheduleCalendarEventResponse {
+  data?: CalendarBaasEvent;
+  error?: string;
+}
+
+export async function scheduleCalendarEvent({
+  apiKey,
+  eventId,
+  proxyUrl,
+  botName,
+  botImage,
+  enterMessage,
+}: ScheduleCalendarEventParams): Promise<ScheduleCalendarEventResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars/calendar_events/${eventId}/bot`;
+
+    const response = await axios.post(
+      url,
+      {
+        botName,
+        bot_image: botImage,
+        enter_message: enterMessage,
+        recordingMode: 'speaker_view',
+      },
+      {
+        headers: {
+          'x-meeting-baas-api-key': apiKey,
+        },
+        withCredentials: true,
+      },
+    );
+
+    if (response.status != 200) {
+      throw new Error('Failed to schedule calendar event');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface UnScheduleCalendarEventParams {
+  apiKey: string;
+  eventId: string;
+  proxyUrl?: string;
+}
+
+export interface UnScheduleCalendarEventResponse {
+  data?: CalendarBaasEvent;
+  error?: string;
+}
+
+export async function unScheduleCalendarEvent({
+  apiKey,
+  eventId,
+  proxyUrl,
+}: UnScheduleCalendarEventParams): Promise<UnScheduleCalendarEventResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars/calendar_events/${eventId}/bot`;
+
+    const response = await axios.delete(url, {
+      headers: {
+        'x-meeting-baas-api-key': apiKey,
+      },
+      withCredentials: true,
+    });
+
+    if (response.status != 200) {
+      throw new Error('Failed to unschedule calendar event');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface DeleteCalendarParams {
+  calendarId: string;
+  apiKey: string;
+  proxyUrl?: string;
+}
+
+export interface DeleteCalendarResponse {
+  data?: { statusCode: number };
+  error?: string;
+}
+
+export async function deleteCalendar({
+  calendarId,
+  apiKey,
+  proxyUrl,
+}: DeleteCalendarParams): Promise<DeleteCalendarResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars`;
+
+    const response = await axios.delete(url, {
+      params: {
+        calendarId: calendarId,
+      },
+      headers: {
+        'x-meeting-baas-api-key': apiKey,
+      },
+      withCredentials: true,
+    });
+
+    if (response.status != 200) {
+      throw new Error('Failed to delete calendar');
+    }
+
+    return {
+      data: {
+        statusCode: response.status,
+      },
+    };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
+  }
+}
+
+export interface FetchCalendarEventsParams {
+  calendarId: string;
+  offset: number;
+  limit: number;
+  apiKey: string;
+  proxyUrl?: string;
+}
+
+export interface FetchCalendarEventsResponse {
+  data?: CalendarBaasEvent[];
+  error?: string;
+}
+
+export async function fetchCalendarEvents({
+  calendarId,
+  offset = 0,
+  limit = 100,
+  apiKey,
+  proxyUrl,
+}: FetchCalendarEventsParams): Promise<FetchCalendarEventsResponse> {
+  try {
+    const url = `${proxyUrl}/api/calendars/calendar_events`;
+
+    const response = await axios.get(url, {
+      params: {
+        calendarId: calendarId,
+        offset,
+        limit,
+      },
+      headers: {
+        'x-meeting-baas-api-key': apiKey,
+      },
+      withCredentials: true,
+    });
+
+    if (response.status != 200) {
+      throw new Error('Failed to fetch calendar events');
+    }
+
+    return { data: response.data };
+  } catch (error: any) {
+    return { error: error.message || 'Unknown error' };
   }
 }

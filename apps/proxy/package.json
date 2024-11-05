@@ -1,0 +1,37 @@
+{
+  "name": "@meeting-baas/proxy",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm with-env nitro build",
+    "dev": "pnpm with-env nitro dev",
+    "prepare": "nitro prepare",
+    "preview": "node .output/server/index.mjs",
+    "clean": "git clean -xdf .cache .nitro .output .turbo .vercel node_modules",
+    "lint": "eslint",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "typecheck": "tsc --noEmit",
+    "with-env": "dotenv -e ./.env -c ${NODE_ENV} --"
+  },
+  "devDependencies": {
+    "@meeting-baas/eslint-config": "workspace:*",
+    "@meeting-baas/prettier-config": "workspace:*",
+    "@meeting-baas/tailwind-config": "workspace:*",
+    "@meeting-baas/tsconfig": "workspace:*",
+    "@types/node": "^22.8.4",
+    "dotenv-cli": "catalog:",
+    "drizzle-kit": "^0.26.2",
+    "eslint": "catalog:",
+    "h3": "^1.13.0",
+    "nitropack": "^2.9.7",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@meeting-baas/prettier-config",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1",
+    "firebase-functions-test": "^3.3.0"
+  }
+}
