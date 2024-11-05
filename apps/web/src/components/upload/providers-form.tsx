@@ -4,7 +4,7 @@ import type { z } from 'zod';
 import { useCallback, useEffect, useState } from 'react';
 import { ZodProvider } from '@autoform/zod';
 
-import { AutoForm } from '@autoform/react';
+import { AutoForm } from '@meeting-baas/ui/autoform';
 
 interface ProvidersFormProps<T extends z.ZodTypeAny> {
   defaultValues: z.infer<T>;

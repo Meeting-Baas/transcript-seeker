@@ -96,11 +96,13 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "react": "catalog:react19",
+    "react-dom":"catalog:react19",
     "typescript": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
     "react": "catalog:react19",
+    "react-dom":"catalog:react19",
     "zod": "catalog:"
   },
   "prettier": "@meeting-baas/prettier-config"
