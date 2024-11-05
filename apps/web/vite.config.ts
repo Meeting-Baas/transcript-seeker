@@ -28,8 +28,7 @@ export default defineConfig(() => {
       dedupe: ['react', 'react-dom'],
     },
     optimizeDeps: {
-      include: ['@autoform/react', '@autoform/zod', 'zod'],
-      exclude: ['@electric-sql/pglite', '@meeting-baas/ui'],
+      exclude: ['@electric-sql/pglite'],
     },
   };
 });

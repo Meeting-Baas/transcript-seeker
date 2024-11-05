@@ -711,9 +711,6 @@ importers:
       next-themes:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@19.0.0-rc-4d577fd2-20241104(react@19.0.0-rc-4d577fd2-20241104))(react@19.0.0-rc-4d577fd2-20241104)
-      react:
-        specifier: catalog:react19
-        version: 19.0.0-rc-4d577fd2-20241104
       react-day-picker:
         specifier: 8.10.1
         version: 8.10.1(date-fns@3.6.0)(react@19.0.0-rc-4d577fd2-20241104)
@@ -757,6 +754,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.3.3
+      react:
+        specifier: catalog:react19
+        version: 19.0.0-rc-4d577fd2-20241104
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
