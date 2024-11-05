@@ -196,6 +196,10 @@ The command below builds and deploys the Cloud Run service. Modify the `SERVICE_
   can replace `COMMIT_SHA` with a unique identifier.
 </Callout>
 
+<Callout>
+  If you have already deployed the frontend and are encountering a CORS error, it may be due to the API being built for production. Once the build is complete, the CORS error should be resolved.
+</Callout>
+
 ```bash title="Terminal"
 export COMMIT_SHA=$(git rev-parse --short HEAD)
 export DEPLOY_REGION="us-central1"
