@@ -9,7 +9,7 @@ function LoginPage() {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="flex h-full min-h-svh flex-col items-center justify-center">
+    <div className="flex h-full min-h-svh flex-col items-center justify-center px-2">
       <div className="flex max-w-md flex-1 flex-col items-center justify-center gap-4">
         <h1 className="text-4xl font-bold">Login</h1>
         <p className="text-lg text-gray-500">
