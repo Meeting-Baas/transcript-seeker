@@ -14,7 +14,7 @@ catalog:
 
 catalogs:
   react19:
-    react: rc
-    react-dom: rc
+    react: 19.0.0-rc-4d577fd2-20241104
+    react-dom: 19.0.0-rc-4d577fd2-20241104
     "@types/react": npm:types-react@rc
     "@types/react-dom": npm:types-react@rc
