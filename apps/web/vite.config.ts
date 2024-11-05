@@ -25,7 +25,10 @@ export default defineConfig(() => {
         '@': path.resolve(__dirname, './src'),
         '@meeting-baas/ui': path.resolve(__dirname, '../../packages/ui/src'),
       },
+      dedupe: ['react', 'react-dom'],
     },
-    optimizeDeps: { exclude: ['@electric-sql/pglite', '@meeting-baas/ui'] },
+    optimizeDeps: {
+      exclude: ['@electric-sql/pglite'],
+    },
   };
 });
