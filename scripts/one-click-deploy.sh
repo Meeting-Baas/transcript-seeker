@@ -16,21 +16,21 @@ echo "Environment set to production."
 # Build and deploy apps/web
 echo "Building and deploying apps/web..."
 cd apps/web
-pnpm build
+NODE_ENV=production pnpm build
 firebase deploy || { echo "Firebase deploy for apps/web failed"; exit 1; }
 cd ../..
 
 # Build and deploy apps/proxy
 echo "Building and deploying apps/proxy..."
 cd apps/proxy
-pnpm build
+NODE_ENV=production pnpm build
 firebase deploy || { echo "Firebase deploy for apps/proxy failed"; exit 1; }
 cd ../..
 
 # Build apps/api
 echo "Building apps/api..."
 cd apps/api
-pnpm build || { echo "Build failed for apps/api"; exit 1; }
+NODE_ENV=production pnpm build || { echo "Build failed for apps/api"; exit 1; }
 cd ../..
 
 # Log Cloud Run deployment
@@ -40,7 +40,7 @@ echo "Preparing for Cloud Run deployment..."
 export COMMIT_SHA=$(git rev-parse --short HEAD)
 export DEPLOY_REGION="us-central1"
 export SERVICE_NAME="transcript-seeker-api-prod"
-export GITHUB_USERNAME="Meeting-Baas"
+export GITHUB_USERNAME="techwithanirudh"
 
 echo "Environment variables set:"
 echo "  COMMIT_SHA: $COMMIT_SHA"
