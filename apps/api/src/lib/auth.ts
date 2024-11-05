@@ -9,6 +9,7 @@ export const auth = betterAuth({
   logger: {
     verboseLogging: true,
   },
+  trustedOrigins: [process.env.BETTER_AUTH_TRUSTED_ORIGINS!],
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
