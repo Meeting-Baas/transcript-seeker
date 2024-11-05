@@ -78,7 +78,7 @@ This project utilizes Turborepo for managing and building multiple packages effi
    export NODE_ENV=development
    ```
 
-    To learn more about configuring the environment variables, follow this [guide](https://docs.transcriptseeker.com/docs/concepts/environment-variables).
+    To learn more about configuring the environment variables, follow this [guide](https://transcriptseeker.com/docs/concepts/environment-variables).
 
 3. **Run the App**:
    ```sh
