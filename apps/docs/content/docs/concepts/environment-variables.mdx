@@ -295,11 +295,11 @@ These values are used by the api to perform authentication. Please follow the [g
 ```txt title=".env.development.local"
 BETTER_AUTH_SECRET=""
 BETTER_AUTH_URL="http://localhost:3001"
-BETTER_AUTH_TRUSTED_ORIGINS="http://localhost:5173"
+API_TRUSTED_ORIGINS="http://localhost:5173"
 ```
 
 <Callout>
-  The `BETTER_AUTH_TRUSTED_ORIGINS` is not only used for authentication but also
+  The `API_TRUSTED_ORIGINS` is not only used for authentication but also
   for CORS configuration.
 </Callout>
 
