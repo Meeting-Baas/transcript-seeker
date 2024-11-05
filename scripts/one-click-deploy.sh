@@ -16,21 +16,21 @@ echo "Environment set to production."
 # Build and deploy apps/web
 echo "Building and deploying apps/web..."
 cd apps/web
-pnpm build
+NODE_ENV=production pnpm build
 firebase deploy || { echo "Firebase deploy for apps/web failed"; exit 1; }
 cd ../..
 
 # Build and deploy apps/proxy
 echo "Building and deploying apps/proxy..."
 cd apps/proxy
-pnpm build
+NODE_ENV=production pnpm build
 firebase deploy || { echo "Firebase deploy for apps/proxy failed"; exit 1; }
 cd ../..
 
 # Build apps/api
 echo "Building apps/api..."
 cd apps/api
-pnpm build || { echo "Build failed for apps/api"; exit 1; }
+NODE_ENV=production pnpm build || { echo "Build failed for apps/api"; exit 1; }
 cd ../..
 
 # Log Cloud Run deployment

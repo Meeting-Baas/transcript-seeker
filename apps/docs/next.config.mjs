@@ -10,16 +10,16 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 
 const config = {
-  // output: "export",
+  output: "export",
   reactStrictMode: true,
   eslint: {
     // Replaced by root workspace command
     ignoreDuringBuilds: true,
   },
-  // serverExternalPackages: ["ts-morph", "typescript"],
-  // images: {
-  //   unoptimized: true,
-  // },
+  serverExternalPackages: ["ts-morph", "typescript"],
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default withAnalyzer(withMDX(config));
