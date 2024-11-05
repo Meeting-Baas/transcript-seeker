@@ -40,7 +40,7 @@ echo "Preparing for Cloud Run deployment..."
 export COMMIT_SHA=$(git rev-parse --short HEAD)
 export DEPLOY_REGION="us-central1"
 export SERVICE_NAME="transcript-seeker-api-prod"
-export GITHUB_USERNAME="techwithanirudh"
+export GITHUB_USERNAME="Meeting-Baas"
 
 echo "Environment variables set:"
 echo "  COMMIT_SHA: $COMMIT_SHA"
