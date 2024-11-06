@@ -5,6 +5,7 @@ export default defineEventHandler((event) => {
     preflight: {
       statusCode: 204,
     },
+    credentials: true,
     methods: '*',
   });
 
