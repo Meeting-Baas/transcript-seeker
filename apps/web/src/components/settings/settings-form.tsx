@@ -260,7 +260,7 @@ export function SettingsForm() {
                       : 'not authenticated'}
                 </code>
 
-                {session?.user && <SignOut />}
+                {session?.user && <SignOut className={cn(buttonVariants({ variant: 'default' }))} />}
 
                 {!session?.user && (
                   <Link to="/login" className={cn(buttonVariants({ variant: 'default' }))}>

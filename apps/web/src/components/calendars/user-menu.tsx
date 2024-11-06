@@ -18,6 +18,7 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@meeting-baas/ui/sidebar';
 
 import ServerAvailablity from '../server-availablity';
+import SignOut from '../sign-out';
 import { CreateCalendar } from './create-calendar';
 
 function UserMenu({
@@ -75,7 +76,7 @@ function UserMenu({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem className='gap-0 p-0'>
+              <DropdownMenuItem className="gap-0 p-0">
                 <CreateCalendar
                   variant="ghost"
                   size={'icon'}
@@ -102,13 +103,8 @@ function UserMenu({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem
-              onClick={async () => {
-                await signOut();
-              }}
-            >
-              <LogOut />
-              Log out
+            <DropdownMenuItem  className="p-0">
+              <SignOut className="flex h-full w-full items-center gap-2 rounded-sm px-2 py-1.5 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
