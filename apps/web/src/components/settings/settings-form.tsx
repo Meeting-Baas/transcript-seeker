@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { mutate } from 'swr';
 import { z } from 'zod';
+import type { Session } from 'better-auth';
 
 import { cn } from '@meeting-baas/ui';
 import {
@@ -95,8 +96,9 @@ const ApiKeyField: React.FC<ApiKeyFieldProps> = ({
 };
 
 export function SettingsForm() {
-  const { data: session, isPending: isSessionLoading } = useSession();
+  const { data: session, isPending: isSessionLoading, error } = useSession();
 
+  
   const { apiKey: baasApiKey } = useApiKey({ type: 'meetingbaas' });
   const { apiKey: openAIApiKey } = useApiKey({ type: 'openai' });
   const { apiKey: gladiaApiKey } = useApiKey({ type: 'gladia' });
