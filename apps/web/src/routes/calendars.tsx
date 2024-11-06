@@ -116,6 +116,7 @@ export default function CalendarsPage() {
     <SidebarProvider>
       <AppSidebar
         calendars={calendars}
+        session={session}
         isLoading={isCalendarsLoading}
         deleteCalendar={handleDeleteCalendar}
         mutate={async () => {
@@ -147,7 +148,7 @@ export default function CalendarsPage() {
             {isCalendarsLoading || isEventsLoading ? (
               <Skeleton className="flex-1" />
             ) : Array.isArray(calendars) && calendars.length > 0 && events ? (
-              <Calendar calendarsData={calendars} eventsData={events} />
+              <Calendar calendars={calendars} initialEvents={events} />
             ) : (
               <NoCalendars
                 mutate={async () => {
