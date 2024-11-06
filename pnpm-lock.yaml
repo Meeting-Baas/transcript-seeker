@@ -281,15 +281,9 @@ importers:
 
   apps/proxy:
     dependencies:
-      firebase-admin:
-        specifier: ^12.6.0
-        version: 12.7.0
-      firebase-functions:
-        specifier: ^6.0.1
-        version: 6.1.0(firebase-admin@12.7.0)
-      firebase-functions-test:
-        specifier: ^3.3.0
-        version: 3.3.0(firebase-admin@12.7.0)(firebase-functions@6.1.0(firebase-admin@12.7.0))(jest@29.7.0(@types/node@22.9.0))
+      h3-proxy:
+        specifier: ^1.13.0
+        version: 1.13.0(h3@1.13.0)
     devDependencies:
       '@meeting-baas/eslint-config':
         specifier: workspace:*
@@ -6149,6 +6143,12 @@ packages:
   gzip-size@7.0.0:
     resolution: {integrity: sha512-O1Ld7Dr+nqPnmGpdhzLmMTQ4vAsD+rHwMm1NLUmoUFFymBOMKxCCrtDxqdBRYXdeEPEi3SyoR4TizJLQrnKBNA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  h3-proxy@1.13.0:
+    resolution: {integrity: sha512-STi6jEroxRE9V6j1U6lHsygiTnEx11aFyA6r/TXzQ8/umEB5ckW+kOS+Oue6QXnPOoR2RGJTSmsA+q+S0y60kA==}
+    engines: {node: '>=18.x'}
+    peerDependencies:
+      h3: ^1.6.0
 
   h3@1.13.0:
     resolution: {integrity: sha512-vFEAu/yf8UMUcB4s43OaDaigcqpQd14yanmOsn+NcRX3/guSKncyE2rOYhq8RIchgJrPSs/QiIddnTTR1ddiAg==}
@@ -15180,6 +15180,13 @@ snapshots:
   gzip-size@7.0.0:
     dependencies:
       duplexer: 0.1.2
+
+  h3-proxy@1.13.0(h3@1.13.0):
+    dependencies:
+      consola: 3.2.3
+      h3: 1.13.0
+      is-glob: 4.0.3
+      micromatch: 4.0.8
 
   h3@1.13.0:
     dependencies:
