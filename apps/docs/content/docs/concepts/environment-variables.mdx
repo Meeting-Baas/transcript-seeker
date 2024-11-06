@@ -252,8 +252,9 @@ Create a `.env.development.local` file in the below directory of your project an
 These values are used by the api to figure out the api url for baas servers.
 
 ```txt title=".env.development.local"
-MEETINGBAAS_API_URL="https://api.meetingbaas.com"
-MEETINGBAAS_S3_URL="https://s3.eu-west-3.amazonaws.com/meeting-baas-video"
+NITRO_MEETINGBAAS_API_URL="https://api.meetingbaas.com"
+NITRO_MEETINGBAAS_S3_URL="https://s3.eu-west-3.amazonaws.com/meeting-baas-video"
+NITRO_TRUSTED_ORIGINS="http://localhost:5173" # comma separated list of trusted origins
 ```
 
 </Step>
