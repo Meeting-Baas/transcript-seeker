@@ -23,7 +23,7 @@ function LoginPage() {
               await signIn.social({
                 provider: 'google',
                 // todo: remove this when better auth resolves the callback url automatically
-                callbackURL: new URL('/meetings', document.location as any).href,
+                callbackURL: '/meetings',
               });
             });
           }}

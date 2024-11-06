@@ -76,8 +76,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       better-auth:
-        specifier: 0.7.2
-        version: 0.7.2(react@19.0.0-rc-4d577fd2-20241104)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
+        specifier: 0.7.3
+        version: 0.7.3(react@19.0.0-rc-4d577fd2-20241104)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -373,8 +373,8 @@ importers:
         specifier: ^4.6.1
         version: 4.7.1
       better-auth:
-        specifier: 0.7.2
-        version: 0.7.2(react@19.0.0-rc-4d577fd2-20241104)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
+        specifier: 0.7.3
+        version: 0.7.3(react@19.0.0-rc-4d577fd2-20241104)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3))
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -4750,8 +4750,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  better-auth@0.7.2:
-    resolution: {integrity: sha512-a6hdsrvmya1Msvms3pXxmRiauDBc035sqhLyqKXOQQttRpmq3M1zFHPVuaXVx1BWOqDtS9UXl0XKZG7Ywyxu3Q==}
+  better-auth@0.7.3:
+    resolution: {integrity: sha512-ycbYGsxyyWbkEQKxyv/Id15aMcQWwxeBMo7cSBGP0J2wJE48+xh5OTjs7pGEweeYTdnHWkOO3DnVltcWGwvr1w==}
 
   better-call@0.2.14-beta.3:
     resolution: {integrity: sha512-lA54ETanzM0xUZnQt6lm3BdTr4gVDyAe1DNpCQSTYUnwnGGOmQG8ob0FYivVd0XHsHQK68r01GB5c6cUuu4llQ==}
@@ -13446,7 +13446,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  better-auth@0.7.2(react@19.0.0-rc-4d577fd2-20241104)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3)):
+  better-auth@0.7.3(react@19.0.0-rc-4d577fd2-20241104)(solid-js@1.9.3)(vue@3.5.12(typescript@5.6.3)):
     dependencies:
       '@better-fetch/fetch': 1.1.12
       '@nanostores/query': 0.3.4(nanostores@0.11.3)
