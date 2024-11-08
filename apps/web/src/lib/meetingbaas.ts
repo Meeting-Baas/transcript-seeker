@@ -42,9 +42,9 @@ export const fetchBotDetails = async ({ ...params }: FetchBotDetailsProps) => {
     ...params,
   });
 
-  const data: MeetingData = response.data;
+  const data: MeetingData | undefined | null = response.data;
 
-  if (!data.bot_data.bot?.id) return null;
+  if (!data?.bot_data.bot?.id) return null;
 
   const bot = data.bot_data.bot;
   const transcripts = data.bot_data.transcripts;

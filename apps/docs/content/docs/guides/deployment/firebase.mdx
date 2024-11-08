@@ -30,8 +30,7 @@ For more information on Firebase Hosting, refer to the official [Firebase Hostin
 If not already, create a Firebase project in the Firebase Console:
 
 1. Create a project named **Transcript Seeker**.
-2. Then, create two new web apps:
-   - `transcript-seeker-api`: Replace `transcript-seeker-api-c8419` in `firebase.json` and `.firebaserc` with this new ID.
+2. Then, create a new web app:
    - `transcript-seeker-proxy`: Replace `transcript-seeker-proxy` in `firebase.json` and `.firebaserc` with this new ID.
 3. Navigate to **Hosting** and click "Get Started."
 4. Finally, Replace `transcript-seeker-bdc29` in `firebase.json` and `.firebaserc` with your project id. (This is for firebase hosting, when you click on get started it automatically creates a hosting project with ur app id)
@@ -195,6 +194,10 @@ The command below builds and deploys the Cloud Run service. Modify the `SERVICE_
 <Callout>
   The below command assumes you are using a git repository. If you are not, you
   can replace `COMMIT_SHA` with a unique identifier.
+</Callout>
+
+<Callout>
+  If you have already deployed the frontend and are encountering a CORS error, it may be due to the API being built for production. Once the build is complete, the CORS error should be resolved.
 </Callout>
 
 ```bash title="Terminal"

@@ -32,11 +32,11 @@ import CalendarToolbar from './calendar-toolbar';
 import { EventModal } from './event-modal';
 
 interface CalendarProps {
-  calendarsData: CalendarBaasData[];
-  initialEventsData: ExtendedCalendarBaasEvent[];
+  calendars: CalendarBaasData[];
+  initialEvents: ExtendedCalendarBaasEvent[];
 }
 
-function Calendar({ calendarsData, initialEventsData }: CalendarProps) {
+function Calendar({ calendars: calendarsData, initialEvents }: CalendarProps) {
   const [selectedEvent, setSelectedEvent] = useState<ExtendedCalendarBaasEvent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -44,7 +44,7 @@ function Calendar({ calendarsData, initialEventsData }: CalendarProps) {
 
   const { data: eventsData, mutate } = useSWR(
     ['calendar-events', calendarsData, baasApiKey],
-    () => initialEventsData,
+    () => initialEvents,
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
