@@ -10,7 +10,7 @@ const calendars = new Hono<Bindings>();
 calendars.use(
   '/*',
   cors({
-    origin: process.env.BETTER_AUTH_TRUSTED_ORIGINS!,
+    origin: process.env.API_TRUSTED_ORIGINS?.split(',') ?? [],
     exposeHeaders: ['Content-Length'],
     maxAge: 600,
     credentials: true,

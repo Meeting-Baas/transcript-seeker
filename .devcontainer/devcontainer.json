@@ -86,6 +86,7 @@
 		//   "install_deno": "curl -fsSL https://deno.land/install.sh | sh",
 		"install_xdg-utils": "bash ./.devcontainer/scripts/install_xdg-utils.sh",
 		"install_gcloud-cli": "bash ./.devcontainer/scripts/install_gcloud-cli.sh",
+		"install_firebase-cli": "bash ./.devcontainers/scripts/install_firebase-cli.sh",
 		"configure_pnpm-cli": "bash ./.devcontainer/scripts/install_gcloud-cli.sh",
 		"configure_git-repo": "bash ./.devcontainer/scripts/configure_git-repo.sh"
 	},

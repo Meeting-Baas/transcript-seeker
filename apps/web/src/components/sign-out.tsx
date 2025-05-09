@@ -1,14 +1,17 @@
-import { useTransition } from 'react';
+import React, { useTransition } from 'react';
 import { signOut } from '@/lib/auth';
-import { LoaderIcon } from 'lucide-react';
+import { LoaderIcon, LogOut } from 'lucide-react';
 
-import { Button } from '@meeting-baas/ui/button';
+import { ButtonProps } from '@meeting-baas/ui/button';
 
-function SignOut() {
+interface SignOutProps extends ButtonProps {
+}
+
+function SignOut({ children, ...props }: SignOutProps) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <Button
+    <button
       type="button"
       onClick={() => {
         startTransition(async () => {
@@ -16,10 +19,12 @@ function SignOut() {
         });
       }}
       disabled={isPending}
+      {...props}
     >
+      {!isPending && <LogOut />}
       {isPending && <LoaderIcon className="size-4 animate-spin" />}
       Sign Out
-    </Button>
+    </button>
   );
 }
 

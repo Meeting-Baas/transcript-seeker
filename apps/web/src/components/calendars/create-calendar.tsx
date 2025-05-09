@@ -4,13 +4,14 @@ import { createCalendar } from '@/lib/meetingbaas';
 import { toast } from 'sonner';
 
 import type { CreateCalendarParams } from '@meeting-baas/shared';
-import { Button } from '@meeting-baas/ui/button';
+import { Button, ButtonProps } from '@meeting-baas/ui/button';
+import { CalendarPlus } from 'lucide-react';
 
-interface CreateCalendarProps {
+interface CreateCalendarProps extends ButtonProps {
   mutate: () => Promise<void>;
 }
 
-export function CreateCalendar({ mutate }: CreateCalendarProps) {
+export function CreateCalendar({ mutate, ...props }: CreateCalendarProps) {
   const [isPending, startTransition] = useTransition();
   const { apiKey } = useApiKey({ type: 'meetingbaas' });
 
@@ -23,6 +24,8 @@ export function CreateCalendar({ mutate }: CreateCalendarProps) {
     }
 
     startTransition(async () => {
+      const id = toast.loading('Creating calendar...');
+      
       try {
         const params: CreateCalendarParams = {
           platform: 'Google',
@@ -32,20 +35,23 @@ export function CreateCalendar({ mutate }: CreateCalendarProps) {
         if (!res) throw new Error('Failed to create calendar.');
         toast.success('Success', {
           description: 'Calendar created successfully. Please refresh the page.',
+          id
         });
         await mutate();
       } catch (error) {
         console.error('Failed to create calendar:', error);
         toast.error('Error', {
           description: 'Failed to create calendar. Please try again.',
+          id
         });
       }
     });
   };
 
   return (
-    <Button onClick={handleCreateCalendar} disabled={isPending}>
+    <button onClick={handleCreateCalendar} disabled={isPending} {...props}>
+      <CalendarPlus className="size-4" />
       {isPending ? 'Creating...' : 'Create Calendar'}
-    </Button>
+    </button>
   );
 }

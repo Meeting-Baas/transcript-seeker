@@ -24,19 +24,24 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSkeleton,
+  SidebarRail,
 } from '@meeting-baas/ui/sidebar';
 
 import ServerAvailablity from '../server-availablity';
 import { CreateCalendar } from './create-calendar';
+import UserMenu from './user-menu';
+import { useSession } from '@/lib/auth';
+import { Session, User } from 'better-auth';
 
 interface AppSidebarProps {
   calendars?: CalendarBaasData[] | null;
   isLoading: boolean;
   deleteCalendar: (id: string) => void;
+  session: { session: Session | null; user: User | null };
   mutate: () => Promise<void>;
 }
 
-export function AppSidebar({ calendars, isLoading, deleteCalendar, mutate }: AppSidebarProps) {
+export function AppSidebar({ calendars, isLoading, deleteCalendar, session, mutate }: AppSidebarProps) {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
@@ -73,13 +78,10 @@ export function AppSidebar({ calendars, isLoading, deleteCalendar, mutate }: App
                     <SidebarMenuButton asChild>
                       <div
                         className="flex cursor-pointer items-center gap-2"
-                        // onClick={() => toggleCalendarVisibility(calendar.uuid)}
                       >
-                        <Checkbox
-                          // checked={visibleCalendarIds.includes(calendar.uuid)}
-                          // onCheckedChange={() => toggleCalendarVisibility(calendar.uuid)}
+                        {/* <Checkbox
                           className="pointer-events-none"
-                        />
+                        /> */}
                         <span>{calendar.name}</span>
                       </div>
                     </SidebarMenuButton>
@@ -90,17 +92,16 @@ export function AppSidebar({ calendars, isLoading, deleteCalendar, mutate }: App
                         </SidebarMenuAction>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent side="right" align="start">
-                        <DropdownMenuItem
+                        {/* <DropdownMenuItem
                           className="group"
-                          // onClick={() => toggleCalendarVisibility(calendar.uuid)}
                         >
                           <div className="inline-flex size-4 items-center justify-center rounded-md border group-hover:border-background">
                             <CheckIcon className="size-3" />
                           </div>
                           <span>
-                            {/* {visibleCalendarIds.includes(calendar.uuid) ? 'Hide' : 'Show'} Calendar */}
+                            {visibleCalendarIds.includes(calendar.uuid) ? 'Hide' : 'Show'} Calendar
                           </span>
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
                         <DropdownMenuItem onClick={() => deleteCalendar(calendar.uuid)}>
                           <TrashIcon />
                           <span>Delete Calendar</span>
@@ -117,9 +118,9 @@ export function AppSidebar({ calendars, isLoading, deleteCalendar, mutate }: App
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <CreateCalendar mutate={mutate} />
-        <ServerAvailablity />
+        <UserMenu session={session}  mutate={mutate}  />
       </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 }
