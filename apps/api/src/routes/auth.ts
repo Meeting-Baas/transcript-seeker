@@ -8,7 +8,7 @@ const authRouter = new Hono<Bindings>();
 authRouter.use(
   '/**',
   cors({
-    origin: process.env.BETTER_AUTH_TRUSTED_ORIGINS!,
+    origin: process.env.API_TRUSTED_ORIGINS?.split(',') ?? [],
     allowHeaders: ['Content-Type', 'Authorization'],
     allowMethods: ['POST', 'GET', 'OPTIONS'],
     exposeHeaders: ['Content-Length'],
