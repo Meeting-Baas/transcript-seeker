@@ -5,6 +5,8 @@ import { LoaderIcon } from 'lucide-react';
 
 import { Button } from '@meeting-baas/ui/button';
 
+import { VITE_WEB_URL } from '../lib/constants';
+
 function LoginPage() {
   const [isPending, startTransition] = useTransition();
 
@@ -22,7 +24,7 @@ function LoginPage() {
             startTransition(async () => {
               await signIn.social({
                 provider: 'google',
-                callbackURL: '/meetings',
+                callbackURL: `${VITE_WEB_URL}/meetings`,
               });
             });
           }}

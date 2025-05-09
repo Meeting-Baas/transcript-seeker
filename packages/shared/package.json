@@ -25,7 +25,7 @@
     "@meeting-baas/tailwind-config": "workspace:*",
     "@meeting-baas/tsconfig": "workspace:*",
     "@types/node": "^22.8.4",
-    "@types/react": "catalog:react19",
+    "@types/react": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

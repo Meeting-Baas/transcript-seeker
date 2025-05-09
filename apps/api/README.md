@@ -10,6 +10,7 @@ Once deployed, make sure to set the following environment variables:
 
 - `NITRO_MEETINGBAAS_API_URL` - The URL for the MeetingBaas API
 - `NITRO_MEETINGBAAS_S3_URL` - The URL for the MeetingBaas S3 bucket
+- `NITRO_WEB_URL` - The URL for the Web App
 
 ### Local Development
 

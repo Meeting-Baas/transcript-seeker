@@ -16,7 +16,6 @@ const config = {
     // Replaced by root workspace command
     ignoreDuringBuilds: true,
   },
-  serverExternalPackages: ["ts-morph", "typescript"],
   images: {
     unoptimized: true,
   },

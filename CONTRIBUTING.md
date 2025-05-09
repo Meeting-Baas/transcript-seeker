@@ -91,7 +91,7 @@ To configure the environment properly, here are some key environment variables u
 
 - `VITE_CLIENT_PORT`: Set the port for the client application. Default is `5173`.
 - `VITE_CLIENT_HOST`: Host address for the client. Default is `0.0.0.0`.
-- `VITE_PROXY_URL`: URL to the proxy server. This can be used to set up your own proxy, e.g., `https://localhost:3000`.
+- `VITE_PROXY_URL`: URL to the proxy server. This can be used to set up your own proxy, e.g., `http://localhost:3000`.
 
 ### Service Worker
 
@@ -129,6 +129,7 @@ Some common commit types:
 To keep the codebase consistent and readable, we recommend running a few checks before opening a pull request:
 
 1. **Lint fixes**:
+
    ```bash
    pnpm lint:fix
    ```
@@ -141,4 +142,3 @@ To keep the codebase consistent and readable, we recommend running a few checks 
 Your code should be well-tested, clear, and follow our best practices. Remember, every contribution makes a difference, and we deeply appreciate your help in making **Transcript-Seeker** better! 🎉
 
 Thanks a ton for contributing, and welcome aboard! If you need any help, don’t hesitate to ask. Let’s make something amazing together. 🚀
-

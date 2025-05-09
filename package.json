@@ -38,8 +38,8 @@
   },
   "devDependencies": {
     "@meeting-baas/shared": "workspace:*",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "cross-env": "^7.0.3",
     "turbo": "^2.2.3",
     "typescript": "^5.2.2"

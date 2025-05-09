@@ -51,6 +51,7 @@
   "globalEnv": [
     "VITE_PROXY_URL",
     "VITE_API_URL",
+    "VITE_WEB_URL",
     "VITE_CLIENT_PORT",
     "VITE_CLIENT_HOST",
     "VITE_S3_PREFIX",
